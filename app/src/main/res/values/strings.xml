@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Universe</string>
+    <string name="msg_load_default">Loading</string>
+</resources>
