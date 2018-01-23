@@ -2,7 +2,8 @@ package com.universe.android.web;
 
 import android.text.TextUtils;
 
-import com.editsoft.ansh.mudzic.utils.Constants;
+
+import com.universe.android.utility.Constants;
 
 import java.util.HashMap;
 import java.util.Map;
