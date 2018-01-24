@@ -92,7 +92,7 @@ public class LoginActivity extends BaseActivity {
 
     public void onLoginSuccess() {
         textViewLogin.setEnabled(true);
-        Intent intent=new Intent(mContext,BaseActivity.class);
+        Intent intent=new Intent(mContext,SurveySelectionActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         finish();

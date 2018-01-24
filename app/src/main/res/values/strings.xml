@@ -1,4 +1,22 @@
 <resources>
     <string name="app_name">Universe</string>
     <string name="msg_load_default">Loading</string>
+    <string name="login">Login</string>
+    <string name="forgotpassword">Forgot Password</string>
+    <string name="signup">SignUp</string>
+    <string name="phoneno">Enter The Phone Number</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+    <string name="today">For The Period Today</string>
+    <string name="target">   20 \nTarget</string>
+    <string name="questionaire">Compelted Questionaire(10)</string>
+    <string name="retailersname">Retailers Name</string>
+    <string name="mobile_no">Mobile No | Location | State \n| Completed date</string>
+    <string name="status">Status</string>
+    <string name="retailers">Retailers</string>
+    <string name="enddate">31 mar 2018</string>
+    <string name="select">Select</string>
+    <string name="disributors">Distributors</string>
+    <string name="suverydetail">Survey Detail Report</string>
+    <string name="suveryselection">Survey Selection</string>
 </resources>
