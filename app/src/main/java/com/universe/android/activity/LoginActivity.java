@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.universe.android.R;
+import com.universe.android.fragment.SurveySelectionFragment;
 
 
 public class LoginActivity extends BaseActivity {
@@ -92,7 +93,7 @@ public class LoginActivity extends BaseActivity {
 
     public void onLoginSuccess() {
         textViewLogin.setEnabled(true);
-        Intent intent=new Intent(mContext,SurveySelectionActivity.class);
+        Intent intent=new Intent(mContext,SurveySelectionFragment.class);
         startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         finish();

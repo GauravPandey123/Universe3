@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.universe.android.R;
+import com.universe.android.activity.BaseActivity;
 import com.universe.android.adapter.SurveyDetailAdapter;
+import com.universe.android.fragment.BaseFragment;
 
 /**
  * Created by gaurav.pandey on 24-01-2018.
@@ -25,6 +27,7 @@ public class SurveyDetailActivity extends BaseActivity {
     private ImageView imageViewBack, imageViewFilter;
 
     //decalre the variable here
+    View view;
 
 
     @Override
@@ -34,7 +37,6 @@ public class SurveyDetailActivity extends BaseActivity {
         initialization();
         setUpElements();
         setUpListeners();
-
     }
 
     private void setUpListeners() {

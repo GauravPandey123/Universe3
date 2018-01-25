@@ -19,11 +19,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MainActivity"/>
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.BaseActivity" />
         <activity android:name=".activity.SurveyDetailActivity" />
-        <activity android:name=".activity.SurveySelectionActivity" />
+        <activity android:name=".fragment.SurveySelectionFragment" />
     </application>
 
 </manifest>

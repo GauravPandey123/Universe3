@@ -5,10 +5,8 @@
     <string name="forgotpassword">Forgot Password</string>
     <string name="signup">SignUp</string>
     <string name="phoneno">Enter The Phone Number</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
     <string name="today">For The Period Today</string>
-    <string name="target">   20 \nTarget</string>
+    <string name="target">   20 \n  Target</string>
     <string name="questionaire">Compelted Questionaire(10)</string>
     <string name="retailersname">Retailers Name</string>
     <string name="mobile_no">Mobile No | Location | State \n| Completed date</string>
@@ -18,5 +16,8 @@
     <string name="select">Select</string>
     <string name="disributors">Distributors</string>
     <string name="suverydetail">Survey Detail Report</string>
-    <string name="suveryselection">Survey Selection</string>
+    <!--Navigation Drawer Menu -->
+    <string name="username">UserName</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

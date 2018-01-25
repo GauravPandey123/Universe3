@@ -1,176 +1,133 @@
 package com.universe.android.activity;
 
-import android.content.res.Configuration;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.widget.LinearLayout;
+
 
 import com.universe.android.R;
-import com.universe.android.fragment.ContentFragment;
-import com.universe.android.helper.SlideMenuItem;
-import com.universe.android.listneners.Resourceble;
-import com.universe.android.listneners.ScreenShotable;
-import com.universe.android.utility.ViewAnimator;
+import com.universe.android.adapter.DrawerAdapter;
+import com.universe.android.fragment.SurveySelectionFragment;
+import com.universe.android.model.DrawerItem;
+import com.universe.android.utility.AppConstants;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
+public class MainActivity extends BaseActivity {
 
+    private Toolbar mToolbar;
+    private LinearLayoutManager layoutManager;
+    private DrawerAdapter mDrawerAdapter;
+    private RecyclerView mRecyclerView;
+    private ArrayList<DrawerItem> mDrawerItemList;
 
-public class MainActivity extends AppCompatActivity implements ViewAnimator.ViewAnimatorListener {
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle drawerToggle;
-    private List<SlideMenuItem> list = new ArrayList<>();
-    private ContentFragment contentFragment;
-    private ViewAnimator viewAnimator;
-    private int res = R.drawable.content_music;
-    private LinearLayout linearLayout;
-
-    //declare the views here
+    private DrawerLayout mDrawerLayout;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private int mContainerId;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        contentFragment = ContentFragment.newInstance(R.drawable.content_music);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content_frame, contentFragment)
-                .commit();
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerLayout.setScrimColor(Color.TRANSPARENT);
-        linearLayout = (LinearLayout) findViewById(R.id.left_drawer);
-        linearLayout.setOnClickListener(new View.OnClickListener() {
+        initialization();
+        setUpElements();
+        setUpListeners();
+    }
+
+    private void setUpListeners() {
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open, R.string.close) {
             @Override
-            public void onClick(View v) {
-                drawerLayout.closeDrawers();
-            }
-        });
-
-
-        setActionBar();
-        createMenuList();
-        viewAnimator = new ViewAnimator<>(this, list, contentFragment, drawerLayout, this);
-    }
-
-    private void createMenuList() {
-        SlideMenuItem menuItem0 = new SlideMenuItem(ContentFragment.CLOSE, R.drawable.icn_close, "");
-        list.add(menuItem0);
-        SlideMenuItem menuItem = new SlideMenuItem(ContentFragment.BUILDING, R.drawable.icn_1, "SYNC");
-        list.add(menuItem);
-        SlideMenuItem menuItem2 = new SlideMenuItem(ContentFragment.BOOK, R.drawable.icn_2, "SURVEY");
-        list.add(menuItem2);
-        SlideMenuItem slideMenuItemn = new SlideMenuItem(ContentFragment.DASHBOARD, R.drawable.icn_1, "DASHBOARD");
-        list.add(slideMenuItemn);
-        SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment.PAINT, R.drawable.icn_3, "MANAGE TEAMS");
-        list.add(menuItem3);
-        SlideMenuItem menuItem4 = new SlideMenuItem(ContentFragment.CASE, R.drawable.icn_4, "HELP");
-        list.add(menuItem4);
-//        SlideMenuItem menuItem5 = new SlideMenuItem(ContentFragment.SHOP, R.drawable.icn_5, "LANGUAGE");
-//        list.add(menuItem5);
-//        SlideMenuItem menuItem6 = new SlideMenuItem(ContentFragment.PARTY, R.drawable.icn_6, "UPDATE APPLICATION");
-//        list.add(menuItem6);
-        SlideMenuItem menuItem7 = new SlideMenuItem(ContentFragment.MOVIE, R.drawable.icn_7, "APPLICATION SETTING");
-        list.add(menuItem7);
-    }
-
-
-    private void setActionBar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        drawerToggle = new ActionBarDrawerToggle(
-                this,                  /* host Activity */
-                drawerLayout,         /* DrawerLayout object */
-                toolbar,  /* nav drawer icon to replace 'Up' caret */
-                R.string.drawer_open,  /* "open drawer" description */
-                R.string.drawer_close  /* "close drawer" description */
-        ) {
-
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-                linearLayout.removeAllViews();
-                linearLayout.invalidate();
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
             }
 
             @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
-                if (slideOffset > 0.6 && linearLayout.getChildCount() == 0)
-                    viewAnimator.showMenuContent();
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+
             }
         };
-        drawerLayout.setDrawerListener(drawerToggle);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+
+        mDrawerAdapter.setOnItemClickLister(new DrawerAdapter.OnItemSelecteListener() {
+            @Override
+            public void onItemSelected(View v, int position) {
+                addFragment(new SurveySelectionFragment(), mContainerId);
+            }
+        });
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        drawerToggle.syncState();
+
+    private void setUpElements() {
+        //Dummy Data
+        mDrawerItemList = new ArrayList<DrawerItem>();
+        DrawerItem item = new DrawerItem();
+        item.setIcon(R.drawable.ic_dashboard);
+        item.setTitle("Dash Board");
+        mDrawerItemList.add(item);
+
+        DrawerItem item2 = new DrawerItem();
+        item2.setIcon(R.drawable.survey_report);
+        item2.setTitle("Survey Report");
+        mDrawerItemList.add(item2);
+
+        DrawerItem item3 = new DrawerItem();
+        item3.setIcon(R.drawable.survey_report);
+        item3.setTitle("Sync Responses");
+        mDrawerItemList.add(item3);
+
+        DrawerItem item4 = new DrawerItem();
+        item4.setIcon(R.drawable.survey_report);
+        item4.setTitle("Questionaire");
+        mDrawerItemList.add(item4);
+
+        DrawerItem item5 = new DrawerItem();
+        item5.setIcon(R.drawable.ic_analytics);
+        item5.setTitle("Analytics");
+        mDrawerItemList.add(item5);
+
+        DrawerItem item6 = new DrawerItem();
+        item6.setIcon(R.drawable.managementteams);
+        item6.setTitle("Manage Teams");
+        mDrawerItemList.add(item6);
+
+        DrawerItem item7 = new DrawerItem();
+        item7.setIcon(R.drawable.help);
+        item7.setTitle("Help");
+        mDrawerItemList.add(item7);
+
+        DrawerItem item8 = new DrawerItem();
+        item8.setIcon(R.drawable.survey_report);
+        item8.setTitle("Update Application");
+        mDrawerItemList.add(item8);
+
+        DrawerItem item9 = new DrawerItem();
+        item9.setIcon(R.drawable.ic_logout);
+        item9.setTitle("Logout");
+        mDrawerItemList.add(item9);
+
+        mDrawerAdapter = new DrawerAdapter(mDrawerItemList, mContext);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mRecyclerView.setAdapter(mDrawerAdapter);
+
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
-    }
+    private void initialization() {
+        mToolbar = findViewById(R.id.appBar);
+        setSupportActionBar(mToolbar);
+        mRecyclerView = findViewById(R.id.drawerRecyclerView);
+        mDrawerLayout = findViewById(R.id.drawerLayout);
+        mContainerId = R.id.fragment_container;
 
-    private ScreenShotable replaceFragment(ScreenShotable screenShotable, int topPosition) {
-        this.res = this.res == R.drawable.content_music ? R.drawable.content_films : R.drawable.content_music;
-        View view = findViewById(R.id.content_frame);
-        int finalRadius = Math.max(view.getWidth(), view.getHeight());
-        SupportAnimator animator = ViewAnimationUtils.createCircularReveal(view, 0, topPosition, 0, finalRadius);
-        animator.setInterpolator(new AccelerateInterpolator());
-        animator.setDuration(ViewAnimator.CIRCULAR_REVEAL_ANIMATION_DURATION);
-
-        findViewById(R.id.content_overlay).setBackgroundDrawable(new BitmapDrawable(getResources(), screenShotable.getBitmap()));
-        animator.start();
-        ContentFragment contentFragment = ContentFragment.newInstance(this.res);
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment).commit();
-        return contentFragment;
-    }
-
-    @Override
-    public ScreenShotable onSwitch(Resourceble slideMenuItem, ScreenShotable screenShotable, int position) {
-        switch (slideMenuItem.getName()) {
-            case ContentFragment.CLOSE:
-                return screenShotable;
-            default:
-                return replaceFragment(screenShotable, position);
-        }
-    }
-
-    @Override
-    public void disableHomeButton() {
-        getSupportActionBar().setHomeButtonEnabled(false);
 
     }
 
-    @Override
-    public void enableHomeButton() {
-        getSupportActionBar().setHomeButtonEnabled(true);
-        drawerLayout.closeDrawers();
 
-    }
-
-    @Override
-    public void addViewToContainer(View view) {
-        linearLayout.addView(view);
-    }
 }
