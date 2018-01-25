@@ -20,4 +20,17 @@
     <string name="username">UserName</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="filter">Filter</string>
+
+    <!--Filter Items -->
+    <string name="todayfilter">Today</string>
+    <string name="week">Week</string>
+    <string name="month">Month</string>
+    <string name="others">Others</string>
+
+    <string-array name="filterItem">
+        <item>@string/week</item>
+        <item>@string/month</item>
+        <item>@string/others</item>
+    </string-array>
 </resources>

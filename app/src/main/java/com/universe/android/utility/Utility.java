@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.Patterns;
 import android.view.Display;
 import android.view.View;
@@ -214,6 +215,7 @@ public class Utility {
         }
         return packageInfo;
     }
+
 
     public static String getCurrentDay(){
         int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);

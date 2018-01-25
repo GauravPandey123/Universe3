@@ -30,7 +30,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/imageviewforward"
+            android:id="@+id/imageviewfilter"
             android:layout_width="@dimen/margin_xnormal"
             android:layout_height="@dimen/margin_xnormal"
             android:layout_alignParentEnd="true"
