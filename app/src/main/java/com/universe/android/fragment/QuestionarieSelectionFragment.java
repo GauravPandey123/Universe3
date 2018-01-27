@@ -10,15 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.universe.android.R;
-import com.universe.android.activity.BaseActivity;
 import com.universe.android.activity.SurveyDetailActivity;
 import com.universe.android.helper.FontClass;
 
 /**
- * Created by gaurav.pandey on 24-01-2018.
+ * Created by Gaurav Pandey on 27-01-2018.
  */
 
-public class SurveySelectionFragment extends BaseFragment {
+public class QuestionarieSelectionFragment extends BaseFragment {
     private CardView cardViewRetailer, cardViewDistributor;
     private TextView textViewReatilers, retailerPending, textViewReatilersDate, textViewDistributor;
     private TextView textViewReatilersDistributor, distributorPending, textViewSelectRetailer, textViewSelectDistributor;
@@ -45,7 +44,7 @@ public class SurveySelectionFragment extends BaseFragment {
         cardViewRetailer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SurveyDetailActivity.class);
+                Intent intent = new Intent(getActivity(), QuestinaireFragment.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -53,7 +52,7 @@ public class SurveySelectionFragment extends BaseFragment {
         cardViewDistributor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SurveyDetailActivity.class);
+                Intent intent = new Intent(getActivity(), QuestinaireFragment.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -81,6 +80,5 @@ public class SurveySelectionFragment extends BaseFragment {
         distributorPending.setTypeface(FontClass.openSansRegular(getActivity()));
         textViewSelectRetailer.setTypeface(FontClass.openSansRegular(getActivity()));
     }
-
 
 }

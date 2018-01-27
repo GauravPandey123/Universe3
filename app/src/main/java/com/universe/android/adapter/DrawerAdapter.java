@@ -50,9 +50,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
     @Override
     public void onBindViewHolder(DrawerViewHolder holder, int position) {
         if (position == 0) {
-////            holder.textViewStatus.setTypeface(FontClass.openSansLight(mContext));
-//            holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
-//            holder.textViewName.setTypeface(FontClass.openSansBold(mContext));
+            holder.textViewStatus.setTypeface(FontClass.openSansLight(mContext));
+            holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
+            holder.textViewName.setTypeface(FontClass.openSansBold(mContext));
         } else {
             holder.title.setText(drawerMenuList.get(position - 1).getTitle());
             holder.icon.setImageResource(drawerMenuList.get(position - 1).getIcon());
@@ -84,8 +84,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
             super(itemView);
             if (viewType == 0) {
                 textViewName = itemView.findViewById(R.id.textViewUserName);
-                textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
-                textViewStatus =itemView.findViewById(R.id.textViewStatus);
+                textViewMobileNo = itemView.findViewById(R.id.textViewPhoneNo);
+                textViewStatus = itemView.findViewById(R.id.textViewOnline);
             } else {
                 title = itemView.findViewById(R.id.title);
                 icon = itemView.findViewById(R.id.icon);

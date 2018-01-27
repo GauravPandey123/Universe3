@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
 android {
     compileSdkVersion 26
     defaultConfig {
@@ -21,6 +20,10 @@ android {
             url "https://jitpack.io"
         }
     }
+    dexOptions {
+        javaMaxHeapSize "4g"
+        preDexLibraries false
+    }
 
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
@@ -32,7 +35,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
-    compile 'io.realm:android-adapters:2.0.0'
     compile 'com.android.support:design:26.1.0'
     compile 'com.github.ozodrukh:CircularReveal:1.0.4'
     implementation 'com.android.support:cardview-v7:26.1.0'
@@ -40,4 +42,5 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.2.0'
     // RecyclerView
     implementation 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.github.aakira:expandable-layout:1.6.0@aar'
 }

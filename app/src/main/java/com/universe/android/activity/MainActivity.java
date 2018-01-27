@@ -11,6 +11,8 @@ import android.view.View;
 
 import com.universe.android.R;
 import com.universe.android.adapter.DrawerAdapter;
+import com.universe.android.fragment.QuestinaireFragment;
+import com.universe.android.fragment.QuestionarieSelectionFragment;
 import com.universe.android.fragment.SurveySelectionFragment;
 import com.universe.android.model.DrawerItem;
 import com.universe.android.utility.AppConstants;
@@ -59,7 +61,28 @@ public class MainActivity extends BaseActivity {
         mDrawerAdapter.setOnItemClickLister(new DrawerAdapter.OnItemSelecteListener() {
             @Override
             public void onItemSelected(View v, int position) {
-                addFragment(new SurveySelectionFragment(), mContainerId);
+                switch (position) {
+                    case 1:
+                        mDrawerLayout.closeDrawers();
+                        mToolbar.setTitle(R.string.dashboard);
+                    case 2:
+                        mDrawerLayout.closeDrawers();
+                        mToolbar.setTitle(R.string.survey_report);
+                        replaceFragment(new SurveySelectionFragment(), mContainerId);
+                        break;
+
+                    case 3:
+                        break;
+
+                    case 4:
+                        mDrawerLayout.closeDrawers();
+                        mToolbar.setTitle(R.string.questionairemenu);
+                        replaceFragment(new QuestionarieSelectionFragment(), mContainerId);
+                        break;
+
+
+                }
+
             }
         });
     }
@@ -122,9 +145,12 @@ public class MainActivity extends BaseActivity {
     private void initialization() {
         mToolbar = findViewById(R.id.appBar);
         setSupportActionBar(mToolbar);
+        mToolbar.setTitle(R.string.dashboard);
         mRecyclerView = findViewById(R.id.drawerRecyclerView);
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mContainerId = R.id.fragment_container;
+        addFragment(new SurveySelectionFragment(), mContainerId);
+        mDrawerLayout.closeDrawers();
 
 
     }

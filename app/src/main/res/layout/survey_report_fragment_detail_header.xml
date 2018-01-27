@@ -87,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_medium"
-                        android:text="@string/target"
+                        android:text="@string/completed"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_medium" />
 
@@ -98,7 +98,7 @@
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:src="@drawable/ic_target" />
+                        android:src="@drawable/ic_completed" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -113,7 +113,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_medium"
-                        android:text="@string/target"
+                        android:text="@string/achiovement"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_medium" />
 
@@ -124,7 +124,7 @@
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:src="@drawable/ic_target" />
+                        android:src="@drawable/ic_achievement" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -148,7 +148,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_small"
-                        android:text="@string/target"
+                        android:text="@string/inprogress"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_medium" />
 
@@ -159,7 +159,7 @@
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:src="@drawable/ic_target" />
+                        android:src="@drawable/ic_progress" />
 
                 </RelativeLayout>
 
@@ -175,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_small"
-                        android:text="@string/target"
+                        android:text="@string/newretailors"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_medium" />
 
@@ -186,7 +186,7 @@
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:src="@drawable/ic_target" />
+                        android:src="@drawable/ic_customer" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -200,7 +200,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_small"
-                        android:text="@string/target"
+                        android:text="@string/crystalmembers"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_medium" />
 
@@ -212,7 +212,7 @@
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:src="@drawable/ic_target" />
+                        android:src="@drawable/ic_customer" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -234,11 +234,12 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/textViewCompletedQuestionaire"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_medium"
                 android:gravity="center_vertical"
                 android:text="@string/questionaire"
-                android:layout_marginLeft="@dimen/margin_medium"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>

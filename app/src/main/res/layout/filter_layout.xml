@@ -16,6 +16,7 @@
             android:background="@android:color/holo_blue_dark">
 
             <TextView
+                android:id="@+id/textViewFilter"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_large"
                 android:layout_margin="@dimen/margin_small"
@@ -61,7 +62,7 @@
                 android:id="@+id/viewPagerFilter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/view"/>
+                android:layout_below="@+id/view" />
         </RelativeLayout>
 
     </RelativeLayout>

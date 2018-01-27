@@ -29,7 +29,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewRetailersName"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_min"
                 android:text="@string/mobile_no"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/text_size_small" />

@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/include"
-        android:layout_margin="@dimen/margin_min">
+        android:layout_marginTop="@dimen/margin_medium">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -30,6 +31,18 @@
                     android:textSize="@dimen/text_size_normal" />
 
                 <TextView
+                    android:id="@+id/retailerPending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/textViewReatilers"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_toLeftOf="@+id/imageView"
+                    android:layout_toStartOf="@+id/imageView"
+                    android:text="@string/pending"
+                    android:textColor="@color/textColorPrimary" />
+
+                <TextView
                     android:id="@+id/textViewReatilersDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -42,8 +55,9 @@
                     android:textSize="@dimen/text_size_small" />
 
                 <ImageView
-                    android:layout_width="@dimen/margin_extra"
-                    android:layout_height="@dimen/margin_extra"
+                    android:id="@+id/imageView"
+                    android:layout_width="@dimen/margin_large"
+                    android:layout_height="@dimen/margin_large"
                     android:layout_alignParentRight="true"
                     android:layout_margin="@dimen/margin_min"
                     android:scaleType="centerInside"
@@ -62,7 +76,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_medium"
                     android:background="@drawable/grdient_shape"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/distributor" />
 
 
@@ -92,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/retailerSelection"
-        android:layout_margin="@dimen/margin_min">
+        android:layout_marginTop="@dimen/margin_large">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -114,7 +128,7 @@
                     android:textSize="@dimen/text_size_normal" />
 
                 <TextView
-                    android:id="@+id/textViewReatilersDistributor"
+                    android:id="@+id/textViewDistributorDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textViewDistributor"
@@ -125,13 +139,26 @@
                     android:textColor="@color/textColorPrimaryDark"
                     android:textSize="@dimen/text_size_small" />
 
+                <TextView
+                    android:id="@+id/distributorPending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/textViewDistributor"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginRight="18dp"
+                    android:layout_toLeftOf="@+id/imageViewDistriButor"
+                    android:layout_toStartOf="@+id/imageViewDistriButor"
+                    android:text="@string/pending"
+                    android:textColor="@color/textColorPrimary" />
+
                 <ImageView
-                    android:layout_width="@dimen/margin_extra"
-                    android:layout_height="@dimen/margin_extra"
+                    android:id="@+id/imageViewDistriButor"
+                    android:layout_width="@dimen/margin_large"
+                    android:layout_height="@dimen/margin_large"
                     android:layout_alignParentRight="true"
                     android:layout_margin="@dimen/margin_min"
                     android:scaleType="centerInside"
-                    android:src="@drawable/distributor0" />
+                    android:src="@drawable/ic_receipt" />
 
             </RelativeLayout>
 
@@ -144,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_medium"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/distributor" />
 
                 <TextView
