@@ -43,6 +43,9 @@
     <string name="newretailors">7 \n New Retailers</string>
     <string name="crystalmembers">3 \n Crystal Memebers</string>
     <string name="newretailor">New Retailors</string>
+    <string name="search">Search Customers</string>
+    <string name="customersearch">Search Customers</string>
+    <string name="select_customers">Select Customers</string>
 
     <string-array name="filterItem">
         <item>@string/todayfilter</item>
@@ -50,4 +53,5 @@
         <item>@string/month</item>
         <item>@string/others</item>
     </string-array>
+
 </resources>

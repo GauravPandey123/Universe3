@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/relativeLayoutFilter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark">
+
+                <TextView
+                    android:id="@+id/textViewFilter"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_large"
+                    android:layout_margin="@dimen/margin_small"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/margin_small"
+                    android:text="@string/filter"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <ImageView
+                    android:id="@+id/imageViewClose"
+                    android:layout_width="@dimen/margin_xnormal"
+                    android:layout_height="@dimen/margin_xnormal"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_close_black_24dp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutFilter"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_large"
+                android:layout_below="@+id/relativeLayoutFilter"
+                android:layout_margin="@dimen/margin_medium"
+                android:background="@drawable/rectangular_shape"
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
+
+                <TextView
+                    android:id="@+id/textViewTodayFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_min"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/todayfilter"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="?actionBarSize"
+                    android:background="@color/divider_color" />
+
+
+                <TextView
+                    android:id="@+id/textViewWeek"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_min"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/week"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="?actionBarSize"
+                    android:background="@color/divider_color" />
+
+                <TextView
+                    android:id="@+id/textViewMonth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/margin_min"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/month"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="?actionBarSize"
+                    android:background="@color/divider_color" />
+
+                <TextView
+                    android:id="@+id/textViewOthers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_min"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/others"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_size_medium" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="?actionBarSize"
+                    android:background="@color/divider_color" />
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayoutFilter">
+
+                <include layout="@layout/filtertodayfragment" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>
