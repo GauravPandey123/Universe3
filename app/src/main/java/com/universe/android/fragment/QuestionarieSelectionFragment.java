@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.universe.android.R;
+import com.universe.android.activity.MapsActivity;
+import com.universe.android.activity.QuestionaireActivity;
+import com.universe.android.activity.SearchCustomersActivity;
 import com.universe.android.activity.SurveyDetailActivity;
 import com.universe.android.helper.FontClass;
 
@@ -21,8 +24,7 @@ public class QuestionarieSelectionFragment extends BaseFragment {
     private CardView cardViewRetailer, cardViewDistributor;
     private TextView textViewReatilers, retailerPending, textViewReatilersDate, textViewDistributor;
     private TextView textViewReatilersDistributor, distributorPending, textViewSelectRetailer, textViewSelectDistributor;
-
-    View view;
+    private View view;
 
 
     @Override
@@ -44,7 +46,7 @@ public class QuestionarieSelectionFragment extends BaseFragment {
         cardViewRetailer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), QuestinaireFragment.class);
+                Intent intent = new Intent(getActivity(), SearchCustomersActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -52,7 +54,7 @@ public class QuestionarieSelectionFragment extends BaseFragment {
         cardViewDistributor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), QuestinaireFragment.class);
+                Intent intent = new Intent(getActivity(), SearchCustomersActivity.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }

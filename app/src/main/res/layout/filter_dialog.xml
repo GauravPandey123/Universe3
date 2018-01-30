@@ -72,7 +72,7 @@
 
 
                 <TextView
-                    android:id="@+id/textViewWeek"
+                    android:id="@+id/textViewWeekFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_min"
@@ -89,7 +89,7 @@
                     android:background="@color/divider_color" />
 
                 <TextView
-                    android:id="@+id/textViewMonth"
+                    android:id="@+id/textViewMonthFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_min"
@@ -106,7 +106,7 @@
                     android:background="@color/divider_color" />
 
                 <TextView
-                    android:id="@+id/textViewOthers"
+                    android:id="@+id/textViewOthersFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"

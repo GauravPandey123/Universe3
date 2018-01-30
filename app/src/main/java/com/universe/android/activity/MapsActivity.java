@@ -2,6 +2,7 @@ package com.universe.android.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -40,6 +41,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
     private Activity activity;
     private CircleImageView circleImageViewMap;
     private TextView textViewHeader, textViewRetailersNameMap, textViewMobileNoMap, textViewStatusMap;
+    private ImageView imageViewForward;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,11 +92,22 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
         textViewRetailersNameMap = findViewById(R.id.textViewRetailersNameMap);
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
+        imageViewForward = findViewById(R.id.imageviewForward);
 
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
+
+        imageViewForward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, QuestionsCategoryActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+            }
+        });
 
 
     }

@@ -40,7 +40,8 @@ public class SurveyDetailActivity extends BaseActivity {
     private TextView textViewNewRetailers, textViewCrystalmembers, textViewCompletedQuestionaire;
     private TextView textViewPeriodFrom, textViewPeriodTo, textViewPeriodStatus, textViewReset, textViewApplyFilter;
     private EditText input_period_from, input_period_to, input_period_status;
-    private  Dialog dialog;
+    private TextView textViewTodayFilter, textViewWeekFilter, textViewMonthFilter, textViewOthersFilter;
+    private Dialog dialog;
     private ImageView imageViewCancel;
 
     private ArrayList<String> stringArrayList;
@@ -145,7 +146,7 @@ public class SurveyDetailActivity extends BaseActivity {
 
     public void showDialog() {
         // Create custom dialog object
-        dialog= new Dialog(mContext);
+        dialog = new Dialog(mContext);
         // Include dialog.xml file
         dialog.setContentView(R.layout.filter_dialog);
         // Set dialog title
@@ -157,10 +158,16 @@ public class SurveyDetailActivity extends BaseActivity {
     }
 
     private void dialogSetUpElements() {
-
+        imageViewCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void dialoginitialization() {
+        dialog.setCanceledOnTouchOutside(true);
         textViewPeriodFrom = dialog.findViewById(R.id.textViewPeriodFrom);
         textViewPeriodTo = dialog.findViewById(R.id.textViewPeriodTo);
         textViewPeriodStatus = dialog.findViewById(R.id.textViewPeriodStatus);
@@ -169,7 +176,16 @@ public class SurveyDetailActivity extends BaseActivity {
         input_period_from = dialog.findViewById(R.id.input_period_from);
         input_period_to = dialog.findViewById(R.id.input_period_to);
         input_period_status = dialog.findViewById(R.id.input_period_status);
+        imageViewCancel = dialog.findViewById(R.id.imageViewClose);
+        textViewTodayFilter = dialog.findViewById(R.id.textViewTodayFilter);
+        textViewWeekFilter = dialog.findViewById(R.id.textViewWeekFilter);
+        textViewMonthFilter = dialog.findViewById(R.id.textViewMonthFilter);
+        textViewOthersFilter = dialog.findViewById(R.id.textViewOthersFilter);
 
+        textViewTodayFilter.setTypeface(FontClass.openSansRegular(mContext));
+        textViewWeekFilter.setTypeface(FontClass.openSansRegular(mContext));
+        textViewMonthFilter.setTypeface(FontClass.openSansRegular(mContext));
+        textViewOthersFilter.setTypeface(FontClass.openSansRegular(mContext));
         textViewPeriodFrom.setTypeface(FontClass.openSansRegular(mContext));
         textViewPeriodTo.setTypeface(FontClass.openSansRegular(mContext));
         textViewPeriodStatus.setTypeface(FontClass.openSansRegular(mContext));

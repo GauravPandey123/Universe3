@@ -15,5 +15,7 @@
     <dimen name="text_size_large">18sp</dimen>
     <dimen name="margin_extra">56dp</dimen>
     <dimen name="margin_extra_large">72dp</dimen>
+    <dimen name="card_padding">30dp</dimen>
+
 
 </resources>

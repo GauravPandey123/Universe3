@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_large"
+        android:text="@string/category1"
+        android:background="@android:color/holo_blue_dark"
+        android:layout_marginLeft="@dimen/margin_xnormal"
+        android:layout_marginRight="@dimen/margin_large"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:layout_marginTop="@dimen/margin_medium"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/margin_normal" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginTop="@dimen/margin_large"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:text="@string/text"
+                android:textSize="@dimen/margin_normal" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageViewfav"
+            android:layout_width="@dimen/margin_xnormal"
+            android:layout_height="@dimen/margin_xnormal"
+            android:layout_gravity="top|end"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:src="@drawable/ic_star" />
+
+    </FrameLayout>
+
+</android.support.v7.widget.CardView>
