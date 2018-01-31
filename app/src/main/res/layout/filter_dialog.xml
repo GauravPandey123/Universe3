@@ -59,10 +59,11 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_min"
                     android:layout_weight="1"
+                    android:background="@color/colorPrimary"
                     android:gravity="center"
                     android:text="@string/todayfilter"
                     android:textAllCaps="true"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_size_medium" />
 
                 <View
@@ -77,10 +78,11 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_min"
                     android:layout_weight="1"
+                    android:background="@color/transparent_color"
                     android:gravity="center"
                     android:text="@string/week"
                     android:textAllCaps="true"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_size_medium" />
 
                 <View
@@ -94,10 +96,11 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_min"
                     android:layout_weight="1"
+                    android:background="@color/transparent_color"
                     android:gravity="center"
                     android:text="@string/month"
                     android:textAllCaps="true"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_size_medium" />
 
                 <View
@@ -112,17 +115,12 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_min"
                     android:layout_weight="1"
+                    android:background="@color/transparent_color"
                     android:gravity="center"
                     android:text="@string/others"
                     android:textAllCaps="true"
-                    android:textColor="@color/textColorPrimary"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_size_medium" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="?actionBarSize"
-                    android:background="@color/divider_color" />
-
 
             </LinearLayout>
 

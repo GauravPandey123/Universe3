@@ -49,6 +49,8 @@
     <string name="category1">Category1</string>
     <string name="questions1">Question1 -  What is lorem spum ?</string>
     <string name="questionairecategory">Questionaire Category</string>
+    <string name="select_status">Choose Status</string>
+    <string name="choose_date">SelectDate</string>
 
     <string-array name="filterItem">
         <item>@string/todayfilter</item>

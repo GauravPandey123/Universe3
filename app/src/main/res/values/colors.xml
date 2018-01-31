@@ -10,6 +10,8 @@
     <color name="white">#ffffff</color>
     <color name="deactivate_white">#80ffffff</color>
     <color name="c_background_tab_pressed">#6633B5E5</color>
-
+    <color name="transparent_color">#80000000</color>
+    <color name="list_item_selected_state">#F4F6F6</color>
+    <color name="list_item_normal_state">#FFFFFF</color>
 
 </resources>
