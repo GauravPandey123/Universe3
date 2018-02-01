@@ -1,106 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/margin_xnormal"
-        android:paddingRight="@dimen/margin_xnormal"
-        android:paddingTop="@dimen/margin_extra">
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/margin_extra_large"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/margin_xnormal"
-            android:src="@drawable/universe" />
-
-        <!--  Email Label -->
-        <android.support.design.widget.TextInputLayout
+        <com.flaviofaria.kenburnsview.KenBurnsView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium">
-
-            <EditText
-                android:id="@+id/input_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Email"
-                android:inputType="textEmailAddress" />
-        </android.support.design.widget.TextInputLayout>
-
-        <!--  Password Label -->
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium">
-
-            <EditText
-                android:id="@+id/input_phoneno"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/phoneno"
-                android:inputType="number" />
-        </android.support.design.widget.TextInputLayout>
-
-        <!--  Password Label -->
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium">
-
-            <EditText
-                android:id="@+id/input_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_login"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:background="@color/app_theme_color"
-            android:alpha="0.8"
-            android:layout_marginBottom="@dimen/margin_xnormal"
-            android:layout_marginTop="@dimen/margin_xnormal"
-            android:padding="@dimen/margin_xmedium"
-            android:text="@string/login" />
+            android:layout_height="600dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/diagonallayout_background" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/link_forgot_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_xnormal"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:text="@string/forgotpassword"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_medium" />
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/margin_xnormal"
+            android:paddingRight="@dimen/margin_xnormal"
+            android:paddingTop="@dimen/margin_extra_large">
 
-            <TextView
-                android:id="@+id/link_signup"
+            <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/margin_extra_large"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/margin_xnormal"
-                android:gravity="center"
-                android:text="@string/signup"
-                android:layout_weight="1"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_medium" />
+                android:src="@drawable/universe" />
+
+            <!--  Email Label -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayoutEmailLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/EditTextHint"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <EditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email"
+                    android:textColor="@color/white"
+                    android:inputType="textEmailAddress"
+                    android:textColorHint="@color/white" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--  Password Label -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayoutPhoneNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/EditTextHint"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <EditText
+                    android:id="@+id/input_phoneno"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/phoneno"
+                    android:inputType="number"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
+            </android.support.design.widget.TextInputLayout>
+
+            <!--  Password Label -->
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/textInputLayoutPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/EditTextHint"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium">
+
+                <EditText
+                    android:id="@+id/input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:textColor="@color/white"
+                    android:inputType="textPassword"
+                    android:textColorHint="@color/white" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:layout_marginBottom="@dimen/margin_xnormal"
+                android:layout_marginTop="@dimen/margin_xnormal"
+                android:alpha="0.8"
+                android:background="@color/app_theme_color"
+                android:padding="@dimen/margin_xmedium"
+                android:text="@string/login"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/link_forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_xnormal"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/forgotpassword"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
+
         </LinearLayout>
 
-    </LinearLayout>
+
+    </FrameLayout>
 </ScrollView>

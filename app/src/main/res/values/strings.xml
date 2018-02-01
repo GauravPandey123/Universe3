@@ -51,6 +51,21 @@
     <string name="questionairecategory">Questionaire Category</string>
     <string name="select_status">Choose Status</string>
     <string name="choose_date">SelectDate</string>
+    <string name="designation">Designation</string>
+    <string name="profile">Profile</string>
+    <string name="email">Email</string>
+    <string name="submit">Submit</string>
+    <string name="emailphone">Email/Phone</string>
+    <string name="oldPassword">OldPassword</string>
+    <string name="newpassword">Enter New Password</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="reenterPassword">Confirm Your Password</string>
+    <string name="mobile">Phone Number</string>
+    <string name="role">Role</string>
+    <string name="ldb">L.O.B</string>
+    <string name="territory">Territory</string>
+    <string name="getotp">Get OTp</string>
+    <string name="otp">Enter The Otp</string>
 
     <string-array name="filterItem">
         <item>@string/todayfilter</item>

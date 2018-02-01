@@ -26,7 +26,7 @@ public class SplashActivity extends BaseActivity {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(mContext, MainActivity.class));
+                startActivity(new Intent(mContext, LoginActivity.class));
                 finish();
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
