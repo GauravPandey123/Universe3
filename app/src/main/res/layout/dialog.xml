@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/edt_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/view_margin">
+
+    <TextView
+        android:id="@+id/text_dialog"
+        style="@style/appSmallText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="Saved Data Successfully."
+        android:textColor="@color/black"
+        android:textSize="14dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_dialog"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnYes"
+            style="@style/appSmallBtn"
+            android:layout_width="wrap_content"
+            android:gravity="center"
+            android:text="@string/ok" />
+
+        <Button
+            android:id="@+id/btnNo"
+            style="@style/appSmallBtn"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:text="@string/no"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</RelativeLayout>

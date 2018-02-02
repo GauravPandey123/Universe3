@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/view_padding">
+
+        <TextView
+            android:id="@+id/imgEdit"
+            style="@style/appRowBtn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:drawableLeft="@mipmap/pencil"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:id="@+id/imgDelete"
+            style="@style/appRowBtn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:drawableLeft="@mipmap/trash"
+            android:textStyle="bold"></TextView>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

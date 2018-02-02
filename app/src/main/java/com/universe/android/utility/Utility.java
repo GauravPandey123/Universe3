@@ -6,30 +6,57 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
+import android.text.InputFilter;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Patterns;
 import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.universe.android.R;
 import com.universe.android.UniverseApplication;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 
@@ -179,6 +206,7 @@ public class Utility {
 
     public static void hideKeyboard(EditText editText, boolean clear) {
         InputMethodManager inputManager = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert inputManager != null;
         inputManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         if (clear) {
             editText.setText("");
@@ -189,6 +217,7 @@ public class Utility {
         View view = activity.getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert imm != null;
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
@@ -196,6 +225,7 @@ public class Utility {
     public static void showKeyboard(EditText editText) {
         editText.requestFocus();
         InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        assert imm != null;
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
     }
 
@@ -281,4 +311,226 @@ public class Utility {
     public static String replaceSpaceToDashes(String value){
         return value.replaceAll("\\s","-");
     }
+
+
+    private static String getTodaysDate() {
+        DateTime date = new DateTime();
+        date = date.minusHours(7);
+        DateTimeFormatter dtf = DateTimeFormat.forPattern(AppConstants.utc_format);
+        return dtf.print(date);
+    }
+
+
+    public static void setEditFilter(EditText edSearch, int maxLength, String type, boolean isClear, boolean isAlpha) {
+        if (edSearch != null) {
+            if (AppConstants.NUMBER.equalsIgnoreCase(type)) {
+                edSearch.setInputType(InputType.TYPE_CLASS_NUMBER);
+                if (maxLength != 0) {
+                    edSearch.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
+                }
+            } else {
+                edSearch.setInputType(InputType.TYPE_CLASS_TEXT);
+                if (isAlpha && maxLength != 0) {
+                    edSearch.setFilters(new InputFilter[]{new InputFilterAlphabets(), new InputFilter.LengthFilter(maxLength)});
+                } else if (!isAlpha && maxLength != 0) {
+                    edSearch.setFilters(new InputFilter[]{new InputFilterAlphaNumeric(), new InputFilter.LengthFilter(maxLength)});
+                } else if (isAlpha) {
+                    edSearch.setFilters(new InputFilter[]{new InputFilterAlphabets()});
+                } else if (!isAlpha) {
+                    edSearch.setFilters(new InputFilter[]{new InputFilterAlphaNumeric()});
+                } else if (maxLength != 0) {
+                    edSearch.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
+                }
+            }
+            if (isClear)
+                edSearch.getText().clear();
+
+        }
+    }
+
+    public static String capitalize(final String line) {
+        return Character.toUpperCase(line.charAt(0)) + line.substring(1);
+    }
+
+    public static void setTextView(String title, TextView textViewId, boolean isMandatoryError) {
+        if (Utility.validateString(title)) {
+            if (title.contains("*")) {
+                title = title.replace("*", "");
+            }
+        }
+        if (isMandatoryError) {
+            title = "<font color='#ff0000'>" + title + " * </font>";
+        } else {
+            title = "<font color='#000000'>" + title + "</font> " + AppConstants.ASTERIK_SIGN;
+        }
+        if (textViewId != null) {
+            textViewId.setText(Html.fromHtml(title), TextView.BufferType.SPANNABLE);
+        }
+    }
+
+
+    public static double round(double value, int places) {
+        try {
+            if (places > 0) {
+                long factor = (long) Math.pow(10, places);
+                value = value * factor;
+                long tmp = Math.round(value);
+                return (double) tmp / factor;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static boolean isValidEmaillId(String email) {
+
+        return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches();
+    }
+
+    public static String getFormattedDate(String answer) {
+        String formattedDate = null;
+        try {
+            if (Utility.validateString(answer)) {
+                Date date1 = AppConstants.format4.parse(answer);
+                if (date1 != null) {
+                    formattedDate = AppConstants.format2.format(date1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return formattedDate;
+    }
+
+
+
+
+
+    public static void setUIDTextViewFont(Context context, TextView textView) {
+        Typeface tf = Typeface.createFromAsset(context.getAssets(),
+                "light.ttf");
+        if (textView != null)
+            textView.setTypeface(tf);
+    }
+
+    public static int dpToPx(Context context, int dp) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    public static void setLocale(Context context, String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+
+    }
+
+    public static void showToastMessage(Activity activity, String strMsg) {
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View layout = inflater.inflate(R.layout.custom_toast_show, (ViewGroup) activity.findViewById(R.id.toast_layout_root));
+        TextView text = (TextView) layout.findViewById(R.id.tvToast);
+        text.setText(strMsg);
+        Toast toast = new Toast(activity);
+        toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
+    }
+
+    public static String getFormattedDates(String strCurrentDate, String dateFormat1, SimpleDateFormat format3) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat(dateFormat1);
+            Date newDate = format.parse(strCurrentDate);
+            return format3.format(newDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static JSONObject formatDates(JSONObject jsonRequest) {
+        try {
+            if (jsonRequest != null) {
+                if (jsonRequest.has(AppConstants.DATE)) {
+                    String strCurrentDate = jsonRequest.optString(AppConstants.DATE);
+                    if (strCurrentDate != null) {
+                        String date;
+                        date = Utility.getFormattedDates(strCurrentDate, AppConstants.format8, AppConstants.format3);
+                        jsonRequest.put(AppConstants.DATE, date);
+                    }
+                }
+                if (jsonRequest.has(AppConstants.EXPIRYDATE)) {
+                    String strCurrentDate = jsonRequest.optString(AppConstants.EXPIRYDATE);
+                    if (strCurrentDate != null) {
+                        String date;
+                        date = Utility.getFormattedDates(strCurrentDate, AppConstants.format8, AppConstants.format3);
+                        jsonRequest.put(AppConstants.EXPIRYDATE, date);
+                    }
+                }
+
+                if (jsonRequest.has(AppConstants.CREATEDAT)) {
+                    String strCurrentDate = jsonRequest.optString(AppConstants.CREATEDAT);
+                    if (strCurrentDate != null) {
+                        String date;
+                        date = Utility.getFormattedDates(strCurrentDate, AppConstants.format8, AppConstants.format3);
+                        jsonRequest.put(AppConstants.CREATEDAT, date);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return jsonRequest;
+    }
+
+    public static void animateView(View v) {
+        if (v != null) {
+            Animation fadeIn = new AlphaAnimation(0.5f, 1);
+            fadeIn.setInterpolator(new DecelerateInterpolator()); //add this
+            fadeIn.setDuration(50);
+            fadeIn.setStartOffset(100);
+            Animation fadeOut = new AlphaAnimation(1, 0.5f);
+            fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+            fadeOut.setDuration(50);
+            AnimationSet animation = new AnimationSet(false); //change to false
+            animation.addAnimation(fadeOut);
+            animation.addAnimation(fadeIn);
+            v.startAnimation(animation);
+        }
+    }
+
+
+    public static String getAssetJsonResponse(Context context,String filename){
+        AssetManager assetManager = context.getAssets();
+        InputStream input;
+        String text = "";
+
+        try {
+            input = assetManager.open(filename);
+
+            int size = input.available();
+            byte[] buffer = new byte[size];
+            input.read(buffer);
+            input.close();
+
+            // byte buffer into a string
+            text = new String(buffer);
+
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return text;
+    }
+
 }

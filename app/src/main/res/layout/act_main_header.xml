@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/nav_header_height"
+    android:background="@color/app_theme_color"
+    android:paddingBottom="@dimen/view_small_padding"
+    android:paddingTop="@dimen/view_small_padding"
+    app:popupTheme="@style/AppTheme.PopupOverlay"
+
+    app:titleTextColor="@color/app_theme_color">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/pb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.8"
+            android:animationResolution="1000"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/white"
+            android:padding="@dimen/view_corner"
+            android:progressBackgroundTint="@color/white" />
+
+        <TextView
+            android:id="@+id/tvPb"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:gravity="center|center_vertical"
+            android:padding="@dimen/view_small_padding"
+            android:text="0%"
+            android:textColor="@color/white"
+            android:textSize="@dimen/txtProgressSize"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</android.support.v7.widget.Toolbar>
+
+

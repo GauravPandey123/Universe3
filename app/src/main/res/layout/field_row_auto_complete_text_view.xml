@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llchild"
+    style="@style/appFieldLinearLayout">
+
+
+    <TextView
+        android:id="@+id/tvCustomAutoView"
+        style="@style/appSmallText"
+        android:layout_weight="1"
+        android:hint="" />
+
+
+</LinearLayout>

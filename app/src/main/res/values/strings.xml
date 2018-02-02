@@ -43,6 +43,33 @@
     <string name="newretailors">7 \n New Retailers</string>
     <string name="crystalmembers">3 \n Crystal Memebers</string>
     <string name="newretailor">New Retailors</string>
+
+    <string name="admin">Admin</string>
+    <string name="master">Master</string>
+    <string name="client">Client List</string>
+    <string name="question">Questions</string>
+    <string name="search_name">Search Name</string>
+    <string name="survey">Surveys</string>
+    <string name="category">Category</string>
+    <string name="customer">Customer</string>
+    <string name="ok">Ok</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="delete_msg">Deleted Successfuly</string>
+    <string name="cannot_delete">You cannot  delete this item</string>
+    <string name="update_exit"><![CDATA[Update & Close]]></string>
+    <string name="minimum_must">minimum must be</string>
+    <string name="fill_required_fields">Please fill all required fields</string>
+    <string name="save_add"><![CDATA[Save & CLose]]></string>
+    <string name="save_data_msg">Save Data Successfully</string>
+    <string name="review_confirm_msg">Do you wants to save the data?</string>
+    <string name="alert_clear_form">You have not saved any data.Do you wish to leave this screen?</string>
+    <string name="date_format">dd MMM yyyy</string>
+    <string name="done">Done</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="no_future_date">No Future Date Allowed</string>
+
     <string name="search">Search Customers</string>
     <string name="customersearch">Search Customers</string>
     <string name="select_customers">Select Customers</string>

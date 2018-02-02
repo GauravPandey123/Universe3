@@ -1,0 +1,934 @@
+[
+  {
+    "id": "58ee72bdd0652f69c26a5623",
+    "formId": "survey",
+    "formName": "Survey",
+    "formSchema": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "inputType": "textbox",
+          "displayOrder": 5,
+          "pattern": "^[A-Za-z\\s]+$",
+          "title": "Title",
+          "hindiTitle": "व्यक्ति का नाम मिले",
+          "description": "",
+          "type": "string",
+          "maxLength": 100,
+          "maxValueLength": 100,
+          "visibility": true,
+          "required": true,
+          "validationMessage": {
+            "201": "Name is too log. max {{schema.maxLength}} characters",
+            "202": "Only Alphabets are allowed",
+            "302": "Name is Required!!"
+          }
+        },
+        "status": {
+          "inputType": "textbox",
+          "displayOrder": 7,
+          "title": "Status",
+          "hindiTitle": "आयु",
+          "description": "",
+          "type": "number",
+          "maxValue": 120,
+          "minValue": 0,
+          "visibility": true,
+          "maximum": 1000,
+          "minimum": 0,
+          "alpha": false,
+          "required": true,
+          "validationMessage": {
+            "101": "Age can't be less than {{schema.minimum}}",
+            "103": "Age can't be more than {{schema.maximum}}"
+          }
+
+
+        },
+        "isActive": {
+          "inputType": "radio",
+          "displayOrder": 8,
+          "title": "Active",
+          "hindiTitle": "नैदानिक ​​परीक्षण किया गया है या नहीं?",
+          "description": "",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "optionValues": [
+            "Yes",
+            "No"
+          ],
+          "visibility": true,
+          "required": true
+        },
+        "expiryDate": {
+          "inputType": "date",
+          "displayOrder": 1,
+          "title": "ExpiryDate",
+          "hindiTitle": "तिथि",
+          "description": "",
+          "type": "string",
+          "format": "date",
+          "alpha": false,
+          "visibility": true,
+          "required": true
+        },
+        "description": {
+          "inputType": "textarea",
+          "displayOrder": 11,
+          "title": "Description",
+          "hindiTitle": "टिप्पणियों",
+          "description": "",
+          "type": "string",
+          "maxValueLength": 200,
+          "visibility": true,
+          "alpha": false,
+          "required": false
+        },
+
+        "required": [
+          "title",
+          "status",
+          "expiryDate",
+          "isActive"
+        ]
+      },
+
+      "createdAt": "2018-01-31T04:12:49.622Z",
+      "updatedAt": "2018-01-31T04:12:49.622Z"
+    }},
+  {
+    "id": "58ee7562d0652f69c26a5627",
+    "formId": "client",
+    "formName": "Client",
+    "formSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "inputType": "textbox",
+          "displayOrder": 5,
+          "pattern": "^[A-Za-z\\s]+$",
+          "title": "Title",
+          "hindiTitle": "व्यक्ति का नाम मिले",
+          "description": "",
+          "type": "string",
+          "maxLength": 100,
+          "maxValueLength": 100,
+          "validationMessage": {
+            "201": "Name is too log. max {{schema.maxLength}} characters",
+            "202": "Only Alphabets are allowed",
+            "302": "Name is Required!!"
+          }},
+        "contactPerson": {
+          "inputType": "textbox",
+          "displayOrder": 5,
+          "pattern": "^[A-Za-z\\s]+$",
+          "title": "Contact Person Name",
+          "hindiTitle": "व्यक्ति का नाम मिले",
+          "description": "",
+          "type": "string",
+          "maxLength": 100,
+          "maxValueLength": 100,
+          "validationMessage": {
+            "201": "Name is too log. max {{schema.maxLength}} characters",
+            "202": "Only Alphabets are allowed",
+            "302": "Name is Required!!"
+          }},
+        "contactNo": {
+          "inputType": "textbox",
+          "displayOrder": 13,
+          "title": "Mobile No.",
+          "hindiTitle": "मोबाइल नंबर",
+          "description": "",
+          "type": "long",
+          "visibility": true,
+          "maxLength": 10,
+          "maxValueLength": 10,
+          "validationMessage": {
+            "302": "Number is Required!!"
+          },
+          "alpha": false,
+          "required": false
+        },
+        "status": {
+          "inputType": "textbox",
+          "displayOrder": 7,
+          "title": "Status",
+          "hindiTitle": "आयु",
+          "description": "",
+          "type": "number",
+          "maxValue": 1200,
+          "minValue": 15,
+          "visibility": true,
+          "maximum": 1000,
+          "minimum": 0,
+          "alpha": false,
+          "required": true,
+          "validationMessage": {
+            "101": "Age can't be less than {{schema.minimum}}",
+            "103": "Age can't be more than {{schema.maximum}}"
+          }
+
+
+        },
+        "isActive": {
+          "inputType": "radio",
+          "displayOrder": 8,
+          "title": "Active",
+          "hindiTitle": "नैदानिक ​​परीक्षण किया गया है या नहीं?",
+          "description": "",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "optionValues": [
+            "Yes",
+            "No"
+          ],
+          "visibility": true,
+          "required": true
+        },
+        "expiryDate": {
+          "inputType": "date",
+          "displayOrder": 1,
+          "title": "ExpiryDate",
+          "hindiTitle": "तिथि",
+          "description": "",
+          "type": "string",
+          "format": "date",
+          "alpha": false,
+          "visibility": true,
+          "required": true
+        },
+        "address": {
+          "inputType": "textarea",
+          "displayOrder": 11,
+          "title": "Address",
+          "hindiTitle": "टिप्पणियों",
+          "description": "",
+          "type": "string",
+          "maxValueLength": 200,
+          "visibility": true,
+          "alpha": false,
+          "required": false
+        },
+        "description": {
+          "inputType": "textarea",
+          "displayOrder": 11,
+          "title": "Description",
+          "hindiTitle": "टिप्पणियों",
+          "description": "",
+          "type": "string",
+          "maxValueLength": 200,
+          "visibility": true,
+          "alpha": false,
+          "required": false
+        },
+        "surveyId": {
+          "inputType": "select",
+          "displayOrder": 2,
+          "title": "Survey",
+          "hindiTitle": "पंचायत का नाम",
+          "description": "",
+          "type": "string",
+          "placeholder": "Select Survey",
+          "apiModel": "RealmSurveys",
+          "visibility": true,
+          "alpha": false,
+          "required": true
+        },
+        "required": [
+          "name",
+          "contactPerson",
+          "contactNo",
+          "isActive",
+          "surveyId",
+          "expiryDate",
+          "status",
+          "address"
+        ]
+      },
+
+      "createdAt": "2018-01-31T04:12:49.622Z",
+      "updatedAt": "2018-01-31T04:12:49.622Z"
+    }},
+  {
+    "id": "58ee77bfd0652f69c26a562b",
+    "formId": "customer",
+    "formName": "Customer",
+    "formSchema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "inputType": "textbox",
+          "displayOrder": 5,
+          "pattern": "^[A-Za-z\\s]+$",
+          "title": "Title",
+          "hindiTitle": "व्यक्ति का नाम मिले",
+          "description": "",
+          "type": "string",
+          "maxLength": 100,
+          "visibility": true,
+          "required": true,
+          "maxValueLength": 100,
+          "validationMessage": {
+            "201": "Name is too log. max {{schema.maxLength}} characters",
+            "202": "Only Alphabets are allowed",
+            "302": "Name is Required!!"
+          }},
+        "contactPerson": {
+          "inputType": "textbox",
+          "displayOrder": 5,
+          "pattern": "^[A-Za-z\\s]+$",
+          "title": "Contact Person Name",
+          "hindiTitle": "व्यक्ति का नाम मिले",
+          "description": "",
+          "type": "string",
+          "maxLength": 100,
+          "maxValueLength": 100,
+          "visibility": true,
+          "required": true,
+          "validationMessage": {
+            "201": "Name is too log. max {{schema.maxLength}} characters",
+            "202": "Only Alphabets are allowed",
+            "302": "Name is Required!!"
+          }},
+        "contactNo": {
+          "inputType": "textbox",
+          "displayOrder": 13,
+          "title": "Mobile No.",
+          "hindiTitle": "मोबाइल नंबर",
+          "description": "",
+          "type": "long",
+          "visibility": true,
+          "maxLength": 10,
+          "maxValueLength": 10,
+          "validationMessage": {
+            "302": "Number is Required!!"
+          },
+          "alpha": false,
+          "required": false
+        },
+        "status": {
+          "inputType": "textbox",
+          "displayOrder": 7,
+          "title": "Status",
+          "hindiTitle": "आयु",
+          "description": "",
+          "type": "number",
+          "maxValue": 1200,
+          "minValue": 15,
+          "visibility": true,
+          "maximum": 1000,
+          "minimum": 0,
+          "alpha": false,
+          "required": true,
+          "validationMessage": {
+            "101": "Age can't be less than {{schema.minimum}}",
+            "103": "Age can't be more than {{schema.maximum}}"
+          }
+
+
+        },
+        "isActive": {
+          "inputType": "radio",
+          "displayOrder": 8,
+          "title": "Active",
+          "hindiTitle": "नैदानिक ​​परीक्षण किया गया है या नहीं?",
+          "description": "",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "optionValues": [
+            "Yes",
+            "No"
+          ],
+          "visibility": true,
+          "required": true
+        },
+        "expiryDate": {
+          "inputType": "date",
+          "displayOrder": 1,
+          "title": "ExpiryDate",
+          "hindiTitle": "तिथि",
+          "description": "",
+          "type": "string",
+          "format": "date",
+          "alpha": false,
+          "visibility": true,
+          "required": true
+        },
+        "address": {
+          "inputType": "textarea",
+          "displayOrder": 11,
+          "title": "Address",
+          "hindiTitle": "टिप्पणियों",
+          "description": "",
+          "type": "string",
+          "maxValueLength": 200,
+          "visibility": true,
+          "alpha": false,
+          "required": false
+        },
+        "description": {
+          "inputType": "textarea",
+          "displayOrder": 11,
+          "title": "Description",
+          "hindiTitle": "टिप्पणियों",
+          "description": "",
+          "type": "string",
+          "maxValueLength": 200,
+          "visibility": true,
+          "alpha": false,
+          "required": false
+        },
+        "surveyId": {
+          "inputType": "select",
+          "displayOrder": 2,
+          "title": "Survey",
+          "hindiTitle": "पंचायत का नाम",
+          "description": "",
+          "type": "string",
+          "placeholder": "Select Survey",
+          "apiModel": "RealmSurveys",
+          "visibility": true,
+          "alpha": false,
+          "required": true
+        },
+        "clientId": {
+          "inputType": "select",
+          "displayOrder": 2,
+          "title": "Client",
+          "hindiTitle": "पंचायत का नाम",
+          "description": "",
+          "type": "string",
+          "placeholder": "Select Client",
+          "apiModel": "RealmClient",
+          "visibility": true,
+          "alpha": false,
+          "required": true
+        },
+
+
+        "required": [
+          "name",
+          "contactPerson",
+          "contactNo",
+          "isActive",
+          "surveyId",
+          "expiryDate",
+          "status",
+          "address",
+          "clientId"
+        ]
+      },
+
+      "createdAt": "2018-01-31T04:12:49.622Z",
+      "updatedAt": "2018-01-31T04:12:49.622Z"
+    }},
+  {
+    "id": "58ee8073d0652f69c26a562f",
+    "formId": "category",
+    "formName": "Category",
+    "formSchema": {
+      "type": "object",
+      "properties": {
+        "categoryType": {
+          "inputType": "textbox",
+          "displayOrder": 5,
+          "pattern": "^[A-Za-z\\s]+$",
+          "title": "CategoryType",
+          "hindiTitle": "व्यक्ति का नाम मिले",
+          "description": "",
+          "type": "string",
+          "maxLength": 100,
+          "maxValueLength": 100,
+          "visibility": true,
+          "required": true,
+          "validationMessage": {
+            "201": "Name is too log. max {{schema.maxLength}} characters",
+            "202": "Only Alphabets are allowed",
+            "302": "Name is Required!!"
+          }},
+        "categoryName": {
+          "inputType": "textbox",
+          "displayOrder": 5,
+          "pattern": "^[A-Za-z\\s]+$",
+          "title": "Category Name",
+          "hindiTitle": "व्यक्ति का नाम मिले",
+          "description": "",
+          "type": "string",
+          "maxLength": 100,
+          "maxValueLength": 100,
+          "visibility": true,
+          "required": true,
+          "validationMessage": {
+            "201": "Name is too log. max {{schema.maxLength}} characters",
+            "202": "Only Alphabets are allowed",
+            "302": "Name is Required!!"
+          }},
+        "contactNo": {
+          "inputType": "textbox",
+          "displayOrder": 13,
+          "title": "Mobile No.",
+          "hindiTitle": "मोबाइल नंबर",
+          "description": "",
+          "type": "long",
+          "visibility": true,
+          "maxLength": 10,
+          "maxValueLength": 10,
+          "validationMessage": {
+            "302": "Number is Required!!"
+          },
+          "alpha": false,
+          "required": false
+        },
+        "status": {
+          "inputType": "textbox",
+          "displayOrder": 7,
+          "title": "Status",
+          "hindiTitle": "आयु",
+          "description": "",
+          "type": "number",
+          "maxValue": 1200,
+          "minValue": 15,
+          "visibility": true,
+          "maximum": 1000,
+          "minimum": 0,
+          "alpha": false,
+          "required": true,
+          "validationMessage": {
+            "101": "Age can't be less than {{schema.minimum}}",
+            "103": "Age can't be more than {{schema.maximum}}"
+          }
+
+
+        },
+        "isActive": {
+          "inputType": "radio",
+          "displayOrder": 8,
+          "title": "Active",
+          "hindiTitle": "नैदानिक ​​परीक्षण किया गया है या नहीं?",
+          "description": "",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "optionValues": [
+            "Yes",
+            "No"
+          ],
+          "visibility": true,
+          "required": true
+        },
+        "expiryDate": {
+          "inputType": "date",
+          "displayOrder": 1,
+          "title": "ExpiryDate",
+          "hindiTitle": "तिथि",
+          "description": "",
+          "type": "string",
+          "format": "date",
+          "alpha": false,
+          "visibility": true,
+          "required": true
+        },
+        "address": {
+          "inputType": "textarea",
+          "displayOrder": 11,
+          "title": "Address",
+          "hindiTitle": "टिप्पणियों",
+          "description": "",
+          "type": "string",
+          "maxValueLength": 200,
+          "visibility": true,
+          "alpha": false,
+          "required": false
+        },
+        "description": {
+          "inputType": "textarea",
+          "displayOrder": 11,
+          "title": "Description",
+          "hindiTitle": "टिप्पणियों",
+          "description": "",
+          "type": "string",
+          "maxValueLength": 200,
+          "visibility": true,
+          "alpha": false,
+          "required": false
+        },
+        "surveyId": {
+          "inputType": "select",
+          "displayOrder": 2,
+          "title": "Survey",
+          "hindiTitle": "पंचायत का नाम",
+          "description": "",
+          "type": "string",
+          "placeholder": "Select Survey",
+          "apiModel": "RealmSurveys",
+          "visibility": true,
+          "alpha": false,
+          "required": true
+        },
+        "clientId": {
+          "inputType": "select",
+          "displayOrder": 2,
+          "title": "Client",
+          "hindiTitle": "पंचायत का नाम",
+          "description": "",
+          "type": "string",
+          "placeholder": "Select Client",
+          "apiModel": "RealmClient",
+          "visibility": true,
+          "alpha": false,
+          "required": true
+        },
+        "customerId": {
+          "inputType": "select",
+          "displayOrder": 2,
+          "title": "Customer",
+          "hindiTitle": "पंचायत का नाम",
+          "description": "",
+          "type": "string",
+          "placeholder": "Select Customer",
+          "apiModel": "RealmCustomer",
+          "visibility": true,
+          "alpha": false,
+          "required": true
+        },
+
+
+        "required": [
+          "categoryType",
+          "categoryName",
+          "contactNo",
+          "isActive",
+          "surveyId",
+          "expiryDate",
+          "status",
+          "address",
+          "clientId",
+          "customerId"
+        ]
+      },
+
+      "createdAt": "2018-01-31T04:12:49.622Z",
+      "updatedAt": "2018-01-31T04:12:49.622Z"
+    }},
+  {
+    "id": "58ee8d3ad0652f69c26a5631",
+    "formId": "question",
+    "formName": "Question",
+    "formSchema": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "inputType": "textbox",
+          "displayOrder": 5,
+          "pattern": "^[A-Za-z\\s]+$",
+          "title": "Title",
+          "hindiTitle": "व्यक्ति का नाम मिले",
+          "description": "",
+          "type": "string",
+          "maxLength": 100,
+          "maxValueLength": 100,
+          "visibility": true,
+          "required": true,
+          "validationMessage": {
+            "201": "Name is too log. max {{schema.maxLength}} characters",
+            "202": "Only Alphabets are allowed",
+            "302": "Name is Required!!"
+          }},
+        "longTitle": {
+          "inputType": "textbox",
+          "displayOrder": 5,
+          "pattern": "^[A-Za-z\\s]+$",
+          "title": "Category Name",
+          "hindiTitle": "व्यक्ति का नाम मिले",
+          "description": "",
+          "type": "string",
+          "maxLength": 1000,
+          "maxValueLength": 1000,
+          "validationMessage": {
+            "201": "Name is too log. max {{schema.maxLength}} characters",
+            "202": "Only Alphabets are allowed",
+            "302": "Name is Required!!"
+          }},
+        "inputType": {
+          "inputType": "select",
+          "displayOrder": 2,
+          "title": "Input Type",
+          "hindiTitle": "पंचायत का नाम",
+          "description": "",
+          "type": "string",
+          "placeholder": "Select InputType",
+
+          "visibility": true,
+          "alpha": false,
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "optionValues": [
+            "textBox",
+            "radio",
+            "checkbox"
+          ],
+          "required": true
+        },
+        "type": {
+          "inputType": "select",
+          "displayOrder": 8,
+          "title": "Type",
+          "hindiTitle": "",
+          "description": "",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "optionValues": [
+            "String",
+            "Number",
+            "Float",
+            "Long"
+          ],
+          "visibility": true,
+          "required": true
+        },
+        "required": {
+          "inputType": "radio",
+          "displayOrder": 8,
+          "title": "Required",
+          "hindiTitle": "",
+          "description": "",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "optionValues": [
+            "Yes",
+            "No"
+          ],
+          "visibility": true,
+          "required": true
+        },
+
+        "maxValue": {
+          "inputType": "textbox",
+          "displayOrder": 13,
+          "title": "Maximum Value",
+          "hindiTitle": "मोबाइल नंबर",
+          "description": "",
+          "type": "number",
+          "visibility": true,
+          "maxLength": 3,
+          "maxValueLength": 0,
+          "validationMessage": {
+            "302": "Number is Required!!"
+          },
+          "alpha": false,
+          "required": false
+        },
+        "minValue": {
+          "inputType": "textbox",
+          "displayOrder": 13,
+          "title": "Minimum Value",
+          "hindiTitle": "मोबाइल नंबर",
+          "description": "",
+          "type": "number",
+          "visibility": true,
+          "maxLength": 3,
+          "maxValueLength": 0,
+          "validationMessage": {
+            "302": "Number is Required!!"
+          },
+          "alpha": false,
+          "required": false
+        },
+        "maxLength": {
+          "inputType": "textbox",
+          "displayOrder": 13,
+          "title": "Maximum Length",
+          "hindiTitle": "मोबाइल नंबर",
+          "description": "",
+          "type": "number",
+          "visibility": true,
+          "maxLength": 3,
+          "maxValueLength": 0,
+          "validationMessage": {
+            "302": "Number is Required!!"
+          },
+          "alpha": false,
+          "required": false
+        },
+        "displayOrder": {
+          "inputType": "textbox",
+          "displayOrder": 7,
+          "title": "Display Order",
+          "hindiTitle": "आयु",
+          "description": "",
+          "type": "number",
+          "maxValue": 0,
+          "minValue": 0,
+          "visibility": true,
+          "maximum": 0,
+          "minimum": 0,
+          "alpha": false,
+          "required": true,
+          "validationMessage": {
+            "101": "Age can't be less than {{schema.minimum}}",
+            "103": "Age can't be more than {{schema.maximum}}"
+          }
+
+
+        },
+        "visibility": {
+          "inputType": "radio",
+          "displayOrder": 8,
+          "title": "Visible",
+          "hindiTitle": "नैदानिक ​​परीक्षण किया गया है या नहीं?",
+          "description": "",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "optionValues": [
+            "Yes",
+            "No"
+          ],
+          "visibility": true,
+          "required": true
+        },
+        "isActive": {
+          "inputType": "radio",
+          "displayOrder": 8,
+          "title": "Active",
+          "hindiTitle": "नैदानिक ​​परीक्षण किया गया है या नहीं?",
+          "description": "",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "optionValues": [
+            "Yes",
+            "No"
+          ],
+          "visibility": true,
+          "required": true
+        },
+        "optionValues": {
+          "inputType": "select",
+          "displayOrder": 1,
+          "title": "Option Values",
+          "hindiTitle": "तिथि",
+          "description": "",
+          "type": "string",
+          "format": "date",
+          "alpha": false,
+          "visibility": true,
+          "required": true
+        },
+        "orientation": {
+          "inputType": "radio",
+          "displayOrder": 8,
+          "title": "Orientation",
+          "hindiTitle": "नैदानिक ​​परीक्षण किया गया है या नहीं?",
+          "description": "",
+          "type": "string",
+          "enum": [
+            "Yes",
+            "No"
+          ],
+          "optionValues": [
+            "Vertical",
+            "Horizontal"
+          ],
+          "visibility": true,
+          "required": true
+        },
+
+        "surveyId": {
+          "inputType": "select",
+          "displayOrder": 2,
+          "title": "Survey",
+          "hindiTitle": "पंचायत का नाम",
+          "description": "",
+          "type": "string",
+          "placeholder": "Select Survey",
+          "apiModel": "RealmSurveys",
+          "visibility": true,
+          "alpha": false,
+          "required": true
+        },
+        "clientId": {
+          "inputType": "select",
+          "displayOrder": 2,
+          "title": "Client",
+          "hindiTitle": "पंचायत का नाम",
+          "description": "",
+          "type": "string",
+          "placeholder": "Select Client",
+          "apiModel": "RealmClient",
+          "visibility": true,
+          "alpha": false,
+          "required": true
+        },
+        "customerId": {
+          "inputType": "select",
+          "displayOrder": 2,
+          "title": "Customer",
+          "hindiTitle": "पंचायत का नाम",
+          "description": "",
+          "type": "string",
+          "placeholder": "Select Customer",
+          "apiModel": "RealmCustomer",
+          "visibility": true,
+          "alpha": false,
+          "required": true
+        },
+        "categoryId": {
+          "inputType": "select",
+          "displayOrder": 2,
+          "title": "Category",
+          "hindiTitle": "",
+          "description": "",
+          "type": "string",
+          "placeholder": "Select Category",
+          "apiModel": "RealmCustomer",
+          "visibility": true,
+          "alpha": false,
+          "required": true
+        },
+
+
+        "required": [
+          "title",
+          "longTitle",
+          "inputType",
+          "type",
+          "required",
+          "isActive",
+          "visibility",
+          "displayOrder",
+          "surveys",
+          "clientId",
+          "customerId",
+          "categoryId"
+
+        ]
+      }},
+
+    "createdAt": "2018-01-31T04:12:49.622Z",
+    "updatedAt": "2018-01-31T04:12:49.622Z"
+  }
+]
