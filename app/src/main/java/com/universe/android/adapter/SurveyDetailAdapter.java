@@ -10,15 +10,20 @@ import android.widget.TextView;
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
 
+import java.util.ArrayList;
+
 /**
  * Created by gaurav.pandey on 24-01-2018.
  */
 
 public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapter.SurveyViewHolder> {
     private Context mContext;
+    private ArrayList<String> stringArrayList;
+    private OnItemSelecteListener mListener;
 
-    public SurveyDetailAdapter(Context mContext) {
+    public SurveyDetailAdapter(Context mContext, ArrayList<String> stringArrayList) {
         this.mContext = mContext;
+        this.stringArrayList = stringArrayList;
 
     }
 
@@ -33,12 +38,21 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
         holder.textViewRetailersName.setTypeface(FontClass.openSansBold(mContext));
         holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
         holder.textViewStatus.setTypeface(FontClass.openSansRegular(mContext));
+        holder.textViewRetailersName.setText(stringArrayList.get(position));
+
 
     }
 
+    public void setOnItemClickLister(OnItemSelecteListener mListener) {
+        this.mListener = mListener;
+    }
+
+    public interface OnItemSelecteListener {
+        public void onItemSelected(View v, int position);
+    }
     @Override
     public int getItemCount() {
-        return 10;
+        return stringArrayList.size();
     }
 
     public class SurveyViewHolder extends RecyclerView.ViewHolder {
@@ -49,6 +63,13 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
             textViewRetailersName = itemView.findViewById(R.id.textViewRetailersName);
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onItemSelected(view, getAdapterPosition());
+
+                }
+            });
 
         }
     }

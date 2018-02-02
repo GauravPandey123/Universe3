@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:diagonal="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.universe.android.helper.DiagonalLayout
+        android:id="@+id/diagonalLayout"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:elevation="0dp"
+        android:paddingBottom="16dp"
+        diagonal:diagonal_angle="10"
+        diagonal:diagonal_direction="left"
+        diagonal:diagonal_position="bottom">
+
+        <com.flaviofaria.kenburnsview.KenBurnsView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/diagonallayout_background" />
+
+        <TextView
+            android:id="@+id/textViewUserNameProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|left"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="70dp"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/username"
+            android:textColor="@android:color/white"
+            android:textSize="25sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="105dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewEmailProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:drawableLeft="@drawable/ic_email"
+                android:drawablePadding="@dimen/margin_medium"
+                android:fontFamily="sans-serif-condensed"
+                android:gravity="center_vertical"
+                android:text="@string/email"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </com.universe.android.helper.DiagonalLayout>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="140dp"
+        android:background="@drawable/diagonallayout_circle"
+        android:elevation="15dp"
+        android:src="@drawable/ic_launcher_background" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/profile_image"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewPhoneNumberProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_xmedium"
+                android:drawableLeft="@drawable/ic_phone"
+                android:drawablePadding="@dimen/margin_xmedium"
+                android:text="@string/mobile"
+                android:textSize="@dimen/text_size_large" />
+
+            <EditText
+                android:id="@+id/editTextPhoneProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:focusable="false"
+                android:text="@string/mobile"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/textViewRolesProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_xmedium"
+                android:drawableLeft="@drawable/ic_role"
+                android:drawablePadding="@dimen/margin_xmedium"
+                android:text="@string/role"
+                android:textSize="@dimen/text_size_large" />
+
+            <EditText
+                android:id="@+id/editTextRolesProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:focusable="false"
+                android:text="@string/role"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/textViewLob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_xmedium"
+                android:drawableLeft="@drawable/ic_agreement"
+                android:drawablePadding="@dimen/margin_xmedium"
+                android:text="@string/ldb"
+                android:textSize="@dimen/text_size_large" />
+
+            <EditText
+                android:id="@+id/editTextLob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:focusable="false"
+                android:text="@string/ldb"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/textViewTLerritory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_xmedium"
+                android:drawableLeft="@drawable/ic_radar"
+                android:drawablePadding="@dimen/margin_xmedium"
+                android:text="@string/territory"
+                android:textSize="@dimen/text_size_large" />
+
+            <EditText
+                android:id="@+id/editTextTerritory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:focusable="false"
+                android:text="@string/territory"
+                android:textSize="@dimen/text_size_medium" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

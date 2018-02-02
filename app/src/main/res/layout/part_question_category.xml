@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutButton"
+        android:layout_width="?actionBarSize"
+        android:layout_height="?actionBarSize"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/holo_blue_dark"
+        android:gravity="center"
+        android:padding="2dp">
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:background="@drawable/triangle" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="?actionBarSize"
+        android:layout_toLeftOf="@+id/relativeLayoutButton"
+        android:layout_toStartOf="@+id/relativeLayoutButton"
+        android:background="@android:color/holo_blue_dark"
+        android:padding="@dimen/margin_min">
+
+        <TextView
+            android:id="@+id/textViewCategory"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_medium"
+            android:gravity="center_vertical"
+            android:text="@string/category1"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+        <TextView
+            android:id="@+id/textViewToatalQuestions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textViewReatilers"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/rectangular_shape"
+            android:paddingBottom="@dimen/margin_medium"
+            android:paddingLeft="@dimen/text_size_medium"
+            android:paddingRight="@dimen/text_size_medium"
+            android:paddingTop="@dimen/margin_medium"
+            android:text="4"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <com.github.aakira.expandablelayout.ExpandableLinearLayout
+        android:id="@+id/expandableLayoutCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/relativeLayoutCategory"
+        android:orientation="vertical"
+        app:ael_duration="400"
+        app:ael_expanded="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/others"/>
+
+
+
+    </com.github.aakira.expandablelayout.ExpandableLinearLayout>
+</RelativeLayout>

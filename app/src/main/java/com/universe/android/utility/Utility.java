@@ -2,6 +2,7 @@ package com.universe.android.utility;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -33,6 +34,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -68,6 +70,8 @@ public class Utility {
     private static final int VERSION_LOLLIPOP = Build.VERSION_CODES.LOLLIPOP;
     private static final int VERSION_JELLYBEAN = Build.VERSION_CODES.JELLY_BEAN;
     private static final String IMAGE_NAME = "SavedImage.png";
+    private  static String formatedDate;
+     private static  String erg = "";
 
     public static boolean isJellyBean() {
         return BUILD_VERSION >= VERSION_JELLYBEAN;
@@ -269,6 +273,40 @@ public class Utility {
         String time = simpleDateFormat.format(calander.getTime());
         return time;
     }
+    public static String getCurrentDate()
+    {
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        formatedDate = df.format(c.getTime());
+        return formatedDate;
+    }
+
+    public static String dateDialogfrom() {
+        final Calendar c = Calendar.getInstance();
+
+        int y = c.get(Calendar.YEAR);
+        int m = c.get(Calendar.MONTH);
+        int d = c.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog dp = new DatePickerDialog(mContext,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year,
+                                          int monthOfYear, int dayOfMonth) {
+
+                        erg = String.valueOf(dayOfMonth);
+                        erg += "-" + String.valueOf(monthOfYear + 1);
+                        erg += "-" + year;
+
+                    }
+
+                }, y, m, d);
+        dp.setTitle("Calender");
+        dp.show();
+
+        return erg;
+    }
+
 
     public static String replaceSpaceToDashes(String value){
         return value.replaceAll("\\s","-");

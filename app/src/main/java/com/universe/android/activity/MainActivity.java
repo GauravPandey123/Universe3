@@ -7,11 +7,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-
-
 import com.universe.android.R;
 import com.universe.android.adapter.DrawerAdapter;
 import com.universe.android.fragment.AdminFragment;
+import com.universe.android.fragment.ProfileFragment;
 import com.universe.android.fragment.QuestinaireFragment;
 import com.universe.android.fragment.QuestionarieSelectionFragment;
 import com.universe.android.fragment.SurveySelectionFragment;
@@ -63,6 +62,11 @@ public class MainActivity extends BaseActivity {
             @Override
             public void onItemSelected(View v, int position) {
                 switch (position) {
+                    case 0:
+                        mDrawerLayout.closeDrawers();
+                        mToolbar.setTitle(R.string.profile);
+                        replaceFragment(new ProfileFragment(), mContainerId);
+                        break;
                     case 1:
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(R.string.dashboard);

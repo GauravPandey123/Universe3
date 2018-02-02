@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutFilterStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark">
+
+        <TextView
+            android:id="@+id/textViewChooseStatus"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_large"
+            android:layout_margin="@dimen/margin_small"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_small"
+            android:text="@string/select_status"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+        <ImageView
+            android:id="@+id/imageViewCloseStatus"
+            android:layout_width="@dimen/margin_xnormal"
+            android:layout_height="@dimen/margin_xnormal"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_close_black_24dp" />
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayoutStatus"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/margin_medium"
+        android:layout_below="@+id/relativeLayoutFilterStatus">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recylerViewStatus"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+</RelativeLayout>

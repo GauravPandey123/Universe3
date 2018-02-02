@@ -43,6 +43,7 @@
     <string name="newretailors">7 \n New Retailers</string>
     <string name="crystalmembers">3 \n Crystal Memebers</string>
     <string name="newretailor">New Retailors</string>
+
     <string name="admin">Admin</string>
     <string name="master">Master</string>
     <string name="client">Client List</string>
@@ -66,8 +67,33 @@
     <string name="date_format">dd MMM yyyy</string>
     <string name="done">Done</string>
     <string name="cancel">Cancel</string>
-    <string name="search">Search</string>
+
     <string name="no_future_date">No Future Date Allowed</string>
+
+    <string name="search">Search Customers</string>
+    <string name="customersearch">Search Customers</string>
+    <string name="select_customers">Select Customers</string>
+    <string name="category1">Category1</string>
+    <string name="questions1">Question1 -  What is lorem spum ?</string>
+    <string name="questionairecategory">Questionaire Category</string>
+    <string name="select_status">Choose Status</string>
+    <string name="choose_date">SelectDate</string>
+    <string name="designation">Designation</string>
+    <string name="profile">Profile</string>
+    <string name="email">Email</string>
+    <string name="submit">Submit</string>
+    <string name="emailphone">Email/Phone</string>
+    <string name="oldPassword">OldPassword</string>
+    <string name="newpassword">Enter New Password</string>
+    <string name="confirmPassword">Confirm Password</string>
+    <string name="reenterPassword">Confirm Your Password</string>
+    <string name="mobile">Phone Number</string>
+    <string name="role">Role</string>
+    <string name="ldb">L.O.B</string>
+    <string name="territory">Territory</string>
+    <string name="getotp">Get OTp</string>
+    <string name="otp">Enter The Otp</string>
+    <string name="hint_search">Search Questions</string>
 
     <string-array name="filterItem">
         <item>@string/todayfilter</item>
@@ -75,6 +101,5 @@
         <item>@string/month</item>
         <item>@string/others</item>
     </string-array>
-
 
 </resources>

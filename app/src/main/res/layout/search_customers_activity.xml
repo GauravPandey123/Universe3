@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/include"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/app_theme_color">
+
+        <ImageView
+            android:id="@+id/imageviewbacSearch"
+            android:layout_width="@dimen/margin_xnormal"
+            android:layout_height="@dimen/margin_xnormal"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_small"
+            android:src="@drawable/ic_arrow_back_black_24dp" />
+
+        <TextView
+            android:id="@+id/textViewSuverDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:text="@string/customersearch"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+
+    <EditText
+        android:id="@+id/searchcustomers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:drawableRight="@drawable/ic_search"
+        android:hint="@string/search"
+        android:layout_below="@+id/include"
+        android:paddingLeft="@dimen/margin_normal"
+        android:paddingRight="@dimen/margin_normal"
+        android:singleLine="true"
+        android:textSize="@dimen/text_size_normal" />
+
+    <View
+        android:id="@+id/border"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/searchcustomers"
+        android:layout_marginTop="@dimen/margin_xmedium"
+        android:background="@color/divider_color" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefreshLayoutSearch"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/border"
+        android:layout_marginTop="@dimen/margin_xmedium">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerviewsearch"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_xmedium" />
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>

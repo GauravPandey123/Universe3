@@ -5,6 +5,7 @@
     <dimen name="margin_small">4dp</dimen>
     <dimen name="margin_medium">8dp</dimen>
     <dimen name="margin_xmedium">12dp</dimen>
+    <dimen name="margin_normal">16dp</dimen>
     <dimen name="margin_xnormal">24dp</dimen>
     <dimen name="margin_large">32dp</dimen>
     <dimen name="margin_xxlarge">64dp</dimen>
@@ -14,6 +15,11 @@
     <dimen name="text_size_large">18sp</dimen>
     <dimen name="margin_extra">56dp</dimen>
     <dimen name="margin_extra_large">72dp</dimen>
+    <dimen name="card_padding">30dp</dimen>
+    <dimen name="day_text_wh">30dp</dimen>
+    <dimen name="title_options">48dp</dimen>
+
+
 
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="nav_header_height">56dp</dimen>
