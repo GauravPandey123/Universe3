@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.universe.android.R;
 import com.universe.android.adapter.DrawerAdapter;
+import com.universe.android.fragment.AdminFragment;
 import com.universe.android.fragment.QuestinaireFragment;
 import com.universe.android.fragment.QuestionarieSelectionFragment;
 import com.universe.android.fragment.SurveySelectionFragment;
@@ -80,6 +81,12 @@ public class MainActivity extends BaseActivity {
                         replaceFragment(new QuestionarieSelectionFragment(), mContainerId);
                         break;
 
+                    case 6:
+                        mDrawerLayout.closeDrawers();
+                        mToolbar.setTitle(R.string.admin);
+                        replaceFragment(new AdminFragment(), mContainerId);
+                        break;
+
 
                 }
 
@@ -93,7 +100,7 @@ public class MainActivity extends BaseActivity {
         mDrawerItemList = new ArrayList<DrawerItem>();
         DrawerItem item = new DrawerItem();
         item.setIcon(R.drawable.ic_dashboard);
-        item.setTitle("Dash Board");
+        item.setTitle("DashBoard");
         mDrawerItemList.add(item);
 
         DrawerItem item2 = new DrawerItem();
@@ -116,6 +123,11 @@ public class MainActivity extends BaseActivity {
         item5.setTitle("Analytics");
         mDrawerItemList.add(item5);
 
+        DrawerItem item10 = new DrawerItem();
+        item10.setIcon(R.drawable.survey_report);
+        item10.setTitle(getResources().getString(R.string.admin));
+        mDrawerItemList.add(item10);
+
         DrawerItem item6 = new DrawerItem();
         item6.setIcon(R.drawable.managementteams);
         item6.setTitle("Manage Teams");
@@ -135,6 +147,8 @@ public class MainActivity extends BaseActivity {
         item9.setIcon(R.drawable.ic_logout);
         item9.setTitle("Logout");
         mDrawerItemList.add(item9);
+
+
 
         mDrawerAdapter = new DrawerAdapter(mDrawerItemList, mContext);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.universe.android.R;
 import com.universe.android.fragment.SurveySelectionFragment;
+import com.universe.android.realmbean.RealmController;
 
 
 public class LoginActivity extends BaseActivity {
@@ -92,6 +93,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void onLoginSuccess() {
+        new RealmController().saveQuestions(LoginActivity.this);
         textViewLogin.setEnabled(true);
         Intent intent=new Intent(mContext,SurveySelectionFragment.class);
         startActivity(intent);

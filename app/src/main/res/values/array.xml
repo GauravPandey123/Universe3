@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string-array name="surveys">
+        <!--<item>title</item>
+        <item>status</item>
+        <item>description</item>
+        <item>createdBy</item>
+        <item>expiryDate</item>
+        <item>isActive</item>-->
+
+    </string-array>
+    <string-array name="client">
+        <!--<item>name</item>
+        <item>contactPerson</item>
+        <item>description</item>
+        <item>contactNo</item>
+        <item>address</item>
+        <item>status</item>
+        <item>isActive</item>
+        <item>expiryDate</item>
+        <item>surveyId</item>-->
+
+    </string-array>
+
+    <string-array name="customer">
+        <!-- <item>name</item>
+         <item>contactPerson</item>
+         <item>description</item>
+         <item>contactNo</item>
+         <item>address</item>
+         <item>status</item>
+         <item>isActive</item>
+         <item>expiryDate</item>
+         <item>surveys</item>
+         <item>client</item>-->
+    </string-array>
+
+    <string-array name="category">
+        <!-- <item>categoryType</item>
+         <item>categoryName</item>
+         <item>description</item>
+         <item>contactNo</item>
+         <item>address</item>
+         <item>status</item>
+         <item>isActive</item>
+         <item>expiryDate</item>
+         <item>surveys</item>
+         <item>client</item>
+         <item>customer</item>
+ -->
+
+    </string-array>
+
+
+
+
+
+
+
+    <string-array name="question">
+        <!--  <item>title</item>
+          <item>longTitle</item>
+          <item>inputType</item>
+          <item>type</item>
+          <item>required</item>
+          <item>maxValue</item>
+          <item>isActive</item>
+          <item>minValue</item>
+          <item>maxLength</item>
+          <item>visibility</item>
+          <item>displayOrder</item>
+          <item>optionValues</item>
+          <item>optionTitle</item>
+          <item>orientation</item>
+          <item>surveys</item>
+          <item>client</item>
+          <item>customer</item>
+          <item>category</item>-->
+    </string-array>
+</resources>

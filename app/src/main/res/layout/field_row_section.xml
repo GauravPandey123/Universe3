@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llchild"
+    style="@style/appFieldLinearLayout"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp">
+
+
+    <TextView
+        android:id="@+id/tvChild"
+        style="@style/appSmallText"
+        android:layout_marginBottom="@dimen/view_padding"
+        android:layout_marginTop="@dimen/view_padding"
+        android:background="@color/backgroundgrey"
+        android:textStyle="bold" />
+
+</LinearLayout>
