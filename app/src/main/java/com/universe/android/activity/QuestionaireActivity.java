@@ -3,7 +3,10 @@ package com.universe.android.activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.universe.android.R;
@@ -17,6 +20,8 @@ public class QuestionaireActivity extends BaseActivity {
     private CardPagerAdapter mCardAdapter;
     private ShadowTransformer mCardShadowTransformer;
     private TextView textViewHeader, textViewRetailersNameMap, textViewMobileNoMap, textViewStatusMap;
+    private ImageView imageViewSearchBack;
+    private EditText editTextSearch;
 
 
     @Override
@@ -25,7 +30,17 @@ public class QuestionaireActivity extends BaseActivity {
         setContentView(R.layout.questionaire_activity);
         initialization();
         setUpElements();
+        setUpListeners();
 
+    }
+
+    private void setUpListeners() {
+        imageViewSearchBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void setUpElements() {
@@ -46,11 +61,13 @@ public class QuestionaireActivity extends BaseActivity {
         textViewRetailersNameMap = findViewById(R.id.textViewRetailersNameMap);
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
+        imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
+        editTextSearch =findViewById(R.id.searchcustomers);
 
-//        textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
-//        textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
-//        textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));
-//        textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
+        textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
+        textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
+        textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));
+        textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
 
 
     }

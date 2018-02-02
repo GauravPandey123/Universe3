@@ -17,6 +17,8 @@
     <dimen name="margin_extra_large">72dp</dimen>
     <dimen name="card_padding">30dp</dimen>
     <dimen name="day_text_wh">30dp</dimen>
+    <dimen name="title_options">48dp</dimen>
+
 
 
 </resources>

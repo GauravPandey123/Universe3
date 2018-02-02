@@ -66,6 +66,7 @@
     <string name="territory">Territory</string>
     <string name="getotp">Get OTp</string>
     <string name="otp">Enter The Otp</string>
+    <string name="hint_search">Search Questions</string>
 
     <string-array name="filterItem">
         <item>@string/todayfilter</item>

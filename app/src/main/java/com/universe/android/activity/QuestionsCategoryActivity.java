@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.Utils;
@@ -26,6 +28,7 @@ public class QuestionsCategoryActivity extends BaseActivity {
     private CircleImageView circleImageViewMap;
     private TextView textViewHeader, textViewRetailersNameMap, textViewMobileNoMap, textViewStatusMap;
     private RecyclerView recyclerViewCateGory;
+    private ImageView imageViewSearchBack;
 
 
     @Override
@@ -38,6 +41,12 @@ public class QuestionsCategoryActivity extends BaseActivity {
     }
 
     private void setUpListners() {
+        imageViewSearchBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void setUpElements() {
@@ -62,6 +71,7 @@ public class QuestionsCategoryActivity extends BaseActivity {
         textViewRetailersNameMap = findViewById(R.id.textViewRetailersNameMap);
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
+        imageViewSearchBack =findViewById(R.id.imageviewbackSearch);
 
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
@@ -69,4 +79,5 @@ public class QuestionsCategoryActivity extends BaseActivity {
         textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
 
     }
+
 }
