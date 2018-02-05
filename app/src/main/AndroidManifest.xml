@@ -3,7 +3,9 @@
     package="com.universe.android">
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -21,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.QuestionaireSearchActivity"
+            android:name=".activity.SplashActivity"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,6 +37,7 @@
         <activity android:name=".activity.SurveyDetailActivity" />
         <activity android:name=".activity.FIlterActivity" />
         <activity android:name=".fragment.QuestinaireFragment" />
+        <activity android:name=".activity.QuestionaireSearchActivity" />
         <activity
             android:name=".activity.admin.FormQuestionActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -43,27 +46,22 @@
         <activity
             android:name=".activity.admin.SurveyListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
         <activity
             android:name=".activity.admin.QuestionListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
         <activity
             android:name=".activity.admin.CustomerListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
         <activity
             android:name=".activity.admin.CategoryListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
         <activity
             android:name=".activity.admin.ClientListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
 
         <activity android:name=".activity.SearchCustomersActivity" />
