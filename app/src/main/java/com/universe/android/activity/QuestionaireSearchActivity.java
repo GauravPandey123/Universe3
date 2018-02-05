@@ -1,5 +1,6 @@
 package com.universe.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -15,6 +17,7 @@ import com.universe.android.R;
 import com.universe.android.adapter.QuestionsSearchAdapter;
 import com.universe.android.adapter.SurveyDetailAdapter;
 import com.universe.android.helper.FontClass;
+import com.universe.android.helper.RecyclerTouchListener;
 
 import java.util.ArrayList;
 
@@ -49,6 +52,7 @@ public class QuestionaireSearchActivity extends BaseActivity {
     }
 
     private void setUpElements() {
+
     }
 
     public void addTextListener() {

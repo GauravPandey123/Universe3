@@ -17,6 +17,7 @@ import com.universe.android.R;
 import com.universe.android.adapter.SurveyDetailAdapter;
 import com.universe.android.fragment.SurveySelectionFragment;
 import com.universe.android.helper.FontClass;
+import com.universe.android.helper.RecyclerTouchListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,19 @@ public class SearchCustomersActivity extends BaseActivity {
 
             }
         });
+        recyclerViewSearch.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewSearch, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent intent = new Intent(mContext, MapsActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     private void setUpElements() {

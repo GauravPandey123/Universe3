@@ -45,20 +45,20 @@ public class CategoryListActivity extends ParentSaveActivity {
         setContentView(R.layout.act_list_view);
         setHeader();
 
-        Intent intent=getIntent();
-        if (intent!=null){
-            formId=intent.getStringExtra(AppConstants.FORM_ID);
+        Intent intent = getIntent();
+        if (intent != null) {
+            formId = intent.getStringExtra(AppConstants.FORM_ID);
         }
         prepareList();
         ((TextView) findViewById(R.id.tvName)).setText(getString(R.string.category));
 
 
-        FloatingActionButton fabAdd=(FloatingActionButton)findViewById(R.id.fabAdd);
+        FloatingActionButton fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(CategoryListActivity.this,FormQuestionActivity.class);
-                i.putExtra(AppConstants.FORM_ID,formId);
+                Intent i = new Intent(CategoryListActivity.this, FormQuestionActivity.class);
+                i.putExtra(AppConstants.FORM_ID, formId);
                 startActivityForResult(i, ID_UPDATE_CAMP);
             }
         });
@@ -93,7 +93,7 @@ public class CategoryListActivity extends ParentSaveActivity {
                     modal.setId(realmCategories.get(i).getId());
                     modal.setCategoryName(realmCategories.get(i).getCategoryName());
                     modal.setStatus(realmCategories.get(i).getStatus());
-                 //   String date=AppConstants.format2.format(realmSurveys.get(i).getExpiryDate());
+                    //   String date=AppConstants.format2.format(realmSurveys.get(i).getExpiryDate());
                     modal.setExpiryDate(realmCategories.get(i).getExpiryDate());
                     categoryModals.add(modal);
                 }
@@ -113,23 +113,23 @@ public class CategoryListActivity extends ParentSaveActivity {
     private void deleteCamp(final CategoryModal CategoryModal) {
         Realm realm = Realm.getDefaultInstance();
         if (!realm.isInTransaction())
-        realm.beginTransaction();
+            realm.beginTransaction();
         try {
 
-                List<RealmCategory> realmCategories = realm.where(RealmCategory.class).equalTo(AppConstants.ID, CategoryModal.getId()).findAll();
-                if (realmCategories != null && realmCategories.size() > 0) {
-                    realmCategories.get(0).deleteFromRealm();
-                }
+            List<RealmCategory> realmCategories = realm.where(RealmCategory.class).equalTo(AppConstants.ID, CategoryModal.getId()).findAll();
+            if (realmCategories != null && realmCategories.size() > 0) {
+                realmCategories.get(0).deleteFromRealm();
+            }
 
         } catch (Exception e) {
             if (realm.isInTransaction())
-            realm.cancelTransaction();
+                realm.cancelTransaction();
 
         } finally {
             if (realm.isInTransaction())
-            realm.commitTransaction();
+                realm.commitTransaction();
             if (!realm.isClosed())
-            realm.close();
+                realm.close();
         }
     }
 
@@ -208,11 +208,10 @@ public class CategoryListActivity extends ParentSaveActivity {
 
             if (Utility.validateString(surveysModals.get(position).getCategoryName())) {
                 holder.tvName.setVisibility(View.VISIBLE);
-                holder.tvName.setText( surveysModals.get(position).getCategoryName());
+                holder.tvName.setText(surveysModals.get(position).getCategoryName());
             } else {
                 holder.tvName.setVisibility(View.GONE);
             }
-
 
 
             holder.imgEdit.setOnClickListener(new View.OnClickListener() {
@@ -223,15 +222,12 @@ public class CategoryListActivity extends ParentSaveActivity {
 
                     if (view != null && view.getTag() instanceof CategoryModal) {
                         CategoryModal camp = (CategoryModal) view.getTag();
-
-
-
-                            Intent intent = new Intent(context, FormQuestionActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            intent.putExtra(AppConstants.STR_TITLE,getString(R.string.category));
-                            intent.putExtra(AppConstants.FORM_ID,formId);
-                             intent.putExtra(AppConstants.FORM_ANS_ID, camp.getId());
-                            startActivityForResult(intent, ID_UPDATE_CAMP);
+                        Intent intent = new Intent(context, FormQuestionActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra(AppConstants.STR_TITLE, getString(R.string.category));
+                        intent.putExtra(AppConstants.FORM_ID, formId);
+                        intent.putExtra(AppConstants.FORM_ANS_ID, camp.getId());
+                        startActivityForResult(intent, ID_UPDATE_CAMP);
 
                     }
                 }
@@ -265,10 +261,10 @@ public class CategoryListActivity extends ParentSaveActivity {
                             showConfirmationDialog(camp, 0);
                         } else {
                             if (Utility.isConnected()) {
-                             //   showConfirmationDialog(camp, 1);
+                                //   showConfirmationDialog(camp, 1);
                             } else {
                                 showConfirmationDialog(camp, 1);
-                             //   showToastMessage(getString(R.string.no_network));
+                                //   showToastMessage(getString(R.string.no_network));
                             }
                         }
                     }

@@ -52,8 +52,15 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         initialization();
         setUpElements();
+        setUpListners();
+    }
+
+    private void setUpListners() {
+        // Setting a click event handler for the map
+
     }
 
     private void setUpElements() {
