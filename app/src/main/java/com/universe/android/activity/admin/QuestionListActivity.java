@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 
 import com.universe.android.R;
+import com.universe.android.activity.BaseActivity;
 import com.universe.android.model.QuestionModal;
 import com.universe.android.parent.ParentSaveActivity;
 import com.universe.android.realmbean.RealmQuestion;
@@ -30,7 +31,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-public class QuestionListActivity extends ParentSaveActivity {
+public class QuestionListActivity extends BaseActivity {
 
 
     private static final int ID_UPDATE_CAMP = 1000;
@@ -39,16 +40,16 @@ public class QuestionListActivity extends ParentSaveActivity {
     private String formId;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_list_view);
-        setHeader();
+
         Intent intent=getIntent();
         if (intent!=null){
             formId=intent.getStringExtra(AppConstants.FORM_ID);
         }
         prepareList();
-        ((TextView) findViewById(R.id.tvName)).setText(getString(R.string.question));
+        ((TextView) findViewById(R.id.textViewHeader)).setText(getString(R.string.question));
 
         FloatingActionButton fabAdd=(FloatingActionButton)findViewById(R.id.fabAdd);
         fabAdd.setOnClickListener(new View.OnClickListener() {

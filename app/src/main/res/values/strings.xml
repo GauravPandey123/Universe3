@@ -94,6 +94,7 @@
     <string name="getotp">Get OTp</string>
     <string name="otp">Enter The Otp</string>
     <string name="hint_search">Search Questions</string>
+    <string name="allow_permission">Please allow permission to use the app</string>
 
     <string-array name="filterItem">
         <item>@string/todayfilter</item>

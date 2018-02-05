@@ -1,88 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="@color/white">
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar"
+    <RelativeLayout
+        android:id="@+id/include"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/collapsing_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+        android:layout_height="?actionBarSize"
+        android:background="@color/app_theme_color">
 
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:gravity="center"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-                <TextView
-                    android:id="@+id/toolbarTtile"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start"
-                    android:text="Universe"
-                    android:textStyle="bold"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp"
-                    android:visibility="visible" />
-
-            </android.support.v7.widget.Toolbar>
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+        <ImageView
+            android:id="@+id/imageviewbackSearch"
+            android:layout_width="@dimen/margin_xnormal"
+            android:layout_height="@dimen/margin_xnormal"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_small"
+            android:src="@drawable/ic_arrow_back_black_24dp" />
 
         <TextView
-            android:id="@+id/tvName"
-            style="@style/appText"
-            android:gravity="center" />
-
-        <SearchView
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
+            android:id="@+id/textViewHeader"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/view_padding"
-            android:layout_marginBottom="@dimen/view_row_margin"
-            android:layout_marginTop="@dimen/view_row_margin"
-            android:background="@drawable/edt_bg"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:iconifiedByDefault="false"
-            android:imeActionLabel="Done"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:queryHint="@string/search_name"
-            android:visibility="gone" />
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/appText"
+        android:layout_below="@+id/include"
+        android:gravity="center" />
+
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvName"
+        android:layout_margin="@dimen/view_padding"
+        android:layout_marginBottom="@dimen/view_row_margin"
+        android:layout_marginTop="@dimen/view_row_margin"
+        android:background="@drawable/edt_bg"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:iconifiedByDefault="false"
+        android:imeActionLabel="Done"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:queryHint="@string/search_name"
+        android:visibility="gone" />
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"></android.support.v7.widget.RecyclerView>
-    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchView"
+        android:layout_gravity="center"></android.support.v7.widget.RecyclerView>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:backgroundTint="@color/app_theme_color"
         android:src="@drawable/fab_ic_add"
         android:layout_margin="8dp"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>
