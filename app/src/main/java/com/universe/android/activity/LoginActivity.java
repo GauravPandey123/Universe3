@@ -72,11 +72,10 @@ public class LoginActivity extends BaseActivity {
 
     public void login() {
         Log.d(TAG, "Login");
-
-        if (!validate()) {
-            onLoginFailed();
-            return;
-        }
+//        if (!validate()) {
+//            onLoginFailed();
+//            return;
+//        }
         showProgress();
         textViewLogin.setEnabled(false);
         String email = editTextInputEmail.getText().toString();
@@ -130,7 +129,6 @@ public class LoginActivity extends BaseActivity {
 
     public boolean validate() {
         boolean valid = true;
-
         String email = editTextInputEmail.getText().toString();
         String password = editTextInputPassword.getText().toString();
         String phone = editTextMobile.getText().toString();

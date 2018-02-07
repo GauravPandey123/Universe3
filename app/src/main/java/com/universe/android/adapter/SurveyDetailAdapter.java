@@ -63,13 +63,13 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
             textViewRetailersName = itemView.findViewById(R.id.textViewRetailersName);
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mListener.onItemSelected(view, getAdapterPosition());
-
-                }
-            });
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    mListener.onItemSelected(view, getAdapterPosition());
+//
+//                }
+//            });
 
         }
     }

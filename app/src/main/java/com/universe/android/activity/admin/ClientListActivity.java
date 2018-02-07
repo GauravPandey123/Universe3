@@ -212,19 +212,12 @@ public class ClientListActivity extends BaseActivity {
                 holder.tvName.setVisibility(View.GONE);
             }
 
-
-
             holder.imgEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
                     Utility.animateView(view);
-
                     if (view != null && view.getTag() instanceof ClientModal) {
                         ClientModal camp = (ClientModal) view.getTag();
-
-
-
                         Intent intent = new Intent(context, FormQuestionActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra(AppConstants.STR_TITLE,getString(R.string.client));
@@ -241,11 +234,7 @@ public class ClientListActivity extends BaseActivity {
             holder.imgDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
-
                     Utility.animateView(view);
-
-
                     if (view != null && view.getTag() instanceof ClientModal) {
                         ClientModal camp = (ClientModal) view.getTag();
                         Realm realm = Realm.getDefaultInstance();

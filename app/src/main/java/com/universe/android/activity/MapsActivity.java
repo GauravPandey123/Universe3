@@ -52,8 +52,15 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         initialization();
         setUpElements();
+        setUpListners();
+    }
+
+    private void setUpListners() {
+        // Setting a click event handler for the map
+
     }
 
     private void setUpElements() {
@@ -115,6 +122,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
     public void onMapSearch(View view) {
         String location = locationSearch.getText().toString();
         List<Address> addressList = null;
+        Address address;
 
         if (location != null || !location.equals("")) {
             Geocoder geocoder = new Geocoder(this);
@@ -125,7 +133,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
                 e.printStackTrace();
             }
             mMap.clear();
-            Address address = addressList.get(0);
+            address = addressList.get(0);
             LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
             CameraPosition position = CameraPosition.builder()
                     .target(new LatLng(address.getLatitude(),
@@ -134,7 +142,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
                     .bearing(0.0f)
                     .tilt(0.0f)
                     .build();
-
             mMap.animateCamera(CameraUpdateFactory
                     .newCameraPosition(position), null);
             mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));

@@ -21,22 +21,6 @@ import io.realm.RealmResults;
 
 public class RealmController {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public Questions getQuestionVOFromJson(JSONObject jsonObject) {
         Questions question = new Questions();
         if (jsonObject != null) {
@@ -79,10 +63,7 @@ public class RealmController {
         }
     }
 
-
-
     public void saveQuestions(Context context) {
-
             Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
             try {

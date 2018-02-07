@@ -23,7 +23,7 @@ import com.universe.android.R;
 import com.universe.android.adapter.StatusAdapter;
 import com.universe.android.adapter.SurveyDetailAdapter;
 import com.universe.android.helper.FontClass;
-import com.universe.android.helper.RecyclerItemClickListener;
+
 import com.universe.android.model.StatusModel;
 import com.universe.android.utility.Utility;
 

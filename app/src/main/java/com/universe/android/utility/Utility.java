@@ -43,9 +43,7 @@ import android.widget.Toast;
 import com.universe.android.R;
 import com.universe.android.UniverseApplication;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+
 import org.json.JSONObject;
 
 import java.io.File;
@@ -313,12 +311,13 @@ public class Utility {
     }
 
 
-    private static String getTodaysDate() {
-        DateTime date = new DateTime();
-        date = date.minusHours(7);
-        DateTimeFormatter dtf = DateTimeFormat.forPattern(AppConstants.utc_format);
-        return dtf.print(date);
-    }
+//    private static String getTodaysDate() {
+//        DateTime date = new DateTime();
+//        date = date.minusHours(7);
+//
+//        DateTimeFormatter dtf = DateTimeFormat.forPattern(AppConstants.utc_format);
+//        return dtf.print(date);
+//    }
 
 
     public static void setEditFilter(EditText edSearch, int maxLength, String type, boolean isClear, boolean isAlpha) {
@@ -407,9 +406,6 @@ public class Utility {
         }
         return formattedDate;
     }
-
-
-
 
 
     public static void setUIDTextViewFont(Context context, TextView textView) {

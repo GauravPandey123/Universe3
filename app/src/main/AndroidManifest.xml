@@ -70,6 +70,7 @@
         <activity android:name=".activity.OtpActivity" />
         <activity android:name=".activity.ForgotPasswordActivity" />
         <activity android:name=".activity.ResetPasswordActivity" />
+        <activity android:name=".activity.QuestionaireSearchActivity"/>Ō
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
