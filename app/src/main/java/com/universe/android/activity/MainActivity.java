@@ -1,5 +1,6 @@
 package com.universe.android.activity;
 
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
@@ -170,8 +171,15 @@ public class MainActivity extends BaseActivity {
         addFragment(new SurveySelectionFragment(), mContainerId);
         mDrawerLayout.closeDrawers();
 
-
     }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

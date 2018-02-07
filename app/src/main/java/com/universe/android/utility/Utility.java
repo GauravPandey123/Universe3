@@ -17,6 +17,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
+import android.telephony.TelephonyManager;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.InputType;
@@ -68,8 +69,9 @@ public class Utility {
     private static final int VERSION_LOLLIPOP = Build.VERSION_CODES.LOLLIPOP;
     private static final int VERSION_JELLYBEAN = Build.VERSION_CODES.JELLY_BEAN;
     private static final String IMAGE_NAME = "SavedImage.png";
-    private  static String formatedDate;
-     private static  String erg = "";
+    private static String formatedDate;
+    private static String erg = "";
+    private static TelephonyManager telephonyManager;
 
     public static boolean isJellyBean() {
         return BUILD_VERSION >= VERSION_JELLYBEAN;
@@ -88,7 +90,7 @@ public class Utility {
         return emailPattern.matcher(email).matches();
     }
 
-    public static boolean validateURL(String URL){
+    public static boolean validateURL(String URL) {
         Pattern urlPattern = Patterns.WEB_URL;
 // Pattern urlPattern = Pattern.compile("(@)?(href=')?(HREF=')?(HREF=\")?(href=\")?(http://)?[a-zA-Z_0-9\\-]+(\\.\\w[a-zA-Z_0-9\\-]+)+(/[#&\\n\\-=?\\+\\%/\\.\\w]+)?");
         return urlPattern.matcher(URL).matches();
@@ -175,8 +177,6 @@ public class Utility {
     }
 
 
-
-
     @SuppressLint("NewApi")
     public static void setDrawable(View view, int value) {
         if (mContext != null && view != null) {
@@ -227,10 +227,10 @@ public class Utility {
         imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
     }
 
-    public static boolean doesPackageExist(String targetPackage){
+    public static boolean doesPackageExist(String targetPackage) {
         PackageManager pm = mContext.getPackageManager();
         try {
-            PackageInfo info=pm.getPackageInfo(targetPackage,PackageManager.GET_META_DATA);
+            PackageInfo info = pm.getPackageInfo(targetPackage, PackageManager.GET_META_DATA);
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
@@ -249,30 +249,37 @@ public class Utility {
     }
 
 
-    public static String getCurrentDay(){
+    public static String getCurrentDay() {
         int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 
-        switch (day){
-            case Calendar.SUNDAY: return "Sunday";
-            case Calendar.MONDAY: return "Monday";
-            case Calendar.TUESDAY: return "Tuesday";
-            case Calendar.WEDNESDAY: return "Wednesday";
-            case Calendar.THURSDAY: return "Thursday";
-            case Calendar.FRIDAY: return "Friday";
-            case Calendar.SATURDAY: return "Saturday";
+        switch (day) {
+            case Calendar.SUNDAY:
+                return "Sunday";
+            case Calendar.MONDAY:
+                return "Monday";
+            case Calendar.TUESDAY:
+                return "Tuesday";
+            case Calendar.WEDNESDAY:
+                return "Wednesday";
+            case Calendar.THURSDAY:
+                return "Thursday";
+            case Calendar.FRIDAY:
+                return "Friday";
+            case Calendar.SATURDAY:
+                return "Saturday";
         }
         return "Sunday";
     }
 
-    public static String getCurrentTime(){
+    public static String getCurrentTime() {
         Calendar calander = Calendar.getInstance();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
 
         String time = simpleDateFormat.format(calander.getTime());
         return time;
     }
-    public static String getCurrentDate()
-    {
+
+    public static String getCurrentDate() {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
         formatedDate = df.format(c.getTime());
@@ -306,8 +313,8 @@ public class Utility {
     }
 
 
-    public static String replaceSpaceToDashes(String value){
-        return value.replaceAll("\\s","-");
+    public static String replaceSpaceToDashes(String value) {
+        return value.replaceAll("\\s", "-");
     }
 
 
@@ -505,7 +512,7 @@ public class Utility {
     }
 
 
-    public static String getAssetJsonResponse(Context context,String filename){
+    public static String getAssetJsonResponse(Context context, String filename) {
         AssetManager assetManager = context.getAssets();
         InputStream input;
         String text = "";
@@ -527,6 +534,11 @@ public class Utility {
         }
 
         return text;
+    }
+
+    private void getImeiNumber()
+    {
+
     }
 
 }

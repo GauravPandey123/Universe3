@@ -13,18 +13,12 @@ public class RealmCategory extends RealmObject {
     private String categoryName;
     private String responses;
     private Date description;
-
     private String contactNo;
-
     private String address;
-
-
     private String status;
-
     private String isActive;
     private boolean isSync=true;
     private boolean isUpdate=true;
-
     private Date expiryDate;
     private Date createdAt;
     private Date updatedAt;

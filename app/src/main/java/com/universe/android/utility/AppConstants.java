@@ -37,7 +37,7 @@ public class AppConstants {
     public static final String CUSTOMERID = "customerId";
     public static final String SURVEYID = "surveyId";
     public static final String UPDATEDAT = "updatedAt";
-    public static final String EXPIRYDATE ="expiryDate" ;
+    public static final String EXPIRYDATE = "expiryDate";
     public static final String PROPERTIES = "properties";
     public static final String STRING = "string";
     public static final String NUMBER = "number";
@@ -58,6 +58,21 @@ public class AppConstants {
     public static final String ID = "id";
 
     public static final String ISUPDATE = "isUpdate";
-    public static final String ISSYNC ="isSync" ;
+    public static final String ISSYNC = "isSync";
     public static final String LONG = "long";
+
+    //for login Module
+    public static final String TOKEN_ID = "token_id";
+    public static final String DESIGNATION = "designation";
+    public static final String UserId = "user_id";
+    public static final String isActive = "isActive";
+    public static final String designationLevel = "designationLevel";
+    public static final String phone = "phone";
+    public static final String password = "password";
+    public static final String email = "Email";
+    public static final String name = "name";
+    public static final String picture = "picture";
+    public static final String Login_Status = "login_status";
+
 }
+

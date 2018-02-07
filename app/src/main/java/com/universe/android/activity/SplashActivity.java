@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
+import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,14 +35,12 @@ public class SplashActivity extends BaseActivity {
         initialization();
 
 
-
         if (Build.VERSION.SDK_INT >= 23) {
             List<String> permissionList = new ArrayList<>();
 
             int permissionExternalRead = checkCallingOrSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
             if (permissionExternalRead != PackageManager.PERMISSION_GRANTED )
             permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-
 
             if (permissionList.size() > 0) {
                 ActivityCompat.requestPermissions(SplashActivity.this, permissionList.toArray(new String[]{}), 1);
@@ -57,9 +57,13 @@ public class SplashActivity extends BaseActivity {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(mContext, LoginActivity.class));
-                finish();
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                if (Prefs.getBooleanPrefs(AppConstants.Login_Status)) {
+                    startActivity(new Intent(mContext, MainActivity.class));
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                } else {
+                    startActivity(new Intent(mContext, LoginActivity.class));
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                }
             }
         };
         mHandler.postDelayed(mRunnable, SPLASH_TIME_OUT);

@@ -95,7 +95,13 @@
     <string name="otp">Enter The Otp</string>
     <string name="hint_search">Search Questions</string>
     <string name="allow_permission">Please allow permission to use the app</string>
-
+    <string name="msg_enter_email">Please enter email</string>
+    <string name="msg_email_error">Invalid email</string>
+    <string name="msg_enter_pass1">Please enter password</string>
+    <string name="msg_enter_pass2">Please enter new password</string>
+    <string name="msg_pass_error">Password too short</string>
+    <string name="msg_pass_match">Passwords don\'t match</string>
+    <string name="msg_disconnected">Check internet connection</string>
     <string-array name="filterItem">
         <item>@string/todayfilter</item>
         <item>@string/week</item>
