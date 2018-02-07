@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.universe.android.R;
-import com.universe.android.fragment.SurveySelectionFragment;
 import com.universe.android.realmbean.RealmController;
 import com.universe.android.helper.FontClass;
 

@@ -5,7 +5,7 @@ package com.universe.android.enums;
  */
 
 public enum DesignationEnum {
-    Admin(0), user(1);
+    CD(0), RM(1),ZM(2),Admin(3);
 
     private final int name;
 

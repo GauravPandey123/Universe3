@@ -31,9 +31,6 @@ public class SplashActivity extends BaseActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialization();
-
-
-
         if (Build.VERSION.SDK_INT >= 23) {
             List<String> permissionList = new ArrayList<>();
 
