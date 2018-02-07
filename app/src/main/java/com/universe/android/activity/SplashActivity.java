@@ -33,15 +33,11 @@ public class SplashActivity extends BaseActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialization();
-
-
         if (Build.VERSION.SDK_INT >= 23) {
             List<String> permissionList = new ArrayList<>();
-
             int permissionExternalRead = checkCallingOrSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
             if (permissionExternalRead != PackageManager.PERMISSION_GRANTED )
             permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-
             if (permissionList.size() > 0) {
                 ActivityCompat.requestPermissions(SplashActivity.this, permissionList.toArray(new String[]{}), 1);
             } else {
