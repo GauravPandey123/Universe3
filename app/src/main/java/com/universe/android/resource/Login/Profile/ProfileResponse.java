@@ -1,4 +1,4 @@
-package com.universe.android.resource.Login;
+package com.universe.android.resource.Login.Profile;
 
 import com.google.gson.annotations.SerializedName;
 import com.universe.android.web.BaseResponse;
@@ -6,15 +6,10 @@ import com.universe.android.web.BaseResponse;
 import java.util.List;
 
 /**
- * Created by gaurav.pandey on 06-02-2018.
+ * Created by gaurav.pandey on 07-02-2018.
  */
 
-public class LoginResponse extends BaseResponse <LoginResponse>{
-    @Override
-    public boolean isValid(String condition, boolean isStrict) {
-        return true;
-    }
-
+public class ProfileResponse extends BaseResponse<ProfileResponse> {
     /**
      * errorMsg :
      * statusCode : 200
@@ -24,6 +19,11 @@ public class LoginResponse extends BaseResponse <LoginResponse>{
     private String errorMsg;
     private int statusCode;
     private ResponseBean response;
+
+    @Override
+    public boolean isValid(String condition, boolean isStrict) {
+        return true;
+    }
 
     public String getErrorMsg() {
         return errorMsg;
@@ -48,6 +48,7 @@ public class LoginResponse extends BaseResponse <LoginResponse>{
     public void setResponse(ResponseBean response) {
         this.response = response;
     }
+
 
     public static class ResponseBean {
         /**

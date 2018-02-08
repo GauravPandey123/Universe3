@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:id="@+id/include"
         android:layout_width="match_parent"
@@ -34,32 +35,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/include">
+
         <include layout="@layout/questoionaire_header" />
     </RelativeLayout>
+
     <EditText
         android:id="@+id/searchcustomers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/includeCardView"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="@dimen/margin_normal"
-        android:hint="@string/search"
-        android:layout_below="@+id/includeCardView"
-        android:imeOptions="actionSearch"
-        android:focusable="false"
         android:drawableRight="@drawable/ic_search"
+        android:focusable="false"
+        android:hint="@string/search"
+        android:imeOptions="actionSearch"
         android:paddingLeft="@dimen/margin_normal"
         android:paddingRight="@dimen/margin_normal"
         android:singleLine="true"
         android:textSize="@dimen/text_size_normal" />
 
+    <com.universe.android.helper.PagerSlidingTabStrip
+        android:id="@+id/pagerSlidingStrip"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/textColorPrimary"
+        android:layout_below="@+id/searchcustomers">
+    </com.universe.android.helper.PagerSlidingTabStrip>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/questionaireViewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/pagerSlidingStrip"
         android:layout_gravity="bottom"
         android:clipToPadding="false"
-        android:overScrollMode="never"
-        android:layout_below="@id/searchcustomers"
-        android:paddingLeft="@dimen/card_padding"
-        android:paddingRight="@dimen/card_padding"/>
+        android:overScrollMode="never" />
 </RelativeLayout>

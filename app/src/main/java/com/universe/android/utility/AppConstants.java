@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
  */
 
 public class AppConstants {
+    public static final int SUCCESS=200;
     public static final String STR_TITLE = "strTitle";
     public static final String DATE_FORMAT = "dd MMM yyyy";
     public static final SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
@@ -63,6 +64,8 @@ public class AppConstants {
 
     //for login Module
     public static final String TOKEN_ID = "token_id";
+    public static final String TOKEN_KEY = "Authorization";
+
     public static final String DESIGNATION = "designation";
     public static final String UserId = "user_id";
     public static final String isActive = "isActive";

@@ -6,12 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.AppCompatButton;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.universe.android.R;
 import com.universe.android.realmbean.RealmController;
@@ -133,21 +130,21 @@ public class LoginActivity extends BaseActivity {
             public void onSuccess(@NonNull LoginResponse response) {
                 super.onSuccess(response);
                 LoginResponse.ResponseBean responseBean = response.getResponse();
-                Prefs.putStringPrefs(AppConstants.TOKEN_ID, responseBean.getAccessToken());
-                Prefs.putStringPrefs(AppConstants.UserId, responseBean.get_id());
-                Prefs.putStringPrefs(AppConstants.password, responseBean.getPassword());
-                Prefs.putStringPrefs(AppConstants.email, responseBean.getEmail());
-                Prefs.putStringPrefs(AppConstants.name, responseBean.getName());
-                Prefs.putIntegerPrefs(AppConstants.phone, responseBean.getPhone());
-                Prefs.putStringPrefs(AppConstants.designationLevel, responseBean.getDesignationLevel());
-                Prefs.putStringPrefs(AppConstants.DESIGNATION, responseBean.getDesignation());
-                Prefs.putStringPrefs(AppConstants.picture, responseBean.getPicture());
-                Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
-                new RealmController().saveQuestions(mContext);
-                Intent intent = new Intent(mContext, MainActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                finish();
+                    Prefs.putStringPrefs(AppConstants.TOKEN_ID, responseBean.getAccessToken());
+                    Prefs.putStringPrefs(AppConstants.UserId, responseBean.get_id());
+                    Prefs.putStringPrefs(AppConstants.password, responseBean.getPassword());
+                    Prefs.putStringPrefs(AppConstants.email, responseBean.getEmail());
+                    Prefs.putStringPrefs(AppConstants.name, responseBean.getName());
+                    Prefs.putLongPrefs(AppConstants.phone, responseBean.getPhone());
+                    Prefs.putStringPrefs(AppConstants.designationLevel, responseBean.getDesignationLevel());
+                    Prefs.putStringPrefs(AppConstants.DESIGNATION, responseBean.getDesignation());
+                    Prefs.putStringPrefs(AppConstants.picture, responseBean.getPicture());
+                    Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
+                    new RealmController().saveQuestions(mContext);
+                    Intent intent = new Intent(mContext, MainActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                    finish();
             }
 
             @Override

@@ -1,6 +1,7 @@
 package com.universe.android;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
 
 import in.editsoft.api.util.App;
 import io.realm.Realm;
@@ -30,6 +31,11 @@ public class UniverseApplication extends App {
     }
     public static Context getContext() {
         return mContext;
+    }
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
 }
