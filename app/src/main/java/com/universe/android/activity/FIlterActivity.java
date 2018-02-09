@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.universe.android.R;
-import com.universe.android.fragment.FilterTodayFragment;
+import com.universe.android.fragment.QuestionsCategoryFragment;
 import com.universe.android.helper.FontClass;
 import com.universe.android.helper.PagerSlidingTabStrip;
 
@@ -90,7 +90,7 @@ public class FIlterActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
 
-            return new FilterTodayFragment();
+            return new QuestionsCategoryFragment();
 
         }
 
