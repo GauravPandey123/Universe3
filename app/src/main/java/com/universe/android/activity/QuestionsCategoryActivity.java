@@ -1,5 +1,6 @@
 package com.universe.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,9 +12,9 @@ import android.widget.TextView;
 import com.github.aakira.expandablelayout.Utils;
 import com.universe.android.R;
 import com.universe.android.adapter.QuestioniareSelectionAdapter;
-import com.universe.android.adapter.QuestionsCategoryAdapter;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.ItemModel;
+import com.universe.android.utility.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class QuestionsCategoryActivity extends BaseActivity {
     private TextView textViewHeader, textViewRetailersNameMap, textViewMobileNoMap, textViewStatusMap;
     private RecyclerView recyclerViewCateGory;
     private ImageView imageViewSearchBack;
+    private String strType;
 
 
     @Override
@@ -77,6 +79,11 @@ public class QuestionsCategoryActivity extends BaseActivity {
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            strType = intent.getExtras().getString(AppConstants.TYPE);
+        }
 
     }
 

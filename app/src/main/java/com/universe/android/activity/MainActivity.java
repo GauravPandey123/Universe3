@@ -1,20 +1,21 @@
 package com.universe.android.activity;
 
+import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+
 import com.universe.android.R;
 import com.universe.android.adapter.DrawerAdapter;
 import com.universe.android.fragment.AdminFragment;
 import com.universe.android.fragment.ProfileFragment;
-import com.universe.android.fragment.QuestinaireFragment;
 import com.universe.android.fragment.QuestionarieSelectionFragment;
 import com.universe.android.fragment.SurveySelectionFragment;
+import com.universe.android.fragment.SyncResponsesFragment;
 import com.universe.android.model.DrawerItem;
 import com.universe.android.utility.AppConstants;
 
@@ -27,7 +28,6 @@ public class MainActivity extends BaseActivity {
     private DrawerAdapter mDrawerAdapter;
     private RecyclerView mRecyclerView;
     private ArrayList<DrawerItem> mDrawerItemList;
-
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private int mContainerId;
@@ -74,10 +74,13 @@ public class MainActivity extends BaseActivity {
                     case 2:
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(R.string.survey_report);
-                        replaceFragment(new SurveySelectionFragment(), mContainerId);
+                        replaceFragment(new SurveySelectionFragment().newInstance(AppConstants.SURVEYREPORT), mContainerId);
                         break;
 
                     case 3:
+                        mDrawerLayout.closeDrawers();
+                        mToolbar.setTitle(getString(R.string.sync_responses));
+                        replaceFragment(new SyncResponsesFragment(), mContainerId);
                         break;
 
                     case 4:
@@ -90,6 +93,11 @@ public class MainActivity extends BaseActivity {
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(R.string.admin);
                         replaceFragment(new AdminFragment(), mContainerId);
+                        break;
+                    case 7:
+                        mDrawerLayout.closeDrawers();
+                        mToolbar.setTitle(R.string.work_flows);
+                        replaceFragment(new SurveySelectionFragment().newInstance(AppConstants.WORKFLOWS), mContainerId);
                         break;
 
 
@@ -133,6 +141,11 @@ public class MainActivity extends BaseActivity {
         item10.setTitle(getResources().getString(R.string.admin));
         mDrawerItemList.add(item10);
 
+        DrawerItem item11 = new DrawerItem();
+        item11.setIcon(R.drawable.survey_report);
+        item11.setTitle(getResources().getString(R.string.work_flows));
+        mDrawerItemList.add(item11);
+
         DrawerItem item6 = new DrawerItem();
         item6.setIcon(R.drawable.managementteams);
         item6.setTitle("Manage Teams");
@@ -168,7 +181,7 @@ public class MainActivity extends BaseActivity {
         mRecyclerView = findViewById(R.id.drawerRecyclerView);
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mContainerId = R.id.fragment_container;
-        addFragment(new SurveySelectionFragment(), mContainerId);
+        addFragment(new SurveySelectionFragment().newInstance(AppConstants.SURVEYREPORT), mContainerId);
         mDrawerLayout.closeDrawers();
 
     }

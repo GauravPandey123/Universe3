@@ -10,12 +10,28 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.universe.android.R;
-import com.universe.android.realmbean.RealmController;
 import com.universe.android.helper.FontClass;
-import com.universe.android.resource.Login.LoginRequest;
-import com.universe.android.resource.Login.LoginResponse;
-import com.universe.android.resource.Login.LoginService;
+import com.universe.android.realmbean.RealmController;
+import com.universe.android.resource.Login.category.CategoryRequest;
+import com.universe.android.resource.Login.category.CategoryResponse;
+import com.universe.android.resource.Login.category.CategoryService;
+import com.universe.android.resource.Login.client.ClientRequest;
+import com.universe.android.resource.Login.client.ClientResponse;
+import com.universe.android.resource.Login.client.ClientService;
+import com.universe.android.resource.Login.customer.CustomerRequest;
+import com.universe.android.resource.Login.customer.CustomerResponse;
+import com.universe.android.resource.Login.customer.CustomerService;
+import com.universe.android.resource.Login.login.LoginRequest;
+import com.universe.android.resource.Login.login.LoginResponse;
+import com.universe.android.resource.Login.login.LoginService;
+import com.universe.android.resource.Login.questions.QuestionsRequest;
+import com.universe.android.resource.Login.questions.QuestionsResponse;
+import com.universe.android.resource.Login.questions.QuestionsService;
+import com.universe.android.resource.Login.survey.SurveyRequest;
+import com.universe.android.resource.Login.survey.SurveyResponse;
+import com.universe.android.resource.Login.survey.SurveyService;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
@@ -69,7 +85,7 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 startActivity(new Intent(mContext, ForgotPasswordActivity.class));
                 finish();
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+               // overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
     }
@@ -115,7 +131,7 @@ public class LoginActivity extends BaseActivity {
 
     //hit web service here
     public void submitLoginRequest(String email, String password) {
-        showProgress();
+        showProgress(R.string.msg_load_default);
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail(email);
         loginRequest.setPassword(password);
@@ -123,7 +139,7 @@ public class LoginActivity extends BaseActivity {
         loginService.executeService(loginRequest, new BaseApiCallback<LoginResponse>() {
             @Override
             public void onComplete() {
-                dismissProgress();
+
             }
 
             @Override
@@ -140,11 +156,14 @@ public class LoginActivity extends BaseActivity {
                     Prefs.putStringPrefs(AppConstants.DESIGNATION, responseBean.getDesignation());
                     Prefs.putStringPrefs(AppConstants.picture, responseBean.getPicture());
                     Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
-                    new RealmController().saveQuestions(mContext);
+                  //  new RealmController().saveQuestions(mContext);
                     Intent intent = new Intent(mContext, MainActivity.class);
                     startActivity(intent);
-                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                 //   overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                     finish();
+
+                   getSurveyResponse();
+
             }
 
             @Override
@@ -156,5 +175,185 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    //hit web service here
+    public void getSurveyResponse() {
+        showProgress(R.string.loading_survey);
+        SurveyRequest surveyRequest = new SurveyRequest();
+        SurveyService surveyService = new SurveyService();
+        surveyService.executeService(surveyRequest, new BaseApiCallback<SurveyResponse>() {
+            @Override
+            public void onComplete() {
 
+            }
+
+            @Override
+            public void onSuccess(@NonNull SurveyResponse response) {
+                super.onSuccess(response);
+                if (response != null && response.getStatusCode() == 200) {
+                    SurveyResponse.ResponseBean responseBean = response.getResponse();
+                    String responseData = new Gson().toJson(responseBean);
+                    new RealmController().saveSurveysResponse(responseData);
+
+
+                } else {
+                    Utility.showToast(response.getErrorMsg());
+                }
+
+                getClientResponse();
+
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+                Utility.showToast(e.getData());
+            }
+        });
+
+    }
+
+    //hit web service here
+    public void getClientResponse() {
+        showProgress(R.string.loading_client);
+        ClientRequest request = new ClientRequest();
+        ClientService service = new ClientService();
+        service.executeService(request, new BaseApiCallback<ClientResponse>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(@NonNull ClientResponse response) {
+                super.onSuccess(response);
+                if (response != null && response.getStatusCode() == 200) {
+                    ClientResponse.ResponseBean responseBean = response.getResponse();
+                    String responseData = new Gson().toJson(responseBean);
+                    new RealmController().saveClientsResponse(responseData);
+
+                } else {
+                    Utility.showToast(response.getErrorMsg());
+                }
+
+                getCustomerResponse();
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+                Utility.showToast(e.getData());
+            }
+        });
+
+    }
+
+    //hit web service here
+    public void getCustomerResponse() {
+        showProgress(R.string.loading_customer);
+        CustomerRequest request = new CustomerRequest();
+        CustomerService service = new CustomerService();
+        service.executeService(request, new BaseApiCallback<CustomerResponse>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(@NonNull CustomerResponse response) {
+                super.onSuccess(response);
+                if (response != null && response.getStatusCode() == 200) {
+                    CustomerResponse.ResponseBean responseBean = response.getResponse();
+                    String responseData = new Gson().toJson(responseBean);
+                    new RealmController().saveCustomersResponse(responseData);
+                } else {
+                    Utility.showToast(response.getErrorMsg());
+                }
+                getCategoryResponse();
+
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+                Utility.showToast(e.getData());
+            }
+        });
+
+    }
+
+    //hit web service here
+    public void getCategoryResponse() {
+        showProgress(R.string.loading_category);
+        CategoryRequest request = new CategoryRequest();
+        CategoryService service = new CategoryService();
+        service.executeService(request, new BaseApiCallback<CategoryResponse>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(@NonNull CategoryResponse response) {
+                super.onSuccess(response);
+                if (response != null && response.getStatusCode() == 200) {
+                    CategoryResponse.ResponseBean responseBean = response.getResponse();
+                    String responseData = new Gson().toJson(responseBean);
+                    new RealmController().saveCategoryResponse(responseData);
+                } else {
+                    Utility.showToast(response.getErrorMsg());
+                }
+
+                getQuestionsResponse();
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+                Utility.showToast(e.getData());
+            }
+        });
+
+    }
+
+    //hit web service here
+    public void getQuestionsResponse() {
+        showProgress(R.string.loading_question);
+        QuestionsRequest request = new QuestionsRequest();
+        QuestionsService service = new QuestionsService();
+        service.executeService(request, new BaseApiCallback<QuestionsResponse>() {
+            @Override
+            public void onComplete() {
+                dismissProgress();
+            }
+
+            @Override
+            public void onSuccess(@NonNull QuestionsResponse response) {
+                super.onSuccess(response);
+                if (response != null && response.getStatusCode() == 200) {
+                    QuestionsResponse.ResponseBean responseBean = response.getResponse();
+                    String responseData = new Gson().toJson(responseBean);
+                    new RealmController().saveQuestions(responseData);
+                } else {
+                    Utility.showToast(response.getErrorMsg());
+                }
+
+                goToMain();
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+                Utility.showToast(e.getData());
+            }
+        });
+
+    }
+
+    private void goToMain() {
+        Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
+        Intent intent = new Intent(mContext, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        finish();
+    }
 }

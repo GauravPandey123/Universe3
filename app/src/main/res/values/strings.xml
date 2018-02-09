@@ -11,6 +11,7 @@
     <string name="questionairemenu">Questionaire</string>
     <string name="retailersname">Retailers Name</string>
     <string name="mobile_no">Mobile No | Location | State \n| Completed date</string>
+    <string name="workflow_mobile_no">Mobile No | Location | State \nSubmitted Date</string>
     <string name="status">Status</string>
     <string name="retailers">Retailers</string>
     <string name="enddate">Ends On 31 mar 2018</string>
@@ -108,6 +109,27 @@
     <string name="category2">Category2</string>
     <string name="category3">Category3</string>
     <string name="category4">Category4</string>
+    <string name="loading_survey">Loading Survey…</string>
+    <string name="loading_client">Loading Client…</string>
+    <string name="loading_customer">Loading Customer…</string>
+    <string name="loading_category">Loading Category…</string>
+    <string name="loading_question">Loading Questions…</string>
+    <string name="submittingAnswers">Submitting...</string>
+    <string name="syncing_data">Syncing Data</string>
+    <string name="no_network">No Network Available</string>
+    <string name="last_sync_date">Last Sync Date</string>
+    <string name="no_data_to_sync">No offline Data Available for Sync</string>
+    <string name="settings">Sync Reponses</string>
+    <string name="sync_data_to_server">Sync Data to Server</string>
+    <string name="no_network_error">No Netwotk Error</string>
+    <string name="sync_completed">Sync Completed</string>
+    <string name="sync_responses">Sync Responses</string>
+    <string name="work_flows">Workflows</string>
+    <string name="_pending">Pending</string>
+    <string name="approved">Approved</string>
+    <string name="_completed">Completed</string>
+    <string name="verifier">Verified</string>
+>>>>>>> 669c4febb6d023ae0ca1647a3a7cbb6902b8d3d4
     <string-array name="filterItem">
         <item>@string/category1</item>
         <item>@string/category2</item>

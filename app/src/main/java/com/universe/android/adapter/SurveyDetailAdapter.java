@@ -41,18 +41,20 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
         holder.textViewRetailersName.setText(stringArrayList.get(position));
 
 
+
     }
 
     public void setOnItemClickLister(OnItemSelecteListener mListener) {
         this.mListener = mListener;
     }
 
-    public interface OnItemSelecteListener {
-        public void onItemSelected(View v, int position);
-    }
     @Override
     public int getItemCount() {
         return stringArrayList.size();
+    }
+
+    public interface OnItemSelecteListener {
+        public void onItemSelected(View v, int position);
     }
 
     public class SurveyViewHolder extends RecyclerView.ViewHolder {
@@ -63,13 +65,13 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
             textViewRetailersName = itemView.findViewById(R.id.textViewRetailersName);
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    mListener.onItemSelected(view, getAdapterPosition());
-//
-//                }
-//            });
+           /* itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mListener.onItemSelected(view, getAdapterPosition());
+
+                }
+            });*/
 
         }
     }

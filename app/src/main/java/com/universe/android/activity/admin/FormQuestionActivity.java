@@ -1,6 +1,7 @@
 package com.universe.android.activity.admin;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,20 +11,33 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-
+import com.google.gson.Gson;
 import com.universe.android.R;
 import com.universe.android.enums.FormEnum;
 import com.universe.android.model.Questions;
+import com.universe.android.okkhttp.APIClient;
+import com.universe.android.okkhttp.UniverseAPI;
+import com.universe.android.realmbean.RealmController;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class FormQuestionActivity extends FormParentActivity {
@@ -118,8 +132,9 @@ public class FormQuestionActivity extends FormParentActivity {
 
                 Utility.animateView(v);
                 dialog.dismiss();
+                jsonSubmitReq = Utility.formatDates(jsonSubmitReq);
                 if (Utility.isConnected()) {
-
+                    submitAnswers(isUpdate, isBack);
                 } else {
                     saveNCDResponseLocal(isUpdate, isBack);
                 }
@@ -141,6 +156,88 @@ public class FormQuestionActivity extends FormParentActivity {
     }
 
 
+    private void submitAnswers(final String isUpdateId, final boolean isBack) {
+        if (Utility.validateString(isUpdateId)) {
+            try {
+                jsonSubmitReq.put(AppConstants.ID, isUpdateId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            if (jsonSubmitReq != null && !jsonSubmitReq.has(AppConstants.ID)) {
+                UUID randomId = UUID.randomUUID();
+                String id = String.valueOf(randomId);
+                try {
+                    jsonSubmitReq.put(AppConstants.ID, id);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (jsonSubmitReq.has(AppConstants.ISSYNC)) {
+            jsonSubmitReq.remove(AppConstants.ISSYNC);
+        }
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.submittingAnswers));
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
+        String url = UniverseAPI.WEB_SERVICE_CREATE_SURVEY_METHOD;
+
+
+        Request request = APIClient.getPostRequest(this, url, requestBody);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                if (progressDialog != null) progressDialog.dismiss();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToastMessage(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (Utility.validateString(responseData)) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
+                            String responses = new Gson().toJson(jsonResponse);
+                            new RealmController().saveFormInputFromSubmit(responses, isUpdateId, formId);
+                        }
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog != null) progressDialog.dismiss();
+                                showMessageDialog(FormQuestionActivity.this, isBack, isUpdateId);
+                            }
+                        });
+
+                    } else {
+                        if (progressDialog != null) progressDialog.dismiss();
+                    }
+
+                } catch (Exception e) {
+                    if (progressDialog != null) progressDialog.dismiss();
+                    e.printStackTrace();
+                } finally {
+                }
+
+            }
+        });
+
+    }
 
 
     private void saveNCDResponseLocal(String isUpdate, boolean isBack) {
