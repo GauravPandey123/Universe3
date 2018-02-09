@@ -2,18 +2,13 @@ package com.universe.android.realmbean;
 
 import android.content.Context;
 
-import android.util.Log;
-
-
+import com.universe.android.enums.FormEnum;
 import com.universe.android.model.Questions;
 import com.universe.android.utility.AppConstants;
-import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -46,6 +41,31 @@ public class RealmController {
         return question;
     }
 
+
+    public boolean isAnySyncPending() {
+        boolean isPending = false;
+        Realm realm = Realm.getDefaultInstance();
+        try {
+
+            RealmResults<RealmSurveys> realmSurveys = realm.where(RealmSurveys.class).equalTo(AppConstants.ISSYNC, true).equalTo(AppConstants.ISUPDATE, false).findAll();
+            RealmResults<RealmSurveys> realmUpdateSurveys = realm.where(RealmSurveys.class).equalTo(AppConstants.ISSYNC, true).equalTo(AppConstants.ISUPDATE, false).findAll();
+
+            if (realmSurveys != null && realmSurveys.size() > 0) {
+                isPending = true;
+            } else if (realmUpdateSurveys != null && realmUpdateSurveys.size() > 0) {
+                isPending = true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            realm.close();
+        } finally {
+            realm.close();
+
+        }
+        return isPending;
+    }
+
+
     public void clearRealm(Context context) {
 
         Realm realm = Realm.getDefaultInstance();
@@ -63,11 +83,80 @@ public class RealmController {
         }
     }
 
-    public void saveQuestions(Context context) {
+    public void saveSyncFormInputResponse(String responseData, boolean isUpdate) {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            if (responseData != null) {
+                JSONArray jsonResponse = new JSONArray(responseData);
+                if (jsonResponse != null && jsonResponse.length() > 0) {
+                    if (isUpdate) {
+                        for (int i = 0; i < jsonResponse.length(); i++) {
+                            jsonResponse.optJSONObject(i).put(AppConstants.ISUPDATE, true);
+                        }
+                    } else {
+                        for (int i = 0; i < jsonResponse.length(); i++) {
+                            jsonResponse.optJSONObject(i).put(AppConstants.ISSYNC, true);
+                        }
+                    }
+                }
+                realm.beginTransaction();
+                realm.createOrUpdateAllFromJson(RealmSurveys.class, jsonResponse);
+                if (!isUpdate) {
+                    RealmResults<RealmSurveys> realmDeleteInputForms = realm.where(RealmSurveys.class).equalTo(AppConstants.ISSYNC, false).findAll();
+                    if (realmDeleteInputForms != null && realmDeleteInputForms.size() > 0) {
+                        realmDeleteInputForms.deleteAllFromRealm();
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            realm.cancelTransaction();
+            realm.close();
+        } finally {
+            realm.commitTransaction();
+            realm.close();
+        }
+    }
+
+
+    public void saveFormInputFromSubmit(String responseData, String isUpdate, String formId) {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            JSONObject jsonResponse = new JSONObject(responseData);
+            if (jsonResponse != null) {
+                realm.beginTransaction();
+                if (Utility.validateString(isUpdate)) {
+                    jsonResponse.put(AppConstants.ISUPDATE, true);
+                } else {
+                    jsonResponse.put(AppConstants.ISSYNC, true);
+                }
+                if (formId.equalsIgnoreCase(FormEnum.survey.toString())) {
+                    realm.createOrUpdateObjectFromJson(RealmSurveys.class, jsonResponse);
+                } else if (formId.equalsIgnoreCase(FormEnum.client.toString())) {
+                    realm.createOrUpdateObjectFromJson(RealmClient.class, jsonResponse);
+                } else if (formId.equalsIgnoreCase(FormEnum.customer.toString())) {
+                    realm.createOrUpdateObjectFromJson(RealmCustomer.class, jsonResponse);
+                } else if (formId.equalsIgnoreCase(FormEnum.category.toString())) {
+                    realm.createOrUpdateObjectFromJson(RealmCategory.class, jsonResponse);
+                } else if (formId.equalsIgnoreCase(FormEnum.question.toString())) {
+                    realm.createOrUpdateObjectFromJson(RealmQuestion.class, jsonResponse);
+                }
+            }
+        } catch (Exception e) {
+            realm.cancelTransaction();
+            realm.close();
+            e.printStackTrace();
+        } finally {
+            realm.commitTransaction();
+            realm.close();
+        }
+    }
+
+    public void saveQuestions(String responseData) {
             Realm realm = Realm.getDefaultInstance();
             realm.beginTransaction();
             try {
-                realm.createOrUpdateAllFromJson(RealmQuestions.class, new JSONArray(Utility.getAssetJsonResponse(context,"questions.json")));
+                realm.createOrUpdateAllFromJson(RealmQuestions.class, new JSONArray(responseData));
             } catch (Exception e) {
                 if (realm.isInTransaction())
                 realm.cancelTransaction();
@@ -81,4 +170,71 @@ public class RealmController {
     }
 
 
+    public void saveSurveysResponse(String responseData) {
+        if (responseData != null) {
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            try {
+                realm.createOrUpdateAllFromJson(RealmSurveys.class, new JSONArray(responseData));
+            } catch (Exception e) {
+                realm.cancelTransaction();
+                realm.close();
+                e.printStackTrace();
+            } finally {
+                realm.commitTransaction();
+                realm.close();
+            }
+        }
+    }
+
+    public void saveClientsResponse(String responseData) {
+        if (responseData != null) {
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            try {
+                realm.createOrUpdateAllFromJson(RealmClient.class, new JSONArray(responseData));
+            } catch (Exception e) {
+                realm.cancelTransaction();
+                realm.close();
+                e.printStackTrace();
+            } finally {
+                realm.commitTransaction();
+                realm.close();
+            }
+        }
+    }
+
+    public void saveCustomersResponse(String responseData) {
+        if (responseData != null) {
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            try {
+                realm.createOrUpdateAllFromJson(RealmCustomer.class, new JSONArray(responseData));
+            } catch (Exception e) {
+                realm.cancelTransaction();
+                realm.close();
+                e.printStackTrace();
+            } finally {
+                realm.commitTransaction();
+                realm.close();
+            }
+        }
+    }
+
+    public void saveCategoryResponse(String responseData) {
+        if (responseData != null) {
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            try {
+                realm.createOrUpdateAllFromJson(RealmCategory.class, new JSONArray(responseData));
+            } catch (Exception e) {
+                realm.cancelTransaction();
+                realm.close();
+                e.printStackTrace();
+            } finally {
+                realm.commitTransaction();
+                realm.close();
+            }
+        }
+    }
 }

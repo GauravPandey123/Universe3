@@ -1,4 +1,4 @@
-package com.universe.android.resource.Login;
+package com.universe.android.resource.Login.login;
 
 import com.universe.android.web.BaseRequest;
 
@@ -13,6 +13,9 @@ public class LoginRequest extends BaseRequest {
     private String deviceToken;
     private String deviceType;
     private String deviceModel;
+    private String deviceVersion;
+    private String userDeviceActive;
+    private String deviceIMEI;
 
     public String getEmail() {
         return email;
@@ -85,11 +88,6 @@ public class LoginRequest extends BaseRequest {
     public void setDeviceIMEI(String deviceIMEI) {
         this.deviceIMEI = deviceIMEI;
     }
-
-    private String deviceVersion;
-    private String userDeviceActive;
-    private String deviceIMEI;
-
 
     @Override
     public boolean isValid(String Scenario) {

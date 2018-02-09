@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:id="@+id/include"
         android:layout_width="match_parent"
@@ -9,7 +10,7 @@
         android:background="@color/app_theme_color">
 
         <ImageView
-            android:id="@+id/imageviewbackSearch"
+            android:id="@+id/imageviewback"
             android:layout_width="@dimen/margin_xnormal"
             android:layout_height="@dimen/margin_xnormal"
             android:layout_centerVertical="true"
@@ -17,38 +18,49 @@
             android:src="@drawable/ic_arrow_back_black_24dp" />
 
         <TextView
-            android:id="@+id/textViewHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:text="@string/questionairecategory"
+            android:text="@string/work_flows"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
+
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/includeCardView"
+
+    <LinearLayout
+        android:id="@+id/linaerLyout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/include">
+        android:layout_below="@+id/include"
+        android:orientation="vertical">
 
-        <include layout="@layout/questoionaire_header" />
-    </RelativeLayout>
+        <include layout="@layout/work_flows_header" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/grey" />
+
+        <include layout="@layout/part_workflows_detail" />
+    </LinearLayout>
+
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayoutCategory"
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/includeCardView"
-        android:layout_margin="@dimen/margin_small">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linaerLyout"
+        android:layout_margin="@dimen/margin_min">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/reyclerViewCategory"
+            android:id="@+id/recylerViewSurveyDetail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
         </android.support.v7.widget.RecyclerView>
 

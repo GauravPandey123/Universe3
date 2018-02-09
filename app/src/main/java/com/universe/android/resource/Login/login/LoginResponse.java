@@ -1,4 +1,4 @@
-package com.universe.android.resource.Login;
+package com.universe.android.resource.Login.login;
 
 import com.google.gson.annotations.SerializedName;
 import com.universe.android.web.BaseResponse;

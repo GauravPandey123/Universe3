@@ -10,25 +10,37 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.universe.android.R;
-import com.universe.android.activity.BaseActivity;
 import com.universe.android.activity.SurveyDetailActivity;
 import com.universe.android.helper.FontClass;
+import com.universe.android.utility.AppConstants;
+import com.universe.android.workflows.WorkFlowsDetailActivity;
 
 /**
  * Created by gaurav.pandey on 24-01-2018.
  */
 
 public class SurveySelectionFragment extends BaseFragment {
+    View view;
     private CardView cardViewRetailer, cardViewDistributor;
     private TextView textViewReatilers, retailerPending, textViewReatilersDate, textViewDistributor;
     private TextView textViewReatilersDistributor, distributorPending, textViewSelectRetailer, textViewSelectDistributor;
+    private String strType;
 
-    View view;
+    public static SurveySelectionFragment newInstance(String type) {
+        SurveySelectionFragment myFragment = new SurveySelectionFragment();
 
+        Bundle args = new Bundle();
+        args.putString(AppConstants.TYPE, type);
+        myFragment.setArguments(args);
+
+        return myFragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        strType = getArguments().getString(AppConstants.TYPE);
+
 
     }
 
@@ -46,6 +58,11 @@ public class SurveySelectionFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SurveyDetailActivity.class);
+                if (strType.equalsIgnoreCase(AppConstants.WORKFLOWS)) {
+                    intent = new Intent(getActivity(), WorkFlowsDetailActivity.class);
+                    intent.putExtra(AppConstants.TYPE, strType);
+                }
+
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -54,6 +71,10 @@ public class SurveySelectionFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SurveyDetailActivity.class);
+                if (strType.equalsIgnoreCase(AppConstants.WORKFLOWS)) {
+                    intent = new Intent(getActivity(), WorkFlowsDetailActivity.class);
+                    intent.putExtra(AppConstants.TYPE, strType);
+                }
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }

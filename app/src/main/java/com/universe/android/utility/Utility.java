@@ -44,14 +44,15 @@ import android.widget.Toast;
 import com.universe.android.R;
 import com.universe.android.UniverseApplication;
 
-
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -64,11 +65,11 @@ import java.util.regex.Pattern;
  */
 
 public class Utility {
-    private static Context mContext = UniverseApplication.getContext();
     private static final int BUILD_VERSION = Build.VERSION.SDK_INT;
     private static final int VERSION_LOLLIPOP = Build.VERSION_CODES.LOLLIPOP;
     private static final int VERSION_JELLYBEAN = Build.VERSION_CODES.JELLY_BEAN;
     private static final String IMAGE_NAME = "SavedImage.png";
+    private static Context mContext = UniverseApplication.getContext();
     private static String formatedDate;
     private static String erg = "";
     private static TelephonyManager telephonyManager;
@@ -536,9 +537,16 @@ public class Utility {
         return text;
     }
 
+    public static void saveLastSyncDate(Context context) {
+        DateTime dateTime = new DateTime();
+        DateTimeFormatter dtf = DateTimeFormat.forPattern(AppConstants.utc_format1);
+        Prefs.putStringPrefs(AppConstants.LAST_SYNC_DATE, dtf.print(dateTime));
+    }
+
     private void getImeiNumber()
     {
 
     }
+
 
 }

@@ -26,14 +26,12 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.google.common.collect.Collections2;
 import com.universe.android.R;
 import com.universe.android.component.FilterPredicate;
 import com.universe.android.component.QuestionItemListDialog;
 import com.universe.android.component.QuestionMapComparator;
 import com.universe.android.enums.FormEnum;
-import com.universe.android.enums.FormEnumKeys;
 import com.universe.android.model.Questions;
 import com.universe.android.model.SpinnerList;
 import com.universe.android.realmbean.RealmCategory;
@@ -862,7 +860,7 @@ public class FormParentActivity extends AppCompatActivity {
                     jsonSubmitReq.put(AppConstants.ISSYNC, false);
                 }
 
-                jsonSubmitReq=Utility.formatDates(jsonSubmitReq);
+
                 if (formId.equalsIgnoreCase(FormEnum.survey.toString())) {
                     realm.createOrUpdateObjectFromJson(RealmSurveys.class, jsonSubmitReq);
                 } else if (formId.equalsIgnoreCase(FormEnum.client.toString())) {

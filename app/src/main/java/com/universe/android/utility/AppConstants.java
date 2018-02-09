@@ -44,6 +44,7 @@ public class AppConstants {
     public static final String FLOAT = "float";
     public static final String FORM_ANS_ID = "formAnsId";
     public static final String RESPONSES = "responses";
+    public static final String RESPONSE = "response";
     public static final String SUBMITBY = "submitBy";
     public static final String RADIO = "radio";
     public static final String CHECKBOX = "checkbox";
@@ -73,6 +74,10 @@ public class AppConstants {
     public static final String name = "name";
     public static final String picture = "picture";
     public static final String Login_Status = "login_status";
-
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String LAST_SYNC_DATE = "LastSyncDate";
+    public static final String TYPE = "type";
+    public static final String WORKFLOWS = "workflows";
+    public static final String SURVEYREPORT = "surveyReport";
 }
 

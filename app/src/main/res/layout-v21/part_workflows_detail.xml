@@ -13,11 +13,12 @@
 
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/textViewRetailersName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_medium"
                 android:text="@string/retailersname"
@@ -29,9 +30,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textViewRetailersName"
-                android:layout_marginBottom="@dimen/margin_min"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:layout_marginLeft="@dimen/margin_medium"
-                android:text="@string/mobile_no"
+                android:text="@string/workflow_mobile_no"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/text_size_small" />
 
@@ -44,9 +45,12 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium"
-                android:background="@drawable/pending"
+                android:background="@drawable/textview_circle"
+                android:elevation="6dp"
+                android:padding="12dp"
+                android:text="10"
                 android:textAllCaps="true"
-                android:textColor="@color/textColorPrimary"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_size_normal" />
 
         </RelativeLayout>
