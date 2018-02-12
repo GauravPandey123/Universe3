@@ -30,11 +30,29 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
-                        android:src="@drawable/pending" />
+                        <ImageView
+                            android:id="@+id/imagePending"
+                            android:layout_width="@dimen/margin_large"
+                            android:layout_height="@dimen/margin_large"
+                            android:src="@drawable/pending_" />
+
+                        <TextView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="22dp"
+                            android:background="@drawable/textview_circle_border"
+                            android:gravity="center"
+                            android:text="2"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+
+                    </RelativeLayout>
+
 
                     <TextView
                         android:id="@+id/textViewPending"
@@ -56,18 +74,35 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
-                        android:src="@drawable/ic_approved_unselect" />
+                        <ImageView
+                            android:layout_width="@dimen/margin_large"
+                            android:layout_height="@dimen/margin_large"
+                            android:src="@drawable/pending" />
+
+                        <TextView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="22dp"
+                            android:background="@drawable/textview_circle_border"
+                            android:gravity="center"
+                            android:text="2"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+
+                    </RelativeLayout>
+
 
                     <TextView
                         android:id="@+id/textViewApproved"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="@string/approved"
+                        android:text="@string/in_progress"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_medium" />
 
@@ -83,11 +118,27 @@
                     android:orientation="vertical">
 
 
-                    <ImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
-                        android:src="@drawable/ic_completed_unselect" />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
+                        <ImageView
+                            android:layout_width="@dimen/margin_large"
+                            android:layout_height="@dimen/margin_large"
+                            android:src="@drawable/ic_completed_unselect" />
+
+                        <TextView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="22dp"
+                            android:background="@drawable/textview_circle_border"
+                            android:gravity="center"
+                            android:text="2"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+
+                    </RelativeLayout>
                     <TextView
                         android:id="@+id/textViewCompleted"
                         android:layout_width="wrap_content"
@@ -108,18 +159,35 @@
                     android:gravity="center"
                     android:orientation="vertical">
 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
-                        android:src="@drawable/ic_verified_unselect" />
+                        <ImageView
+                            android:layout_width="@dimen/margin_large"
+                            android:layout_height="@dimen/margin_large"
+                            android:src="@drawable/rejected" />
+
+                        <TextView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="22dp"
+                            android:background="@drawable/textview_circle_border"
+                            android:gravity="center"
+                            android:text="2"
+                            android:textColor="@color/white"
+                            android:textSize="10sp" />
+
+                    </RelativeLayout>
+
 
                     <TextView
                         android:id="@+id/textViewVerifier"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:text="@string/verifier"
+                        android:text="@string/rejected"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/text_size_medium" />
 

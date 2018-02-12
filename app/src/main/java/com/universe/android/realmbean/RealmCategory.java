@@ -11,12 +11,12 @@ public class RealmCategory extends RealmObject {
     private String id;
     private String categoryType;
     private String categoryName;
+    private String createdBy;
+    private int _v;
     private String responses;
-    private Date description;
-    private String contactNo;
-    private String address;
+    private String categoryDescription;
     private String status;
-    private String isActive;
+    private int isActive;
     private boolean isSync=true;
     private boolean isUpdate=true;
     private Date expiryDate;
@@ -52,29 +52,8 @@ public class RealmCategory extends RealmObject {
         this.categoryName = categoryName;
     }
 
-    public Date getDescription() {
-        return description;
-    }
 
-    public void setDescription(Date description) {
-        this.description = description;
-    }
 
-    public String getContactNo() {
-        return contactNo;
-    }
-
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 
     public String getStatus() {
         return status;
@@ -142,13 +121,7 @@ public class RealmCategory extends RealmObject {
         this.image = image;
     }
 
-    public String getIsActive() {
-        return isActive;
-    }
 
-    public void setIsActive(String isActive) {
-        this.isActive = isActive;
-    }
 
     public boolean isSync() {
         return isSync;
@@ -172,5 +145,29 @@ public class RealmCategory extends RealmObject {
 
     public void setResponses(String responses) {
         this.responses = responses;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getCategoryDescription() {
+        return categoryDescription;
+    }
+
+    public void setCategoryDescription(String categoryDescription) {
+        this.categoryDescription = categoryDescription;
+    }
+
+    public int getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(int isActive) {
+        this.isActive = isActive;
     }
 }

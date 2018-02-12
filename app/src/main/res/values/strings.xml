@@ -132,7 +132,15 @@
     <string name="teamSurvey">Team Survey Detail</string>
     <string name="teamSurveyReport">Team Survey Report</string>
     <string name="hintTeam">Team</string>
-    >>>>>>> 669c4febb6d023ae0ca1647a3a7cbb6902b8d3d4
+
+    <string name="select_survey">Select Survey</string>
+    <string name="select_client">Select Client</string>
+    <string name="no_data">No Data Available</string>
+    <string name="in_progress">In progress</string>
+    <string name="rejected">Rejected</string>
+    <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
+
     <string-array name="filterItem">
         <item>@string/category1</item>
         <item>@string/category2</item>

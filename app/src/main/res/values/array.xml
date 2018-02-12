@@ -21,7 +21,7 @@
         <item>isActive</item>
         <item>expiryDate</item>
         <item>surveyId</item>-->
-
+        <item>survey</item>
     </string-array>
 
     <string-array name="customer">
@@ -35,6 +35,8 @@
          <item>expiryDate</item>
          <item>surveys</item>
          <item>client</item>-->
+        <item>survey</item>
+        <item>client</item>
     </string-array>
 
     <string-array name="category">

@@ -14,8 +14,8 @@ public class RealmClient extends RealmObject {
 
     private Date expiryDate;
     private String responses;
-    private String createBy;
-
+    private String createdBy;
+    private int _v;
     private Date updatedAt;
 
 
@@ -26,7 +26,7 @@ public class RealmClient extends RealmObject {
     private String contactNo;
     private String address;
     private String status;
-    private String isActive;
+    private int isActive;
     private boolean isSync=true;
     private boolean isUpdate=true;
     private String image;
@@ -65,13 +65,7 @@ public class RealmClient extends RealmObject {
         this.expiryDate = expiryDate;
     }
 
-    public String getCreateBy() {
-        return createBy;
-    }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
-    }
 
     public Date getUpdatedAt() {
         return updatedAt;
@@ -139,13 +133,7 @@ public class RealmClient extends RealmObject {
         this.surveyId = surveyId;
     }
 
-    public String getIsActive() {
-        return isActive;
-    }
 
-    public void setIsActive(String isActive) {
-        this.isActive = isActive;
-    }
 
     public boolean isSync() {
         return isSync;
@@ -169,5 +157,21 @@ public class RealmClient extends RealmObject {
 
     public void setResponses(String responses) {
         this.responses = responses;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public int getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(int isActive) {
+        this.isActive = isActive;
     }
 }
