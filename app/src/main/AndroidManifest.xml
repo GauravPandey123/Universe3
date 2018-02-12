@@ -13,6 +13,7 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
 
     <application
         android:name=".UniverseApplication"
@@ -38,6 +39,9 @@
         <activity android:name=".activity.SurveyDetailActivity" />
         <activity android:name=".activity.FIlterActivity" />
         <activity android:name=".fragment.QuestinaireFragment" />
+        <activity
+            android:name="com.soundcloud.android.crop.CropImageActivity"
+            android:theme="@style/CustomTheme" />
         <activity android:name=".activity.QuestionaireSearchActivity" />
         <activity
             android:name=".activity.admin.FormQuestionActivity"
@@ -71,8 +75,7 @@
         <activity android:name=".activity.OtpActivity" />
         <activity android:name=".activity.ForgotPasswordActivity" />
         <activity android:name=".activity.ResetPasswordActivity" />
-        <activity android:name=".activity.QuestionaireSearchActivity" />
-        <activity android:name=".workflows.WorkFlowsDetailActivity" />
+        <activity android:name=".workflows.WorkFlowsDetailActivity"/>
 
 
         <!--

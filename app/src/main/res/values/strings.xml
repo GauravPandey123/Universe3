@@ -103,6 +103,12 @@
     <string name="msg_pass_error">Password too short</string>
     <string name="msg_pass_match">Passwords don\'t match</string>
     <string name="msg_disconnected">Check internet connection</string>
+    <string name="dialog_image_title">Select From</string>
+    <string name="dialog_image_camera">Camera</string>
+    <string name="dialog_image_gallery">Gallery</string>
+    <string name="category2">Category2</string>
+    <string name="category3">Category3</string>
+    <string name="category4">Category4</string>
     <string name="loading_survey">Loading Survey…</string>
     <string name="loading_client">Loading Client…</string>
     <string name="loading_customer">Loading Customer…</string>
@@ -123,6 +129,7 @@
     <string name="approved">Approved</string>
     <string name="_completed">Completed</string>
     <string name="verifier">Verified</string>
+
     <string name="select_survey">Select Survey</string>
     <string name="select_client">Select Client</string>
     <string name="no_data">No Data Available</string>
@@ -130,11 +137,12 @@
     <string name="rejected">Rejected</string>
     <string name="approve">Approve</string>
     <string name="reject">Reject</string>
+
     <string-array name="filterItem">
-        <item>@string/todayfilter</item>
-        <item>@string/week</item>
-        <item>@string/month</item>
-        <item>@string/others</item>
+        <item>@string/category1</item>
+        <item>@string/category2</item>
+        <item>@string/category3</item>
+        <item>@string/category4</item>
     </string-array>
 
 </resources>

@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.DrawerItem;
+import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 
 import java.util.ArrayList;
 
@@ -53,6 +55,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
             holder.textViewStatus.setTypeface(FontClass.openSansLight(mContext));
             holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
             holder.textViewName.setTypeface(FontClass.openSansBold(mContext));
+            if (Prefs.getStringPrefs(AppConstants.isActive).equals("1")) {
+                holder.textViewStatus.setText("ONLINE");
+            } else {
+                holder.textViewStatus.setText("OFFLINE");
+            }
+            holder.textViewMobileNo.setText(""+Prefs.getLongPrefs(AppConstants.phone));
+            holder.textViewName.setText(Prefs.getStringPrefs(AppConstants.name));
         } else {
             holder.title.setText(drawerMenuList.get(position - 1).getTitle());
             holder.icon.setImageResource(drawerMenuList.get(position - 1).getIcon());

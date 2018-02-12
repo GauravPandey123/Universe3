@@ -18,7 +18,7 @@ import com.universe.android.utility.Utility;
  */
 
 public class BaseFragment extends Fragment {
-
+    protected Context mContext;
     protected BaseActivity mActivity;
 
 
