@@ -462,6 +462,18 @@ public class FormParentActivity extends AppCompatActivity {
 
                     }
                 }
+            } else {
+
+                if (question.getQuestionId().equalsIgnoreCase(FormEnum.survey.toString())) {
+
+                } else if (question.getQuestionId().equalsIgnoreCase(FormEnum.customer.toString())) {
+
+                } else if (question.getQuestionId().equalsIgnoreCase(FormEnum.category.toString())) {
+
+                } else if (question.getQuestionId().equalsIgnoreCase(FormEnum.client.toString())) {
+
+                }
+
             }
 
             tvSelect.setOnClickListener(new View.OnClickListener() {
@@ -676,9 +688,9 @@ public class FormParentActivity extends AppCompatActivity {
 
 
                 jsonSubmitReq.put(AppConstants.RESPONSES,jsonSubmitReq.toString());
-                jsonSubmitReq.put(AppConstants.FORM_ID, formId);
+                // jsonSubmitReq.put(AppConstants.FORM_ID, formId);
 
-             //   jsonSubmitReq.put(AppConstants.CREATED_BY, userId);
+                jsonSubmitReq.put(AppConstants.CREATED_BY, Prefs.getStringPrefs(AppConstants.UserId));
                 if (Utility.validateString(formAnsId)){
                   //  jsonSubmitReq.put(AppConstants.UPDATEDAT, Utility.get);
                 }else{

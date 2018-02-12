@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.Utils;
@@ -74,6 +75,7 @@ public class QuestionsCategoryActivity extends BaseActivity {
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         imageViewSearchBack =findViewById(R.id.imageviewbackSearch);
+        LinearLayout ll_button = (LinearLayout) findViewById(R.id.ll_button);
 
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
@@ -83,6 +85,13 @@ public class QuestionsCategoryActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null) {
             strType = intent.getExtras().getString(AppConstants.TYPE);
+        }
+
+
+        if (strType != null && !strType.isEmpty()) {
+            ll_button.setVisibility(View.VISIBLE);
+        } else {
+            ll_button.setVisibility(View.GONE);
         }
 
     }

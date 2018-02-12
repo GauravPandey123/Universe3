@@ -20,5 +20,6 @@
     <color name="transparent_color">#80000000</color>
     <color name="list_item_selected_state">#F4F6F6</color>
     <color name="list_item_normal_state">#FFFFFF</color>
+    <color name="green">#00ff7f</color>
 
 </resources>

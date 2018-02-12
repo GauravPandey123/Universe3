@@ -79,5 +79,8 @@ public class AppConstants {
     public static final String TYPE = "type";
     public static final String WORKFLOWS = "workflows";
     public static final String SURVEYREPORT = "surveyReport";
+    public static final String CREATED_BY = "createdBy";
+    public static final String TITLE = "title";
+    public static final String MINUS_ONE = "minus";
 }
 

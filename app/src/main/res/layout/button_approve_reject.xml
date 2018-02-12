@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llSaveBtns"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:padding="@dimen/view_margin">
+
+
+    <Button
+        android:id="@+id/btnReject"
+        style="@style/appBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@color/red"
+        android:minHeight="@dimen/btnLargeHeight"
+        android:text="@string/reject"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/btnApprove"
+        style="@style/appBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:background="@color/green"
+        android:minHeight="@dimen/btnLargeHeight"
+        android:text="@string/approve" />
+</LinearLayout>

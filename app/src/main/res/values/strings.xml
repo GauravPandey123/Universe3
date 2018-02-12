@@ -123,6 +123,13 @@
     <string name="approved">Approved</string>
     <string name="_completed">Completed</string>
     <string name="verifier">Verified</string>
+    <string name="select_survey">Select Survey</string>
+    <string name="select_client">Select Client</string>
+    <string name="no_data">No Data Available</string>
+    <string name="in_progress">In progress</string>
+    <string name="rejected">Rejected</string>
+    <string name="approve">Approve</string>
+    <string name="reject">Reject</string>
     <string-array name="filterItem">
         <item>@string/todayfilter</item>
         <item>@string/week</item>

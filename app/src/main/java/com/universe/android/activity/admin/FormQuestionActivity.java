@@ -3,21 +3,27 @@ package com.universe.android.activity.admin;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.universe.android.R;
+import com.universe.android.component.SelectionItemListDialog;
 import com.universe.android.enums.FormEnum;
 import com.universe.android.model.Questions;
+import com.universe.android.model.SpinnerList;
 import com.universe.android.okkhttp.APIClient;
 import com.universe.android.okkhttp.UniverseAPI;
+import com.universe.android.realmbean.RealmClient;
 import com.universe.android.realmbean.RealmController;
+import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
@@ -25,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -32,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -47,6 +56,9 @@ public class FormQuestionActivity extends FormParentActivity {
     private Map<String, Questions> questionsMap;
     private String formId;
     private String title;
+    private TextView spnClient;
+    private TextView spnSurvey;
+    private LinearLayout llClient, llSurvey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +74,134 @@ public class FormQuestionActivity extends FormParentActivity {
         ((TextView) findViewById(R.id.tvName)).setText(title);
 
 
+        llClient = (LinearLayout) findViewById(R.id.llClient);
+        llSurvey = (LinearLayout) findViewById(R.id.llSurvey);
+        Utility.setTextView(getString(R.string.survey), (TextView) findViewById(R.id.tvSurveyTitle), true);
+        Utility.setTextView(getString(R.string.client), (TextView) findViewById(R.id.tvClientTitle), true);
+        spnClient = (TextView) findViewById(R.id.spnClient);
+        spnSurvey = (TextView) findViewById(R.id.spnSurvey);
+
+        if (formId.equalsIgnoreCase(FormEnum.customer.toString())) {
+            llSurvey.setVisibility(View.VISIBLE);
+            llClient.setVisibility(View.VISIBLE);
+            prepareSurveyList();
+            prepareClientList();
+        } else if (formId.equalsIgnoreCase(FormEnum.client.toString())) {
+            llSurvey.setVisibility(View.VISIBLE);
+            llClient.setVisibility(View.GONE);
+            prepareSurveyList();
+        } else {
+            llSurvey.setVisibility(View.GONE);
+            llClient.setVisibility(View.GONE);
+        }
         setScreenDetails();
         prepareQuestionList();
 
     }
 
+
+    private void prepareSurveyList() {
+        spnSurvey.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isPopupVisible) return;
+                isPopupVisible = true;
+                List<SpinnerList> spnPanchyatList = null;
+                final Realm realm = Realm.getDefaultInstance();
+                try {
+
+
+                    RealmResults<RealmSurveys> realmPanchyat = realm.where(RealmSurveys.class).findAllSorted(AppConstants.TITLE);
+
+                    spnPanchyatList = new ArrayList<>();
+                    SpinnerList spn = new SpinnerList();
+                    spn.setName(getString(R.string.select_survey));
+                    spn.setId(AppConstants.MINUS_ONE);
+                    spnPanchyatList.add(spn);
+                    for (int i = 0; i < realmPanchyat.size(); i++) {
+                        spn = new SpinnerList();
+                        spn.setName(realmPanchyat.get(i).getTitle());
+                        spn.setId(realmPanchyat.get(i).getId());
+                        spnPanchyatList.add(spn);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    realm.close();
+                } finally {
+                    realm.close();
+                }
+                showSelectionListPanchyat(FormQuestionActivity.this, spnSurvey, spnPanchyatList, getString(R.string.select_survey));
+            }
+        });
+    }
+
+
+    private void prepareClientList() {
+        spnClient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isPopupVisible) return;
+                isPopupVisible = true;
+                List<SpinnerList> spnPanchyatList = null;
+                final Realm realm = Realm.getDefaultInstance();
+                try {
+
+
+                    RealmResults<RealmClient> realmPanchyat = realm.where(RealmClient.class).findAllSorted(AppConstants.TITLE);
+
+                    spnPanchyatList = new ArrayList<>();
+                    SpinnerList spn = new SpinnerList();
+                    spn.setName(getString(R.string.select_client));
+                    spn.setId(AppConstants.MINUS_ONE);
+                    spnPanchyatList.add(spn);
+                    for (int i = 0; i < realmPanchyat.size(); i++) {
+                        spn = new SpinnerList();
+                        spn.setName(realmPanchyat.get(i).getName());
+                        spn.setId(realmPanchyat.get(i).getId());
+                        spnPanchyatList.add(spn);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    realm.close();
+                } finally {
+                    realm.close();
+                }
+                showSelectionListPanchyat(FormQuestionActivity.this, spnClient, spnPanchyatList, getString(R.string.select_survey));
+            }
+        });
+    }
+
+
+    private void showSelectionListPanchyat(Context context, final TextView textView, List<SpinnerList> list, final String defaultMsg) {
+        if (list != null && list.size() > 0) {
+            SelectionItemListDialog selectionPickerDialog = new SelectionItemListDialog(context, defaultMsg, textView.getText().toString().trim(), list, R.layout.pop_up_question_list, new SelectionItemListDialog.ItemPickerListner() {
+                @Override
+                public void OnDoneButton(Dialog ansPopup, String strAns, SpinnerList spinnerItem) {
+                    ansPopup.dismiss();
+                    if (Utility.validateString(strAns)) {
+                        textView.setText(strAns);
+                        textView.setTag(spinnerItem);
+                    } else {
+                        textView.setText(defaultMsg);
+                    }
+
+
+                }
+            });
+            if (!selectionPickerDialog.isShowing()) {
+                selectionPickerDialog.show();
+            }
+            selectionPickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    isPopupVisible = false;
+                }
+            });
+        } else {
+            isPopupVisible = false;
+            showToastMessage(getString(R.string.no_data));
+        }
+    }
 
     private void prepareQuestionList() {
         List<String> noDisplayKeys = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.question)));
@@ -187,6 +322,16 @@ public class FormQuestionActivity extends FormParentActivity {
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
         String url = UniverseAPI.WEB_SERVICE_CREATE_SURVEY_METHOD;
+
+        if (formId.equalsIgnoreCase(FormEnum.survey.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_SURVEY_METHOD;
+        } else if (formId.equalsIgnoreCase(FormEnum.category.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_CATEGORY_METHOD;
+        } else if (formId.equalsIgnoreCase(FormEnum.customer.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_CUSTOMER_METHOD;
+        } else if (formId.equalsIgnoreCase(FormEnum.client.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_ClIENT_METHOD;
+        }
 
 
         Request request = APIClient.getPostRequest(this, url, requestBody);

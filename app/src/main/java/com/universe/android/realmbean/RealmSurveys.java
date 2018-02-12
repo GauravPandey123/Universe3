@@ -10,6 +10,7 @@ public class RealmSurveys extends RealmObject {
     @PrimaryKey
     private String id;
     private String status;
+    private int _v;
     private String title;
 
     private Date expiryDate;
@@ -21,7 +22,7 @@ public class RealmSurveys extends RealmObject {
     private String description;
     private String image;
     private String responses;
-    private String isActive;
+    private int isActive;
     private boolean isSync=true;
     private boolean isUpdate=true;
 
@@ -99,13 +100,7 @@ public class RealmSurveys extends RealmObject {
         this.image = image;
     }
 
-    public String getIsActive() {
-        return isActive;
-    }
 
-    public void setIsActive(String isActive) {
-        this.isActive = isActive;
-    }
 
     public boolean isSync() {
         return isSync;
@@ -129,5 +124,9 @@ public class RealmSurveys extends RealmObject {
 
     public void setResponses(String responses) {
         this.responses = responses;
+    }
+
+    public void setIsActive(int isActive) {
+        this.isActive = isActive;
     }
 }
