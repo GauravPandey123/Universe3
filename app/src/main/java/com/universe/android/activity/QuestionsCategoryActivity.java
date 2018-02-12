@@ -80,10 +80,10 @@ public class QuestionsCategoryActivity extends BaseActivity {
         textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            strType = intent.getExtras().getString(AppConstants.TYPE);
-        }
+//        Intent intent = getIntent();
+//        if (intent != null) {
+//            strType = intent.getExtras().getString(AppConstants.TYPE);
+//        }
 
     }
 

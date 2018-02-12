@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.universe.android">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -75,7 +76,8 @@
         <activity android:name=".activity.OtpActivity" />
         <activity android:name=".activity.ForgotPasswordActivity" />
         <activity android:name=".activity.ResetPasswordActivity" />
-        <activity android:name=".workflows.WorkFlowsDetailActivity"/>
+        <activity android:name=".workflows.WorkFlowsDetailActivity" />
+        <activity android:name=".activity.TeamSurveyDeatilActivity" />
 
 
         <!--

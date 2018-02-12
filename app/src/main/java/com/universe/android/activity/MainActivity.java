@@ -13,6 +13,7 @@ import com.universe.android.R;
 import com.universe.android.adapter.DrawerAdapter;
 import com.universe.android.fragment.AdminFragment;
 import com.universe.android.fragment.ProfileFragment;
+import com.universe.android.fragment.QuestionaireTeamSuverFragment;
 import com.universe.android.fragment.QuestionarieSelectionFragment;
 import com.universe.android.fragment.SurveySelectionFragment;
 import com.universe.android.fragment.SyncResponsesFragment;
@@ -100,6 +101,12 @@ public class MainActivity extends BaseActivity {
                         replaceFragment(new SurveySelectionFragment().newInstance(AppConstants.WORKFLOWS), mContainerId);
                         break;
 
+                    case 8:
+                        mDrawerLayout.closeDrawers();
+                        mToolbar.setTitle(R.string.teamSurveyReport);
+                        replaceFragment(new QuestionaireTeamSuverFragment(), mContainerId);
+                        break;
+
 
                 }
 
@@ -145,6 +152,11 @@ public class MainActivity extends BaseActivity {
         item11.setIcon(R.drawable.survey_report);
         item11.setTitle(getResources().getString(R.string.work_flows));
         mDrawerItemList.add(item11);
+
+        DrawerItem item12 = new DrawerItem();
+        item12.setIcon(R.drawable.survey_report);
+        item12.setTitle(getResources().getString(R.string.teamSurveyReport));
+        mDrawerItemList.add(item12);
 
         DrawerItem item6 = new DrawerItem();
         item6.setIcon(R.drawable.managementteams);

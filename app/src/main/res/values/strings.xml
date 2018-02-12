@@ -129,7 +129,10 @@
     <string name="approved">Approved</string>
     <string name="_completed">Completed</string>
     <string name="verifier">Verified</string>
->>>>>>> 669c4febb6d023ae0ca1647a3a7cbb6902b8d3d4
+    <string name="teamSurvey">Team Survey Detail</string>
+    <string name="teamSurveyReport">Team Survey Report</string>
+    <string name="hintTeam">Team</string>
+    >>>>>>> 669c4febb6d023ae0ca1647a3a7cbb6902b8d3d4
     <string-array name="filterItem">
         <item>@string/category1</item>
         <item>@string/category2</item>

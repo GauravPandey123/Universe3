@@ -222,6 +222,7 @@
 
 
     <android.support.v7.widget.CardView
+        android:id="@+id/carView"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@id/cardViewTarget"
@@ -229,6 +230,7 @@
         app:cardBackgroundColor="@android:color/holo_blue_dark">
 
         <LinearLayout
+            android:id="@+id/linearLayoutSurvey"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
