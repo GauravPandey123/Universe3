@@ -140,6 +140,7 @@
     <string name="rejected">Rejected</string>
     <string name="approve">Approve</string>
     <string name="reject">Reject</string>
+    <string name="team_survey_detail">TeamSurveyDetailReport</string>
 
     <string-array name="filterItem">
         <item>@string/category1</item>

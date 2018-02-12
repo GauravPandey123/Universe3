@@ -2,6 +2,7 @@ package com.universe.android.activity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,6 +22,7 @@ import com.universe.android.R;
 import com.universe.android.adapter.QuestioniareSelectionAdapter;
 import com.universe.android.adapter.StatusAdapter;
 import com.universe.android.helper.FontClass;
+import com.universe.android.helper.RecyclerTouchListener;
 import com.universe.android.model.ItemModel;
 import com.universe.android.model.StatusModel;
 import com.universe.android.utility.Utility;
@@ -64,7 +66,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
     }
 
     private void setUpElements() {
-        carView.setVisibility(View.GONE);
+      //  carView.setVisibility(View.GONE);
         reyclerViewCategory.setLayoutManager(new LinearLayoutManager(mContext));
 
         final List<ItemModel> data = new ArrayList<>();
@@ -78,6 +80,20 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
                 "Crystal Doctor 3",
                 Utils.createInterpolator(Utils.ACCELERATE_DECELERATE_INTERPOLATOR)));
         reyclerViewCategory.setAdapter(new QuestioniareSelectionAdapter(data));
+
+        reyclerViewCategory.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), reyclerViewCategory, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent intent = new Intent(mContext, TeamSurveyDetailReport.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     private void initialization() {
@@ -99,6 +115,8 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
                 showDialog();
             }
         });
+
+
     }
 
     public void showDialog() {
