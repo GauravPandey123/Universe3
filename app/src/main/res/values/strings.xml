@@ -37,9 +37,9 @@
     <string name="survey_report">Survey Report</string>
     <string name="customers">Crystal Customers</string>
     <string name="text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged</string>
-    <string name="pending">10 Pending</string>
-    <string name="completed">10 \n Completed</string>
-    <string name="achiovement">50 % \n Achievement</string>
+    <string name="pending"> 10 Pending</string>
+    <string name="completed">10 \n Submitted</string>
+    <string name="achiovement">    50 % \n Achievement</string>
     <string name="inprogress">5 \n Inprogress</string>
     <string name="newretailors">7 \n New Retailers</string>
     <string name="crystalmembers">3 \n Crystal Memebers</string>
@@ -141,6 +141,13 @@
     <string name="approve">Approve</string>
     <string name="reject">Reject</string>
     <string name="team_survey_detail">TeamSurveyDetailReport</string>
+    <string name="crystaldoctors">Crystal Doctor 1</string>
+    <string name="amtala">Amtala</string>
+    <string name="rmName">rmnamer</string>
+    <string name="totalNumber">Total Numbers</string>
+    <string name="search_location">Search Location</string>
+    <string name="searchQuestions">Search Questions</string>
+    <string name="setLocation">Set Location</string>
 
     <string-array name="filterItem">
         <item>@string/category1</item>

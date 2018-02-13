@@ -72,7 +72,7 @@
                         android:layout_marginTop="@dimen/margin_normal"
                         android:drawableRight="@drawable/ic_search"
                         android:focusable="false"
-                        android:hint="@string/search"
+                        android:hint="@string/searchQuestions"
                         android:imeOptions="actionSearch"
                         android:paddingLeft="@dimen/margin_normal"
                         android:paddingRight="@dimen/margin_normal"

@@ -19,10 +19,13 @@ import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.Utils;
 import com.universe.android.R;
+import com.universe.android.adapter.CrystalDoctorAdapter;
 import com.universe.android.adapter.QuestioniareSelectionAdapter;
+import com.universe.android.adapter.SectionedRecyclerViewAdapter;
 import com.universe.android.adapter.StatusAdapter;
 import com.universe.android.helper.FontClass;
 import com.universe.android.helper.RecyclerTouchListener;
+import com.universe.android.model.DataModel;
 import com.universe.android.model.ItemModel;
 import com.universe.android.model.StatusModel;
 import com.universe.android.utility.Utility;
@@ -51,10 +54,13 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
     private StatusAdapter statusAdapter;
     private LinearLayoutManager mLayoutManager;
 
-    ArrayList<StatusModel> statusList = new ArrayList<>();
-    ArrayList<StatusModel> multiselectSatuslist = new ArrayList<>();
+    private ArrayList<StatusModel> statusList = new ArrayList<>();
+    private ArrayList<StatusModel> multiselectSatuslist = new ArrayList<>();
     private RecyclerView recylerViewStatus;
     private TextView textViewPeriodFrom, textViewPeriodTo, textViewPeriodStatus, textViewReset, textViewApplyFilter;
+
+    private List<DataModel> allSampleData;
+    private CrystalDoctorAdapter crystalDoctorAdapter;
 
 
     @Override
@@ -66,20 +72,11 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
     }
 
     private void setUpElements() {
-      //  carView.setVisibility(View.GONE);
+        carView.setVisibility(View.GONE);
+        populateSampleData();
         reyclerViewCategory.setLayoutManager(new LinearLayoutManager(mContext));
-
-        final List<ItemModel> data = new ArrayList<>();
-        data.add(new ItemModel(
-                "Crystal Doctor 1",
-                Utils.createInterpolator(Utils.ACCELERATE_DECELERATE_INTERPOLATOR)));
-        data.add(new ItemModel(
-                "Crystal Doctor 2",
-                Utils.createInterpolator(Utils.ACCELERATE_DECELERATE_INTERPOLATOR)));
-        data.add(new ItemModel(
-                "Crystal Doctor 3",
-                Utils.createInterpolator(Utils.ACCELERATE_DECELERATE_INTERPOLATOR)));
-        reyclerViewCategory.setAdapter(new QuestioniareSelectionAdapter(data));
+        crystalDoctorAdapter = new CrystalDoctorAdapter(allSampleData, mContext);
+        reyclerViewCategory.setAdapter(crystalDoctorAdapter);
 
         reyclerViewCategory.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), reyclerViewCategory, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -94,9 +91,12 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
 
             }
         }));
+
+
     }
 
     private void initialization() {
+        allSampleData = new ArrayList<DataModel>();
         carView = findViewById(R.id.carView);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutCategory);
         reyclerViewCategory = findViewById(R.id.reyclerViewCategory);
@@ -117,6 +117,27 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
         });
 
 
+    }
+
+    private void populateSampleData() {
+
+        for (int i = 1; i <= 10; i++) {
+
+            DataModel dm = new DataModel();
+
+            dm.setHeaderTitle("Crystal Doctor  " + i);
+
+            ArrayList<String> singleItem = new ArrayList<>();
+            for (int j = 1; j <= 4; j++) {
+
+                singleItem.add("1 " + j);
+            }
+
+            dm.setAllItemsInSection(singleItem);
+
+            allSampleData.add(dm);
+
+        }
     }
 
     public void showDialog() {

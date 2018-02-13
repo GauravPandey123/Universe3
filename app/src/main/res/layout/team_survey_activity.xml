@@ -1,71 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:id="@+id/include"
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="@color/app_theme_color">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <ImageView
-            android:id="@+id/imageviewback"
-            android:layout_width="@dimen/margin_xnormal"
-            android:layout_height="@dimen/margin_xnormal"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_small"
-            android:src="@drawable/ic_arrow_back_black_24dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_centerVertical="true"
-            android:text="@string/teamSurvey"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/imageviewfilter"
-            android:layout_width="@dimen/margin_xnormal"
-            android:layout_height="@dimen/margin_xnormal"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_small"
-            android:src="@drawable/ic_filter" />
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/linaerLyout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/include"
-        android:orientation="vertical">
-
-        <include layout="@layout/survey_report_fragment_detail_header" />
-
-    </LinearLayout>
-
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayoutCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linaerLyout"
-        android:layout_margin="@dimen/margin_small">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/reyclerViewCategory"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:fitsSystemWindows="true">
 
-        </android.support.v7.widget.RecyclerView>
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/collapse_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="290dp"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
+                    <RelativeLayout
+                        android:id="@+id/include"
+                        android:layout_width="match_parent"
+                        android:layout_height="?actionBarSize"
+                        android:background="@color/app_theme_color">
+
+                        <ImageView
+                            android:id="@+id/imageviewback"
+                            android:layout_width="@dimen/margin_xnormal"
+                            android:layout_height="@dimen/margin_xnormal"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/margin_small"
+                            android:src="@drawable/ic_arrow_back_black_24dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_centerVertical="true"
+                            android:text="@string/teamSurvey"
+                            android:textAllCaps="true"
+                            android:textColor="@android:color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/imageviewfilter"
+                            android:layout_width="@dimen/margin_xnormal"
+                            android:layout_height="@dimen/margin_xnormal"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_margin="@dimen/margin_small"
+                            android:src="@drawable/ic_filter" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/linaerLyout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <include layout="@layout/survey_report_fragment_detail_header" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefreshLayoutCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_small">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/reyclerViewCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </android.support.v7.widget.RecyclerView>
+
+
+            </android.support.v4.widget.SwipeRefreshLayout>
+        </RelativeLayout>
+    </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

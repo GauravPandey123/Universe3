@@ -9,9 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.adapter.SurveyDetailAdapter;
+import com.universe.android.helper.FontClass;
 
 import java.util.ArrayList;
 
@@ -27,21 +29,42 @@ public class TeamSurveyDetailReport extends BaseActivity {
     private ArrayList<String> stringArrayList;
     private LinearLayoutManager linearLayoutManager;
     private SurveyDetailAdapter surveyDetailAdapter;
+    private TextView textViewCrystalDoctor, textViewAmtala, textViewPosition, textViewAchievementNumbers, textViewAchievement;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.team_survey_detail_report);
-        relativeLayout = findViewById(R.id.include);
-        imageviewback = findViewById(R.id.imageviewback);
-        relativeLayout.setVisibility(View.GONE);
+        initialization();
+        setUpELements();
+        setUpListeners();
+    }
+
+    private void setUpListeners() {
         imageviewback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
-        setUpELements();
+
+    }
+
+    private void initialization() {
+        relativeLayout = findViewById(R.id.include);
+        imageviewback = findViewById(R.id.imageviewback);
+        textViewCrystalDoctor = findViewById(R.id.textViewCraystalDoctor);
+        textViewAmtala = findViewById(R.id.textViewAmtala);
+        textViewPosition = findViewById(R.id.textViewPosition);
+        textViewAchievementNumbers = findViewById(R.id.textViewAchievementNumbers);
+        textViewAchievement = findViewById(R.id.textViewAchievement);
+        relativeLayout.setVisibility(View.GONE);
+        textViewCrystalDoctor.setTypeface(FontClass.openSansBold(mContext));
+        textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
+        textViewPosition.setTypeface(FontClass.openSansRegular(mContext));
+        textViewAchievementNumbers.setTypeface(FontClass.openSansRegular(mContext));
+        textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
+
     }
 
     private void searchList() {
