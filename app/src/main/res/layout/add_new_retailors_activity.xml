@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/include"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                android:background="@color/app_theme_color">
+
+                <ImageView
+                    android:id="@+id/imageviewbackRetailors"
+                    android:layout_width="@dimen/margin_xnormal"
+                    android:layout_height="@dimen/margin_xnormal"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/margin_small"
+                    android:src="@drawable/ic_arrow_back_black_24dp" />
+
+                <TextView
+                    android:id="@+id/textViewRetailorsName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/addNewReatiors"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/include"
+                android:layout_margin="@dimen/margin_medium">
+
+
+                <!--  Email Label -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutRetailorName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/retailorName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/retailersname"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/white" />
+                </android.support.design.widget.TextInputLayout>
+                <!--  Email Label -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutRetailorTerroitryName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textInputLayoutRetailorName"
+
+                    android:layout_marginTop="@dimen/margin_medium">
+
+                    <EditText
+                        android:id="@+id/retailorTerroitry"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:hint="@string/territory"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/white" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!--  Email Label -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutTerroitryAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textInputLayoutRetailorTerroitryName"
+
+                    android:layout_marginTop="@dimen/margin_medium">
+
+                    <EditText
+                        android:id="@+id/retailorTerroitryAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/address"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/white" />
+                </android.support.design.widget.TextInputLayout>
+
+                <!--  Email Label -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutRetailorMobileNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textInputLayoutTerroitryAddress"
+                    android:layout_marginTop="@dimen/margin_medium">
+
+                    <EditText
+                        android:id="@+id/retailorPhoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/mobile"
+                        android:inputType="phone"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/white" />
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textInputLayoutRetailorMobileNumber"
+                    android:layout_marginTop="@dimen/margin_medium">
+
+                    <CheckBox
+                        android:id="@+id/checkboxRetailors"
+                        android:layout_width="@dimen/margin_large"
+                        android:layout_height="@dimen/margin_large" />
+
+                    <TextView
+                        android:id="@+id/textViewRetailors"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:gravity="center_vertical"
+                        android:text="@string/discontinue"
+                        android:textSize="@dimen/text_size_large" />
+
+
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutRetailorDistributorName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linearLayout"
+                    android:layout_marginTop="@dimen/margin_medium">
+
+                    <EditText
+                        android:id="@+id/retailorTerroitryRetailorDistributor"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:hint="@string/distributorName"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/white" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutRetailorTotalSales"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textInputLayoutRetailorDistributorName"
+                    android:layout_marginTop="@dimen/margin_medium">
+
+                    <EditText
+                        android:id="@+id/retailorTerroitryRetailorTotalSales"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/totalSales"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/white" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutRetailorCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textInputLayoutRetailorTotalSales"
+                    android:layout_marginTop="@dimen/margin_medium">
+
+                    <EditText
+                        android:id="@+id/retailorTerroitryCrop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:hint="@string/majorCrop"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/white" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutRetailorFocusVillage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textInputLayoutRetailorCrop"
+                    android:layout_marginTop="@dimen/margin_medium">
+
+                    <EditText
+                        android:id="@+id/retailorTerroitryRetailorFocusVillage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:hint="@string/focusvillage"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/white" />
+                </android.support.design.widget.TextInputLayout>
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="?actionBarSize"
+        android:layout_height="?actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="?actionBarSize"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:src="@drawable/fab_add"
+        app:backgroundTint="@color/app_theme_color" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/submit_button_layout" />
+
+    </RelativeLayout>
+</RelativeLayout>

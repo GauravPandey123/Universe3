@@ -88,12 +88,6 @@ public class QuestioniareSelectionAdapter extends RecyclerView.Adapter<Questioni
                 // context.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
-//        holder.lianearLayoutReailters.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                context.startActivity(new Intent(context, SearchCustomersActivity.class));
-//            }
-//        });
 
         holder.recyclerviewCategory.setLayoutManager(new LinearLayoutManager(context));
         questionCategoryItemAdapter = new QuestionCategoryItemAdapter(context);

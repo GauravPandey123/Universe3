@@ -148,6 +148,27 @@
     <string name="search_location">Search Location</string>
     <string name="searchQuestions">Search Questions</string>
     <string name="setLocation">Set Location</string>
+    <string name="retailersName">RetailersName</string>
+    <string name="address">Address</string>
+    <string name="discontinue">Discontinue</string>
+    <string name="distributorName">Distributor Name(Crystal Primary Customer)</string>
+    <string name="totalSales">Total Sales</string>
+    <string name="focusvillage">Focus Village</string>
+    <string name="addNewReatiors">Add New Retailors</string>
+    <string name="err_msg_name">Please Enter Retailor Name</string>
+    <string name="err_msg_address">Please Enter Address</string>
+    <string name="err_msg_terroritry">Enter Your Territory</string>
+    <string name="err_msg_distributor">Please Enter Your Distributor</string>
+    <string name="err_msg_totalSales">Enter Total Sales</string>
+    <string name="err_msg_focusVillage">Enter the Village Name</string>
+    <string name="err_msg_phone">Please Enter The Phone Number</string>
+    <string name="select_territory">Select Territory</string>
+    <string name="majorCrop">Major Crop</string>
+    <string name="err_msg_majorCrop">Enter The Major Crop</string>
+    <string name="add_details">Add Details</string>
+    <string name="companyName">Company Name</string>
+    <string name="brandaname">Brand Name</string>
+    <string name="selectbrands">Select Brands(removable only)</string>
 
     <string-array name="filterItem">
         <item>@string/category1</item>
