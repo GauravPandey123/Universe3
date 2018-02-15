@@ -16,6 +16,26 @@ public class LoginRequest extends BaseRequest {
     private String deviceVersion;
     private String userDeviceActive;
     private String deviceIMEI;
+    private String lat;
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    private String lng;
+
 
     public String getEmail() {
         return email;

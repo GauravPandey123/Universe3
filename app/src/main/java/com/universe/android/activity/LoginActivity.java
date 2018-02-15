@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
+import com.universe.android.helper.GPSTracker;
 import com.universe.android.realmbean.RealmController;
 import com.universe.android.resource.Login.category.CategoryRequest;
 import com.universe.android.resource.Login.category.CategoryResponse;
@@ -47,6 +48,10 @@ public class LoginActivity extends BaseActivity {
     private AppCompatButton textViewLogin;
     private TextView textViewForgotPassword;
     private TextInputLayout textInputLayoutEmailLogin, textInputLayoutPassword;
+    private GPSTracker gpsTracker;
+
+    private double latitude;
+    private double longitude;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,10 @@ public class LoginActivity extends BaseActivity {
         textViewForgotPassword.setTypeface(FontClass.openSansRegular(mContext));
         textInputLayoutEmailLogin.setTypeface(FontClass.openSansRegular(mContext));
         textInputLayoutPassword.setTypeface(FontClass.openSansRegular(mContext));
+
+        gpsTracker = new GPSTracker(LoginActivity.this);
+        latitude = gpsTracker.getLatitude();
+        longitude = gpsTracker.getLongitude();
     }
 
 
@@ -85,7 +94,7 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 startActivity(new Intent(mContext, ForgotPasswordActivity.class));
                 finish();
-               // overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                // overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
     }
@@ -131,10 +140,13 @@ public class LoginActivity extends BaseActivity {
 
     //hit web service here
     public void submitLoginRequest(String email, String password) {
-        showProgress(R.string.msg_load_default);
+//        showProgress(R.string.msg_load_default);
+      //  showProgress();
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail(email);
         loginRequest.setPassword(password);
+        loginRequest.setLat("" + latitude);
+        loginRequest.setLng("" + longitude);
         LoginService loginService = new LoginService();
         loginService.executeService(loginRequest, new BaseApiCallback<LoginResponse>() {
             @Override
@@ -146,23 +158,24 @@ public class LoginActivity extends BaseActivity {
             public void onSuccess(@NonNull LoginResponse response) {
                 super.onSuccess(response);
                 LoginResponse.ResponseBean responseBean = response.getResponse();
-                    Prefs.putStringPrefs(AppConstants.TOKEN_ID, responseBean.getAccessToken());
-                    Prefs.putStringPrefs(AppConstants.UserId, responseBean.get_id());
-                    Prefs.putStringPrefs(AppConstants.password, responseBean.getPassword());
-                    Prefs.putStringPrefs(AppConstants.email, responseBean.getEmail());
-                    Prefs.putStringPrefs(AppConstants.name, responseBean.getName());
-                    Prefs.putLongPrefs(AppConstants.phone, responseBean.getPhone());
-                    Prefs.putStringPrefs(AppConstants.designationLevel, responseBean.getDesignationLevel());
-                    Prefs.putStringPrefs(AppConstants.DESIGNATION, responseBean.getDesignation());
-                    Prefs.putStringPrefs(AppConstants.picture, responseBean.getPicture());
-                    Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
-                  //  new RealmController().saveQuestions(mContext);
-                    Intent intent = new Intent(mContext, MainActivity.class);
-                    startActivity(intent);
-                 //   overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                    finish();
+                Prefs.putStringPrefs(AppConstants.TOKEN_ID, responseBean.getAccessToken());
+                Prefs.putStringPrefs(AppConstants.UserId, responseBean.get_id());
+                Prefs.putStringPrefs(AppConstants.password, responseBean.getPassword());
+                Prefs.putStringPrefs(AppConstants.email, responseBean.getEmail());
+                Prefs.putStringPrefs(AppConstants.name, responseBean.getName());
+                Prefs.putLongPrefs(AppConstants.phone, responseBean.getPhone());
+                Prefs.putStringPrefs(AppConstants.designationLevel, responseBean.getDesignationLevel());
+                Prefs.putStringPrefs(AppConstants.DESIGNATION, responseBean.getDesignation());
+                Prefs.putStringPrefs(AppConstants.picture, responseBean.getPicture());
+                Prefs.putStringPrefs(AppConstants.location,responseBean.getLocation());
+                Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
+                //  new RealmController().saveQuestions(mContext);
+                Intent intent = new Intent(mContext, MainActivity.class);
+                startActivity(intent);
+                //   overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                finish();
 
-                   getSurveyResponse();
+              //  getSurveyResponse();
 
             }
 
@@ -177,13 +190,12 @@ public class LoginActivity extends BaseActivity {
 
     //hit web service here
     public void getSurveyResponse() {
-        showProgress(R.string.loading_survey);
+        //showProgress(R.string.loading_survey);
         SurveyRequest surveyRequest = new SurveyRequest();
         SurveyService surveyService = new SurveyService();
         surveyService.executeService(surveyRequest, new BaseApiCallback<SurveyResponse>() {
             @Override
             public void onComplete() {
-
             }
 
             @Override
@@ -193,8 +205,6 @@ public class LoginActivity extends BaseActivity {
                     SurveyResponse.ResponseBean responseBean = response.getResponse();
                     String responseData = new Gson().toJson(responseBean);
                     new RealmController().saveSurveysResponse(responseData);
-
-
                 } else {
                     Utility.showToast(response.getErrorMsg());
                 }

@@ -10,20 +10,20 @@ import java.util.List;
  */
 
 public class LoginResponse extends BaseResponse <LoginResponse>{
-    @Override
-    public boolean isValid(String condition, boolean isStrict) {
-        return true;
-    }
-
     /**
      * errorMsg :
      * statusCode : 200
-     * response : {"_id":"5a799e932779e608b435a279","updatedAt":"2018-02-07T10:44:44.048Z","createdAt":"2018-02-06T12:24:51.458Z","designation":"TM","territory":"T1","LOB":["test1","test2"],"address":"","loc":[21,77],"long":"21","lat":"77","isActive":1,"picture":"https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1517996742714.png","designationLevel":"3","phone":9999999999,"password":"12345","email":"gaurav.pandey@quayintech.com","name":"Gaurav singh","__v":0,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YTc5OWU5MzI3NzllNjA4YjQzNWEyNzkiLCJkYXRlIjoxNTE3OTE5OTE5NzM3fQ.ZW2U3rVBy8Prv8erIr4xpZijHabmjKpOCYodEIT0LiU","isVerified":1}
+     * response : {"_id":"5a799e932779e608b435a279","updatedAt":"2018-02-15T11:32:56.280Z","createdAt":"2018-02-06T12:24:51.458Z","designation":"TM","territory":"T1","address":"","loc":[28.4974879,77.0839668],"long":"77.0839668","lat":"28.4974879","isActive":1,"picture":"https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1517996742714.png","designationLevel":"3","phone":9999999999,"password":"12345","email":"gaurav.pandey@quayintech.com","name":"Gaurav singh","__v":2,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YTc5OWU5MzI3NzllNjA4YjQzNWEyNzkiLCJkYXRlIjoxNTE4Njk0Mzc2MDk5fQ.tkHdR-qf9KgnwdCYJnYXu7QB9QiwxAw1GqUlkOsKrVU","isVerified":1,"location":"577, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","LOB":["test1","test2"]}
      */
 
     private String errorMsg;
     private int statusCode;
     private ResponseBean response;
+
+    @Override
+    public boolean isValid(String condition, boolean isStrict) {
+        return true;
+    }
 
     public String getErrorMsg() {
         return errorMsg;
@@ -49,18 +49,18 @@ public class LoginResponse extends BaseResponse <LoginResponse>{
         this.response = response;
     }
 
+
     public static class ResponseBean {
         /**
          * _id : 5a799e932779e608b435a279
-         * updatedAt : 2018-02-07T10:44:44.048Z
+         * updatedAt : 2018-02-15T11:32:56.280Z
          * createdAt : 2018-02-06T12:24:51.458Z
          * designation : TM
          * territory : T1
-         * LOB : ["test1","test2"]
          * address :
-         * loc : [21,77]
-         * long : 21
-         * lat : 77
+         * loc : [28.4974879,77.0839668]
+         * long : 77.0839668
+         * lat : 28.4974879
          * isActive : 1
          * picture : https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1517996742714.png
          * designationLevel : 3
@@ -68,9 +68,11 @@ public class LoginResponse extends BaseResponse <LoginResponse>{
          * password : 12345
          * email : gaurav.pandey@quayintech.com
          * name : Gaurav singh
-         * __v : 0
-         * accessToken : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YTc5OWU5MzI3NzllNjA4YjQzNWEyNzkiLCJkYXRlIjoxNTE3OTE5OTE5NzM3fQ.ZW2U3rVBy8Prv8erIr4xpZijHabmjKpOCYodEIT0LiU
+         * __v : 2
+         * accessToken : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YTc5OWU5MzI3NzllNjA4YjQzNWEyNzkiLCJkYXRlIjoxNTE4Njk0Mzc2MDk5fQ.tkHdR-qf9KgnwdCYJnYXu7QB9QiwxAw1GqUlkOsKrVU
          * isVerified : 1
+         * location : 577, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India
+         * LOB : ["test1","test2"]
          */
 
         private String _id;
@@ -92,8 +94,9 @@ public class LoginResponse extends BaseResponse <LoginResponse>{
         private int __v;
         private String accessToken;
         private int isVerified;
+        private String location;
+        private List<Double> loc;
         private List<String> LOB;
-        private List<Integer> loc;
 
         public String get_id() {
             return _id;
@@ -239,20 +242,28 @@ public class LoginResponse extends BaseResponse <LoginResponse>{
             this.isVerified = isVerified;
         }
 
+        public String getLocation() {
+            return location;
+        }
+
+        public void setLocation(String location) {
+            this.location = location;
+        }
+
+        public List<Double> getLoc() {
+            return loc;
+        }
+
+        public void setLoc(List<Double> loc) {
+            this.loc = loc;
+        }
+
         public List<String> getLOB() {
             return LOB;
         }
 
         public void setLOB(List<String> LOB) {
             this.LOB = LOB;
-        }
-
-        public List<Integer> getLoc() {
-            return loc;
-        }
-
-        public void setLoc(List<Integer> loc) {
-            this.loc = loc;
         }
     }
 }

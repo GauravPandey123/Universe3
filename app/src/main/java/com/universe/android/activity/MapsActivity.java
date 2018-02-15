@@ -15,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,7 +34,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
+public class MapsActivity extends BaseActivity implements OnMapReadyCallback,GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
     private EditText locationSearch;
@@ -168,15 +169,26 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.clear();
+        mMap.setOnMapClickListener(this);
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(28.7041, 77.1025);
 //
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13.0f));
         mMap.addMarker(new MarkerOptions().position(sydney));
-        drawCircle(sydney);
+//        drawCircle(sydney);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mMap.setMyLocationEnabled(true);
+    }
+
+    @Override
+    public void onMapClick(LatLng latLng) {
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        mMap.clear();
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
+        mMap.addMarker(markerOptions);
     }
 }

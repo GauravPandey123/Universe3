@@ -76,6 +76,8 @@ public class AppConstants {
     public static final String email = "Email";
     public static final String name = "name";
     public static final String picture = "picture";
+    public static final String location = "location";
+
     public static final String Login_Status = "login_status";
     public static final String AUTHORIZATION = "Authorization";
     public static final String LAST_SYNC_DATE = "LastSyncDate";
