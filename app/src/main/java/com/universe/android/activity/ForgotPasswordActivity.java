@@ -48,12 +48,8 @@ public class ForgotPasswordActivity extends BaseActivity {
                     } else {
                         forgotPasswordRequest(email);
                     }
-                }
-
-            }
+                }}
         });
-
-
     }
 
     private void initialization() {
@@ -93,7 +89,6 @@ public class ForgotPasswordActivity extends BaseActivity {
             public void onSuccess(@NonNull ForgotPasswordResponse response) {
                 super.onSuccess(response);
                 if (response.getStatusCode() == AppConstants.SUCCESS) {
-//                    Utility.showToast(R.);
                     startActivity(new Intent(mContext, ResetPasswordActivity.class));
                     finish();
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -101,9 +96,7 @@ public class ForgotPasswordActivity extends BaseActivity {
                     Utility.showToast(response.getErrorMsg());
 
                 }
-
             }
-
             @Override
             public void onFailure(APIException e) {
                 super.onFailure(e);

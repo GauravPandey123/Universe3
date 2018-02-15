@@ -102,7 +102,6 @@
             android:drawablePadding="@dimen/margin_min"
             android:drawableRight="@drawable/ic_status"
             android:focusable="false"
-            android:hint="@string/status"
             android:inputType="textEmailAddress"
             android:textSize="@dimen/text_size_medium" />
     </android.support.design.widget.TextInputLayout>

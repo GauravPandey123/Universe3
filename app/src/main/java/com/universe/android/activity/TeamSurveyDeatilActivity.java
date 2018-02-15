@@ -6,165 +6,138 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
+import com.github.aakira.expandablelayout.Utils;
 import com.universe.android.R;
+import com.universe.android.adapter.CrystalDoctorAdapter;
+import com.universe.android.adapter.QuestioniareSelectionAdapter;
+import com.universe.android.adapter.SectionedRecyclerViewAdapter;
 import com.universe.android.adapter.StatusAdapter;
-import com.universe.android.adapter.SurveyDetailAdapter;
 import com.universe.android.helper.FontClass;
-
+import com.universe.android.helper.RecyclerTouchListener;
+import com.universe.android.model.DataModel;
+import com.universe.android.model.ItemModel;
 import com.universe.android.model.StatusModel;
 import com.universe.android.utility.Utility;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
- * Created by gaurav.pandey on 24-01-2018.
+ * Created by gaurav.pandey on 12-02-2018.
  */
 
-public class SurveyDetailActivity extends BaseActivity {
-    //decalre the Views here
-    private RecyclerView recyclerViewSurveyDetail;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView recylerViewStatus;
-    private SwipeRefreshLayout swipeRefreshLayoutStatus;
-    private ImageView imageViewBack, imageViewFilter;
-    private FloatingActionMenu floatingActionMenu;
+public class TeamSurveyDeatilActivity extends BaseActivity {
 
-    private FloatingActionButton floatingCrystal, floatingRetailers;
-    private TextView textViewToday, textViewtarget, textViewAchievement, textViewInProgress;
-    private TextView textViewNewRetailers, textViewCrystalmembers, textViewCompletedQuestionaire;
-    private TextView textViewPeriodFrom, textViewPeriodTo, textViewPeriodStatus, textViewReset, textViewApplyFilter;
+    private CardView carView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private RecyclerView reyclerViewCategory;
+    private ImageView imageViewBack;
+    private Dialog dialogFilter, dialogStatus, dialogCalendra;
+
     private EditText input_period_from, input_period_to, input_period_status;
     private TextView textViewTodayFilter, textViewWeekFilter, textViewMonthFilter, textViewOthersFilter, textViewFilter;
     private TextView textViewChooseStatus;
     private ImageView imageViewCloseStatus;
-    private ImageView imageViewCancel;
-
-    private Dialog dialogFilter, dialogStatus, dialogCalendra;
-    private ArrayList<String> stringArrayList;
-    private LinearLayoutManager linearLayoutManager;
-    private SurveyDetailAdapter surveyDetailAdapter;
-
-    //declare the variables here
-    private boolean isMultiSelect = false;
-    ArrayList<StatusModel> statusList = new ArrayList<>();
-    ArrayList<StatusModel> multiselectSatuslist = new ArrayList<>();
-    private LinearLayoutManager mLayoutManager;
+    private ImageView imageViewCancel, imageviewfilter;
     private StatusAdapter statusAdapter;
-    private Calendar mcalendar;
-    private int day, month, year;
+    private LinearLayoutManager mLayoutManager;
+
+    private ArrayList<StatusModel> statusList = new ArrayList<>();
+    private ArrayList<StatusModel> multiselectSatuslist = new ArrayList<>();
+    private RecyclerView recylerViewStatus;
+    private TextView textViewPeriodFrom, textViewPeriodTo, textViewPeriodStatus, textViewReset, textViewApplyFilter;
+
+    private List<DataModel> allSampleData;
+    private CrystalDoctorAdapter crystalDoctorAdapter;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.surveyreportfragment);
+        setContentView(R.layout.team_survey_activity);
         initialization();
         setUpElements();
-        setUpListeners();
     }
 
-    private void setUpListeners() {
+    private void setUpElements() {
+        carView.setVisibility(View.GONE);
+        populateSampleData();
+        reyclerViewCategory.setLayoutManager(new LinearLayoutManager(mContext));
+        crystalDoctorAdapter = new CrystalDoctorAdapter(allSampleData, mContext);
+        reyclerViewCategory.setAdapter(crystalDoctorAdapter);
+
+        reyclerViewCategory.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), reyclerViewCategory, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent intent = new Intent(mContext, TeamSurveyDetailReport.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+
+    }
+
+    private void initialization() {
+        allSampleData = new ArrayList<DataModel>();
+        carView = findViewById(R.id.carView);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayoutCategory);
+        reyclerViewCategory = findViewById(R.id.reyclerViewCategory);
+        imageViewBack = findViewById(R.id.imageviewback);
+        imageviewfilter = findViewById(R.id.imageviewfilter);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
-        imageViewFilter.setOnClickListener(new View.OnClickListener() {
+
+        imageviewfilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDialog();
             }
         });
+
+
     }
 
-    private void setUpElements() {
-        searchList();  // in this method, Create a list of items.
-        surveyDetailAdapter = new SurveyDetailAdapter(mContext, stringArrayList);
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerViewSurveyDetail.setLayoutManager(linearLayoutManager);
-        recyclerViewSurveyDetail.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewSurveyDetail.setAdapter(surveyDetailAdapter);
-    }
+    private void populateSampleData() {
 
-    private void initialization() {
-        stringArrayList = new ArrayList<>();
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        recyclerViewSurveyDetail = findViewById(R.id.recylerViewSurveyDetail);
-        imageViewBack = findViewById(R.id.imageviewback);
-        imageViewFilter = findViewById(R.id.imageviewfilter);
-        textViewToday = findViewById(R.id.textViewToday);
-        textViewtarget = findViewById(R.id.textViewtarget);
-        textViewAchievement = findViewById(R.id.textViewAchievement);
-        textViewInProgress = findViewById(R.id.textViewInProgress);
-        textViewNewRetailers = findViewById(R.id.textViewNewRetailers);
-        textViewCrystalmembers = findViewById(R.id.textViewCrystalmembers);
-        textViewCompletedQuestionaire = findViewById(R.id.textViewCompletedQuestionaire);
-        floatingActionMenu = findViewById(R.id.floating_action_menu_customers);
-        floatingCrystal = findViewById(R.id.floatingCrystal);
-        floatingRetailers = findViewById(R.id.floatingRetailers);
-        textViewFilter = findViewById(R.id.textViewFilter);
+        for (int i = 1; i <= 10; i++) {
 
+            DataModel dm = new DataModel();
 
-        textViewToday.setTypeface(FontClass.openSemiBold(mContext));
-        textViewtarget.setTypeface(FontClass.openSansRegular(mContext));
-        textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
-        textViewInProgress.setTypeface(FontClass.openSansRegular(mContext));
-        textViewNewRetailers.setTypeface(FontClass.openSansRegular(mContext));
-        textViewCrystalmembers.setTypeface(FontClass.openSansRegular(mContext));
-        textViewCompletedQuestionaire.setTypeface(FontClass.openSansRegular(mContext));
-//        textViewFilter.setTypeface(FontClass.openSemiBold(mContext));
+            dm.setHeaderTitle("Crystal Doctor  " + i);
 
-        floatingActionMenu.setClosedOnTouchOutside(true);
-        floatingCrystal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, SearchCustomersActivity.class));
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                floatingActionMenu.close(true);
+            ArrayList<String> singleItem = new ArrayList<>();
+            for (int j = 1; j <= 4; j++) {
 
+                singleItem.add("1 " + j);
             }
-        });
 
-        floatingRetailers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, SearchCustomersActivity.class));
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                floatingActionMenu.close(true);
+            dm.setAllItemsInSection(singleItem);
 
-            }
-        });
+            allSampleData.add(dm);
 
-    }
-
-    private void searchList() {
-        stringArrayList.add("Agro Inputs Corporation");
-        stringArrayList.add("Aj AgroChemicals");
-        stringArrayList.add("Blossom AgriCore");
-        stringArrayList.add("Chemical India");
-        stringArrayList.add("Duncan India");
-        stringArrayList.add("Gange Pestiside");
-        stringArrayList.add("Agro Inputs Corporation");
-        stringArrayList.add("Aj AgroChemicals");
-        stringArrayList.add("Blossom AgriCore");
-        stringArrayList.add("Chemical India");
-        stringArrayList.add("Duncan India");
-        stringArrayList.add("Gange Pestiside");
+        }
     }
 
     public void showDialog() {
@@ -177,26 +150,6 @@ public class SurveyDetailActivity extends BaseActivity {
         dialogSetUpElements();
         dialogFilter.show();
 
-
-    }
-
-    public void statusDialog() {
-        dialogStatus = new Dialog(mContext);
-        dialogStatus.setCanceledOnTouchOutside(true);
-        dialogStatus.setContentView(R.layout.select_status_dialog);
-        dialogStatusInitialization();
-        dialogStatusSetUpElements();
-        dialogStatus.show();
-        showData();
-    }
-
-    private void showData() {
-        String name[] = {"Target", "Completed", "Achievement", "InProgress", "New Retailers", "Crystal Members"};
-        int imageId[] = {R.drawable.ic_target, R.drawable.ic_completed, R.drawable.ic_progress, R.drawable.ic_customer, R.drawable.ic_customer};
-        for (int i = 0; i < name.length - 1; i++) {
-            StatusModel mSample = new StatusModel(name[i], imageId[i]);
-            statusList.add(mSample);
-        }
 
     }
 
@@ -260,8 +213,8 @@ public class SurveyDetailActivity extends BaseActivity {
         textViewWeekFilter = dialogFilter.findViewById(R.id.textViewWeekFilter);
         textViewMonthFilter = dialogFilter.findViewById(R.id.textViewMonthFilter);
         textViewOthersFilter = dialogFilter.findViewById(R.id.textViewOthersFilter);
+        input_period_status.setHint(R.string.hintTeam);
 
-        input_period_status.setHint(R.string.status);
         textViewTodayFilter.setTypeface(FontClass.openSansRegular(mContext));
         textViewWeekFilter.setTypeface(FontClass.openSansRegular(mContext));
         textViewMonthFilter.setTypeface(FontClass.openSansRegular(mContext));
@@ -386,6 +339,26 @@ public class SurveyDetailActivity extends BaseActivity {
         });
     }
 
+    public void statusDialog() {
+        dialogStatus = new Dialog(mContext);
+        dialogStatus.setCanceledOnTouchOutside(true);
+        dialogStatus.setContentView(R.layout.select_status_dialog);
+        dialogStatusInitialization();
+        dialogStatusSetUpElements();
+        dialogStatus.show();
+        showData();
+    }
+
+    private void showData() {
+        String name[] = {"Srikanta", "Gaurav", "Neeraj", "Girish", "Arjun", "Ankush"};
+        int imageId[] = {R.drawable.ic_target, R.drawable.ic_completed, R.drawable.ic_progress, R.drawable.ic_customer, R.drawable.ic_customer};
+        for (int i = 0; i < name.length - 1; i++) {
+            StatusModel mSample = new StatusModel(name[i], imageId[i]);
+            statusList.add(mSample);
+        }
+
+    }
+
     private void showWeekCalendra() {
     }
 
@@ -443,13 +416,5 @@ public class SurveyDetailActivity extends BaseActivity {
         dp.show();
 
     }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
-
 
 }

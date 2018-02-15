@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_width="match_parent" android:layout_height="match_parent">
     <RelativeLayout
-        android:id="@+id/include"
+        android:id="@+id/include1"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/app_theme_color">
@@ -22,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:text="@string/work_flows"
+            android:text="@string/team_survey_detail"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="16sp"
@@ -31,34 +29,20 @@
     </RelativeLayout>
 
 
-    <LinearLayout
-        android:id="@+id/linaerLyout"
+    <RelativeLayout
+        android:id="@+id/includeCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/include"
-        android:layout_margin="@dimen/margin_small"
-        android:orientation="vertical">
+        android:layout_below="@+id/include1">
 
-        <include layout="@layout/work_flows_header" />
-        <include layout="@layout/part_workflows_detail" />
-    </LinearLayout>
-
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+        <include layout="@layout/team_survey_report_header" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/includeWorkDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/linaerLyout"
-        android:layout_margin="@dimen/margin_min">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/includeCardView">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recylerViewSurveyDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </android.support.v7.widget.RecyclerView>
-
-    </android.support.v4.widget.SwipeRefreshLayout>
-
-
+        <include layout="@layout/workflows_details_fragment" />
+    </RelativeLayout>
 </RelativeLayout>

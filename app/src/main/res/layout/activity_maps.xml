@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginTop="@dimen/margin_normal"
-            android:hint="@string/search"
+            android:hint="@string/search_location"
             android:imeOptions="actionSearch"
             android:paddingLeft="@dimen/margin_normal"
             android:paddingRight="@dimen/margin_normal"
@@ -96,5 +96,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/border" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="?actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:padding="@dimen/text_size_large"
+        android:text="@string/setLocation"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/text_size_large" />
+
+    <ImageView
+        android:id="@+id/imageViewLocation"
+        android:layout_width="@dimen/margin_large"
+        android:layout_height="@dimen/margin_large"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/margin_medium"
+        android:src="@drawable/ic_location_searching_black_24dp"/>
+
 
 </RelativeLayout>
