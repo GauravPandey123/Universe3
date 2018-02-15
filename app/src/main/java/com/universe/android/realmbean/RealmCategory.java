@@ -8,7 +8,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class RealmCategory extends RealmObject {
     @PrimaryKey
-    private String id;
+    private String _id;
     private String categoryType;
     private String categoryName;
     private String createdBy;
@@ -28,13 +28,7 @@ public class RealmCategory extends RealmObject {
     private String image;
 
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getCategoryType() {
         return categoryType;
@@ -169,5 +163,21 @@ public class RealmCategory extends RealmObject {
 
     public void setIsActive(int isActive) {
         this.isActive = isActive;
+    }
+
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String _id) {
+        this._id = _id;
+    }
+
+    public int get_v() {
+        return _v;
+    }
+
+    public void set_v(int _v) {
+        this._v = _v;
     }
 }

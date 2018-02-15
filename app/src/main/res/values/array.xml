@@ -9,7 +9,7 @@
         <item>createdBy</item>
         <item>expiryDate</item>
         <item>isActive</item>-->
-
+        <item>categoryId</item>
     </string-array>
     <string-array name="client">
         <!--<item>name</item>
@@ -21,7 +21,7 @@
         <item>isActive</item>
         <item>expiryDate</item>
         <item>surveyId</item>-->
-        <item>survey</item>
+        <item>surveyId</item>
     </string-array>
 
     <string-array name="customer">
@@ -35,8 +35,8 @@
          <item>expiryDate</item>
          <item>surveys</item>
          <item>client</item>-->
-        <item>survey</item>
-        <item>client</item>
+        <item>surveyId</item>
+        <item>clientId</item>
     </string-array>
 
     <string-array name="category">
@@ -62,6 +62,7 @@
 
 
     <string-array name="question">
+        <item>categoryId</item>
         <!--  <item>title</item>
           <item>longTitle</item>
           <item>inputType</item>

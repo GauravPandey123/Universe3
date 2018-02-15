@@ -26,7 +26,7 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
                 <TextView
-                    android:id="@+id/toolbarTtile"
+                    android:id="@+id/textViewHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -54,7 +54,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp">
 
         <LinearLayout
             style="@style/appFormLinear"
@@ -96,6 +97,41 @@
                     style="@style/appSpinnerText"
                     android:gravity="center_vertical"
                     android:text="@string/select_client" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llCategory"
+                style="@style/appFieldLinearLayout"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvCategoryTitle"
+                    style="@style/appFieldTitleText"
+                    android:text="@string/category" />
+
+                <TextView
+                    android:id="@+id/spnCategory"
+                    style="@style/appSpinnerText"
+                    android:gravity="center_vertical"
+                    android:text="@string/select_category" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llCategorySingle"
+                style="@style/appFieldLinearLayout"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tvCategoryTitleSingle"
+                    style="@style/appFieldTitleText"
+                    android:text="@string/category" />
+
+                <TextView
+                    android:id="@+id/spnCategorySingle"
+                    style="@style/appSpinnerText"
+                    android:gravity="center_vertical"
+                    android:text="@string/select_category" />
 
             </LinearLayout>
             <LinearLayout

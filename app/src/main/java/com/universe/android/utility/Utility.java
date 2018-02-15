@@ -476,7 +476,7 @@ public class Utility {
                     String strCurrentDate = jsonRequest.optString(AppConstants.EXPIRYDATE);
                     if (strCurrentDate != null) {
                         String date;
-                        date = Utility.getFormattedDates(strCurrentDate, AppConstants.format8, AppConstants.format3);
+                        date = Utility.getFormattedDates(strCurrentDate, AppConstants.DATE_FORMAT, AppConstants.format1);
                         jsonRequest.put(AppConstants.EXPIRYDATE, date);
                     }
                 }

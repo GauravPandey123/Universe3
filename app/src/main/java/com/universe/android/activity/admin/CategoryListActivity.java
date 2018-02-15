@@ -60,6 +60,7 @@ public class CategoryListActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent i = new Intent(CategoryListActivity.this, FormQuestionActivity.class);
                 i.putExtra(AppConstants.FORM_ID, formId);
+                i.putExtra(AppConstants.STR_TITLE,getString(R.string.category));
                 startActivityForResult(i, ID_UPDATE_CAMP);
             }
         });

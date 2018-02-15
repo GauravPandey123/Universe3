@@ -8,7 +8,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class RealmSurveys extends RealmObject {
     @PrimaryKey
-    private String id;
+    private String _id;
     private String status;
     private int _v;
     private String title;
@@ -26,13 +26,6 @@ public class RealmSurveys extends RealmObject {
     private boolean isSync=true;
     private boolean isUpdate=true;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getStatus() {
         return status;
@@ -128,5 +121,25 @@ public class RealmSurveys extends RealmObject {
 
     public void setIsActive(int isActive) {
         this.isActive = isActive;
+    }
+
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String _id) {
+        this._id = _id;
+    }
+
+    public int get_v() {
+        return _v;
+    }
+
+    public void set_v(int _v) {
+        this._v = _v;
+    }
+
+    public int getIsActive() {
+        return isActive;
     }
 }

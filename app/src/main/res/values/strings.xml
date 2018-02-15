@@ -140,6 +140,9 @@
     <string name="rejected">Rejected</string>
     <string name="approve">Approve</string>
     <string name="reject">Reject</string>
+
+    <string name="select_category">Select Category</string>
+
     <string name="team_survey_detail">TeamSurveyDetailReport</string>
     <string name="crystaldoctors">Crystal Doctor 1</string>
     <string name="amtala">Amtala</string>

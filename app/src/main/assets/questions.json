@@ -630,10 +630,10 @@
       "properties": {
         "title": {
           "inputType": "textbox",
-          "displayOrder": 5,
+          "displayOrder": 1,
           "pattern": "^[A-Za-z\\s]+$",
           "title": "Title",
-          "hindiTitle": "व्यक्ति का नाम मिले",
+          "hindiTitle": "",
           "description": "",
           "type": "string",
           "maxLength": 100,
@@ -647,7 +647,7 @@
           }},
         "longTitle": {
           "inputType": "textbox",
-          "displayOrder": 5,
+          "displayOrder": 2,
           "pattern": "^[A-Za-z\\s]+$",
           "title": "Category Name",
           "hindiTitle": "व्यक्ति का नाम मिले",
@@ -660,118 +660,9 @@
             "202": "Only Alphabets are allowed",
             "302": "Name is Required!!"
           }},
-        "inputType": {
-          "inputType": "select",
-          "displayOrder": 2,
-          "title": "Input Type",
-          "hindiTitle": "पंचायत का नाम",
-          "description": "",
-          "type": "string",
-          "placeholder": "Select InputType",
-
-          "visibility": true,
-          "alpha": false,
-          "enum": [
-            "Yes",
-            "No"
-          ],
-          "optionValues": [
-            "textBox",
-            "radio",
-            "checkbox"
-          ],
-          "required": true
-        },
-        "type": {
-          "inputType": "select",
-          "displayOrder": 8,
-          "title": "Type",
-          "hindiTitle": "",
-          "description": "",
-          "type": "string",
-          "enum": [
-            "Yes",
-            "No"
-          ],
-          "optionValues": [
-            "String",
-            "Number",
-            "Float",
-            "Long"
-          ],
-          "visibility": true,
-          "required": true
-        },
-        "required": {
-          "inputType": "radio",
-          "displayOrder": 8,
-          "title": "Required",
-          "hindiTitle": "",
-          "description": "",
-          "type": "string",
-          "enum": [
-            "Yes",
-            "No"
-          ],
-          "optionValues": [
-            "Yes",
-            "No"
-          ],
-          "visibility": true,
-          "required": true
-        },
-
-        "maxValue": {
-          "inputType": "textbox",
-          "displayOrder": 13,
-          "title": "Maximum Value",
-          "hindiTitle": "मोबाइल नंबर",
-          "description": "",
-          "type": "number",
-          "visibility": true,
-          "maxLength": 3,
-          "maxValueLength": 0,
-          "validationMessage": {
-            "302": "Number is Required!!"
-          },
-          "alpha": false,
-          "required": false
-        },
-        "minValue": {
-          "inputType": "textbox",
-          "displayOrder": 13,
-          "title": "Minimum Value",
-          "hindiTitle": "मोबाइल नंबर",
-          "description": "",
-          "type": "number",
-          "visibility": true,
-          "maxLength": 3,
-          "maxValueLength": 0,
-          "validationMessage": {
-            "302": "Number is Required!!"
-          },
-          "alpha": false,
-          "required": false
-        },
-        "maxLength": {
-          "inputType": "textbox",
-          "displayOrder": 13,
-          "title": "Maximum Length",
-          "hindiTitle": "मोबाइल नंबर",
-          "description": "",
-          "type": "number",
-          "visibility": true,
-          "maxLength": 3,
-          "maxValueLength": 0,
-          "validationMessage": {
-            "302": "Number is Required!!"
-          },
-          "alpha": false,
-          "required": false
-        },
         "displayOrder": {
           "inputType": "textbox",
-          "displayOrder": 7,
+          "displayOrder": 3,
           "title": "Display Order",
           "hindiTitle": "आयु",
           "description": "",
@@ -792,7 +683,7 @@
         },
         "visibility": {
           "inputType": "radio",
-          "displayOrder": 8,
+          "displayOrder": 4,
           "title": "Visible",
           "hindiTitle": "नैदानिक ​​परीक्षण किया गया है या नहीं?",
           "description": "",
@@ -808,11 +699,11 @@
           "visibility": true,
           "required": true
         },
-        "isActive": {
+        "required": {
           "inputType": "radio",
-          "displayOrder": 8,
-          "title": "Active",
-          "hindiTitle": "नैदानिक ​​परीक्षण किया गया है या नहीं?",
+          "displayOrder": 5,
+          "title": "Required",
+          "hindiTitle": "",
           "description": "",
           "type": "string",
           "enum": [
@@ -826,16 +717,60 @@
           "visibility": true,
           "required": true
         },
-        "optionValues": {
+        "inputType": {
           "inputType": "select",
-          "displayOrder": 1,
-          "title": "Option Values",
-          "hindiTitle": "तिथि",
+          "displayOrder": 6,
+          "title": "Input Type",
+          "hindiTitle": "पंचायत का नाम",
           "description": "",
           "type": "string",
-          "format": "date",
-          "alpha": false,
+          "placeholder": "Select InputType",
           "visibility": true,
+          "alpha": false,
+          "enum": [
+            "textbox",
+            "radio",
+            "checkbox",
+            "date",
+            "rating",
+            "multiedittext",
+            "multiselect",
+            "select"
+          ],
+          "optionValues": [
+            "textbox",
+            "radio",
+            "checkbox",
+            "date",
+            "rating",
+            "multiedittext",
+            "multiselect",
+            "select"
+
+
+          ],
+          "required": true
+        },
+        "type": {
+          "inputType": "select",
+          "displayOrder": 7,
+          "title": "Type",
+          "hindiTitle": "",
+          "description": "",
+          "type": "string",
+          "enum": [
+            "string",
+            "number",
+            "float",
+            "long"
+          ],
+          "optionValues": [
+            "string",
+            "number",
+            "float",
+            "long"
+          ],
+          "visibility": false,
           "required": true
         },
         "orientation": {
@@ -846,65 +781,103 @@
           "description": "",
           "type": "string",
           "enum": [
-            "Yes",
-            "No"
+            "Vertical",
+            "Horizontal"
           ],
           "optionValues": [
             "Vertical",
             "Horizontal"
           ],
+          "visibility": false,
+          "required": true
+        },
+
+        "maxValue": {
+          "inputType": "textbox",
+          "displayOrder": 9,
+          "title": "Maximum Value",
+          "hindiTitle": "मोबाइल नंबर",
+          "description": "",
+          "type": "number",
+          "visibility": false,
+          "maxLength": 3,
+          "maxValueLength": 0,
+          "validationMessage": {
+            "302": "Number is Required!!"
+          },
+          "alpha": false,
+          "required": false
+        },
+        "minValue": {
+          "inputType": "textbox",
+          "displayOrder": 10,
+          "title": "Minimum Value",
+          "hindiTitle": "मोबाइल नंबर",
+          "description": "",
+          "type": "number",
+          "visibility": false,
+          "maxLength": 3,
+          "maxValueLength": 0,
+          "validationMessage": {
+            "302": "Number is Required!!"
+          },
+          "alpha": false,
+          "required": false
+        },
+        "maxLength": {
+          "inputType": "textbox",
+          "displayOrder": 11,
+          "title": "Maximum Length",
+          "hindiTitle": "मोबाइल नंबर",
+          "description": "",
+          "type": "number",
+          "visibility": false,
+          "maxLength": 3,
+          "maxValueLength": 0,
+          "validationMessage": {
+            "302": "Number is Required!!"
+          },
+          "alpha": false,
+          "required": false
+        },
+        "optionValuesCount": {
+          "inputType": "textbox",
+          "displayOrder": 12,
+          "title": "How many options ?",
+          "hindiTitle": "",
+          "description": "",
+          "type": "number",
+          "visibility": false,
+          "maxLength": 3,
+          "maxValueLength": 0,
+          "validationMessage": {
+            "302": "Number is Required!!"
+          },
+          "alpha": false,
+          "required": false
+        },
+        "optionValues": {
+          "inputType": "multiedittext",
+          "displayOrder": 13,
+          "title": "Enter Option Values",
+          "hindiTitle": "",
+          "description": "",
+          "type": "string",
+          "alpha": false,
           "visibility": true,
           "required": true
         },
 
-        "surveyId": {
-          "inputType": "select",
-          "displayOrder": 2,
-          "title": "Survey",
-          "hindiTitle": "पंचायत का नाम",
-          "description": "",
-          "type": "string",
-          "placeholder": "Select Survey",
-          "apiModel": "RealmSurveys",
-          "visibility": true,
-          "alpha": false,
-          "required": true
-        },
-        "clientId": {
-          "inputType": "select",
-          "displayOrder": 2,
-          "title": "Client",
-          "hindiTitle": "पंचायत का नाम",
-          "description": "",
-          "type": "string",
-          "placeholder": "Select Client",
-          "apiModel": "RealmClient",
-          "visibility": true,
-          "alpha": false,
-          "required": true
-        },
-        "customerId": {
-          "inputType": "select",
-          "displayOrder": 2,
-          "title": "Customer",
-          "hindiTitle": "पंचायत का नाम",
-          "description": "",
-          "type": "string",
-          "placeholder": "Select Customer",
-          "apiModel": "RealmCustomer",
-          "visibility": true,
-          "alpha": false,
-          "required": true
-        },
+
         "categoryId": {
           "inputType": "select",
-          "displayOrder": 2,
-          "title": "Category",
-          "hindiTitle": "",
+          "displayOrder": 14,
+          "title": "Select Category",
+          "hindiTitle": "पंचायत का नाम",
           "description": "",
           "type": "string",
           "placeholder": "Select Category",
-          "apiModel": "RealmCustomer",
+          "apiModel": "RealmCategory",
           "visibility": true,
           "alpha": false,
           "required": true
@@ -917,12 +890,14 @@
           "inputType",
           "type",
           "required",
-          "isActive",
           "visibility",
           "displayOrder",
-          "surveys",
-          "clientId",
-          "customerId",
+          "orientation",
+          "optionValuesCount",
+          "optionValues",
+          "maxvalue",
+          "minValue",
+          "maxLength",
           "categoryId"
 
         ]

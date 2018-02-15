@@ -3,7 +3,7 @@ package com.universe.android.enums;
 
 public enum FormEnumKeys {
 
-  ;
+    type("type"),inputType("inputType"),maxValue("maxValue"),minValue("minValue"),maxLength("maxLength"),orientation("orientation"),optionValuesCount("optionValuesCount"),optionValues("optionValues") ;
 
     private final String name;
 

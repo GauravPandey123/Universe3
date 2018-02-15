@@ -60,7 +60,7 @@ public class Prefs {
     }
 
     public static long getLongPrefs(String key) {
-        return getPrefs().getLong(key, 0);
+        return getPrefs().getLong(key, 000000);
     }
 
     public static void putDoublePrefs(String key, double value) {
