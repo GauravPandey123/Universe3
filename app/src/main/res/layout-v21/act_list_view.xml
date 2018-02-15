@@ -30,37 +30,37 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-        <TextView
-            android:id="@+id/tvName"
-            style="@style/appText"
-            android:layout_below="@+id/include"
-            android:gravity="center" />
+    <TextView
+        android:id="@+id/tvName"
+        style="@style/appText"
+        android:layout_below="@+id/include"
+        android:gravity="center" />
 
-        <SearchView
-            android:id="@+id/searchView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvName"
-            android:layout_margin="@dimen/view_padding"
-            android:layout_marginBottom="@dimen/view_row_margin"
-            android:layout_marginTop="@dimen/view_row_margin"
-            android:background="@drawable/edt_bg"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:iconifiedByDefault="false"
-            android:imeActionLabel="Done"
-            android:imeOptions="actionDone"
-            android:inputType="text"
-            android:queryHint="@string/search_name"
-            android:visibility="gone" />
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvName"
+        android:layout_margin="@dimen/view_padding"
+        android:layout_marginBottom="@dimen/view_row_margin"
+        android:layout_marginTop="@dimen/view_row_margin"
+        android:background="@drawable/edt_bg"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:iconifiedByDefault="false"
+        android:imeActionLabel="Done"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:queryHint="@string/search_name"
+        android:visibility="gone" />
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/searchView"
-            android:layout_gravity="center"></android.support.v7.widget.RecyclerView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchView"
+        android:layout_gravity="center"></android.support.v7.widget.RecyclerView>
 
 
     <android.support.design.widget.FloatingActionButton
@@ -69,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:backgroundTint="@color/app_theme_color"
         android:src="@drawable/fab_ic_add"

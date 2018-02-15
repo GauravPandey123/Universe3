@@ -60,7 +60,8 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
             } else {
                 holder.textViewStatus.setText("OFFLINE");
             }
-            holder.textViewMobileNo.setText(""+Prefs.getLongPrefs(AppConstants.phone));
+          //  if (Prefs.getLongPrefs(AppConstants.phone)!=0)
+          //  holder.textViewMobileNo.setText(""+Prefs.getLongPrefs(AppConstants.phone));
             holder.textViewName.setText(Prefs.getStringPrefs(AppConstants.name));
         } else {
             holder.title.setText(drawerMenuList.get(position - 1).getTitle());

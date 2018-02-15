@@ -1,14 +1,18 @@
 package com.universe.android.realmbean;
 
+import com.universe.android.utility.AppConstants;
+
 import java.util.Date;
 
+import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
 
 
 public class RealmClient extends RealmObject {
     @PrimaryKey
-    private String id;
+    private String _id;
     private String name;
     private String contactPerson;
 
@@ -33,13 +37,7 @@ public class RealmClient extends RealmObject {
     private String surveyId;
 
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -174,4 +172,37 @@ public class RealmClient extends RealmObject {
     public void setIsActive(int isActive) {
         this.isActive = isActive;
     }
+
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String _id) {
+        this._id = _id;
+    }
+
+    public int get_v() {
+        return _v;
+    }
+
+    public void set_v(int _v) {
+        this._v = _v;
+    }
+
+    public String getSurveyName() {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            RealmResults<RealmSurveys> realmDistrictses = realm.where(RealmSurveys.class).equalTo(AppConstants.ID, surveyId).findAll();
+            if (realmDistrictses != null && realmDistrictses.size() > 0) {
+                return realmDistrictses.get(0).getTitle();
+            }
+        } catch (Exception e) {
+            realm.close();
+            e.printStackTrace();
+        } finally {
+            realm.close();
+        }
+        return "";
+    }
+
 }

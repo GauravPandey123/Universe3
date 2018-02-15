@@ -1,14 +1,18 @@
 package com.universe.android.realmbean;
 
+import com.universe.android.utility.AppConstants;
+
 import java.util.Date;
 
+import io.realm.Realm;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
 
 
 public class RealmQuestion extends RealmObject {
     @PrimaryKey
-    private String id;
+    private String _id;
     private String title;
     private String longTitle;
     private String responses;
@@ -38,13 +42,6 @@ public class RealmQuestion extends RealmObject {
     private Date createdAt;
     private Date updatedAt;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -229,5 +226,28 @@ public class RealmQuestion extends RealmObject {
 
     public void setResponses(String responses) {
         this.responses = responses;
+    }
+
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String _id) {
+        this._id = _id;
+    }
+    public String getCategoryName() {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            RealmResults<RealmCategory> realmDistrictses = realm.where(RealmCategory.class).equalTo(AppConstants.ID, categoryId).findAll();
+            if (realmDistrictses != null && realmDistrictses.size() > 0) {
+                return realmDistrictses.get(0).getCategoryName();
+            }
+        } catch (Exception e) {
+            realm.close();
+            e.printStackTrace();
+        } finally {
+            realm.close();
+        }
+        return "";
     }
 }

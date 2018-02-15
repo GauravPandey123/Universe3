@@ -56,13 +56,17 @@ public class BaseActivity extends AppCompatActivity {
 
     public void showProgress(String msg) {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            dismissProgress();
-        }
+            //  dismissProgress();
+            mProgressDialog.setMessage(msg);
+        } else {
+
+
         mProgressDialog = new ProgressDialog(this);
         mProgressDialog.setIndeterminate(true);
         mProgressDialog.setCancelable(false);
         mProgressDialog.setMessage(msg);
         mProgressDialog.show();
+    }
     }
 
     public void showProgress(int msgId) {

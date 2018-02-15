@@ -4,6 +4,7 @@ import com.universe.android.web.BaseService;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -15,7 +16,7 @@ public class QuestionsService extends BaseService<QuestionsService.SurveyApi, Qu
 
     @Override
     public Call<QuestionsResponse> onExecute(SurveyApi api, QuestionsRequest request) {
-        return api.login(request);
+        return api.login();
     }
 
     @Override
@@ -24,8 +25,8 @@ public class QuestionsService extends BaseService<QuestionsService.SurveyApi, Qu
     }
 
     public interface SurveyApi {
-        @POST("/api/questions")
-        Call<QuestionsResponse> login(@Body QuestionsRequest loginRequest);
+        @GET("/api/allForms")
+        Call<QuestionsResponse> login();
 
     }
 }

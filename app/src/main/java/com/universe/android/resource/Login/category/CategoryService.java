@@ -4,6 +4,7 @@ import com.universe.android.web.BaseService;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -24,7 +25,7 @@ public class CategoryService extends BaseService<CategoryService.SurveyApi, Cate
     }
 
     public interface SurveyApi {
-        @POST("/api/category")
+        @GET("/api/category")
         Call<CategoryResponse> login(@Body CategoryRequest loginRequest);
 
     }

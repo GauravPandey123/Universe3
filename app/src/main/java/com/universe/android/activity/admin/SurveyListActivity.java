@@ -58,6 +58,7 @@ public class SurveyListActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent i=new Intent(SurveyListActivity.this,FormQuestionActivity.class);
                 i.putExtra(AppConstants.FORM_ID,formId);
+                i.putExtra(AppConstants.STR_TITLE,getString(R.string.survey));
                 startActivityForResult(i, ID_UPDATE_CAMP);
             }
         });

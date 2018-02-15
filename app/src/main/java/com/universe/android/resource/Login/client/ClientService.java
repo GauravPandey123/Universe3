@@ -4,6 +4,7 @@ import com.universe.android.web.BaseService;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -24,7 +25,7 @@ public class ClientService extends BaseService<ClientService.SurveyApi, ClientRe
     }
 
     public interface SurveyApi {
-        @POST("/api/clients")
+        @GET("/api/clients")
         Call<ClientResponse> login(@Body ClientRequest loginRequest);
 
     }

@@ -10,7 +10,8 @@ public class AppConstants {
     public static final int SUCCESS=200;
     public static final String STR_TITLE = "strTitle";
     public static final String DATE_FORMAT = "dd MMM yyyy";
-    public static final SimpleDateFormat format1 = new SimpleDateFormat("dd-MM-yyyy");
+    public static final SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat format11 = new SimpleDateFormat("dd-MM-yyyy");
     public static final SimpleDateFormat format2 = new SimpleDateFormat(DATE_FORMAT);
     public static final String format8 = "MMM dd, yyyy hh:mm:ss";
     //    2018-12-05T00:00:00.000Z
@@ -57,7 +58,7 @@ public class AppConstants {
     public static final String CREATEDAT = "createdAt";
     public static final String ASTERIK_SIGN = "<font color='#03A9F4'> *</font>";
     public static final String FORM_ID = "formId";
-    public static final String ID = "id";
+    public static final String ID = "_id";
 
     public static final String ISUPDATE = "isUpdate";
     public static final String ISSYNC = "isSync";
@@ -85,5 +86,9 @@ public class AppConstants {
     public static final String CREATED_BY = "createdBy";
     public static final String TITLE = "title";
     public static final String MINUS_ONE = "minus";
+    public static final String ISACTIVE ="isActive" ;
+    public static final String YES = "Yes";
+    public static final String CATEGORY_NAME = "categoryName";
+    public static final String CATEGORY ="category" ;
 }
 

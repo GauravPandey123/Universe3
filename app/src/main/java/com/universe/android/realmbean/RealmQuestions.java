@@ -6,7 +6,7 @@ import io.realm.annotations.PrimaryKey;
 
 public class RealmQuestions extends RealmObject {
     @PrimaryKey
-    private String id;
+    private String _id;
 
     private String formId;
 
@@ -29,13 +29,6 @@ public class RealmQuestions extends RealmObject {
     }
 
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getFormId() {
         return formId;
@@ -59,5 +52,13 @@ public class RealmQuestions extends RealmObject {
 
     public void setFormSchema(String formSchema) {
         this.formSchema = formSchema;
+    }
+
+    public String getId() {
+        return _id;
+    }
+
+    public void setId(String _id) {
+        this._id = _id;
     }
 }

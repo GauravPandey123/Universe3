@@ -57,6 +57,7 @@ public class ClientListActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent i=new Intent(ClientListActivity.this,FormQuestionActivity.class);
                 i.putExtra(AppConstants.FORM_ID,formId);
+                i.putExtra(AppConstants.STR_TITLE,getString(R.string.client));
                 startActivityForResult(i, ID_UPDATE_CAMP);
             }
         });
