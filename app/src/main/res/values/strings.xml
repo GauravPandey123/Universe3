@@ -49,7 +49,7 @@
     <string name="master">Master</string>
     <string name="client">Client List</string>
     <string name="question">Questions</string>
-    <string name="search_name">Search Name</string>
+    <string name="search_name">Search</string>
     <string name="survey">Surveys</string>
     <string name="category">Category</string>
     <string name="customer">Customer</string>
@@ -172,6 +172,8 @@
     <string name="companyName">Company Name</string>
     <string name="brandaname">Brand Name</string>
     <string name="selectbrands">Select Brands(removable only)</string>
+    <string name="select_options">Select Options</string>
+    <string name="option">Option values</string>
 
     <string-array name="filterItem">
         <item>@string/category1</item>

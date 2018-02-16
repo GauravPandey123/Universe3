@@ -214,8 +214,9 @@ public class LoginActivity extends BaseActivity {
                 //   startActivity(intent);
                 //   overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 //  finish();
-
                 getSurveyResponse();
+
+
 
             }
 
@@ -283,11 +284,7 @@ public class LoginActivity extends BaseActivity {
             private void getSurveyResponse() {
 
 
-                final ProgressDialog progressDialog = new ProgressDialog(mContext);
-                progressDialog.setMessage(getString(R.string.msg_load_default));
-                progressDialog.setCanceledOnTouchOutside(false);
-                progressDialog.setCancelable(false);
-                progressDialog.show();
+
 
                 OkHttpClient okHttpClient = APIClient.getHttpClient();
                 String url = UniverseAPI.WEB_SERVICE_LIST_SURVEY_METHOD;
@@ -297,7 +294,6 @@ public class LoginActivity extends BaseActivity {
                 okHttpClient.newCall(request).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, final IOException e) {
-                        if (progressDialog != null) progressDialog.dismiss();
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -327,11 +323,9 @@ public class LoginActivity extends BaseActivity {
 
 
                             } else {
-                                if (progressDialog != null) progressDialog.dismiss();
                             }
 
                         } catch (Exception e) {
-                            if (progressDialog != null) progressDialog.dismiss();
                             e.printStackTrace();
                         } finally {
                         }

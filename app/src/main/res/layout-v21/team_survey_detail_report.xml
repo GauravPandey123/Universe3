@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/include1"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/app_theme_color">
+
+        <ImageView
+            android:id="@+id/imageviewback"
+            android:layout_width="@dimen/margin_xnormal"
+            android:layout_height="@dimen/margin_xnormal"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_small"
+            android:src="@drawable/ic_arrow_back_black_24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:text="@string/team_survey_detail"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/includeCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include1">
+
+        <include layout="@layout/team_survey_report_header" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/includeWorkDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/includeCardView">
+
+        <include layout="@layout/workflows_details_fragment" />
+    </RelativeLayout>
+</RelativeLayout>

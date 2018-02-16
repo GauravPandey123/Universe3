@@ -63,6 +63,7 @@
 
     <string-array name="question">
         <item>categoryId</item>
+        <item>optionValues</item>
         <!--  <item>title</item>
           <item>longTitle</item>
           <item>inputType</item>

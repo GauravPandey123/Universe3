@@ -93,7 +93,7 @@ public class QuestionListActivity extends BaseActivity {
                     modal.setTitle(realmQuestions.get(i).getTitle());
                     modal.setDisplayOrder(realmQuestions.get(i).getDisplayOrder());
                  //   String date=AppConstants.format2.format(realmSurveys.get(i).getExpiryDate());
-                    modal.setRequired(realmQuestions.get(i).isRequired());
+                  //  modal.setRequired(realmQuestions.get(i).getRequired());
                     questionModals.add(modal);
                 }
             }

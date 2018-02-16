@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llchild"
+    style="@style/appFieldLinearLayout">
+
+    <RelativeLayout
+        android:id="@+id/llDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/llFormDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tvAsteric"
+                style="@style/appFieldAstericText"
+                android:layout_centerVertical="true" />
+
+            <TextView
+                android:id="@+id/tvChild"
+                style="@style/appFieldTitleText"
+                android:layout_width="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/tvAsteric" />
+
+        </RelativeLayout>
+
+
+        <TextView
+            android:id="@+id/tvFormDate"
+            style="@style/appFieldTitleText"
+            android:layout_width="wrap_content"
+            android:layout_below="@+id/llFormDate"
+            android:layout_centerVertical="true"
+
+            android:drawableLeft="@android:drawable/ic_menu_my_calendar"
+            android:gravity="center_vertical"
+            android:text="@string/date_format"
+            android:textColor="@color/black"
+            android:textSize="14dp" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:visibility="gone"></View>
+</LinearLayout>

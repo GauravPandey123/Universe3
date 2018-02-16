@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llSaveBtns"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:padding="@dimen/view_margin">
+
+    <Button
+        android:id="@+id/btnSave"
+        style="@style/appBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:minHeight="@dimen/btnLargeHeight"
+        android:onClick="saveContinue"
+        android:text="@string/save_add" />
+
+    <Button
+        android:id="@+id/btnSaveNext"
+        style="@style/appBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:minHeight="@dimen/btnLargeHeight"
+        android:onClick="saveNext"
+        android:visibility="gone" />
+</LinearLayout>

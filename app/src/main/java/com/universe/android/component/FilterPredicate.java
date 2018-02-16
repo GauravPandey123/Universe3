@@ -50,4 +50,13 @@ public class FilterPredicate {
             return false;
         }
     };
+
+    public final Predicate<MultiSpinnerList> filterMultiSpnListEdittext = new Predicate<MultiSpinnerList>() {
+        public boolean apply(MultiSpinnerList question) {
+            if (!question.isChecked()) {
+                return true;
+            }
+            return false;
+        }
+    };
 }

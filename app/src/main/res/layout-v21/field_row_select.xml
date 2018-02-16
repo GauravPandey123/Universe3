@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llchild"
+    style="@style/appFieldLinearLayout">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvAsteric"
+            style="@style/appFieldAstericText" />
+
+        <TextView
+            android:id="@+id/tvChild"
+            style="@style/appFieldTitleText"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/tvAsteric" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvChildDesc"
+        style="@style/appFieldDescText"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/spnSelect"
+        style="@style/appSpinnerText"
+        android:gravity="center_vertical" />
+
+</LinearLayout>

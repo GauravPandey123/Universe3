@@ -8,9 +8,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -26,6 +28,7 @@ import com.google.common.collect.Collections2;
 import com.google.gson.Gson;
 import com.universe.android.R;
 import com.universe.android.component.FilterPredicate;
+import com.universe.android.component.MultiEdittextListItemDialog;
 import com.universe.android.component.MultiSelectItemListDialog;
 import com.universe.android.component.QuestionItemListDialog;
 import com.universe.android.component.QuestionMapComparator;
@@ -83,9 +86,10 @@ public class FormQuestionActivity extends FormParentActivity {
     private String title;
     public TextView spnClient;
     public TextView spnSurvey;
-    public TextView spnCategory,spnCategorySingle;
-    private LinearLayout llClient, llSurvey,llCategory,llCategorySingle;
+    public TextView spnCategory,spnCategorySingle,spnOptionValues;
+    private LinearLayout llClient, llSurvey,llCategory,llCategorySingle,llOptionValues;
     private ArrayList<MultiSpinnerList> selectedCategory=new ArrayList<>();
+    private ArrayList<String> selectedOptions=new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -106,13 +110,16 @@ public class FormQuestionActivity extends FormParentActivity {
         llClient = (LinearLayout) findViewById(R.id.llClient);
         llSurvey = (LinearLayout) findViewById(R.id.llSurvey);
         llCategory = (LinearLayout) findViewById(R.id.llCategory);
+        llOptionValues = (LinearLayout) findViewById(R.id.llOptionValues);
         llCategorySingle = (LinearLayout) findViewById(R.id.llCategorySingle);
         Utility.setTextView(getString(R.string.survey), (TextView) findViewById(R.id.tvSurveyTitle), false);
         Utility.setTextView(getString(R.string.client), (TextView) findViewById(R.id.tvClientTitle), false);
         Utility.setTextView(getString(R.string.category), (TextView) findViewById(R.id.tvCategoryTitle), false);
+        Utility.setTextView(getString(R.string.option), (TextView) findViewById(R.id.tvOptionValues), false);
         spnClient = (TextView) findViewById(R.id.spnClient);
         spnSurvey = (TextView) findViewById(R.id.spnSurvey);
         spnCategory = (TextView) findViewById(R.id.spnCategory);
+        spnOptionValues = (TextView) findViewById(R.id.spnOptionValues);
         spnCategorySingle = (TextView) findViewById(R.id.spnCategorySingle);
 
         if (formId.equalsIgnoreCase(FormEnum.customer.toString())) {
@@ -148,8 +155,47 @@ public class FormQuestionActivity extends FormParentActivity {
         }
         setScreenDetails();
         prepareQuestionList();
+        prepareOptionValuesList();
 
     }
+
+
+    private void prepareOptionValuesList() {
+        spnOptionValues.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isPopupVisible) return;
+                isPopupVisible = true;
+                List<MultiSpinnerList> spnPanchyatList = null;
+
+
+
+                Questions q1 = questionsMap.get(FormEnumKeys.optionValuesCount.toString());
+                if (q1 != null) {
+                        if (Utility.validateString(q1.getAnswer())){
+                            int size= Integer.parseInt(q1.getAnswer());
+                            spnPanchyatList = new ArrayList<>();
+                            for (int i = 0; i < size; i++) {
+                                MultiSpinnerList spn = new MultiSpinnerList();
+                                spn.setName("option "+(i+1));
+                                spn.setId((i+1)+"");
+                                spnPanchyatList.add(spn);
+                            }
+                        }
+
+
+                }
+
+
+
+
+
+                List<MultiSpinnerList> selectdPanchyatItems = (List<MultiSpinnerList>) spnOptionValues.getTag();
+                showMultiEdittextList(FormQuestionActivity.this, spnOptionValues, spnPanchyatList, getString(R.string.select_options), selectdPanchyatItems);
+            }
+        });
+    }
+
 
     private void prepareCategoryList() {
         spnCategory.setOnClickListener(new View.OnClickListener() {
@@ -228,13 +274,64 @@ public class FormQuestionActivity extends FormParentActivity {
         }
 
     }
+    private void showMultiEdittextList(Context context, final TextView textView, List<MultiSpinnerList> list, final String defaultMsg, List<MultiSpinnerList> selectedItems) {
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).setChecked(false);
+            }
+            MultiEdittextListItemDialog selectionPickerDialog = new MultiEdittextListItemDialog(context, defaultMsg, selectedItems, list, R.layout.pop_up_question_list, new MultiEdittextListItemDialog.ItemPickerListner() {
+                @Override
+                public void OnDoneButton(Dialog ansPopup, List<MultiSpinnerList> selectedItems) {
+                    ansPopup.dismiss();
+                    if (selectedItems != null && selectedItems.size() > 0) {
+                        setSpnValue(textView, selectedItems);
+                    } else {
+                        textView.setText(defaultMsg);
+                    }
+                    textView.setTag(selectedItems);
+                }
+
+                @Override
+                public void OnCancelButton(Dialog ansPopup, List<MultiSpinnerList> selectedItems) {
+                    ansPopup.dismiss();
+                    if (selectedItems != null && selectedItems.size() > 0) {
+                        setSpnValue(textView, selectedItems);
+                    } else {
+                        textView.setText(defaultMsg);
+                    }
+                    textView.setTag(selectedItems);
+                }
+
+            });
+
+            if (!selectionPickerDialog.isShowing()) {
+                selectionPickerDialog.show();
+            }
+            selectionPickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    isPopupVisible = false;
+                }
+            });
+        } else {
+            isPopupVisible = false;
+            showToastMessage(getString(R.string.no_data));
+        }
+
+    }
 
     private void setSpnValue(TextView textView, List<MultiSpinnerList> selectedItems) {
         if (selectedItems != null && selectedItems.size() > 0) {
             StringBuilder strBuilder = new StringBuilder();
+            if (textView.getId()==R.id.spnOptionValues)
+            selectedOptions=new ArrayList<>();
             for (MultiSpinnerList sp : selectedItems) {
                 if (strBuilder.length() > 0) strBuilder.append(", ");
                 strBuilder.append(sp.getName());
+                if (textView.getId()==R.id.spnOptionValues) {
+
+                    selectedOptions.add(sp.getName());
+                }
             }
             textView.setText(strBuilder.toString());
 
@@ -922,13 +1019,29 @@ public class FormQuestionActivity extends FormParentActivity {
                 }
                 if (formId.equalsIgnoreCase(FormEnum.question.toString())) {
                     if (spnCategorySingle != null && spnCategorySingle.getTag() != null) {
-                        SpinnerList spinnerList = (SpinnerList) spnCategory.getTag();
+                        SpinnerList spinnerList = (SpinnerList) spnCategorySingle.getTag();
 
                         if (!AppConstants.MINUS_ONE.equals(spinnerList.getId())) {
 
                             jsonSubmitReq.put(AppConstants.CATEGORYID, spinnerList.getId());
                         }
 
+
+                    }
+                    String outStr = "";
+
+                    for (int i = 0; i < selectedOptions.size(); i++)
+                    {
+                        outStr += "\"" + selectedOptions.get(i) + "\"";
+
+                        if (i < (selectedOptions.size() - 1))
+                        {
+                            outStr += ", ";
+                        }
+                    }
+                    if (selectedOptions.size()>0) {
+                        jsonSubmitReq.put(FormEnumKeys.optionValuesCount.toString(), selectedOptions.size());
+                        jsonSubmitReq.put(FormEnumKeys.optionValues.toString(), "[" + outStr + "]");
                     }
                 }
                 if (formId.equalsIgnoreCase(FormEnum.customer.toString())) {
@@ -965,6 +1078,7 @@ public class FormQuestionActivity extends FormParentActivity {
 
         } catch (Exception e) {
             e.printStackTrace();
+
         }
         Log.d("json", jsonSubmitReq.toString());
         return jsonSubmitReq;
@@ -985,6 +1099,27 @@ public class FormQuestionActivity extends FormParentActivity {
                     } else if (AppConstants.TEXTBOX.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_edit, null);
                         final EditText edtChild = (EditText) child.findViewById(R.id.edtChild);
+                        final Map<String, Questions> finalQuestionsMap = questionsMap;
+                        edtChild.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+                                Questions q1 = finalQuestionsMap.get(FormEnumKeys.optionValuesCount.toString());
+                                if (q1 != null) {
+                                   q1.setAnswer(s.toString());
+
+                                }
+                            }
+                        });
                         edtChild.setText(question.getAnswer());
                         if (AppConstants.STRING.equals(question.getType())) {
                             edtChild.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -1267,7 +1402,7 @@ public class FormQuestionActivity extends FormParentActivity {
                                             if (childView.findViewById(R.id.tvChild) != null) {
                                                 ((TextView) childView.findViewById(R.id.tvChild)).setText(Html.fromHtml(q.getTitle() + " "  + AppConstants.ASTERIK_SIGN));
                                             }
-                                            q.setRequired(true);
+                                            q.setRequired(false);
                                             childView.setVisibility(View.GONE);
                                         }
                                     }
@@ -1279,7 +1414,7 @@ public class FormQuestionActivity extends FormParentActivity {
                                             if (childView.findViewById(R.id.tvChild) != null) {
                                                 ((TextView) childView.findViewById(R.id.tvChild)).setText(Html.fromHtml(q1.getTitle() + " "  + AppConstants.ASTERIK_SIGN));
                                             }
-                                            q1.setRequired(true);
+                                            q1.setRequired(false);
                                             childView.setVisibility(View.GONE);
                                         }
                                     }
@@ -1290,7 +1425,7 @@ public class FormQuestionActivity extends FormParentActivity {
                                             if (childView.findViewById(R.id.tvChild) != null) {
                                                 ((TextView) childView.findViewById(R.id.tvChild)).setText(Html.fromHtml(q2.getTitle() + " "  + AppConstants.ASTERIK_SIGN));
                                             }
-                                            q2.setRequired(true);
+                                            q2.setRequired(false);
                                             childView.setVisibility(View.GONE);
                                         }
                                     }
@@ -1301,7 +1436,7 @@ public class FormQuestionActivity extends FormParentActivity {
                                             if (childView.findViewById(R.id.tvChild) != null) {
                                                 ((TextView) childView.findViewById(R.id.tvChild)).setText(Html.fromHtml(q4.getTitle() + " "  + AppConstants.ASTERIK_SIGN));
                                             }
-                                            q4.setRequired(true);
+                                            q4.setRequired(false);
                                             childView.setVisibility(View.GONE);
                                         }
                                     }
@@ -1332,7 +1467,7 @@ public class FormQuestionActivity extends FormParentActivity {
                                             if (childView.findViewById(R.id.tvChild) != null) {
                                                 ((TextView) childView.findViewById(R.id.tvChild)).setText(Html.fromHtml(q.getTitle() + " "  + AppConstants.ASTERIK_SIGN));
                                             }
-                                            q.setRequired(true);
+                                            q.setRequired(false);
                                             childView.setVisibility(View.GONE);
                                         }
                                     }
@@ -1343,6 +1478,7 @@ public class FormQuestionActivity extends FormParentActivity {
 
                             if (strAns.equalsIgnoreCase("radio") || strAns.equalsIgnoreCase("checkbox") ||strAns.equalsIgnoreCase("rating")||strAns.equalsIgnoreCase("multiedittext")||strAns.equalsIgnoreCase("multiselect")||strAns.equalsIgnoreCase("select")){
                                 if (questionsMap != null && questionsMap.size() > 0) {
+                                    llOptionValues.setVisibility(View.VISIBLE);
                                     Questions q2 = questionsMap.get(FormEnumKeys.optionValuesCount.toString());
                                     if (q2 != null) {
                                         View childView = llFields.findViewWithTag(q2);
@@ -1355,7 +1491,7 @@ public class FormQuestionActivity extends FormParentActivity {
                                         }
                                     }
 
-                                    Questions q1= questionsMap.get(FormEnumKeys.optionValues.toString());
+                                   /* Questions q1= questionsMap.get(FormEnumKeys.optionValues.toString());
                                     if (q1 != null) {
                                         View childView = llFields.findViewWithTag(q1);
                                         if (childView != null) {
@@ -1365,13 +1501,14 @@ public class FormQuestionActivity extends FormParentActivity {
                                             q1.setRequired(true);
                                             childView.setVisibility(View.VISIBLE);
                                         }
-                                    }
+                                    }*/
 
 
 
 
                                 }
                             }else {
+                                llOptionValues.setVisibility(View.GONE);
                                 if (questionsMap != null && questionsMap.size() > 0) {
                                     Questions q2 = questionsMap.get(FormEnumKeys.optionValuesCount.toString());
                                     if (q2 != null) {
@@ -1380,22 +1517,22 @@ public class FormQuestionActivity extends FormParentActivity {
                                             if (childView.findViewById(R.id.tvChild) != null) {
                                                 ((TextView) childView.findViewById(R.id.tvChild)).setText(Html.fromHtml(q2.getTitle() + " "  + AppConstants.ASTERIK_SIGN));
                                             }
-                                            q2.setRequired(true);
+                                            q2.setRequired(false);
                                             childView.setVisibility(View.GONE);
                                         }
                                     }
 
-                                    Questions q1= questionsMap.get(FormEnumKeys.optionValues.toString());
+                                   /* Questions q1= questionsMap.get(FormEnumKeys.optionValues.toString());
                                     if (q1 != null) {
                                         View childView = llFields.findViewWithTag(q1);
                                         if (childView != null) {
                                             if (childView.findViewById(R.id.tvChild) != null) {
                                                 ((TextView) childView.findViewById(R.id.tvChild)).setText(Html.fromHtml(q1.getTitle() + " "  + AppConstants.ASTERIK_SIGN));
                                             }
-                                            q1.setRequired(true);
+                                            q1.setRequired(false);
                                             childView.setVisibility(View.GONE);
                                         }
-                                    }
+                                    }*/
 
 
 
@@ -1517,6 +1654,93 @@ public class FormQuestionActivity extends FormParentActivity {
         });*/
         llCheck.addView(rdbtn);
     }
+    protected boolean validateData(Map<String, Questions> questionsMap) {
+        boolean isValid = true;
 
+        if (formId.equalsIgnoreCase(FormEnum.question.toString())){
+            if (llOptionValues.getVisibility()==View.VISIBLE) {
+                if (selectedOptions.isEmpty()) {
+                    Utility.setTextView(getString(R.string.option), (TextView) findViewById(R.id.tvOptionValues), true);
+
+                    isValid = false;
+                }else {
+                    Utility.setTextView(getString(R.string.option), (TextView) findViewById(R.id.tvOptionValues), false);
+
+                }
+            }
+        }
+        if (questionsMap != null && questionsMap.size() > 0) {
+            for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
+                Questions question = (Questions) entry.getValue();
+                if (question != null) {
+                    View child = llFields.findViewWithTag(question);
+                    if (child != null) {
+                        TextView tvChild = (TextView) (child).findViewById(R.id.tvChild);
+                        if (question.isRequired()) {
+                            String questionTitle;
+
+                            questionTitle = question.getTitle();
+                            if (!Utility.validateString(question.getAnswer())) {
+                                Utility.setTextView(questionTitle, tvChild, true);
+                                isValid = false;
+                            } else {
+                                Utility.setTextView(questionTitle, tvChild, false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (isValid && questionsMap != null && questionsMap.size() > 0) {
+            for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
+                Questions question = (Questions) entry.getValue();
+                if (question != null) {
+                    View child = llFields.findViewWithTag(question);
+                    if (child != null) {
+                        TextView tvChild = (TextView) (child).findViewById(R.id.tvChild);
+                        float answer = 0;
+                        if (question.getMinValue() > 0) {
+                            if ((Utility.validateString(question.getAnswer()) && AppConstants.NUMBER.equals(question.getType()))) {
+                                answer = Integer.parseInt(question.getAnswer());
+
+
+                            } else if ((Utility.validateString(question.getAnswer()) && AppConstants.FLOAT.equals(question.getType()))) {
+                                answer = Float.parseFloat(question.getAnswer());
+
+
+                            } else if ((Utility.validateString(question.getAnswer()) && AppConstants.FLOAT.equals(question.getType()))) {
+                                answer = Long.parseLong(question.getAnswer());
+
+
+                            }
+
+                            if (answer < question.getMinValue()) {
+                                String questionTitle;
+
+                                questionTitle = question.getTitle();
+                                if (question.isRequired()) {
+                                    Utility.setTextView(questionTitle, tvChild, true);
+                                }
+
+                                showToastMessage(questionTitle + " " + getString(R.string.minimum_must) + " " + question.getMinValue());
+
+                                isValid = false;
+                                return isValid;
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+
+
+        if (isValid && questionsMap != null && questionsMap.size() > 0) {
+        } else {
+            showToastMessage(getString(R.string.fill_required_fields));
+        }
+
+        return isValid;
+    }
 
 }

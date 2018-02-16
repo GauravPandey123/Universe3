@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/textViewPeriodFrom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium"
+        android:background="@color/textColorPrimary"
+        android:padding="@dimen/margin_medium"
+        android:text="@string/periodfrom"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutFrom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewPeriodFrom"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small">
+
+        <EditText
+            android:id="@+id/input_period_from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/margin_min"
+            android:drawableRight="@drawable/ic_calendar"
+            android:focusable="false"
+            android:hint="@string/periodfrom"
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/text_size_medium" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/textViewPeriodTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textInputLayoutFrom"
+        android:layout_margin="@dimen/margin_medium"
+        android:background="@color/textColorPrimary"
+        android:padding="@dimen/margin_medium"
+        android:text="@string/periodto"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutPriordTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewPeriodTo"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small">
+
+        <EditText
+            android:id="@+id/input_period_to"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/margin_min"
+            android:focusable="false"
+            android:drawableRight="@drawable/ic_calendar_to"
+            android:hint="@string/periodto"
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/text_size_medium" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <TextView
+        android:id="@+id/textViewPeriodStatus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textInputLayoutPriordTo"
+        android:layout_margin="@dimen/margin_medium"
+        android:background="@color/textColorPrimary"
+        android:padding="@dimen/margin_medium"
+        android:text="@string/status"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/texTViewInputLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewPeriodStatus"
+        android:layout_marginBottom="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_small">
+
+        <EditText
+            android:id="@+id/input_period_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawablePadding="@dimen/margin_min"
+            android:drawableRight="@drawable/ic_status"
+            android:focusable="false"
+            android:inputType="textEmailAddress"
+            android:textSize="@dimen/text_size_medium" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/texTViewInputLayout"
+        android:layout_marginLeft="@dimen/margin_medium"
+        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewReset"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="@dimen/margin_medium"
+            android:textColor="@android:color/white"
+            android:background="@color/colorAccent"
+            android:textAllCaps="true"
+            android:layout_margin="@dimen/margin_medium"
+            android:textSize="@dimen/text_size_normal"
+            android:text="@string/reset" />
+
+        <TextView
+            android:id="@+id/textViewApplyFilter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:layout_margin="@dimen/margin_medium"
+            android:textColor="@android:color/white"
+            android:padding="@dimen/margin_medium"
+            android:background="@color/colorPrimary"
+            android:textSize="@dimen/text_size_normal"
+            android:text="@string/apply_filter" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

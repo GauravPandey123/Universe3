@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="#80000000"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="@dimen/margin_xxlarge"
+            android:layout_height="@dimen/margin_xxlarge"
+            android:layout_gravity="center_vertical"
+            android:layout_margin="@dimen/margin_medium"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_margin="@dimen/margin_min"
+            android:layout_marginLeft="44dp"
+            android:layout_marginStart="44dp"
+            android:layout_toEndOf="@+id/profile_image"
+            android:layout_toRightOf="@+id/profile_image"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/username"
+                android:layout_marginTop="@dimen/margin_small"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_large" />
+
+            <TextView
+                android:id="@+id/textViewPhoneNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:text="8750798363"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium" />
+
+            <TextView
+                android:id="@+id/textViewOnline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="Online/Offline"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/text_size_medium" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>

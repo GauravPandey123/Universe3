@@ -71,7 +71,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:backgroundTint="@color/app_theme_color"
+        android:background="@color/app_theme_color"
         android:src="@drawable/fab_ic_add"
         android:layout_margin="8dp"/>
 

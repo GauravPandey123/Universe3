@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewCraystalDoctor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/textColorPrimaryDark"
+                    android:textSize="@dimen/text_size_large"
+                    android:text="@string/crystaldoctors" />
+                <TextView
+                    android:id="@+id/textViewAmtala"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textSize="@dimen/text_size_normal"
+                    android:text="@string/amtala"/>
+
+                <TextView
+                    android:id="@+id/textViewPosition"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginBottom="@dimen/margin_medium"
+                    android:textSize="@dimen/text_size_normal"
+                    android:text="@string/rmName"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="70dp"
+                android:layout_marginRight="70dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/imageViewAchievement"
+                    android:layout_width="@dimen/margin_large"
+                    android:layout_height="@dimen/margin_large"
+                    android:scaleType="centerCrop"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:src="@drawable/ic_achievement" />
+
+                <TextView
+                    android:id="@+id/textViewAchievementNumbers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_gravity="center"
+                    android:text="50%" />
+
+                <TextView
+                    android:id="@+id/textViewAchievement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="Achievement" />
+
+            </LinearLayout>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="@dimen/margin_extra"
+                android:layout_height="@dimen/margin_extra"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_customer"/>
+            
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>

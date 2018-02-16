@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark"
+        tools:ignore="UselessParent">
+
+        <TextView
+            android:id="@+id/textViewAdddetail"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_large"
+            android:layout_margin="@dimen/margin_small"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_small"
+            android:text="@string/add_details"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+        <ImageView
+            android:id="@+id/imageViewDetailClose"
+            android:layout_width="@dimen/margin_xnormal"
+            android:layout_height="@dimen/margin_xnormal"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="TODO"
+            android:src="@drawable/ic_close_black_24dp" />
+
+    </RelativeLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutCompanyName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/relativeLayoutFilter"
+        android:layout_margin="@dimen/margin_medium">
+
+        <EditText
+            android:id="@+id/editTextComapanyName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/companyName"
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="@color/white" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutBrandName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textInputLayoutCompanyName"
+        android:layout_margin="@dimen/margin_medium">
+
+        <EditText
+            android:id="@+id/editTextBrands"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/brandaname"
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="@color/white" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayoutSelectBrands"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textInputLayoutBrandName"
+        android:layout_margin="@dimen/margin_medium">
+
+        <EditText
+            android:id="@+id/editTextSelectBrands"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/selectbrands"
+            android:textColor="@color/textColorPrimary"
+            android:textColorHint="@color/white" />
+    </android.support.design.widget.TextInputLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+        <include layout="@layout/apply_filter_layout"/>
+    </RelativeLayout>
+
+
+</RelativeLayout>

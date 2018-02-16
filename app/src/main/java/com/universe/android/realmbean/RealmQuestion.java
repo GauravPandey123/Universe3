@@ -13,6 +13,7 @@ import io.realm.annotations.PrimaryKey;
 public class RealmQuestion extends RealmObject {
     @PrimaryKey
     private String _id;
+    private int _v;
     private String title;
     private String longTitle;
     private String responses;
@@ -20,7 +21,7 @@ public class RealmQuestion extends RealmObject {
 
     private String type;
 
-    private boolean required;
+    private String required;
 
 
     private int maxValue;
@@ -30,7 +31,7 @@ public class RealmQuestion extends RealmObject {
 
     private int minValue;
     private String maxLength;
-    private boolean visibility;
+    private String visibility;
     private String surveyId;
     private String categoryId;
     private String clientId;
@@ -75,13 +76,7 @@ public class RealmQuestion extends RealmObject {
         this.type = type;
     }
 
-    public boolean isRequired() {
-        return required;
-    }
 
-    public void setRequired(boolean required) {
-        this.required = required;
-    }
 
     public int getMaxValue() {
         return maxValue;
@@ -108,13 +103,7 @@ public class RealmQuestion extends RealmObject {
         this.maxLength = maxLength;
     }
 
-    public boolean isVisibility() {
-        return visibility;
-    }
 
-    public void setVisibility(boolean visibility) {
-        this.visibility = visibility;
-    }
 
     public String getSurveyId() {
         return surveyId;
@@ -249,5 +238,37 @@ public class RealmQuestion extends RealmObject {
             realm.close();
         }
         return "";
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public int get_v() {
+        return _v;
+    }
+
+    public void set_v(int _v) {
+        this._v = _v;
+    }
+
+    public String getRequired() {
+        return required;
+    }
+
+    public void setRequired(String required) {
+        this.required = required;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 }
