@@ -13,7 +13,7 @@
     <string name="mobile_no">Mobile No | Location | State \n| Completed date</string>
     <string name="workflow_mobile_no">Mobile No | Location | State \nSubmitted Date</string>
     <string name="status">Status</string>
-    <string name="retailers">Retailers</string>
+    <string name="retailers">Retailor</string>
     <string name="enddate">Ends On 31 mar 2018</string>
     <string name="select">Select</string>
     <string name="disributors">Distributors</string>
@@ -172,6 +172,7 @@
     <string name="companyName">Company Name</string>
     <string name="brandaname">Brand Name</string>
     <string name="selectbrands">Select Brands(removable only)</string>
+    <string name="todo">TODO</string>
 
     <string-array name="filterItem">
         <item>@string/category1</item>
