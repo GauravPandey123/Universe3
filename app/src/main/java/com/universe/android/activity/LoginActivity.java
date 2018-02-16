@@ -27,9 +27,12 @@ import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import java.io.IOException;
+
 import in.editsoft.api.exception.APIException;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -171,7 +174,6 @@ public class LoginActivity extends BaseActivity {
                 getSurveyResponse();
 
 
-
             }
 
             @Override
@@ -228,224 +230,224 @@ public class LoginActivity extends BaseActivity {
     private void getSurveyResponse() {
 
 
-                OkHttpClient okHttpClient = APIClient.getHttpClient();
-                String url = UniverseAPI.WEB_SERVICE_LIST_SURVEY_METHOD;
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        String url = UniverseAPI.WEB_SERVICE_LIST_SURVEY_METHOD;
 
 
-                Request request = APIClient.getRequest(mContext, url);
-                okHttpClient.newCall(request).enqueue(new Callback() {
+        Request request = APIClient.getRequest(mContext, url);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void onFailure(Call call, final IOException e) {
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (responseData != null) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
+                            new RealmController().saveSurveysResponse(array.toString());
+                        }
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Utility.showToast(e.getMessage());
+                                getClientResponse();
                             }
                         });
+
+
+                    } else {
                     }
 
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                }
+
+            }
+        });
+
+    }
+
+
+    private void getClientResponse() {
+
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        String url = UniverseAPI.WEB_SERVICE_LIST_CLIENT_METHOD;
+
+
+        Request request = APIClient.getRequest(mContext, url);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+
+                runOnUiThread(new Runnable() {
                     @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        try {
-
-                            if (response != null && response.isSuccessful()) {
-                                String responseData = response.body().string();
-                                if (responseData != null) {
-                                    JSONObject jsonResponse = new JSONObject(responseData);
-                                    JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
-                                    new RealmController().saveSurveysResponse(array.toString());
-                                }
-
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        getClientResponse();
-                                    }
-                                });
-
-
-                            } else {
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        } finally {
-                        }
-
+                    public void run() {
+                        Utility.showToast(e.getMessage());
                     }
                 });
+            }
 
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (responseData != null) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
+                            new RealmController().saveClientsResponse(array.toString());
+                        }
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getCustomerResponse();
+                            }
+                        });
+
+
+                    } else {
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
                 }
 
+            }
+        });
 
-                    private void getClientResponse() {
-
-
-                        OkHttpClient okHttpClient = APIClient.getHttpClient();
-                        String url = UniverseAPI.WEB_SERVICE_LIST_CLIENT_METHOD;
+    }
 
 
-                        Request request = APIClient.getRequest(mContext, url);
-                        okHttpClient.newCall(request).enqueue(new Callback() {
+    private void getCustomerResponse() {
+
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        String url = UniverseAPI.WEB_SERVICE_LIST_CUSTOMER_METHOD;
+
+
+        Request request = APIClient.getRequest(mContext, url);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (responseData != null) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
+                            new RealmController().saveCustomersResponse(array.toString());
+                        }
+
+                        runOnUiThread(new Runnable() {
                             @Override
-                            public void onFailure(Call call, final IOException e) {
-
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Utility.showToast(e.getMessage());
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                try {
-
-                                    if (response != null && response.isSuccessful()) {
-                                        String responseData = response.body().string();
-                                        if (responseData != null) {
-                                            JSONObject jsonResponse = new JSONObject(responseData);
-                                            JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
-                                            new RealmController().saveClientsResponse(array.toString());
-                                        }
-
-
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                getCustomerResponse();
-                                            }
-                                        });
-
-
-                                    } else {
-
-                                    }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                } finally {
-                                }
-
+                            public void run() {
+                                getCategoryResponse();
                             }
                         });
 
+
+                    } else {
                     }
 
-
-                    private void getCustomerResponse() {
-
-
-                        OkHttpClient okHttpClient = APIClient.getHttpClient();
-                        String url = UniverseAPI.WEB_SERVICE_LIST_CUSTOMER_METHOD;
-
-
-                        Request request = APIClient.getRequest(mContext, url);
-                        okHttpClient.newCall(request).enqueue(new Callback() {
-                            @Override
-                            public void onFailure(Call call, final IOException e) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Utility.showToast(e.getMessage());
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                try {
-
-                                    if (response != null && response.isSuccessful()) {
-                                        String responseData = response.body().string();
-                                        if (responseData != null) {
-                                            JSONObject jsonResponse = new JSONObject(responseData);
-                                            JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
-                                            new RealmController().saveCustomersResponse(array.toString());
-                                        }
-
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                getCategoryResponse();
-                                            }
-                                        });
-
-
-                                    } else {
-                                    }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                } finally {
-                                }
-
-                            }
-                        });
-
-                    }
-
-
-                    private void getCategoryResponse() {
-
-
-                        OkHttpClient okHttpClient = APIClient.getHttpClient();
-                        String url = UniverseAPI.WEB_SERVICE_LIST_CATEGORY_METHOD;
-
-
-                        Request request = APIClient.getRequest(mContext, url);
-                        okHttpClient.newCall(request).enqueue(new Callback() {
-                            @Override
-                            public void onFailure(Call call, final IOException e) {
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Utility.showToast(e.getMessage());
-                                    }
-                                });
-                            }
-
-                            @Override
-                            public void onResponse(Call call, Response response) throws IOException {
-                                try {
-
-                                    if (response != null && response.isSuccessful()) {
-                                        String responseData = response.body().string();
-                                        if (responseData != null) {
-                                            JSONObject jsonResponse = new JSONObject(responseData);
-                                            JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
-                                            new RealmController().saveCategoryResponse(array.toString());
-                                        }
-
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                getQuestionsResponse();
-                                            }
-                                        });
-
-
-                                    } else {
-                                    }
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                } finally {
-                                }
-
-                            }
-                        });
-
-                    }
-
-
-                    private void goToMain() {
-                        Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
-                        Intent intent = new Intent(mContext, MainActivity.class);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                        finish();
-                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
                 }
+
+            }
+        });
+
+    }
+
+
+    private void getCategoryResponse() {
+
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        String url = UniverseAPI.WEB_SERVICE_LIST_CATEGORY_METHOD;
+
+
+        Request request = APIClient.getRequest(mContext, url);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (responseData != null) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
+                            new RealmController().saveCategoryResponse(array.toString());
+                        }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getQuestionsResponse();
+                            }
+                        });
+
+
+                    } else {
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                }
+
+            }
+        });
+
+    }
+
+
+    private void goToMain() {
+        Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
+        Intent intent = new Intent(mContext, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        finish();
+    }
+}
 

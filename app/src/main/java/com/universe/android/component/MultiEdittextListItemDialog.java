@@ -1,36 +1,36 @@
 package com.universe.android.component;
 
-        import android.app.Activity;
-        import android.app.AlertDialog;
-        import android.app.Dialog;
-        import android.app.SearchManager;
-        import android.app.SearchableInfo;
-        import android.content.Context;
-        import android.text.Editable;
-        import android.text.TextWatcher;
-        import android.view.ContextThemeWrapper;
-        import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.view.Window;
-        import android.widget.AdapterView;
-        import android.widget.ArrayAdapter;
-        import android.widget.CheckedTextView;
-        import android.widget.EditText;
-        import android.widget.ListView;
-        import android.widget.SearchView;
-        import android.widget.TextView;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckedTextView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
 
-        import com.google.common.collect.Collections2;
-        import com.universe.android.R;
-        import com.universe.android.model.MultiSpinnerList;
-        import com.universe.android.model.SpinnerList;
-        import com.universe.android.utility.Utility;
+import com.google.common.collect.Collections2;
+import com.universe.android.R;
+import com.universe.android.model.MultiSpinnerList;
+import com.universe.android.model.SpinnerList;
+import com.universe.android.utility.Utility;
 
-        import java.util.ArrayList;
-        import java.util.Collection;
-        import java.util.List;
-        import java.util.Locale;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * This class contains methods required in creation, opening and closing of Dialog.
@@ -77,12 +77,12 @@ public class MultiEdittextListItemDialog extends Dialog {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Utility.animateView(view);
-                   // adapter.setSelectedIndex(position);
-                  //  if (searchText.isEmpty())
-                       // questions.get(position).setName(!questions.get(position).getName());
-                   // else
-                      //  arrSearlist.get(position).setChecked(!arrSearlist.get(position).isChecked());
-                  //  adapter.notifyDataSetChanged();
+                    // adapter.setSelectedIndex(position);
+                    //  if (searchText.isEmpty())
+                    // questions.get(position).setName(!questions.get(position).getName());
+                    // else
+                    //  arrSearlist.get(position).setChecked(!arrSearlist.get(position).isChecked());
+                    //  adapter.notifyDataSetChanged();
                 }
             });
 
@@ -109,25 +109,25 @@ public class MultiEdittextListItemDialog extends Dialog {
                 Collection<MultiSpinnerList> result = Collections2.filter(questions, new FilterPredicate().filterMultiSpnListEdittext);
                 if (result != null && result.size() > 0) {
                     for (MultiSpinnerList s : result) {
-                        if (!s.getName().isEmpty()){
+                        if (!s.getName().isEmpty()) {
                             if (!selectText.contains(s.getName()))
-                            selectText.add(s.getName());
+                                selectText.add(s.getName());
                         }
 
 
                     }
-                    for (int k=0;k<selectText.size();k++){
-                        MultiSpinnerList multiSpinnerList=new MultiSpinnerList();
+                    for (int k = 0; k < selectText.size(); k++) {
+                        MultiSpinnerList multiSpinnerList = new MultiSpinnerList();
                         multiSpinnerList.setName(selectText.get(k));
-                        multiSpinnerList.setId((k+1)+"");
+                        multiSpinnerList.setId((k + 1) + "");
                         selectItems.add(multiSpinnerList);
                     }
                 } else {
                     selectItems = null;
                 }
-                if (selectItems.size()!=questions.size()){
+                if (selectItems.size() != questions.size()) {
                     Utility.showToast("Please fill all options");
-                }else {
+                } else {
                     dtp.OnDoneButton(MultiEdittextListItemDialog.this, selectItems);
                 }
 
@@ -261,9 +261,9 @@ public class MultiEdittextListItemDialog extends Dialog {
             SpinnerList spinnerList = new SpinnerList();
             spinnerList.setName(list.get(position).getName());
             spinnerList.setId(list.get(position).getId());
-            if (Utility.validateString(list.get(position).getName())){
+            if (Utility.validateString(list.get(position).getName())) {
                 txtTitle.setHint(list.get(position).getName());
-            }else {
+            } else {
                 txtTitle.setHint("");
             }
 
@@ -287,7 +287,7 @@ public class MultiEdittextListItemDialog extends Dialog {
             txtTitle.setTag(quest);
 
 
-          //  txtTitle.setText(quest);
+            //  txtTitle.setText(quest);
             return v;
         }
 
