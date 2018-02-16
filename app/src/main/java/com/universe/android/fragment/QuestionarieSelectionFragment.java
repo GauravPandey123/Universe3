@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.universe.android.R;
+import com.universe.android.activity.AddNewRetailors;
 import com.universe.android.activity.MapsActivity;
 import com.universe.android.activity.QuestionaireActivity;
 import com.universe.android.activity.SearchCustomersActivity;
@@ -46,7 +47,7 @@ public class QuestionarieSelectionFragment extends BaseFragment {
         cardViewRetailer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchCustomersActivity.class);
+                Intent intent = new Intent(getActivity(), AddNewRetailors.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -54,7 +55,7 @@ public class QuestionarieSelectionFragment extends BaseFragment {
         cardViewDistributor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SearchCustomersActivity.class);
+                Intent intent = new Intent(getActivity(), AddNewRetailors.class);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }

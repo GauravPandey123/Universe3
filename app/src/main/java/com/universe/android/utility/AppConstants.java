@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
  */
 
 public class AppConstants {
-    public static final int SUCCESS=200;
+    public static final int SUCCESS = 200;
     public static final String STR_TITLE = "strTitle";
     public static final String DATE_FORMAT = "dd MMM yyyy";
     public static final SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
@@ -88,9 +88,16 @@ public class AppConstants {
     public static final String CREATED_BY = "createdBy";
     public static final String TITLE = "title";
     public static final String MINUS_ONE = "minus";
-    public static final String ISACTIVE ="isActive" ;
+    public static final String ISACTIVE = "isActive";
     public static final String YES = "Yes";
     public static final String CATEGORY_NAME = "categoryName";
-    public static final String CATEGORY ="category" ;
+    public static final String CATEGORY = "category";
+
+    //survey status
+    public static final int PENDING = 0;
+    public static final int INPROCESS = 1;
+    public static final int SUBMITTED = 2;
+    public static final int COMPLETED = 3;
+    public static final int REJECT = 4;
 }
 
