@@ -12,19 +12,17 @@ public class RealmSurveys extends RealmObject {
     private String status;
     private int _v;
     private String title;
-
     private Date expiryDate;
-
     private String createdBy;
     private Date createdAt;
     private Date updatedAt;
-
     private String description;
     private String image;
     private String responses;
     private int isActive;
     private boolean isSync=true;
     private boolean isUpdate=true;
+    private String categoryId;
 
 
     public String getStatus() {
@@ -141,5 +139,21 @@ public class RealmSurveys extends RealmObject {
 
     public int getIsActive() {
         return isActive;
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 }

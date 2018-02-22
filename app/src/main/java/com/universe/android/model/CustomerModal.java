@@ -22,11 +22,17 @@ public class CustomerModal{
 
     private String contactNo;
     private String address;
-    private String status;
+
     private boolean isActive;
     private String image;
     private String surveyId;
     private String clientId;
+    private String state;
+    private String status;
+    private String territory;
+    private String pincode;
+    private String title;
+    private String date;
 
     public String getId() {
         return id;
@@ -146,5 +152,45 @@ public class CustomerModal{
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getTerritory() {
+        return territory;
+    }
+
+    public void setTerritory(String territory) {
+        this.territory = territory;
+    }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

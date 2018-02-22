@@ -46,7 +46,11 @@
         <activity android:name=".activity.AddNewRetailors" />
         <activity android:name=".activity.AddNewRetailorsActivity" />
 
-
+        <activity
+            android:name=".activity.CategoryExpandableListActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
         <activity
             android:name="com.soundcloud.android.crop.CropImageActivity"
             android:theme="@style/CustomTheme" />

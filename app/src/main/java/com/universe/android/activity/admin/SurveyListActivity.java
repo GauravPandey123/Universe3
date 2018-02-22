@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -33,8 +34,6 @@ import io.realm.RealmResults;
 import io.realm.Sort;
 
 public class SurveyListActivity extends BaseActivity {
-
-
     private static final int ID_UPDATE_CAMP = 1000;
     private List<SurveysModal> surveysModals = new ArrayList<>();
     private SurveyListAdapter adapter;
@@ -51,7 +50,13 @@ public class SurveyListActivity extends BaseActivity {
         prepareList();
         ((TextView) findViewById(R.id.textViewHeader)).setText(getString(R.string.survey));
 
-
+        ImageView imageBack=(ImageView)findViewById(R.id.imageviewbackSearch);
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         FloatingActionButton fabAdd=(FloatingActionButton)findViewById(R.id.fabAdd);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +99,7 @@ public class SurveyListActivity extends BaseActivity {
                     modal.setTitle(realmSurveys.get(i).getTitle());
                     modal.setStatus(realmSurveys.get(i).getStatus());
                  //   String date=AppConstants.format2.format(realmSurveys.get(i).getExpiryDate());
-                    modal.setExpiryDate(realmSurveys.get(i).getExpiryDate());
+                  //  modal.setExpiryDate(realmSurveys.get(i).getExpiryDate());
                     surveysModals.add(modal);
                 }
             }

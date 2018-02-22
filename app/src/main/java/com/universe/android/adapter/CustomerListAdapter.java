@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.AnswersModal;
+import com.universe.android.model.CustomerModal;
 import com.universe.android.utility.Utility;
 
 import java.util.ArrayList;
@@ -18,12 +20,12 @@ import java.util.ArrayList;
  * Created by gaurav.pandey on 24-01-2018.
  */
 
-public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapter.SurveyViewHolder> {
+public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapter.SurveyViewHolder> {
     private Context mContext;
-    private ArrayList<AnswersModal> stringArrayList;
+    private ArrayList<CustomerModal> stringArrayList;
     private OnItemSelecteListener mListener;
 
-    public SurveyDetailAdapter(Context mContext, ArrayList<AnswersModal> stringArrayList) {
+    public CustomerListAdapter(Context mContext, ArrayList<CustomerModal> stringArrayList) {
         this.mContext = mContext;
         this.stringArrayList = stringArrayList;
 
@@ -44,8 +46,15 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
         holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
 
             holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo()+" | "+
-                    stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  "+
+                    stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  \n"+
                     stringArrayList.get(position).getDate());
+
+
+            if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
+                holder.llStatus.setVisibility(View.VISIBLE);
+            }else{
+                holder.llStatus.setVisibility(View.GONE);
+            }
 
 
     }
@@ -65,12 +74,14 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
 
     public class SurveyViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewRetailersName, textViewMobileNo, textViewStatus;
+        private LinearLayout llStatus;
 
         public SurveyViewHolder(View itemView) {
             super(itemView);
             textViewRetailersName = itemView.findViewById(R.id.textViewRetailersName);
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
+            llStatus = itemView.findViewById(R.id.llStatus);
            /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

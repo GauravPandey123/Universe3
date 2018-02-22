@@ -1,21 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    style="@style/appFormLinear">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayoutQuestionsCategory"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerViewQuestionsCategory"
+
+
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/appText"
+            android:gravity="center"
+            android:visibility="visible"/>
+
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp">
 
-        </android.support.v7.widget.RecyclerView>
+            <LinearLayout
+                style="@style/appFormLinear"
+                android:layout_margin="0dp"
+                android:orientation="vertical"
+                android:padding="0dp">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+
+                <LinearLayout
+                    android:id="@+id/llSurvey"
+                    style="@style/appFieldLinearLayout"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvSurveyTitle"
+                        style="@style/appFieldTitleText"
+                        android:text="@string/survey" />
+
+                    <TextView
+                        android:id="@+id/spnSurvey"
+                        style="@style/appSpinnerText"
+                        android:gravity="center_vertical"
+                        android:text="@string/select_survey" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llClient"
+                    style="@style/appFieldLinearLayout"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvClientTitle"
+                        style="@style/appFieldTitleText"
+                        android:text="@string/client" />
+
+                    <TextView
+                        android:id="@+id/spnClient"
+                        style="@style/appSpinnerText"
+                        android:gravity="center_vertical"
+                        android:text="@string/select_client" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCategory"
+                    style="@style/appFieldLinearLayout"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvCategoryTitle"
+                        style="@style/appFieldTitleText"
+                        android:text="@string/category" />
+
+                    <TextView
+                        android:id="@+id/spnCategory"
+                        style="@style/appSpinnerText"
+                        android:gravity="center_vertical"
+                        android:text="@string/select_category" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/llOptionValues"
+                    style="@style/appFieldLinearLayout"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvOptionValues"
+                        style="@style/appFieldTitleText"
+                        android:text="@string/option" />
+
+                    <TextView
+                        android:id="@+id/spnOptionValues"
+                        style="@style/appSpinnerText"
+                        android:gravity="center_vertical"
+                        android:text="@string/select_options" />
+
+                </LinearLayout>
 
 
+                <LinearLayout
+                    android:id="@+id/llCategorySingle"
+                    style="@style/appFieldLinearLayout"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvCategoryTitleSingle"
+                        style="@style/appFieldTitleText"
+                        android:text="@string/category" />
+
+                    <TextView
+                        android:id="@+id/spnCategorySingle"
+                        style="@style/appSpinnerText"
+                        android:gravity="center_vertical"
+                        android:text="@string/select_category" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/parent"
+                    style="@style/appLinear"
+                    android:layout_marginTop="@dimen/view_padding"
+                    android:orientation="vertical"
+                    android:padding="2dp">
+
+
+                </LinearLayout>
+
+                <include layout="@layout/act_save_buttons"></include>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 </RelativeLayout>

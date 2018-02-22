@@ -2,7 +2,8 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="app_theme_color">#FED325</color>
+    <color name="app_theme_color">#3F51B5</color>
+    <color name="light_blue">#ADD8E6</color>
     <color name="survey_background_color">#f2f2f2</color>
     <color name="textColorPrimary">#464646</color>
     <color name="textColorPrimaryDark">#000000</color>

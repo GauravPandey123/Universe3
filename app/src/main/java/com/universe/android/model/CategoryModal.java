@@ -1,5 +1,6 @@
 package com.universe.android.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -8,7 +9,7 @@ public class CategoryModal {
     private String id;
     private String categoryType;
     private String categoryName;
-
+    private String categoryAnswered;
     private Date description;
 
     private String contactNo;
@@ -26,7 +27,9 @@ public class CategoryModal {
     private String surveyId;
     private String clientId;
     private String customerId;
+    private int questionCount;
     private String image;
+    private ArrayList<Questions> questions;
 
 
     public String getId() {
@@ -147,5 +150,29 @@ public class CategoryModal {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public ArrayList<Questions> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(ArrayList<Questions> questions) {
+        this.questions = questions;
+    }
+
+    public int getQuestionCount() {
+        return questionCount;
+    }
+
+    public void setQuestionCount(int questionCount) {
+        this.questionCount = questionCount;
+    }
+
+    public String getCategoryAnswered() {
+        return categoryAnswered;
+    }
+
+    public void setCategoryAnswered(String categoryAnswered) {
+        this.categoryAnswered = categoryAnswered;
     }
 }

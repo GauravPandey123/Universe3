@@ -99,5 +99,19 @@ public class AppConstants {
     public static final int SUBMITTED = 2;
     public static final int COMPLETED = 3;
     public static final int REJECT = 4;
+    public static final String ANSWERS ="answers" ;
+    public static final String SUBMITBY_CD = "submitbyCD";
+    public static final String SUBMITBY_RM = "submitbyRM";
+    public static final String SUBMITBY_ZM = "submitbyZM";
+    public static final String CD_STATUS = "cd_Status";
+    public static final String RM_STATUS = "rm_Status";
+    public static final String ZM_STATUS = "zm_Status";
+    public static final String USERNAME = "userName";
+    public static final String STATUS = "status";
+    public static final String QUESTIONS = "questions";
+    public static final java.lang.String QUESTIONID = "questionId";
+    public static final java.lang.String ANSWER = "answer";
+    public static final java.lang.String REQUIRED = "required";
+    public static final java.lang.String ISVIEW = "isView";
 }
 

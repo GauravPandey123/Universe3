@@ -10,12 +10,11 @@ import io.realm.RealmResults;
 import io.realm.annotations.PrimaryKey;
 
 
-public class RealmQuestion extends RealmObject {
+public class RealmSurveyQuestion extends RealmObject {
     @PrimaryKey
     private String _id;
     private int _v;
     private String title;
-    private String placeholder;
     private String longTitle;
     private String responses;
     private String inputType;
@@ -31,7 +30,7 @@ public class RealmQuestion extends RealmObject {
     private boolean isUpdate=true;
 
     private int minValue;
-    private int maxLength;
+    private String maxLength;
     private String visibility;
     private String surveyId;
     private String categoryId;
@@ -96,7 +95,13 @@ public class RealmQuestion extends RealmObject {
         this.minValue = minValue;
     }
 
+    public String getMaxLength() {
+        return maxLength;
+    }
 
+    public void setMaxLength(String maxLength) {
+        this.maxLength = maxLength;
+    }
 
 
 
@@ -258,29 +263,5 @@ public class RealmQuestion extends RealmObject {
 
     public void setVisibility(String visibility) {
         this.visibility = visibility;
-    }
-
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
-
-    public String getPlaceholder() {
-        return placeholder;
-    }
-
-    public void setPlaceholder(String placeholder) {
-        this.placeholder = placeholder;
-    }
-
-    public int getMaxLength() {
-        return maxLength;
-    }
-
-    public void setMaxLength(int maxLength) {
-        this.maxLength = maxLength;
     }
 }

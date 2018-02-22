@@ -9,7 +9,7 @@ public class SurveysModal {
     private String status;
     private String title;
 
-    private Date expiryDate;
+    private String expiryDate;
 
     private String createdBy;
     private Date createdAt;
@@ -42,13 +42,7 @@ public class SurveysModal {
         this.title = title;
     }
 
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
 
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
-    }
 
     public String getCreatedBy() {
         return createdBy;
@@ -96,5 +90,13 @@ public class SurveysModal {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
     }
 }

@@ -42,6 +42,7 @@
                             android:src="@drawable/pending_" />
 
                         <TextView
+                            android:id="@+id/tvPending"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:layout_marginBottom="8dp"
@@ -67,7 +68,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_approved"
+                    android:id="@+id/ll_inprogress"
                     android:layout_width="0dp"
                     android:layout_height="80dp"
                     android:layout_weight="1"
@@ -85,6 +86,7 @@
                             android:src="@drawable/pending" />
 
                         <TextView
+                            android:id="@+id/tvInprogress"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:layout_marginBottom="8dp"
@@ -129,6 +131,7 @@
                             android:src="@drawable/ic_completed_unselect" />
 
                         <TextView
+                            android:id="@+id/tvCompleted"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:layout_marginBottom="8dp"
@@ -152,7 +155,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_verifier"
+                    android:id="@+id/ll_rejected"
                     android:layout_width="0dp"
                     android:layout_height="80dp"
                     android:layout_weight="1"
@@ -170,6 +173,7 @@
                             android:src="@drawable/rejected" />
 
                         <TextView
+                            android:id="@+id/tvRejected"
                             android:layout_width="16dp"
                             android:layout_height="16dp"
                             android:layout_marginBottom="8dp"

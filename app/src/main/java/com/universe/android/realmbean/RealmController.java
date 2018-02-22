@@ -41,6 +41,40 @@ public class RealmController {
         return question;
     }
 
+    public Questions getSurveyQuestionVOFromJson(RealmQuestion realmQuestion) {
+        Questions question = new Questions();
+        if (realmQuestion != null) {
+            if (realmQuestion.getVisibility().equalsIgnoreCase("Yes")){
+                question.setVisibility(true);
+            }else {
+                question.setVisibility(false);
+            }
+            if (realmQuestion.getRequired().equalsIgnoreCase("Yes")){
+                question.setRequired(true);
+            }else {
+                question.setRequired(false);
+            }
+
+            question.setTitle(realmQuestion.getTitle());
+            question.setInputType(realmQuestion.getInputType());
+            question.setType(realmQuestion.getType());
+            question.setDisplayOrder(realmQuestion.getDisplayOrder());
+            question.setPlaceholder(realmQuestion.getPlaceholder());
+            question.setOptionValues(realmQuestion.getOptionValues());
+
+            question.setMaxLength(realmQuestion.getMaxLength());
+            question.setMaxValue(realmQuestion.getMaxValue());
+            question.setMinValue(realmQuestion.getMinValue());
+            question.setResponses(realmQuestion.getResponses());
+            question.setCategoryId(realmQuestion.getCategoryId());
+            question.setSurveyId(realmQuestion.getSurveyId());
+            question.setQuestionId(realmQuestion.getId());
+            question.setLongTitle(realmQuestion.getLongTitle());
+
+        }
+        return question;
+    }
+
 
     public boolean isAnySyncPending() {
         boolean isPending = false;
@@ -166,6 +200,22 @@ public class RealmController {
                 realm.commitTransaction();
                 realm.close();
             }
+
+    }
+    public void saveSurveyQuestions(String responseData) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        try {
+            realm.createOrUpdateAllFromJson(RealmQuestion.class, new JSONArray(responseData));
+        } catch (Exception e) {
+            if (realm.isInTransaction())
+                realm.cancelTransaction();
+            e.printStackTrace();
+        } finally {
+            if (realm.isInTransaction())
+                realm.commitTransaction();
+            realm.close();
+        }
 
     }
 

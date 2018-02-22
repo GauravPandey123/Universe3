@@ -36,6 +36,9 @@ public class RealmCustomer extends RealmObject {
     private String image;
     private String surveyId;
     private String clientId;
+    private String state;
+    private String territory;
+    private String pincode;
 
 
 
@@ -227,5 +230,37 @@ public class RealmCustomer extends RealmObject {
             realm.close();
         }
         return "";
+    }
+
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getTerritory() {
+        return territory;
+    }
+
+    public void setTerritory(String territory) {
+        this.territory = territory;
+    }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
     }
 }

@@ -12,16 +12,27 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.activity.BaseActivity;
+import com.universe.android.activity.CategoryExpandableListActivity;
 import com.universe.android.activity.QuestionsCategoryActivity;
 import com.universe.android.adapter.SurveyDetailAdapter;
+import com.universe.android.adapter.WorkFLowDetailAdapter;
 import com.universe.android.helper.RecyclerTouchListener;
+import com.universe.android.model.AnswersModal;
+import com.universe.android.realmbean.RealmAnswers;
+import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Utility;
 
 import java.util.ArrayList;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by gaurav.pandey on 24-01-2018.
@@ -35,10 +46,12 @@ public class WorkFlowsDetailActivity extends BaseActivity {
     private SwipeRefreshLayout swipeRefreshLayoutStatus;
     private ImageView imageViewBack;
 
-    private ArrayList<String> stringArrayList;
+    private ArrayList<AnswersModal> stringArrayList;
     private LinearLayoutManager linearLayoutManager;
-    private SurveyDetailAdapter surveyDetailAdapter;
-    private String strType;
+    private WorkFLowDetailAdapter surveyDetailAdapter;
+    private String strType,surveyId;
+    private LinearLayout llPending,ll_inprogress,ll_completed,ll_rejected;
+    private TextView tvPending,tvInprogress,tvCompleted,tvRejected;
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -49,7 +62,92 @@ public class WorkFlowsDetailActivity extends BaseActivity {
         initialization();
         setUpElements();
         setUpListeners();
+        setCount();
+        prepareList(getString(R.string.pending));
     }
+
+    private void setCount() {
+
+        Realm realm = Realm.getDefaultInstance();
+
+        try {
+
+
+          long realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"0").equalTo(AppConstants.ZM_STATUS,"4").count();
+            long  realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").count();
+            long  realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").count();
+            long  realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"3").count();
+
+            tvPending.setText(realmPending+"");
+            tvInprogress.setText(realmInprogress+"");
+            tvCompleted.setText(realmCompleted+"");
+            tvRejected.setText(realmRejected+"");
+
+
+
+
+        } catch (Exception e) {
+            realm.close();
+            e.printStackTrace();
+        } finally {
+            realm.close();
+        }
+
+    }
+
+    private void prepareList(String type) {
+        if (stringArrayList == null) stringArrayList = new ArrayList<>();
+        stringArrayList.clear();
+        Realm realm = Realm.getDefaultInstance();
+
+        try {
+
+
+            RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).findAll();
+
+            if (type.equalsIgnoreCase(getString(R.string.inprogress))){
+                realmAnswers = realm.where(RealmAnswers.class).findAllSorted(AppConstants.DATE, Sort.DESCENDING);
+
+            }else if (type.equalsIgnoreCase(getString(R.string.completed))){
+                realmAnswers = realm.where(RealmAnswers.class).findAllSorted(AppConstants.DATE, Sort.DESCENDING);
+            }else if (type.equalsIgnoreCase(getString(R.string.rejected))){
+                realmAnswers = realm.where(RealmAnswers.class).findAllSorted(AppConstants.DATE, Sort.DESCENDING);
+            }
+
+
+            if (realmAnswers != null && realmAnswers.size() > 0) {
+                for (int i = 0; i < realmAnswers.size(); i++) {
+                    AnswersModal modal = new AnswersModal();
+                    modal.set_id(realmAnswers.get(i).get_id());
+
+                    RealmCustomer realmCustomer=realm.where(RealmCustomer.class).findFirst();
+
+                    modal.setTitle(realmCustomer.getName());
+                    modal.setState(realmCustomer.getState());
+                    modal.setTerritory(realmCustomer.getTerritory());
+                    modal.setPincode(realmCustomer.getPincode());
+                    modal.setCustomerId(realmCustomer.getId());
+                    modal.setStatus(type);
+                    modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getDate()));
+                    stringArrayList.add(modal);
+                }
+            }else {
+                Utility.showToast(getString(R.string.no_data));
+            }
+        } catch (Exception e) {
+            realm.close();
+            e.printStackTrace();
+        } finally {
+            realm.close();
+        }
+
+        if (surveyDetailAdapter != null) {
+            surveyDetailAdapter.notifyDataSetChanged();
+        }
+    }
+
+
+
 
     private void setUpListeners() {
         imageViewBack.setOnClickListener(new View.OnClickListener() {
@@ -59,11 +157,13 @@ public class WorkFlowsDetailActivity extends BaseActivity {
             }
         });
 
-        surveyDetailAdapter.setOnItemClickLister(new SurveyDetailAdapter.OnItemSelecteListener() {
+        surveyDetailAdapter.setOnItemClickLister(new WorkFLowDetailAdapter.OnItemSelecteListener() {
             @Override
             public void onItemSelected(View v, int position) {
-                Intent intent = new Intent(mContext, QuestionsCategoryActivity.class);
-                intent.putExtra(AppConstants.TYPE, strType);
+                Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
+                intent.putExtra(AppConstants.STR_TITLE, strType);
+                intent.putExtra(AppConstants.SURVEYID, surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getCustomerId());
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
@@ -73,8 +173,10 @@ public class WorkFlowsDetailActivity extends BaseActivity {
         recyclerViewWorkFLowsDetail.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewWorkFLowsDetail, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Intent intent = new Intent(mContext, QuestionsCategoryActivity.class);
-                intent.putExtra(AppConstants.TYPE, strType);
+                Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
+                intent.putExtra(AppConstants.STR_TITLE, strType);
+                intent.putExtra(AppConstants.SURVEYID, surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getCustomerId());
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -87,8 +189,8 @@ public class WorkFlowsDetailActivity extends BaseActivity {
     }
 
     private void setUpElements() {
-        searchList();  // in this method, Create a list of items.
-        surveyDetailAdapter = new SurveyDetailAdapter(mContext, stringArrayList);
+
+        surveyDetailAdapter = new WorkFLowDetailAdapter(mContext, stringArrayList);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
         recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
@@ -101,35 +203,71 @@ public class WorkFlowsDetailActivity extends BaseActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void initialization() {
         stringArrayList = new ArrayList<>();
-        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
         recyclerViewWorkFLowsDetail = findViewById(R.id.recylerViewSurveyDetail);
         TextView textViewMobileNo = (TextView) findViewById(R.id.textViewMobileNo);
         textViewMobileNo.setText(getResources().getString(R.string.workflow_mobile_no));
         imageViewBack = findViewById(R.id.imageviewback);
-        TextView textViewStatus = (TextView) findViewById(R.id.textViewStatus);
+
+         llPending = (LinearLayout) findViewById(R.id.ll_pending);
+         ll_inprogress = (LinearLayout) findViewById(R.id.ll_inprogress);
+         ll_completed = (LinearLayout) findViewById(R.id.ll_completed);
+         ll_rejected = (LinearLayout) findViewById(R.id.ll_rejected);
+
+        tvPending = (TextView) findViewById(R.id.tvPending);
+        tvInprogress = (TextView) findViewById(R.id.tvInprogress);
+        tvCompleted = (TextView) findViewById(R.id.tvCompleted);
+        tvRejected = (TextView) findViewById(R.id.tvRejected);
+
+        TextView textViewStatus=(TextView)findViewById(R.id.textViewStatus);
+        textViewStatus.setVisibility(View.GONE);
+
+
+        llPending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utility.animateView(v);
+                prepareList(getString(R.string.pending));
+            }
+        });
+
+        ll_inprogress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utility.animateView(v);
+                prepareList(getString(R.string.in_progress));
+            }
+        });
+        ll_completed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utility.animateView(v);
+                prepareList(getString(R.string.completed));
+            }
+        });
+
+        ll_rejected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utility.animateView(v);
+                prepareList(getString(R.string.rejected));
+            }
+        });
+
+
 
 
         Intent intent = getIntent();
         if (intent != null) {
             strType = intent.getExtras().getString(AppConstants.TYPE);
+            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
         }
 
+        TextView tvHeaderName=(TextView)findViewById(R.id.tvHeaderName);
+        tvHeaderName.setText(strType);
+
     }
 
-    private void searchList() {
-        stringArrayList.add("Agro Inputs Corporation");
-        stringArrayList.add("Aj AgroChemicals");
-        stringArrayList.add("Blossom AgriCore");
-        stringArrayList.add("Chemical India");
-        stringArrayList.add("Duncan India");
-        stringArrayList.add("Gange Pestiside");
-        stringArrayList.add("Agro Inputs Corporation");
-        stringArrayList.add("Aj AgroChemicals");
-        stringArrayList.add("Blossom AgriCore");
-        stringArrayList.add("Chemical India");
-        stringArrayList.add("Duncan India");
-        stringArrayList.add("Gange Pestiside");
-    }
 
 
     @Override

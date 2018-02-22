@@ -25,7 +25,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:text="@string/customersearch"
-            android:textAllCaps="true"
+            android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -53,7 +53,7 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/searchcustomers"
-        android:layout_marginTop="@dimen/margin_xmedium"
+        android:layout_marginTop="4dp"
         android:background="@color/divider_color" />
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -61,13 +61,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/border"
-        android:layout_marginTop="@dimen/margin_xmedium">
+        >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerviewsearch"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/margin_xmedium" />
+            android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
 </RelativeLayout>

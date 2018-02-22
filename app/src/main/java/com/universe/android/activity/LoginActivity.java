@@ -86,7 +86,9 @@ public class LoginActivity extends BaseActivity {
         textViewLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                login();
+                Utility.animateView(v);
+               login();
+
             }
         });
         textViewForgotPassword.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +142,7 @@ public class LoginActivity extends BaseActivity {
 
     //hit web service here
     public void submitLoginRequest(String email, String password) {
-//        showProgress(R.string.msg_load_default);
+       showProgress(R.string.msg_load_default);
         //  showProgress();
         // showProgress(R.string.msg_load_default);
         LoginRequest loginRequest = new LoginRequest();
@@ -212,7 +214,7 @@ public class LoginActivity extends BaseActivity {
                             JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
                             new RealmController().saveQuestions(array.toString());
                         }
-                        goToMain();
+                        getSurveyQuestionsResponse();
                     } else {
                     }
 
@@ -231,7 +233,7 @@ public class LoginActivity extends BaseActivity {
 
 
         OkHttpClient okHttpClient = APIClient.getHttpClient();
-        String url = UniverseAPI.WEB_SERVICE_LIST_SURVEY_METHOD;
+        String url = UniverseAPI.WEB_SERVICE_LIST_ADMIN_SURVEY_METHOD;
 
 
         Request request = APIClient.getRequest(mContext, url);
@@ -440,6 +442,48 @@ public class LoginActivity extends BaseActivity {
         });
 
     }
+
+    private void getSurveyQuestionsResponse() {
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        String url = UniverseAPI.WEB_SERVICE_LIST_QUESTION_METHOD;
+        Request request = APIClient.getRequest(mContext, url);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (responseData != null) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
+                            new RealmController().saveSurveyQuestions(array.toString());
+                        }
+                        dismissProgress();
+                        goToMain();
+                    } else {
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                }
+
+            }
+        });
+
+    }
+
 
 
     private void goToMain() {

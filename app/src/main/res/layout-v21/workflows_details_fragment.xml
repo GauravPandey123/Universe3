@@ -18,6 +18,7 @@
             android:src="@drawable/ic_arrow_back_black_24dp" />
 
         <TextView
+            android:id="@+id/tvHeaderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -40,7 +41,8 @@
         android:orientation="vertical">
 
         <include layout="@layout/work_flows_header" />
-        <include layout="@layout/part_workflows_detail" />
+        <include layout="@layout/part_workflows_detail"
+            android:visibility="gone"/>
     </LinearLayout>
 
 

@@ -14,13 +14,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.universe.android.R;
+import com.universe.android.adapter.CustomerListAdapter;
 import com.universe.android.adapter.SurveyDetailAdapter;
 import com.universe.android.fragment.SurveySelectionFragment;
 import com.universe.android.helper.FontClass;
 import com.universe.android.helper.RecyclerTouchListener;
+import com.universe.android.model.AnswersModal;
+import com.universe.android.model.CustomerModal;
+import com.universe.android.realmbean.RealmAnswers;
+import com.universe.android.realmbean.RealmCustomer;
+import com.universe.android.utility.AppConstants;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import in.editsoft.api.util.App;
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by gaurav.pandey on 28-01-2018.
@@ -34,24 +45,39 @@ public class SearchCustomersActivity extends BaseActivity {
     private ImageView imageViewback;
     private TextView textViewSuverDetail;
 
-    private SurveyDetailAdapter surveyDetailAdapter;
+    private CustomerListAdapter surveyDetailAdapter;
 
-    private ArrayList<String> stringArrayList;
+    private ArrayList<CustomerModal> stringArrayList;
+    private String surveyId,strTitle;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_customers_activity);
+        Intent intent=getIntent();
+        if (intent!=null){
+
+            surveyId= intent.getExtras().getString(AppConstants.SURVEYID);
+            strTitle= intent.getExtras().getString(AppConstants.TYPE);
+
+        }
+
+        TextView title=(TextView)findViewById(R.id.textViewSuverDetail);
+        title.setText(strTitle);
         initialization();
         setUpElements();
         setUpListeners();
+        prepareList();
     }
 
     private void setUpListeners() {
-        surveyDetailAdapter.setOnItemClickLister(new SurveyDetailAdapter.OnItemSelecteListener() {
+        surveyDetailAdapter.setOnItemClickLister(new CustomerListAdapter.OnItemSelecteListener() {
             @Override
             public void onItemSelected(View v, int position) {
                 Intent intent=new Intent(mContext,MapsActivity.class);
+                intent.putExtra(AppConstants.STR_TITLE,strTitle);
+                intent.putExtra(AppConstants.SURVEYID,surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID,stringArrayList.get(position).getId());
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
@@ -61,6 +87,9 @@ public class SearchCustomersActivity extends BaseActivity {
             @Override
             public void onClick(View view, int position) {
                 Intent intent = new Intent(mContext, MapsActivity.class);
+                intent.putExtra(AppConstants.STR_TITLE,strTitle);
+                intent.putExtra(AppConstants.SURVEYID,surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID,stringArrayList.get(position).getId());
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -95,10 +124,9 @@ public class SearchCustomersActivity extends BaseActivity {
         recyclerViewSearch.setHasFixedSize(true);
         recyclerViewSearch.setLayoutManager(new LinearLayoutManager(this));
 
-        searchList();  // in this method, Create a list of items.
 
         // call the adapter with argument list of items and context.
-        surveyDetailAdapter = new SurveyDetailAdapter(mContext, stringArrayList);
+        surveyDetailAdapter = new CustomerListAdapter(mContext, stringArrayList);
         recyclerViewSearch.setAdapter(surveyDetailAdapter);
 
         addTextListener();
@@ -117,39 +145,74 @@ public class SearchCustomersActivity extends BaseActivity {
 
                 query = query.toString().toLowerCase();
 
-                final ArrayList<String> filteredList = new ArrayList<>();
+                final ArrayList<CustomerModal> filteredList = new ArrayList<>();
 
-                for (int i = 0; i < stringArrayList.size(); i++) {
+             /*   for (int i = 0; i < stringArrayList.size(); i++) {
 
                     final String text = stringArrayList.get(i).toLowerCase();
                     if (text.contains(query)) {
 
                         filteredList.add(stringArrayList.get(i));
                     }
-                }
+                }*/
 
                 recyclerViewSearch.setLayoutManager(new LinearLayoutManager(mContext));
-                surveyDetailAdapter = new SurveyDetailAdapter(mContext, filteredList);
+                surveyDetailAdapter = new CustomerListAdapter(mContext, filteredList);
                 recyclerViewSearch.setAdapter(surveyDetailAdapter);
                 surveyDetailAdapter.notifyDataSetChanged();  // data set changed
             }
         });
     }
 
-    private void searchList() {
-        stringArrayList.add("Agro Inputs Corporation");
-        stringArrayList.add("Aj AgroChemicals");
-        stringArrayList.add("Blossom AgriCore");
-        stringArrayList.add("Chemical India");
-        stringArrayList.add("Duncan India");
-        stringArrayList.add("Gange Pestiside");
-        stringArrayList.add("Agro Inputs Corporation");
-        stringArrayList.add("Aj AgroChemicals");
-        stringArrayList.add("Blossom AgriCore");
-        stringArrayList.add("Chemical India");
-        stringArrayList.add("Duncan India");
-        stringArrayList.add("Gange Pestiside");
+    private void prepareList() {
+        if (stringArrayList == null) stringArrayList = new ArrayList<>();
+        stringArrayList.clear();
+        Realm realm = Realm.getDefaultInstance();
+
+        try {
+            RealmResults<RealmCustomer> realmCustomers = realm.where(RealmCustomer.class).findAll();
+
+
+
+
+            if (realmCustomers != null && realmCustomers.size() > 0) {
+                for (int i = 0; i < realmCustomers.size(); i++) {
+                    CustomerModal modal = new CustomerModal();
+                    modal.setId(realmCustomers.get(i).get_id());
+
+
+                    RealmAnswers realmAnswers1=realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,realmCustomers.get(i).get_id()).findFirst();
+
+                    if (realmAnswers1!=null){
+                        String status=realmAnswers1.getCd_Status();
+                        modal.setStatus(status);
+                    }else {
+                        modal.setStatus("");
+                    }
+                    modal.setTitle(realmCustomers.get(i).getName());
+                    modal.setState(realmCustomers.get(i).getState());
+                    modal.setTerritory(realmCustomers.get(i).getTerritory());
+                    modal.setPincode(realmCustomers.get(i).getPincode());
+                    modal.setContactNo(realmCustomers.get(i).getContactNo());
+                    //modal.setStatus(type);
+                    modal.setDate(AppConstants.format2.format(realmCustomers.get(i).getCreatedAt()));
+                    stringArrayList.add(modal);
+                }
+            }
+        } catch (Exception e) {
+            realm.close();
+            e.printStackTrace();
+        } finally {
+            realm.close();
+        }
+
+        if (surveyDetailAdapter != null) {
+            surveyDetailAdapter.notifyDataSetChanged();
+        }
     }
+
+
+
 
     @Override
     public void onBackPressed() {

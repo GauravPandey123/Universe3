@@ -6,10 +6,10 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_min"
+        android:layout_height="80dp"
         app:cardBackgroundColor="@color/survey_background_color"
-        app:cardCornerRadius="@dimen/margin_min">
+        app:cardCornerRadius="@dimen/margin_min"
+        app:cardElevation="4dp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -35,8 +35,9 @@
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/text_size_small" />
 
-            <TextView
-                android:id="@+id/textViewStatus"
+
+            <LinearLayout
+                android:id="@+id/llStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -44,10 +45,26 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium"
-                android:background="@drawable/pending"
-                android:textAllCaps="true"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/text_size_normal" />
+                android:visibility="visible"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textViewStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/pending"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <TextView
+                    android:id="@+id/tvStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:visibility="visible"
+                    android:text="@string/submitted"/>
+            </LinearLayout>
+
 
         </RelativeLayout>
 

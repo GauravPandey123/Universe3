@@ -175,6 +175,9 @@
     <string name="select_options">Select Options</string>
     <string name="option">Option values</string>
     <string name="todo">TODO</string>
+    <string name="mypending">My Pending</string>
+    <string name="submitnNew"><![CDATA[Submit & New]]></string>
+    <string name="submitted">Submitted</string>
 
     <string-array name="filterItem">
         <item>@string/category1</item>

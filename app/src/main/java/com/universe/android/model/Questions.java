@@ -6,7 +6,9 @@ import io.realm.RealmObject;
 public class Questions extends RealmObject {
     private String title;
     private String hindiTitle;
+    private String longTitle;
     private String surveyId;
+    private String responses;
     private String categoryId;
     private String questionId;
     private String optionValues;
@@ -27,6 +29,7 @@ public class Questions extends RealmObject {
     private int minValue;
     private boolean alpha;
     private String status;
+
 
     public boolean isAlpha() {
         return alpha;
@@ -212,5 +215,21 @@ public class Questions extends RealmObject {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getLongTitle() {
+        return longTitle;
+    }
+
+    public void setLongTitle(String longTitle) {
+        this.longTitle = longTitle;
+    }
+
+    public String getResponses() {
+        return responses;
+    }
+
+    public void setResponses(String responses) {
+        this.responses = responses;
     }
 }

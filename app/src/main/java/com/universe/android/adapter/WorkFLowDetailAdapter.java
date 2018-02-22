@@ -18,12 +18,12 @@ import java.util.ArrayList;
  * Created by gaurav.pandey on 24-01-2018.
  */
 
-public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapter.SurveyViewHolder> {
+public class WorkFLowDetailAdapter extends RecyclerView.Adapter<WorkFLowDetailAdapter.SurveyViewHolder> {
     private Context mContext;
     private ArrayList<AnswersModal> stringArrayList;
     private OnItemSelecteListener mListener;
 
-    public SurveyDetailAdapter(Context mContext, ArrayList<AnswersModal> stringArrayList) {
+    public WorkFLowDetailAdapter(Context mContext, ArrayList<AnswersModal> stringArrayList) {
         this.mContext = mContext;
         this.stringArrayList = stringArrayList;
 
@@ -31,7 +31,7 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
 
     @Override
     public SurveyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.part_survey_detail, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.workflow_item, parent, false);
         return new SurveyViewHolder(view);
     }
 

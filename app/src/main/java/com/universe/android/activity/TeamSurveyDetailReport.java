@@ -14,8 +14,16 @@ import android.widget.TextView;
 import com.universe.android.R;
 import com.universe.android.adapter.SurveyDetailAdapter;
 import com.universe.android.helper.FontClass;
+import com.universe.android.model.AnswersModal;
+import com.universe.android.realmbean.RealmAnswers;
+import com.universe.android.realmbean.RealmCustomer;
+import com.universe.android.utility.AppConstants;
 
 import java.util.ArrayList;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by gaurav.pandey on 12-02-2018.
@@ -26,7 +34,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
     ImageView imageviewback;
     private RecyclerView recyclerViewWorkFLowsDetail;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private ArrayList<String> stringArrayList;
+    private ArrayList<AnswersModal> stringArrayList;
     private LinearLayoutManager linearLayoutManager;
     private SurveyDetailAdapter surveyDetailAdapter;
     private TextView textViewCrystalDoctor, textViewAmtala, textViewPosition, textViewAchievementNumbers, textViewAchievement;
@@ -38,6 +46,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
         initialization();
         setUpELements();
         setUpListeners();
+        prepareList();
     }
 
     private void setUpListeners() {
@@ -67,26 +76,50 @@ public class TeamSurveyDetailReport extends BaseActivity {
 
     }
 
-    private void searchList() {
-        stringArrayList.add("Agro Inputs Corporation");
-        stringArrayList.add("Aj AgroChemicals");
-        stringArrayList.add("Blossom AgriCore");
-        stringArrayList.add("Chemical India");
-        stringArrayList.add("Duncan India");
-        stringArrayList.add("Gange Pestiside");
-        stringArrayList.add("Agro Inputs Corporation");
-        stringArrayList.add("Aj AgroChemicals");
-        stringArrayList.add("Blossom AgriCore");
-        stringArrayList.add("Chemical India");
-        stringArrayList.add("Duncan India");
-        stringArrayList.add("Gange Pestiside");
+    private void prepareList() {
+        if (stringArrayList == null) stringArrayList = new ArrayList<>();
+        stringArrayList.clear();
+        Realm realm = Realm.getDefaultInstance();
+
+        try {
+
+            RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).findAllSorted(AppConstants.TITLE, Sort.DESCENDING);
+
+
+
+            if (realmAnswers != null && realmAnswers.size() > 0) {
+                for (int i = 0; i < realmAnswers.size(); i++) {
+                    AnswersModal modal = new AnswersModal();
+                    modal.set_id(realmAnswers.get(i).get_id());
+
+                    RealmCustomer realmCustomer=realm.where(RealmCustomer.class).findFirst();
+
+                    modal.setTitle(realmCustomer.getName());
+                    modal.setState(realmCustomer.getState());
+                    modal.setTerritory(realmCustomer.getTerritory());
+                    modal.setPincode(realmCustomer.getPincode());
+                    modal.setCustomerId(realmCustomer.getId());
+                    //modal.setStatus(type);
+                    modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getDate()));
+                    stringArrayList.add(modal);
+                }
+            }
+        } catch (Exception e) {
+            realm.close();
+            e.printStackTrace();
+        } finally {
+            realm.close();
+        }
+
+        if (surveyDetailAdapter != null) {
+            surveyDetailAdapter.notifyDataSetChanged();
+        }
     }
 
     private void setUpELements() {
         stringArrayList = new ArrayList<>();
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerViewWorkFLowsDetail = findViewById(R.id.recylerViewSurveyDetail);
-        searchList();  // in this method, Create a list of items.
         surveyDetailAdapter = new SurveyDetailAdapter(mContext, stringArrayList);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);

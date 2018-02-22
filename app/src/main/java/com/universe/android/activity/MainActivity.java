@@ -87,7 +87,9 @@ public class MainActivity extends BaseActivity {
                     case 4:
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(R.string.questionairemenu);
-                        replaceFragment(new QuestionarieSelectionFragment(), mContainerId);
+                        replaceFragment(new SurveySelectionFragment().newInstance(getResources().getString(R.string.questionairemenu)), mContainerId);
+
+                        //  replaceFragment(new QuestionarieSelectionFragment(), mContainerId);
                         break;
 
                     case 6:

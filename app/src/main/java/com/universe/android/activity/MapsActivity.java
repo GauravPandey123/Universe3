@@ -27,6 +27,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
+import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
 import java.io.IOException;
@@ -43,12 +44,21 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,Goo
     private CircleImageView circleImageViewMap;
     private TextView textViewHeader, textViewRetailersNameMap, textViewMobileNoMap, textViewStatusMap;
     private ImageView imageViewForward;
+    private String title,surveyId,customerId;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         activity = this;
+        Intent intent=getIntent();
+        if (intent!=null){
+            title= intent.getExtras().getString(AppConstants.STR_TITLE);
+            surveyId= intent.getExtras().getString(AppConstants.SURVEYID);
+            customerId= intent.getExtras().getString(AppConstants.CUSTOMERID);
+            // customerId="5a83ca4296318c134c534cb9";
+        }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -106,11 +116,14 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,Goo
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
-
+        textViewHeader.setText(title);
         imageViewForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, QuestionsCategoryActivity.class);
+                Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
+                intent.putExtra(AppConstants.STR_TITLE,title);
+                intent.putExtra(AppConstants.SURVEYID,surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID,customerId);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 

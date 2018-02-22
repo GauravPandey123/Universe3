@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -52,7 +53,13 @@ public class CustomerListActivity extends BaseActivity {
         }
         prepareList();
         ((TextView) findViewById(R.id.textViewHeader)).setText(getString(R.string.customer));
-
+        ImageView imageBack=(ImageView)findViewById(R.id.imageviewbackSearch);
+        imageBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         FloatingActionButton fabAdd=(FloatingActionButton)findViewById(R.id.fabAdd);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override

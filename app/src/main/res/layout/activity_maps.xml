@@ -25,7 +25,7 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:text="@string/questionairemenu"
-            android:textAllCaps="true"
+            android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
