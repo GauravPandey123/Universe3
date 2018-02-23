@@ -53,17 +53,18 @@ public class WorkFlowsActivity extends BaseActivity {
     private String strType,surveyId,customerId;
     private LinearLayout llPending,ll_inprogress,ll_completed,ll_rejected;
     private TextView tvPending,tvInprogress,tvCompleted,tvRejected;
+    private ImageView imgCD,imgRM,imgZM;
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.workflows_details_fragment);
+        setContentView(R.layout.workflow_activity);
         initialization();
         setUpElements();
         setUpListeners();
-
+    prepareList("");
 
     }
 
@@ -85,6 +86,7 @@ public class WorkFlowsActivity extends BaseActivity {
         if (realmAnswers!=null){
             if (Utility.validateString(realmAnswers.getSubmitbyCD())){
                 if (realmAnswers.getCd_Status().equalsIgnoreCase("1")){
+
 
                 }else  if (realmAnswers.getCd_Status().equalsIgnoreCase("5")){
 
@@ -146,7 +148,7 @@ public class WorkFlowsActivity extends BaseActivity {
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject jsonObject=array.getJSONObject(i);
                     AnswersModal modal = new AnswersModal();
-                    modal.setTitle(jsonObject.optString(AppConstants.TITLE));
+                    modal.setTitle(jsonObject.optString(AppConstants.USERNAME));
                     modal.setStatus(jsonObject.optString(AppConstants.STATUS));
 
                   //  modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
@@ -207,7 +209,9 @@ public class WorkFlowsActivity extends BaseActivity {
          llPending = (LinearLayout) findViewById(R.id.ll_pending);
          ll_inprogress = (LinearLayout) findViewById(R.id.ll_inprogress);
          ll_completed = (LinearLayout) findViewById(R.id.ll_completed);
-
+        imgCD = (ImageView) findViewById(R.id.imageCD);
+        imgRM = (ImageView) findViewById(R.id.imgRM);
+        imgZM = (ImageView) findViewById(R.id.imgZM);
 
         tvPending = (TextView) findViewById(R.id.tvPending);
         tvInprogress = (TextView) findViewById(R.id.tvInprogress);
@@ -248,7 +252,7 @@ public class WorkFlowsActivity extends BaseActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            strType = intent.getExtras().getString(AppConstants.TYPE);
+            strType = intent.getExtras().getString(AppConstants.STR_TITLE);
             surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
             customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
         }

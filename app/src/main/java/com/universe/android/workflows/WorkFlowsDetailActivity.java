@@ -169,6 +169,10 @@ public class WorkFlowsDetailActivity extends BaseActivity {
             @Override
             public void onItemSelected(View v, int position) {
                 Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
+
+                if (!stringArrayList.get(position).getStatus().equalsIgnoreCase(getString(R.string.pending))){
+                    intent = new Intent(mContext, WorkFlowsActivity.class);
+                }
                 intent.putExtra(AppConstants.STR_TITLE, strType);
                 intent.putExtra(AppConstants.SURVEYID, surveyId);
                 intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getCustomerId());
@@ -182,6 +186,9 @@ public class WorkFlowsDetailActivity extends BaseActivity {
             @Override
             public void onClick(View view, int position) {
                 Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
+                if (!stringArrayList.get(position).getStatus().equalsIgnoreCase(getString(R.string.pending))){
+                    intent = new Intent(mContext, WorkFlowsActivity.class);
+                }
                 intent.putExtra(AppConstants.STR_TITLE, strType);
                 intent.putExtra(AppConstants.SURVEYID, surveyId);
                 intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getCustomerId());

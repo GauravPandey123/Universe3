@@ -33,7 +33,21 @@
     </RelativeLayout>
 
 
-
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/view_padding"
+        android:layout_marginBottom="@dimen/view_row_margin"
+        android:background="@drawable/edt_bg"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:iconifiedByDefault="false"
+        android:imeActionLabel="Done"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:layout_below="@+id/include"
+        android:queryHint="@string/search_name" />
     <EditText
         android:id="@+id/searchcustomers"
         android:layout_width="match_parent"
@@ -46,13 +60,14 @@
         android:paddingLeft="@dimen/margin_normal"
         android:paddingRight="@dimen/margin_normal"
         android:singleLine="true"
+        android:visibility="gone"
         android:textSize="@dimen/text_size_normal" />
 
     <View
         android:id="@+id/border"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/searchcustomers"
+        android:layout_below="@+id/searchView"
         android:layout_marginTop="4dp"
         android:background="@color/divider_color" />
 
@@ -61,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/border"
-       >
+        >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerviewsearch"

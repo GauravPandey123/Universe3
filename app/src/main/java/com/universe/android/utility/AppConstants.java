@@ -114,5 +114,11 @@ public class AppConstants {
     public static final java.lang.String REQUIRED = "required";
     public static final java.lang.String ISVIEW = "isView";
     public static final String WORKFLOW = "workflow";
+    public static final String MULTISELECT = "multiselect";
+    public static final String PASSWORD = "password";
+    public static final String EMAIL ="email" ;
+    public static final String LAT = "lat";
+    public static final String LNG = "lng";
+    public static final String DETAIL ="detail" ;
 }
 

@@ -5,177 +5,40 @@ import io.realm.annotations.Index;
 
 
 public class RealmUser extends RealmObject {
-    private String status;
 
-    private int designationLevel;
-
-    private String reportingManager;
-
-    private String designation;
-
-    private String state;
-
-    private String block;
-
-    private String lockingPeriod;
-
-    private String userType;
-
-    private String country;
-
-    @Index
-    private String id;
-
-    private String username;
-
-    private String village;
-
-    private String createdBy;
-
-    private String address;
-
-    private String email;
-
-    private String createdAt;
-
+    private String _id;
+    private String cd_code;
     private String name;
+    private String employee_name;
+    private String employee_code;
+    private String email;
+    private String password;
+    private String mkt_territory_code;
+    private String mobile;
+    private String dob;
+    private String doj;
+    private String isActive;
+    private String accessToken;
+    private String lat;
+    private String lng;
+    private String type;
+    private String location;
 
-    private String dateOfJoining;
 
-    private String partner;
-
-    private String contactNo;
-
-    private String viewPassword;
-
-    private String district;
-
-    public String getStatus() {
-        return status;
+    public String get_id() {
+        return _id;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
-    public int getDesignationLevel() {
-        return designationLevel;
+    public String getCd_code() {
+        return cd_code;
     }
 
-    public void setDesignationLevel(int designationLevel) {
-        this.designationLevel = designationLevel;
-    }
-
-    public String getReportingManager() {
-        return reportingManager;
-    }
-
-    public void setReportingManager(String reportingManager) {
-        this.reportingManager = reportingManager;
-    }
-
-    public String getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(String designation) {
-        this.designation = designation;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public String getBlock() {
-        return block;
-    }
-
-    public void setBlock(String block) {
-        this.block = block;
-    }
-
-    public String getLockingPeriod() {
-        return lockingPeriod;
-    }
-
-    public void setLockingPeriod(String lockingPeriod) {
-        this.lockingPeriod = lockingPeriod;
-    }
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getVillage() {
-        return village;
-    }
-
-    public void setVillage(String village) {
-        this.village = village;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(String createdAt) {
-        this.createdAt = createdAt;
+    public void setCd_code(String cd_code) {
+        this.cd_code = cd_code;
     }
 
     public String getName() {
@@ -186,43 +49,115 @@ public class RealmUser extends RealmObject {
         this.name = name;
     }
 
-    public String getDateOfJoining() {
-        return dateOfJoining;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDateOfJoining(String dateOfJoining) {
-        this.dateOfJoining = dateOfJoining;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getPartner() {
-        return partner;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPartner(String partner) {
-        this.partner = partner;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public String getContactNo() {
-        return contactNo;
+    public String getMkt_territory_code() {
+        return mkt_territory_code;
     }
 
-    public void setContactNo(String contactNo) {
-        this.contactNo = contactNo;
+    public void setMkt_territory_code(String mkt_territory_code) {
+        this.mkt_territory_code = mkt_territory_code;
     }
 
-    public String getViewPassword() {
-        return viewPassword;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setViewPassword(String viewPassword) {
-        this.viewPassword = viewPassword;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
-    public String getDistrict() {
-        return district;
+    public String getDob() {
+        return dob;
     }
 
-    public void setDistrict(String district) {
-        this.district = district;
+    public void setDob(String dob) {
+        this.dob = dob;
+    }
+
+    public String getDoj() {
+        return doj;
+    }
+
+    public void setDoj(String doj) {
+        this.doj = doj;
+    }
+
+    public String getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(String isActive) {
+        this.isActive = isActive;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getEmployee_name() {
+        return employee_name;
+    }
+
+    public void setEmployee_name(String employee_name) {
+        this.employee_name = employee_name;
+    }
+
+    public String getEmployee_code() {
+        return employee_code;
+    }
+
+    public void setEmployee_code(String employee_code) {
+        this.employee_code = employee_code;
     }
 }

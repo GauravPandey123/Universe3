@@ -29,15 +29,18 @@ import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 
 import in.editsoft.api.exception.APIException;
+import in.editsoft.api.util.App;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 
 
@@ -88,6 +91,7 @@ public class LoginActivity extends BaseActivity {
             public void onClick(View v) {
                 Utility.animateView(v);
                login();
+               // getSurveyResponse();
 
             }
         });
@@ -140,9 +144,99 @@ public class LoginActivity extends BaseActivity {
     }
 
 
+    public void submitLoginRequest(String email, String password) {
+        showProgress(R.string.msg_load_default);
+        JSONObject jsonSubmitReq=new JSONObject();
+        try {
+            jsonSubmitReq.put(AppConstants.EMAIL,"Abhishek.LAL@CRYSTALCROP.COM");
+            jsonSubmitReq.put(AppConstants.PASSWORD,"pass123456");
+            jsonSubmitReq.put(AppConstants.LAT,"27");
+            jsonSubmitReq.put(AppConstants.LNG,"22");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
+        String url = UniverseAPI.WEB_SERVICE_LOGIN_METHOD;
+
+
+
+        /* else if (formId.equalsIgnoreCase(FormEnum.category.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_CATEGORY_METHOD;
+        } else if (formId.equalsIgnoreCase(FormEnum.customer.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_CUSTOMER_METHOD;
+        } else if (formId.equalsIgnoreCase(FormEnum.client.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_ClIENT_METHOD;
+        }*/
+
+
+        Request request = APIClient.getPostRequest(this, url, requestBody);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (responseData != null) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            JSONObject jsonObject=jsonResponse.getJSONObject(AppConstants.RESPONSE);
+                            Prefs.putStringPrefs(AppConstants.designationLevel, jsonObject.optString(AppConstants.TYPE));
+
+                                JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
+                                new RealmController().saveUserDetail(jsonObject1.toString());
+
+
+
+
+                          //  JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
+                        /*    Prefs.putStringPrefs(AppConstants.TOKEN_ID, responseBean.getAccessToken());
+                            Prefs.putStringPrefs(AppConstants.UserId, responseBean.get_id());
+                            Prefs.putStringPrefs(AppConstants.password, responseBean.getPassword());
+                            Prefs.putStringPrefs(AppConstants.email, responseBean.getEmail());
+                            Prefs.putStringPrefs(AppConstants.name, responseBean.getName());
+                            Prefs.putLongPrefs(AppConstants.phone, responseBean.getPhone());
+                            Prefs.putStringPrefs(AppConstants.designationLevel, responseBean.getDesignationLevel());
+                            Prefs.putStringPrefs(AppConstants.DESIGNATION, responseBean.getDesignation());
+                            Prefs.putStringPrefs(AppConstants.picture, responseBean.getPicture());
+                            Prefs.putStringPrefs(AppConstants.location, responseBean.getLocation());
+                            Prefs.putBooleanPrefs(AppConstants.Login_Status, true);*/
+
+                            getSurveyResponse();
+
+                           // new RealmController().saveQuestions(array.toString());
+                        }
+
+                    } else {
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                }
+
+            }
+        });
+
+    }
+/*
     //hit web service here
     public void submitLoginRequest(String email, String password) {
        showProgress(R.string.msg_load_default);
+
+
         //  showProgress();
         // showProgress(R.string.msg_load_default);
         LoginRequest loginRequest = new LoginRequest();
@@ -186,6 +280,7 @@ public class LoginActivity extends BaseActivity {
         });
 
     }
+*/
 
 
     private void getQuestionsResponse() {

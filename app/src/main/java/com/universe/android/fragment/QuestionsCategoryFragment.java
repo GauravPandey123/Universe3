@@ -226,8 +226,10 @@ public class QuestionsCategoryFragment extends BaseFragment {
                 RealmAnswers realmAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,surveyId).equalTo(AppConstants.CUSTOMERID,customerId).findFirst();
                 if (realmAnswers!=null){
                     JSONArray array=new JSONArray(realmAnswers.getAnswers());
+                    JSONArray workFlow=new JSONArray(realmAnswers.getWorkflow());
                     updateId=realmAnswers.get_id();
                     jsonArrayAnswers=array;
+                    jsonArrayWorkFLow=workFlow;
                     if (array.length()>0){
                         for (int i=0;i<array.length();i++){
 
@@ -797,9 +799,9 @@ public class QuestionsCategoryFragment extends BaseFragment {
 
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
-        String url = UniverseAPI.WEB_SERVICE_CREATE_SURVEY_METHOD;
+        String url = UniverseAPI.WEB_SERVICE_CREATE_ANSWER_METHOD;
         if (Utility.validateString(isUpdateId)) {
-            url = UniverseAPI.WEB_SERVICE_UPDATE_SURVEY_METHOD;
+            url = UniverseAPI.WEB_SERVICE_CREATE_UPDATE_METHOD;
         }
 
 
@@ -835,7 +837,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
 
-                            new RealmController().saveFormInputFromSubmit(jsonResponse.toString(), isUpdateId, formId);
+                            new RealmController().saveFormInputFromAnswersSubmit(jsonResponse.toString(), isUpdateId, formId);
                         }
 
 
@@ -1045,8 +1047,9 @@ public class QuestionsCategoryFragment extends BaseFragment {
         JSONObject jsonSubmitReq = new JSONObject();
         JSONObject jsonAnswers = new JSONObject();
         JSONArray jsonCategory = new JSONArray();
-        jsonArrayQuestions=new JSONArray();
+
         addAllQuestions();
+        jsonArrayQuestions=new JSONArray();
         try {
             llFields = (LinearLayout) view.findViewById(R.id.parent);
             if (llFields != null && llFields.getChildCount() > 0) {
@@ -1201,7 +1204,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
                                             question.setAnswer(s.getId());
                                             jsonSubmitReq.put(question.getQuestionId(), s.getId());
                                             jsonObjectQ.put(AppConstants.TITLE,question.getTitle());
-                                            jsonObjectQ.put(AppConstants.ANSWER,Long.parseLong(question.getAnswer()));
+                                            jsonObjectQ.put(AppConstants.ANSWER,question.getAnswer());
                                             jsonObjectQ.put(AppConstants.QUESTIONID,question.getQuestionId());
                                             if (question.isRequired())
                                                 jsonObjectQ.put(AppConstants.REQUIRED,"Yes");
@@ -1213,7 +1216,65 @@ public class QuestionsCategoryFragment extends BaseFragment {
                                     }
                                 }
                             }
-                        } else if (question != null && (question.getInputType().equals(AppConstants.CHECKBOX))) {
+                        } else if (AppConstants.SELECT.equals(question.getInputType())) {
+                            View childView = llFields.findViewWithTag(question);
+                            if (childView != null && childView.getVisibility() == View.VISIBLE) {
+                                TextView textView = (TextView) childView.findViewById(R.id.spnSelect);
+                                if (textView != null && textView.getTag() != null && Utility.validateString(textView.getText().toString().trim())) {
+                                    List<SpinnerList> spinnerList = (List<SpinnerList>) textView.getTag();
+                                    Collection<SpinnerList> result = Collections2.filter(spinnerList, new FilterPredicate().predicateSpnList);
+                                    if (result != null && result.size() > 0) {
+                                        for (SpinnerList s : result) {
+                                            question.setAnswer(s.getId());
+                                            jsonSubmitReq.put(question.getQuestionId(), s.getId());
+                                            jsonObjectQ.put(AppConstants.TITLE,question.getTitle());
+                                            jsonObjectQ.put(AppConstants.ANSWER,question.getAnswer());
+                                            jsonObjectQ.put(AppConstants.QUESTIONID,question.getQuestionId());
+                                            if (question.isRequired())
+                                                jsonObjectQ.put(AppConstants.REQUIRED,"Yes");
+                                            else {
+                                                jsonObjectQ.put(AppConstants.REQUIRED,"No");
+                                            }
+                                            jsonArrayQuestions.put(jsonObjectQ);
+                                        }
+                                    }
+                                }
+                            }
+
+
+                        }else if (question.getInputType().equals(AppConstants.MULTISELECT)) {
+                            View childView = llFields.findViewWithTag(question);
+                            if (childView != null && childView.getVisibility() == View.VISIBLE) {
+                                TextView textView = (TextView) childView.findViewById(R.id.spnSelect);
+                                if (textView != null && textView.getTag() != null) {
+                                    List<MultiSpinnerList> spinnerList = (List<MultiSpinnerList>) textView.getTag();
+                                    Collection<MultiSpinnerList> result = Collections2.filter(spinnerList, new FilterPredicate().filterMultiSpnList);
+                                    if (result != null && result.size() > 0) {
+                                        JSONArray jsonCheckArray = new JSONArray();
+                                        for (MultiSpinnerList s : result) {
+                                            question.setAnswer(s.getId());
+                                            jsonCheckArray.put(s.getId());
+                                        }
+                                        question.setAnswer(jsonCheckArray.toString());
+                                    }
+                                    jsonAnswers.put(question.getQuestionId(), question.getAnswer());
+                                    jsonObjectQ.put(AppConstants.TITLE,question.getTitle());
+                                    jsonObjectQ.put(AppConstants.ANSWER,question.getAnswer());
+                                    jsonObjectQ.put(AppConstants.QUESTIONID,question.getQuestionId());
+                                    if (question.isRequired())
+                                        jsonObjectQ.put(AppConstants.REQUIRED,"Yes");
+                                    else {
+                                        jsonObjectQ.put(AppConstants.REQUIRED,"No");
+                                    }
+                                    jsonArrayQuestions.put(jsonObjectQ);
+                                } else {
+                                    question.setAnswer("");
+                                }
+
+                            }
+
+
+                        }else if (question != null && (question.getInputType().equals(AppConstants.CHECKBOX))) {
                             View childView = llFields.findViewWithTag(question);
                             if (childView != null && childView.getVisibility() == View.VISIBLE) {
                                 LinearLayout llCheckChild = (LinearLayout) childView.findViewById(R.id.llCheckChild);
@@ -1328,11 +1389,14 @@ public class QuestionsCategoryFragment extends BaseFragment {
                         }
                     }
                 }
-                JSONObject jsonObject=new JSONObject();
-                jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
-                jsonObject.put(AppConstants.DATE, "23/02/2018");
-                jsonObject.put(AppConstants.STATUS,"Initiated");
-                jsonArrayWorkFLow.put(jsonObject);
+                if (!Utility.validateString(updateId)){
+                    JSONObject jsonObject=new JSONObject();
+                    jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                    jsonObject.put(AppConstants.DATE, "23/02/2018");
+                    jsonObject.put(AppConstants.STATUS,"Initiated");
+                    jsonArrayWorkFLow.put(jsonObject);
+                }
+
 
                 JSONObject updatePosition=new JSONObject();
                 updatePosition.put(AppConstants.ISVIEW, "0");
@@ -1484,7 +1548,13 @@ public class QuestionsCategoryFragment extends BaseFragment {
                     } else if (AppConstants.SELECT.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_select, null);
                         final TextView tvSelect = (TextView) child.findViewById(R.id.spnSelect);
+                        addSingleSelectionView(tvSelect, question,"", child);
+                        addSelectTextView(tvSelect, question);
 
+
+                    }else if (question.getInputType().equals(AppConstants.MULTISELECT)) {
+                        child = getLayoutInflater().inflate(R.layout.field_row_select, null);
+                        final TextView tvSelect = (TextView) child.findViewById(R.id.spnSelect);
                         addSelectTextView(tvSelect, question);
 
 
@@ -1544,6 +1614,83 @@ public class QuestionsCategoryFragment extends BaseFragment {
             e.printStackTrace();
         }
     }
+
+
+    private void addSingleSelectionView(final TextView tvSelect, final Questions question, String blockId, View child) {
+        tvSelect.setTag(question);
+        if (Utility.validateString(question.getAnswer())) {
+            tvSelect.setText(question.getAnswer());
+        } else {
+            tvSelect.setText(question.getPlaceholder());
+        }
+        String apiModel = question.getApiModel();
+
+        if (!Utility.validateString(apiModel)) {
+            String options = question.getOptionValues();
+            if (Utility.validateString(options)) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = new JSONArray(options);
+                    if (jsonArray != null) {
+                        List<SpinnerList> spinnerList = new ArrayList<SpinnerList>();
+                        for (int m = 0; m < jsonArray.length(); m++) {
+                            SpinnerList spinner = new SpinnerList();
+                            spinner.setId((String) jsonArray.get(m));
+                            if (Utility.validateString(question.getAnswer())) {
+                                if (question.getAnswer().equals((String) jsonArray.get(m))) {
+                                    spinner.setChecked(true);
+                                 //   editForms.add(new EditForm(question.getAnswer(), question));
+                                }
+                            }
+                            spinner.setName((String) jsonArray.get(m));
+                            spinnerList.add(spinner);
+                        }
+                        tvSelect.setTag(spinnerList);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+
+        }
+        tvSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getTag() != null) {
+                    if (isPopupVisible) return;
+                    isPopupVisible = true;
+                    List<SpinnerList> spnList = (List<SpinnerList>) view.getTag();
+                    if (spnList != null)
+                        showSelectionList(getActivity(), tvSelect, spnList, question.getPlaceholder());
+                } else {
+                    isPopupVisible = false;
+                }
+            }
+        });
+
+
+        tvSelect.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //    textChange(s.toString(), question);
+
+            }
+        });
+
+
+    }
+/*
 
     public void addSelectTextView(final TextView tvSelect, final Questions question) {
         try {
@@ -1613,6 +1760,144 @@ public class QuestionsCategoryFragment extends BaseFragment {
 
         }
 
+    }*/
+
+    private void addSelectTextView(final TextView tvSelect, final Questions question) {
+        final List<MultiSpinnerList> spinnerList = new ArrayList<MultiSpinnerList>();
+        tvSelect.setTag(question);
+        if (Utility.validateString(question.getAnswer())) {
+            try {
+                JSONArray ans = new JSONArray(question.getAnswer());
+                String as = "";
+                for (int a = 0; a < ans.length(); a++) {
+                    if (a == 0)
+                        as = ans.getString(a);
+                    else
+                        as += ", " + ans.getString(a);
+                    ;
+                }
+                tvSelect.setText(as);
+            } catch (Exception e) {
+            }
+        } else {
+            tvSelect.setText(question.getPlaceholder());
+        }
+        String apiModel = question.getApiModel();
+        if (!Utility.validateString(apiModel)) {
+            String options = question.getOptionValues();
+            if (Utility.validateString(options)) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = new JSONArray(options);
+                    if (jsonArray != null) {
+
+                        for (int m = 0; m < jsonArray.length(); m++) {
+                            MultiSpinnerList spinner = new MultiSpinnerList();
+                            spinner.setId((String) jsonArray.get(m));
+
+                            if (Utility.validateString(question.getAnswer())) {
+                                JSONArray ans = new JSONArray(question.getAnswer());
+                                for (int a = 0; a < ans.length(); a++) {
+                                    if (ans.get(a).toString().equals((String) jsonArray.get(m))) {
+                                        spinner.setChecked(true);
+                                     //   editForms.add(new EditForm(ans.get(a).toString(), question));
+
+                                    }
+                                }
+                                /*if (question.getAnswer().equals((String) jsonArray.get(m))) {
+                                    spinner.setChecked(true);
+
+                                    editForms.add(new EditForm(question.getAnswer(),question));
+                                }*/
+                            }
+                            spinner.setName((String) jsonArray.get(m));
+                            spinnerList.add(spinner);
+                        }
+                        tvSelect.setTag(new ArrayList<MultiSpinnerList>());
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        }
+        tvSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getTag() != null) {
+                    if (isPopupVisible) return;
+                    isPopupVisible = true;
+                    List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
+                    if (spnList == null || spnList.size() == 0) {
+                        showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                    } else {
+                        showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+                    }
+                    //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
+                } else {
+                    showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                    isPopupVisible = false;
+                }
+            }
+        });
+        // tvSelect.addTextChangedListener(new ScreenFormQuestionTwoActivity.SelectTextWatcher(question));
+    }
+
+
+
+
+
+
+
+
+
+
+    private void showMultiSelectionList(Context context, final TextView textView, List<MultiSpinnerList> list, final String defaultMsg, final List<MultiSpinnerList> selectedItems1) {
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).setChecked(false);
+            }
+
+            MultiSelectItemListDialog selectionPickerDialog = new MultiSelectItemListDialog(context, defaultMsg, selectedItems1, list, R.layout.pop_up_question_list, new MultiSelectItemListDialog.ItemPickerListner() {
+                @Override
+                public void OnDoneButton(Dialog ansPopup, List<MultiSpinnerList> selectedItems) {
+                    ansPopup.dismiss();
+                    if (selectedItems != null && selectedItems.size() > 0) {
+                        setSpnValue(textView, selectedItems);
+
+                    } else {
+
+                        textView.setText(defaultMsg);
+                    }
+                    textView.setTag(selectedItems);
+                }
+
+                @Override
+                public void OnCancelButton(Dialog ansPopup, List<MultiSpinnerList> selectedItems) {
+                    ansPopup.dismiss();
+                    if (selectedItems != null && selectedItems.size() > 0) {
+                        setSpnValue(textView, selectedItems);
+                    } else {
+                        textView.setText(defaultMsg);
+                    }
+                    textView.setTag(selectedItems);
+                }
+
+            });
+
+
+            if (!selectionPickerDialog.isShowing()) {
+                selectionPickerDialog.show();
+            }
+            selectionPickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    isPopupVisible = false;
+                }
+            });
+        } else {
+            isPopupVisible = false;
+            showToastMessage(getString(R.string.no_data));
+        }
     }
 
     protected void showSelectionList(Context context, final TextView textView, final List<SpinnerList> list, final String defaultMsg, final Questions question1) {
@@ -2258,4 +2543,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
             }
         }
     }
+
+
+
 }

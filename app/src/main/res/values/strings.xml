@@ -178,6 +178,9 @@
     <string name="mypending">My Pending</string>
     <string name="submitnNew"><![CDATA[Submit & New]]></string>
     <string name="submitted">Submitted</string>
+    <string name="me">Me</string>
+    <string name="checker">Checker</string>
+    <string name="verifierr">Verifier</string>
 
     <string-array name="filterItem">
         <item>@string/category1</item>
