@@ -114,5 +114,6 @@ public class AppConstants {
     public static final java.lang.String ANSWER = "answer";
     public static final java.lang.String REQUIRED = "required";
     public static final java.lang.String ISVIEW = "isView";
+    public static final String WORKFLOW = "workflow";
 }
 

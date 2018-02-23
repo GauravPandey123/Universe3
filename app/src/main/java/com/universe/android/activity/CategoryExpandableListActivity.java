@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 
@@ -31,6 +33,7 @@ import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.realmbean.RealmQuestion;
 import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 
 import org.json.JSONArray;
@@ -57,6 +60,7 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
     private TextView textViewRetailersNameMap,textViewMobileNoMap;
     Button btnReject;
     Button btnApprove;
+    private SeekBar seekbar;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -77,13 +81,13 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
         TextView toolbarTtile=(TextView)findViewById(R.id.toolbarTtile);
         toolbarTtile.setText(title);
         setupDetail();
-        prepareCategory();
+
 
         btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                jsonSubmitReq = prepareJsonRequest();
+        Utility.animateView(v);
+                jsonSubmitReq = prepareJsonRequest("Reject");
 
                     saveNCDResponseLocal("",false);
            /* String updateId = "";
@@ -99,7 +103,8 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
         btnApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jsonSubmitReq = prepareJsonRequest();
+                Utility.animateView(v);
+                jsonSubmitReq = prepareJsonRequest("Approve");
 
 
                     saveNCDResponseLocal("",false);
@@ -115,17 +120,61 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
         });
     }
 
-    private JSONObject prepareJsonRequest() {
+
+
+    private JSONObject prepareJsonRequest(String type) {
+        jsonSubmitReq=new JSONObject();
+        JSONArray array=new JSONArray();
         Realm realm = Realm.getDefaultInstance();
         try{
-            RealmResults<RealmCategoryAnswers> realmCategoryAnswers=realm.where(RealmCategoryAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findAll();
+            RealmResults<RealmAnswers> realmCategoryAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findAll();
 
-            JSONArray array=new JSONArray();
-            for (RealmCategoryAnswers realmCategoryAnswers1:realmCategoryAnswers){
-                JSONObject jsonObject=new JSONObject(realmCategoryAnswers1.getAnswers());
-               // array.put(AppConstants.ANSWERS,);
+            array=new JSONArray(realmCategoryAnswers.get(0).getWorkflow());
+            jsonSubmitReq.put(AppConstants.ANSWERS, realmCategoryAnswers.get(0).getAnswers());
+             jsonSubmitReq.put(AppConstants.ID,  realmCategoryAnswers.get(0).get_id());
+            jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
+            jsonSubmitReq.put(AppConstants.SUBMITBY_RM, "");
+            jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, "");
 
+            if (title.contains(AppConstants.WORKFLOWS)){
+                if(type.equalsIgnoreCase("Approve")) {
+                    jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
+                    jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
+                    jsonSubmitReq.put(AppConstants.ZM_STATUS, "0");
+                    JSONObject jsonObject=new JSONObject();
+                    jsonObject.put(AppConstants.DATE,Utility.getTodaysDate());
+                    jsonObject.put(AppConstants.UserId,Prefs.getStringPrefs(AppConstants.USERNAME));
+                    jsonObject.put(AppConstants.STATUS,"Approved");
+                    array.put(jsonObject);
+                }else{
+                    jsonSubmitReq.put(AppConstants.CD_STATUS, "3");
+                    jsonSubmitReq.put(AppConstants.RM_STATUS, "3");
+                    jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                    JSONObject jsonObject=new JSONObject();
+                    jsonObject.put(AppConstants.DATE,Utility.getTodaysDate());
+                    jsonObject.put(AppConstants.UserId,Prefs.getStringPrefs(AppConstants.USERNAME));
+                    jsonObject.put(AppConstants.STATUS,"Rejected");
+                    array.put(jsonObject);
+                }
+            }else {
+                JSONObject jsonObject=new JSONObject();
+                jsonObject.put(AppConstants.DATE,Utility.getTodaysDate());
+                jsonObject.put(AppConstants.UserId,Prefs.getStringPrefs(AppConstants.USERNAME));
+                jsonObject.put(AppConstants.STATUS,"Submitted");
+                array.put(jsonObject);
+                jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
+                jsonSubmitReq.put(AppConstants.RM_STATUS, "0");
+                jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
             }
+            //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
+            jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
+            jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
+
+            jsonSubmitReq.put(AppConstants.WORKFLOW,array);
+            jsonSubmitReq.put(AppConstants.DATE,Utility.getTodaysDate());
+
+
+
 
 
         }catch (Exception e0){
@@ -263,6 +312,7 @@ try{
     protected void onResume() {
 
         super.onResume();
+        prepareCategory();
 
     }
 
@@ -273,7 +323,7 @@ try{
         textViewRetailersNameMap = (TextView) findViewById(R.id.textViewRetailersNameMap);
         btnReject = (Button) findViewById(R.id.btnReject);
         btnApprove = (Button) findViewById(R.id.btnApprove);
-
+        seekbar=(SeekBar)findViewById(R.id.seek_bar);
         expandableListView.setGroupIndicator(null);
 
 
@@ -285,7 +335,7 @@ try{
                             ExpandableListView parent, View v,
                             int groupPosition, int childPosition,
                             long id) {
-
+                        Utility.animateView(v);
                         Intent i=new Intent(CategoryExpandableListActivity.this,QuestionaireActivity.class);
                         i.putExtra(AppConstants.STR_TITLE,title);
                         i.putExtra(AppConstants.SURVEYID,surveyId);
@@ -299,6 +349,10 @@ try{
 
 
     private void prepareCategory(){
+
+       int progressTotal=0;
+       int progressRequired=0;
+
         arraylistTitle = new ArrayList<>();
         expandableListDetail=new HashMap<CategoryModal, List<Questions>>();
         ArrayList<String> arrISView=new ArrayList<>();
@@ -354,6 +408,7 @@ try{
                                        }
                                        ArrayList<String> stringsRequired=new ArrayList<>();
                                        ArrayList<String> stringsRequiredAnswers=new ArrayList<>();
+                                       ArrayList<String> doneQuestions=new ArrayList<>();
                                        for (int p=0;p<questionsArrayList.size();p++){
                                            if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
 
@@ -363,16 +418,23 @@ try{
 
                                                stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
                                            }
+                                           if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
+
+                                               doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                           }
+
                                        }
                                        if (stringsRequired.size()==stringsRequiredAnswers.size()){
                                            categoryModal.setCategoryAnswered("Yes");
                                        }else {
                                            categoryModal.setCategoryAnswered("No");
                                        }
-                                       categoryModal.setQuestionCount(questionsArrayList.size());
+                                       categoryModal.setQuestionCount(doneQuestions.size()+"/"+questionsArrayList.size());
                                        categoryModal.setQuestions(questionsArrayList);
 
                                        arraylistTitle.add(categoryModal);
+                                       progressRequired=progressRequired+stringsRequiredAnswers.size();
+                                       progressTotal=progressTotal+stringsRequired.size();
 
                                        //   }
 
@@ -426,9 +488,10 @@ try{
                                 questionsArrayList.add(questions);
 
                             }
-                            categoryModal.setQuestionCount(questionsArrayList.size());
+                            categoryModal.setQuestionCount(questionsArrayList.size()+"");
                             categoryModal.setQuestions(questionsArrayList);
-
+                            progressRequired=0;
+                            progressTotal=100;
                             arraylistTitle.add(categoryModal);
 
                             //   }
@@ -462,14 +525,19 @@ try{
             expandableListAdapter = new CustomExpandableListAdapter(CategoryExpandableListActivity.this, arraylistTitle, expandableListDetail);
             expandableListView.setAdapter(expandableListAdapter);
 
+            TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
+            seekbar.setProgress(progressRequired);
+            seekbar.setMax(progressTotal);
+            int percent=(progressRequired*100)/progressTotal;
+            textViewProgress.setText(percent+"%");
             if (title.contains(AppConstants.WORKFLOWS)){
                 btnApprove.setText(getString(R.string.approve));
                 btnReject.setText(getString(R.string.reject));
                 if (arraylistTitle.size()!=arrISView.size()){
                     btnApprove.setBackgroundResource(R.color.green);
-                    btnApprove.setEnabled(false);
+                    btnApprove.setEnabled(true);
                     btnReject.setBackgroundResource(R.color.red);
-                    btnReject.setEnabled(false);
+                    btnReject.setEnabled(true);
 
                 }else {
                     btnApprove.setBackgroundResource(R.color.green);

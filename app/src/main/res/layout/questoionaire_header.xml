@@ -47,7 +47,36 @@
                     android:text="@string/mobile_no"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/text_size_small" />
+                <RelativeLayout
+                    android:id="@+id/rl_progressBar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium">
 
+                    <TextView
+                        android:id="@+id/progressBarinsideText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:text="100%"
+                        android:layout_marginRight="8dp"
+                        android:gravity="center"
+                        />
+                    <SeekBar
+                        android:id="@+id/seek_bar"
+                        android:layout_width="54dp"
+                        android:layout_height="54dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:visibility="gone"
+                        android:max="100"/>
+
+                </RelativeLayout>
                 <TextView
                     android:id="@+id/textViewStatusMap"
                     android:layout_width="wrap_content"
@@ -55,9 +84,10 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_medium"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="16dp"
                     android:text="@string/status"
+                    android:visibility="gone"
                     android:textAllCaps="true"
                     android:textColor="@color/textColorPrimary"
                     android:textSize="@dimen/text_size_normal" />

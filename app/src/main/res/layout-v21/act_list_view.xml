@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
-            android:textAllCaps="true"
+            android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -71,7 +71,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:background="@color/app_theme_color"
+        android:backgroundTint="@color/app_theme_color"
         android:src="@drawable/fab_ic_add"
         android:layout_margin="8dp"/>
 

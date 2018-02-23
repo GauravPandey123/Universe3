@@ -126,7 +126,7 @@ public class QuestionaireActivity extends BaseActivity {
         @Override
         public Fragment getItem(int position) {
 
-            return new QuestionsCategoryFragment().newInstance(surveyId,categoryModals.get(position).getId(),customerId);
+            return new QuestionsCategoryFragment().newInstance(surveyId,categoryModals.get(position).getId(),customerId,position);
 
         }
 
@@ -214,7 +214,7 @@ public class QuestionaireActivity extends BaseActivity {
                             questionsArrayList.add(questions);
 
                         }
-                        categoryModal.setQuestionCount(questionsArrayList.size());
+                        categoryModal.setQuestionCount(questionsArrayList.size()+"");
                         categoryModal.setQuestions(questionsArrayList);
 
                         categoryModals.add(categoryModal);

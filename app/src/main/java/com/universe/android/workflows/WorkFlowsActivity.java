@@ -18,8 +18,7 @@ import android.widget.TextView;
 import com.universe.android.R;
 import com.universe.android.activity.BaseActivity;
 import com.universe.android.activity.CategoryExpandableListActivity;
-import com.universe.android.activity.QuestionsCategoryActivity;
-import com.universe.android.adapter.SurveyDetailAdapter;
+import com.universe.android.adapter.WorkFLowAdapter;
 import com.universe.android.adapter.WorkFLowDetailAdapter;
 import com.universe.android.helper.RecyclerTouchListener;
 import com.universe.android.model.AnswersModal;
@@ -28,17 +27,19 @@ import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
 /**
  * Created by gaurav.pandey on 24-01-2018.
  */
 
-public class WorkFlowsDetailActivity extends BaseActivity {
+public class WorkFlowsActivity extends BaseActivity {
     //decalre the Views here
     private RecyclerView recyclerViewWorkFLowsDetail;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -48,8 +49,8 @@ public class WorkFlowsDetailActivity extends BaseActivity {
 
     private ArrayList<AnswersModal> stringArrayList;
     private LinearLayoutManager linearLayoutManager;
-    private WorkFLowDetailAdapter surveyDetailAdapter;
-    private String strType,surveyId;
+    private WorkFLowAdapter surveyDetailAdapter;
+    private String strType,surveyId,customerId;
     private LinearLayout llPending,ll_inprogress,ll_completed,ll_rejected;
     private TextView tvPending,tvInprogress,tvCompleted,tvRejected;
 
@@ -70,22 +71,54 @@ public class WorkFlowsDetailActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         setCount();
-        prepareList(getString(R.string.pending));
+
     }
 
     private void setCount() {
 
         Realm realm = Realm.getDefaultInstance();
-        try {
-            long realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"0").equalTo(AppConstants.ZM_STATUS,"4").count();
-            long  realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").count();
-            long  realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").count();
-            long  realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"3").count();
 
-            tvPending.setText(realmPending+"");
-            tvInprogress.setText(realmInprogress+"");
-            tvCompleted.setText(realmCompleted+"");
-            tvRejected.setText(realmRejected+"");
+        try {
+
+        RealmAnswers realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findFirst();
+
+        if (realmAnswers!=null){
+            if (Utility.validateString(realmAnswers.getSubmitbyCD())){
+                if (realmAnswers.getCd_Status().equalsIgnoreCase("1")){
+
+                }else  if (realmAnswers.getCd_Status().equalsIgnoreCase("5")){
+
+                }else {
+
+                }
+
+            }
+
+            if (Utility.validateString(realmAnswers.getSubmitbyRM())){
+                if (realmAnswers.getRm_STatus().equalsIgnoreCase("2")){
+
+                }else  if (realmAnswers.getRm_STatus().equalsIgnoreCase("3")){
+
+                }else {
+
+                }
+
+            }
+
+            if (Utility.validateString(realmAnswers.getSubmitbyZM())){
+                if (realmAnswers.getZm_Status().equalsIgnoreCase("2")){
+
+                }else if (realmAnswers.getZm_Status().equalsIgnoreCase("3")){
+
+                }else {
+
+                }
+
+            }
+        }
+
+
+
 
         } catch (Exception e) {
             realm.close();
@@ -104,32 +137,18 @@ public class WorkFlowsDetailActivity extends BaseActivity {
         try {
 
 
-            RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"0").equalTo(AppConstants.ZM_STATUS,"4").findAll();
-
-            if (type.equalsIgnoreCase(getString(R.string.inprogress))){
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").findAll();
-
-            }else if (type.equalsIgnoreCase(getString(R.string.completed))){
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").findAll();
-            }else if (type.equalsIgnoreCase(getString(R.string.rejected))){
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"4").findAll();
-            }
+         RealmAnswers realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findFirst();
 
 
-            if (realmAnswers != null && realmAnswers.size() > 0) {
-                for (int i = 0; i < realmAnswers.size(); i++) {
+
+            if (realmAnswers != null) {
+                JSONArray array=new JSONArray(realmAnswers.getWorkflow());
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonObject=array.getJSONObject(i);
                     AnswersModal modal = new AnswersModal();
-                    modal.set_id(realmAnswers.get(i).get_id());
+                    modal.setTitle(jsonObject.optString(AppConstants.TITLE));
+                    modal.setStatus(jsonObject.optString(AppConstants.STATUS));
 
-                    RealmCustomer realmCustomer=realm.where(RealmCustomer.class).equalTo(AppConstants.ID,realmAnswers.get(i).getCustomerId()).findFirst();
-
-                    modal.setTitle(realmCustomer.getName());
-                    modal.setState(realmCustomer.getState());
-                    modal.setTerritory(realmCustomer.getTerritory());
-                    modal.setPincode(realmCustomer.getPincode());
-                    modal.setCustomerId(realmCustomer.getId());
-                    modal.setContactNo(realmCustomer.getContactNo());
-                    modal.setStatus(type);
                   //  modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
                     stringArrayList.add(modal);
                 }
@@ -159,40 +178,14 @@ public class WorkFlowsDetailActivity extends BaseActivity {
             }
         });
 
-        surveyDetailAdapter.setOnItemClickLister(new WorkFLowDetailAdapter.OnItemSelecteListener() {
-            @Override
-            public void onItemSelected(View v, int position) {
-                Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
-                intent.putExtra(AppConstants.STR_TITLE, strType);
-                intent.putExtra(AppConstants.SURVEYID, surveyId);
-                intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getCustomerId());
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
-            }
-        });
 
-        recyclerViewWorkFLowsDetail.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewWorkFLowsDetail, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
-                intent.putExtra(AppConstants.STR_TITLE, strType);
-                intent.putExtra(AppConstants.SURVEYID, surveyId);
-                intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getCustomerId());
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-            }
 
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
     }
 
     private void setUpElements() {
 
-        surveyDetailAdapter = new WorkFLowDetailAdapter(mContext, stringArrayList);
+        surveyDetailAdapter = new WorkFLowAdapter(mContext, stringArrayList);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
         recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
@@ -214,12 +207,12 @@ public class WorkFlowsDetailActivity extends BaseActivity {
          llPending = (LinearLayout) findViewById(R.id.ll_pending);
          ll_inprogress = (LinearLayout) findViewById(R.id.ll_inprogress);
          ll_completed = (LinearLayout) findViewById(R.id.ll_completed);
-         ll_rejected = (LinearLayout) findViewById(R.id.ll_rejected);
+
 
         tvPending = (TextView) findViewById(R.id.tvPending);
         tvInprogress = (TextView) findViewById(R.id.tvInprogress);
         tvCompleted = (TextView) findViewById(R.id.tvCompleted);
-        tvRejected = (TextView) findViewById(R.id.tvRejected);
+
 
         TextView textViewStatus=(TextView)findViewById(R.id.textViewStatus);
         textViewStatus.setVisibility(View.GONE);
@@ -248,13 +241,7 @@ public class WorkFlowsDetailActivity extends BaseActivity {
             }
         });
 
-        ll_rejected.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utility.animateView(v);
-                prepareList(getString(R.string.rejected));
-            }
-        });
+       
 
 
 
@@ -263,6 +250,7 @@ public class WorkFlowsDetailActivity extends BaseActivity {
         if (intent != null) {
             strType = intent.getExtras().getString(AppConstants.TYPE);
             surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
+            customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
         }
 
         TextView tvHeaderName=(TextView)findViewById(R.id.tvHeaderName);

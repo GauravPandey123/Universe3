@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.universe.android.R;
@@ -18,12 +19,12 @@ import java.util.ArrayList;
  * Created by gaurav.pandey on 24-01-2018.
  */
 
-public class WorkFLowDetailAdapter extends RecyclerView.Adapter<WorkFLowDetailAdapter.SurveyViewHolder> {
+public class WorkFLowAdapter extends RecyclerView.Adapter<WorkFLowAdapter.SurveyViewHolder> {
     private Context mContext;
     private ArrayList<AnswersModal> stringArrayList;
     private OnItemSelecteListener mListener;
 
-    public WorkFLowDetailAdapter(Context mContext, ArrayList<AnswersModal> stringArrayList) {
+    public WorkFLowAdapter(Context mContext, ArrayList<AnswersModal> stringArrayList) {
         this.mContext = mContext;
         this.stringArrayList = stringArrayList;
 
@@ -43,10 +44,10 @@ public class WorkFLowDetailAdapter extends RecyclerView.Adapter<WorkFLowDetailAd
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
         holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
 
-            holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo()+" | "+
-                    stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  "+
-                   "22-02-2018");
-
+            holder.textViewMobileNo.setText(stringArrayList.get(position).getStatus()+
+                  "  \n"+
+                   "23-02-2018");
+            holder.imgCustomer.setVisibility(View.GONE);
 
     }
 
@@ -65,11 +66,12 @@ public class WorkFLowDetailAdapter extends RecyclerView.Adapter<WorkFLowDetailAd
 
     public class SurveyViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewRetailersName, textViewMobileNo, textViewStatus;
-
+        private ImageView imgCustomer;
         public SurveyViewHolder(View itemView) {
             super(itemView);
             textViewRetailersName = itemView.findViewById(R.id.textViewRetailersName);
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
+            imgCustomer=itemView.findViewById(R.id.imgCustomer);
 
            /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

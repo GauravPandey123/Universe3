@@ -49,7 +49,7 @@ public class RealmController {
             }else {
                 question.setVisibility(false);
             }
-            if (realmQuestion.getRequired().equalsIgnoreCase("Yes")){
+            if (realmQuestion.getRequired().equalsIgnoreCase("true")){
                 question.setRequired(true);
             }else {
                 question.setRequired(false);

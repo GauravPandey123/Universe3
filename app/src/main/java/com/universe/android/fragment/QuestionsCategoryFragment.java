@@ -49,6 +49,7 @@ import com.universe.android.component.SelectionItemListDialog;
 import com.universe.android.enums.FormEnum;
 import com.universe.android.enums.FormEnumKeys;
 import com.universe.android.helper.FontClass;
+import com.universe.android.model.CategoryModal;
 import com.universe.android.model.MultiSpinnerList;
 import com.universe.android.model.Questions;
 import com.universe.android.model.SpinnerList;
@@ -86,6 +87,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import in.editsoft.api.util.App;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import okhttp3.Call;
@@ -123,14 +125,17 @@ public class QuestionsCategoryFragment extends BaseFragment {
     JSONArray jsonArrayAnswers=new JSONArray();
     JSONArray jsonArrayQuestions=new JSONArray();
     JSONArray jsonArrayWorkFLow=new JSONArray();
+    private int position;
+    private String updateId;
 
-    public static QuestionsCategoryFragment newInstance(String type, String categoryId, String customerId) {
+    public static QuestionsCategoryFragment newInstance(String type, String categoryId, String customerId,int position) {
         QuestionsCategoryFragment myFragment = new QuestionsCategoryFragment();
 
         Bundle args = new Bundle();
         args.putString(AppConstants.SURVEYID, type);
         args.putString(AppConstants.CATEGORYID, categoryId);
         args.putString(AppConstants.CUSTOMERID, customerId);
+        args.putInt(AppConstants.POSITION, position);
         myFragment.setArguments(args);
 
         return myFragment;
@@ -172,7 +177,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
 
                 jsonSubmitReq = prepareJsonRequest(questionsMap);
 
-                saveNCDResponseLocal("",false);
+                saveNCDResponseLocal(updateId,false);
            /* String updateId = "";
             if (view.getTag() != null) {
                 if (view.getTag() instanceof String) {
@@ -200,15 +205,198 @@ public class QuestionsCategoryFragment extends BaseFragment {
             }
 
         });
+
+        addAllQuestions();
         return view;
     }
 
+    private void addAllQuestions(){
+
+
+
+        Realm realm =Realm.getDefaultInstance();
+        try {
+            RealmSurveys realmSurveys = realm.where(RealmSurveys.class).equalTo(AppConstants.ID, surveyId).findFirst();
+            JSONArray jsonArray = null;
+
+            jsonArray = new JSONArray(realmSurveys.getCategoryId());
+
+            for (int o = 0; o < jsonArray.length(); o++) {
+
+                RealmAnswers realmAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,surveyId).equalTo(AppConstants.CUSTOMERID,customerId).findFirst();
+                if (realmAnswers!=null){
+                    JSONArray array=new JSONArray(realmAnswers.getAnswers());
+                    updateId=realmAnswers.get_id();
+                    jsonArrayAnswers=array;
+                    if (array.length()>0){
+                        for (int i=0;i<array.length();i++){
+
+                            JSONObject jsonObject=array.getJSONObject(i);
+                            String categoryId=jsonObject.optString(AppConstants.CATEGORYID);
+                            String isView=jsonObject.optString(AppConstants.ISVIEW);
+                            JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
+                            if (categoryId.equalsIgnoreCase(jsonArray.get(o).toString())){
+                                RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID,jsonArray.get(o).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
+                                if (realmCategoryDetails != null) {
+
+
+                                    CategoryModal categoryModal = new CategoryModal();
+                                    categoryModal.setId(realmCategoryDetails.getId());
+                                    categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
+                                    categoryModal.setStatus(isView);
+                                    if (isView.equalsIgnoreCase("1"))
+                                       // arrISView.add(isView);
+                                    try {
+                                        //  RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID,surveyId).findAll();
+
+                                        //  if (realmQuestions != null && realmQuestions.size() > 0) {
+                                        //         String categoryId = realmCategoryDetails.get(k).getId();
+                                        ArrayList<Questions> questionsArrayList = new ArrayList<>();
+                                        JSONObject jsonObject12 = new JSONObject();
+                                        jsonObject12.put(AppConstants.ISVIEW, "0");
+                                        jsonObject12.put(AppConstants.CATEGORYID, categoryId);
+                                        for (int n=0;n<questions.length();n++){
+
+                                            JSONObject jsonObject1=questions.getJSONObject(n);
+
+                                            Questions questions1 =new Questions();
+                                            questions1.setQuestionId(jsonObject1.optString(AppConstants.QUESTIONID));
+                                            questions1.setTitle((n+1)+". "+jsonObject1.optString(AppConstants.TITLE));
+                                            questions1.setStatus(jsonObject1.optString(AppConstants.REQUIRED));
+                                            questions1.setAnswer(jsonObject1.optString(AppConstants.ANSWER));
+                                            questionsArrayList.add(questions1);
+
+                                            JSONObject ques = new JSONObject();
+                                            ques.put(AppConstants.TITLE, questions1.getTitle());
+                                            ques.put(AppConstants.ANSWER, questions1.getAnswer());
+                                            ques.put(AppConstants.QUESTIONID, questions1.getQuestionId());
+                                            if (questions1.isRequired())
+                                                ques.put(AppConstants.REQUIRED, "Yes");
+                                            else {
+                                                ques.put(AppConstants.REQUIRED, "No");
+                                            }
+                                            jsonArrayQuestions.put(ques);
+
+                                        }
+
+                                       // jsonObject.put(AppConstants.QUESTIONS, jsonArrayQuestions);
+                                       // jsonArrayAnswers.put(jsonObject);
+                                        ArrayList<String> stringsRequired=new ArrayList<>();
+                                        ArrayList<String> stringsRequiredAnswers=new ArrayList<>();
+                                        for (int p=0;p<questionsArrayList.size();p++){
+                                            if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+
+                                                stringsRequired.add(questionsArrayList.get(p).getStatus());
+                                            }
+                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+
+                                                stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                            }
+                                        }
+                                        if (stringsRequired.size()==stringsRequiredAnswers.size()){
+                                            categoryModal.setCategoryAnswered("Yes");
+                                        }else {
+                                            categoryModal.setCategoryAnswered("No");
+                                        }
+                                        categoryModal.setQuestionCount(questionsArrayList.size()+"");
+                                        categoryModal.setQuestions(questionsArrayList);
+
+                                        //arraylistTitle.add(categoryModal);
+
+                                        //   }
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+
+
+
+
+
+
+                                }else{
+                                    showToastMessage(getResources().getString(R.string.no_data));
+                                }
+
+                            }
+
+                        }
+                    }
+                }else{
+                RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID, jsonArray.get(o).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
+                if (realmCategoryDetails != null) {
+
+
+                    CategoryModal categoryModal = new CategoryModal();
+                    categoryModal.setId(realmCategoryDetails.getId());
+                    categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
+                    categoryModal.setStatus("");
+                    categoryModal.setCategoryAnswered("");
+
+                    RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID, surveyId).findAll();
+
+                    //  if (realmQuestions != null && realmQuestions.size() > 0) {
+                    //         String categoryId = realmCategoryDetails.get(k).getId();
+                    ArrayList<Questions> questionsArrayList = new ArrayList<>();
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(AppConstants.ISVIEW, "0");
+                    jsonObject.put(AppConstants.CATEGORYID, realmCategoryDetails.getId());
+                    jsonArrayQuestions=new JSONArray();
+                    for (int i = 0; i < realmQuestions.size(); i++) {
+
+
+                        Questions questions = new Questions();
+                        questions.setQuestionId(realmQuestions.get(i).getId());
+                        questions.setTitle((i + 1) + ". " + realmQuestions.get(i).getTitle());
+                        if (realmQuestions.get(i).getRequired().equalsIgnoreCase("true"))
+                            questions.setStatus("Yes");
+                        else {
+                            questions.setStatus("No");
+                        }
+                        questions.setAnswer("");
+                        questionsArrayList.add(questions);
+
+                        JSONObject ques = new JSONObject();
+                        ques.put(AppConstants.TITLE, questions.getTitle());
+                        ques.put(AppConstants.ANSWER, questions.getAnswer());
+                        ques.put(AppConstants.QUESTIONID, questions.getQuestionId());
+                        if (realmQuestions.get(i).getRequired().equalsIgnoreCase("true"))
+                            ques.put(AppConstants.REQUIRED, "Yes");
+                        else {
+                            ques.put(AppConstants.REQUIRED, "No");
+                        }
+                       /* if (questions.isRequired())
+                            ques.put(AppConstants.REQUIRED, "Yes");
+                        else {
+                            ques.put(AppConstants.REQUIRED, "No");
+                        }*/
+                        jsonArrayQuestions.put(ques);
+
+
+                    }
+                    jsonObject.put(AppConstants.QUESTIONS, jsonArrayQuestions);
+                    jsonArrayAnswers.put(o,jsonObject);
+                    categoryModal.setQuestionCount(questionsArrayList.size()+"");
+                    categoryModal.setQuestions(questionsArrayList);
+
+                }
+
+                }
+
+                }
+        }catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         surveyId = getArguments().getString(AppConstants.SURVEYID);
         categoryId = getArguments().getString(AppConstants.CATEGORYID);
         customerId = getArguments().getString(AppConstants.CUSTOMERID);
+        position=getArguments().getInt(AppConstants.POSITION);
     }
 
     @Override
@@ -684,6 +872,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
+        addAllQuestions();
         showMessageDialog(getActivity(), isBack, isUpdate);
     }
 
@@ -856,7 +1045,8 @@ public class QuestionsCategoryFragment extends BaseFragment {
         JSONObject jsonSubmitReq = new JSONObject();
         JSONObject jsonAnswers = new JSONObject();
         JSONArray jsonCategory = new JSONArray();
-        JSONObject jsonObjectQ=new JSONObject();
+        jsonArrayQuestions=new JSONArray();
+        addAllQuestions();
         try {
             llFields = (LinearLayout) view.findViewById(R.id.parent);
             if (llFields != null && llFields.getChildCount() > 0) {
@@ -864,6 +1054,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
                     questionsMap = QuestionMapComparator.sortByValue(questionsMap);
                     for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
                         Questions question = (Questions) entry.getValue();
+                        JSONObject jsonObjectQ=new JSONObject();
                         if (question != null && (question.getInputType().equals(AppConstants.TEXTBOX) || (question.getInputType().equals(AppConstants.TEXTAREA)))) {
                             View childView = llFields.findViewWithTag(question);
                             if (childView != null && childView.getVisibility() == View.VISIBLE) {
@@ -1137,29 +1328,30 @@ public class QuestionsCategoryFragment extends BaseFragment {
                         }
                     }
                 }
-               /* JSONObject jsonObject=new JSONObject();
+                JSONObject jsonObject=new JSONObject();
                 jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
-                jsonObject.put(AppConstants.DATE, "12/02/2018");
-                jsonObject.put(AppConstants.STATUS,"Submitted");
-                jsonArrayWorkFLow.put(jsonObject);*/
+                jsonObject.put(AppConstants.DATE, "23/02/2018");
+                jsonObject.put(AppConstants.STATUS,"Initiated");
+                jsonArrayWorkFLow.put(jsonObject);
 
-
-                jsonSubmitReq.put(AppConstants.ISVIEW, "0");
-                jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
-                jsonSubmitReq.put(AppConstants.QUESTIONS,jsonArrayQuestions);
-                jsonArrayAnswers.put(jsonSubmitReq);
+                JSONObject updatePosition=new JSONObject();
+                updatePosition.put(AppConstants.ISVIEW, "0");
+                updatePosition.put(AppConstants.CATEGORYID, categoryId);
+                updatePosition.put(AppConstants.QUESTIONS,jsonArrayQuestions);
+                jsonArrayAnswers.put(position,updatePosition);
 
                 jsonSubmitReq.put(AppConstants.ANSWERS, jsonArrayAnswers.toString());
                // jsonSubmitReq.put(AppConstants.RESPONSES, jsonSubmitReq);
                 jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
                 jsonSubmitReq.put(AppConstants.SUBMITBY_RM, "");
                 jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, "");
-                jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
+                jsonSubmitReq.put(AppConstants.CD_STATUS, "5");
                 jsonSubmitReq.put(AppConstants.RM_STATUS, "4");
                 jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
               //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
+                jsonSubmitReq.put(AppConstants.WORKFLOW, jsonArrayWorkFLow);
                // jsonSubmitReq.put(AppConstants.DATE, new Date());
 
                 if (Utility.validateString(formAnsId)) {

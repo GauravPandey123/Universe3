@@ -56,12 +56,12 @@
     <string name="ok">Ok</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
-    <string name="delete_msg">Deleted Successfuly</string>
+    <string name="delete_msg">Deleted Successfully</string>
     <string name="cannot_delete">You cannot  delete this item</string>
     <string name="update_exit"><![CDATA[Update & Close]]></string>
     <string name="minimum_must">minimum must be</string>
     <string name="fill_required_fields">Please fill all required fields</string>
-    <string name="save_add"><![CDATA[Save & CLose]]></string>
+    <string name="save_add"><![CDATA[Save & Close]]></string>
     <string name="save_data_msg">Save Data Successfully</string>
     <string name="review_confirm_msg">Do you wants to save the data?</string>
     <string name="alert_clear_form">You have not saved any data.Do you wish to leave this screen?</string>
