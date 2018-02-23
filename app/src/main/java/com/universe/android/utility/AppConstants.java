@@ -92,7 +92,8 @@ public class AppConstants {
     public static final String YES = "Yes";
     public static final String CATEGORY_NAME = "categoryName";
     public static final String CATEGORY = "category";
-
+    public static final String LATTITUDE = "lattitude";
+    public static final String LONGITUDE = "longitude";
     //survey status
     public static final int PENDING = 0;
     public static final int INPROCESS = 1;

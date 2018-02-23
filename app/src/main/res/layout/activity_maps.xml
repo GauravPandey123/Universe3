@@ -29,15 +29,16 @@
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
+
         <ImageView
             android:id="@+id/imageviewForward"
             android:layout_width="@dimen/margin_xnormal"
             android:layout_height="@dimen/margin_xnormal"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="@dimen/margin_small"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_arrow_forward_black_24dp"
-            android:layout_alignParentRight="true" />
+            android:src="@drawable/ic_arrow_forward_black_24dp" />
 
     </RelativeLayout>
 
@@ -57,18 +58,13 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/includeCardView">
 
-        <EditText
-            android:id="@+id/searchcustomers"
+        <AutoCompleteTextView
+            android:id="@+id/autoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:hint="@string/search_location"
-            android:imeOptions="actionSearch"
-            android:paddingLeft="@dimen/margin_normal"
-            android:paddingRight="@dimen/margin_normal"
-            android:singleLine="true"
-            android:textSize="@dimen/text_size_normal" />
+            android:layout_centerHorizontal="true"
+            android:hint="Enter Place Here" />
+
 
         <ImageView
             android:id="@+id/imageviewSearch"
@@ -98,6 +94,7 @@
         android:layout_below="@+id/border" />
 
     <TextView
+        android:id="@+id/textViewSetLocation"
         android:layout_width="wrap_content"
         android:layout_height="?actionBarSize"
         android:layout_alignParentBottom="true"
@@ -117,7 +114,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/margin_medium"
-        android:src="@drawable/ic_location_searching_black_24dp"/>
+        android:src="@drawable/ic_location_searching_black_24dp"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

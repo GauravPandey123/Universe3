@@ -14,12 +14,15 @@ import android.widget.TextView;
 import com.universe.android.R;
 import com.universe.android.activity.CategoryExpandableListActivity;
 import com.universe.android.activity.SearchCustomersActivity;
+import com.universe.android.activity.SurveyDetailActivity;
 import com.universe.android.model.SurveysModal;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 import com.universe.android.workflows.WorkFlowsDetailActivity;
 
 import java.util.ArrayList;
+
+import in.editsoft.api.util.App;
 
 /**
  * Created by gaurav.pandey on 30-01-2018.
@@ -41,7 +44,6 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
     @Override
     public StatusViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.survey_list_row, null);
-       // View view = LayoutInflater.from(mContext).inflate(R.layout.survey_list_row, parent, null);
         return new StatusViewHolder(view);
     }
 
@@ -63,11 +65,15 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent i=new Intent(mContext, SearchCustomersActivity.class);
                 if (strType.equalsIgnoreCase(AppConstants.WORKFLOWS)){
                      i=new Intent(mContext, WorkFlowsDetailActivity.class);
                 }
+                if(strType.equalsIgnoreCase(AppConstants.SURVEYREPORT))
+                {
+                    i=new Intent(mContext, SurveyDetailActivity.class);
+                }
+
                 i.putExtra(AppConstants.TYPE,strType+" "+surveysModal.getTitle());
                 i.putExtra(AppConstants.SURVEYID,surveysModal.getId());
                 mContext.startActivity(i);

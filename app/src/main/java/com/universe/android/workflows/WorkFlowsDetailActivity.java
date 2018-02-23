@@ -69,22 +69,15 @@ public class WorkFlowsDetailActivity extends BaseActivity {
     private void setCount() {
 
         Realm realm = Realm.getDefaultInstance();
-
         try {
-
-
-          long realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"0").equalTo(AppConstants.ZM_STATUS,"4").count();
+            long realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"0").equalTo(AppConstants.ZM_STATUS,"4").count();
             long  realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").count();
             long  realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").count();
             long  realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"3").count();
-
             tvPending.setText(realmPending+"");
             tvInprogress.setText(realmInprogress+"");
             tvCompleted.setText(realmCompleted+"");
             tvRejected.setText(realmRejected+"");
-
-
-
 
         } catch (Exception e) {
             realm.close();

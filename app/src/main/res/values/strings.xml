@@ -6,7 +6,7 @@
     <string name="signup">SignUp</string>
     <string name="phoneno">Enter The Phone Number</string>
     <string name="today">For The Period Today</string>
-    <string name="target">   20 \n  Target</string>
+    <string name="target">Target</string>
     <string name="questionaire">Compelted Questionaire(10)</string>
     <string name="questionairemenu">Questionaire</string>
     <string name="retailersname">Retailers Name</string>
@@ -38,11 +38,11 @@
     <string name="customers">Crystal Customers</string>
     <string name="text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged</string>
     <string name="pending"> 10 Pending</string>
-    <string name="completed">10 \n Submitted</string>
-    <string name="achiovement">    50 % \n Achievement</string>
-    <string name="inprogress">5 \n Inprogress</string>
-    <string name="newretailors">7 \n New Retailers</string>
-    <string name="crystalmembers">3 \n Crystal Memebers</string>
+    <string name="completed">Submitted</string>
+    <string name="achiovement">  Achievement</string>
+    <string name="inprogress">Inprogress</string>
+    <string name="newretailors">New Retailers</string>
+    <string name="crystalmembers">Crystal Memebers</string>
     <string name="newretailor">New Retailors</string>
 
     <string name="admin">Admin</string>
@@ -178,6 +178,7 @@
     <string name="mypending">My Pending</string>
     <string name="submitnNew"><![CDATA[Submit & New]]></string>
     <string name="submitted">Submitted</string>
+    <string name="location_updated">LocationUpdated</string>
 
     <string-array name="filterItem">
         <item>@string/category1</item>

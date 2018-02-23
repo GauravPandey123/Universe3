@@ -6,44 +6,52 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
+import com.universe.android.resource.Login.LocationUpdate.UpDateLocationResponse;
+import com.universe.android.resource.Login.LocationUpdate.UpadteLocationRequest;
+import com.universe.android.resource.Login.LocationUpdate.UpdateLocationService;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
+import com.universe.android.web.BaseApiCallback;
 
 import java.io.IOException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import in.editsoft.api.exception.APIException;
 
-public class MapsActivity extends BaseActivity implements OnMapReadyCallback,GoogleMap.OnMapClickListener {
+public class MapsActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
     private EditText locationSearch;
     private ImageView imageViewSearch, imageViewSearchBack;
     private Activity activity;
     private CircleImageView circleImageViewMap;
-    private TextView textViewHeader, textViewRetailersNameMap, textViewMobileNoMap, textViewStatusMap;
+    private TextView textViewHeader, textViewRetailersNameMap, textViewMobileNoMap, textViewStatusMap, textViewSetLocation;
     private ImageView imageViewForward;
+    private LatLng latLng;
+    private double latitude;
+    private double longitude;
+
     private String title,surveyId,customerId;
 
     @Override
@@ -51,6 +59,8 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,Goo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         activity = this;
+        latitude = Double.parseDouble(Prefs.getStringPrefs(AppConstants.LATTITUDE));
+        longitude = Double.parseDouble(Prefs.getStringPrefs((AppConstants.LONGITUDE)));
         Intent intent=getIntent();
         if (intent!=null){
             title= intent.getExtras().getString(AppConstants.STR_TITLE);
@@ -111,11 +121,14 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,Goo
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         imageViewForward = findViewById(R.id.imageviewForward);
+        textViewSetLocation = findViewById(R.id.textViewSetLocation);
 
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
+        textViewSetLocation.setTypeface(FontClass.openSansRegular(mContext));
+
         textViewHeader.setText(title);
         imageViewForward.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +142,12 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,Goo
 
             }
         });
+        textViewSetLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateLocationService(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
+            }
+        });
 
 
     }
@@ -138,44 +157,29 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,Goo
         List<Address> addressList = null;
         Address address;
 
-        if (location != null || !location.equals("")) {
-            Geocoder geocoder = new Geocoder(this);
-            try {
-                addressList = geocoder.getFromLocationName(location, 1);
+        Geocoder geocoder = new Geocoder(this);
+        try {
+            addressList = geocoder.getFromLocationName(location, 1);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            mMap.clear();
-            address = addressList.get(0);
-            LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-            CameraPosition position = CameraPosition.builder()
-                    .target(new LatLng(address.getLatitude(),
-                            address.getLongitude()))
-                    .zoom(16f)
-                    .bearing(0.0f)
-                    .tilt(0.0f)
-                    .build();
-            mMap.animateCamera(CameraUpdateFactory
-                    .newCameraPosition(position), null);
-            mMap.addMarker(new MarkerOptions().position(latLng).title("Marker"));
-            mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        mMap.clear();
+        address = addressList.get(0);
+        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+        CameraPosition position = CameraPosition.builder()
+                .target(new LatLng(address.getLatitude(),
+                        address.getLongitude()))
+                .zoom(16f)
+                .bearing(0.0f)
+                .tilt(0.0f)
+                .build();
+        Prefs.putStringPrefs(AppConstants.LATTITUDE,""+address.getLatitude());
+        Prefs.putStringPrefs(AppConstants.LONGITUDE,""+address.getLongitude());
+        mMap.animateCamera(CameraUpdateFactory
+                .newCameraPosition(position), null);
+        mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
 
-    }
-
-
-    private void drawCircle(LatLng location) {
-        CircleOptions options = new CircleOptions();
-        options.center(location);
-        //Radius in meters
-        options.radius(10);
-        options.fillColor(getResources()
-                .getColor(R.color.colorAccent));
-        options.strokeColor(getResources()
-                .getColor(R.color.colorPrimary));
-        options.strokeWidth(10);
-        mMap.addCircle(options);
     }
 
     @Override
@@ -183,12 +187,13 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,Goo
         mMap = googleMap;
         mMap.clear();
         mMap.setOnMapClickListener(this);
+
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(28.7041, 77.1025);
-//
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13.0f));
-        mMap.addMarker(new MarkerOptions().position(sydney));
-//        drawCircle(sydney);
+        LatLng latLng = new LatLng(latitude, longitude);
+        Prefs.putStringPrefs(AppConstants.LATTITUDE,""+latitude);
+        Prefs.putStringPrefs(AppConstants.LONGITUDE,""+longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13.0f));
+        mMap.addMarker(new MarkerOptions().position(latLng));
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -199,9 +204,47 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback,Goo
     public void onMapClick(LatLng latLng) {
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
+        Prefs.putStringPrefs(AppConstants.LATTITUDE,""+latLng.latitude);
+        Prefs.putStringPrefs(AppConstants.LONGITUDE,""+latLng.longitude);
         mMap.clear();
         mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15.0f));
         mMap.addMarker(markerOptions);
+
     }
+
+    public void updateLocationService(String lat, String lan) {
+        UpadteLocationRequest upadteLocationRequest = new UpadteLocationRequest();
+        upadteLocationRequest.setUserId(Prefs.getStringPrefs(AppConstants.UserId));
+        upadteLocationRequest.setLat(lat);
+        upadteLocationRequest.setLng(lan);
+        UpdateLocationService updateLocationService = new UpdateLocationService();
+        updateLocationService.executeService(upadteLocationRequest, new BaseApiCallback<UpDateLocationResponse>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(@NonNull UpDateLocationResponse response) {
+                super.onSuccess(response);
+                Prefs.putStringPrefs(AppConstants.LATTITUDE,response.getResponse().getLat());
+                Prefs.putStringPrefs(AppConstants.LONGITUDE,response.getResponse().getLongX());
+                Intent intent = new Intent(mContext, QuestionsCategoryActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                Utility.showToast(R.string.location_updated);
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+                Utility.showToast(e.getData());
+            }
+        });
+
+
+    }
+
+
 }

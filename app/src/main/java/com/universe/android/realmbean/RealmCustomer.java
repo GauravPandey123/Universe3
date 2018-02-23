@@ -16,6 +16,16 @@ public class RealmCustomer extends RealmObject {
     private String name;
     private String contactPerson;
     private String responses;
+
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    private String query;
     private Date expiryDate;
 
     private String createdBy;

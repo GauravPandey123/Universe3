@@ -171,6 +171,8 @@ public class LoginActivity extends BaseActivity {
                 Prefs.putStringPrefs(AppConstants.DESIGNATION, responseBean.getDesignation());
                 Prefs.putStringPrefs(AppConstants.picture, responseBean.getPicture());
                 Prefs.putStringPrefs(AppConstants.location, responseBean.getLocation());
+                Prefs.putStringPrefs(AppConstants.LATTITUDE, responseBean.getLat());
+                Prefs.putStringPrefs(AppConstants.LONGITUDE, responseBean.getLng());
                 Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
 
                 getSurveyResponse();
@@ -230,11 +232,8 @@ public class LoginActivity extends BaseActivity {
 
 
     private void getSurveyResponse() {
-
-
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         String url = UniverseAPI.WEB_SERVICE_LIST_ADMIN_SURVEY_METHOD;
-
 
         Request request = APIClient.getRequest(mContext, url);
         okHttpClient.newCall(request).enqueue(new Callback() {
