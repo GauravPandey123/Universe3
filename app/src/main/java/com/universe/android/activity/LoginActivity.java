@@ -148,8 +148,8 @@ public class LoginActivity extends BaseActivity {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail(email);
         loginRequest.setPassword(password);
-        loginRequest.setLat("" + latitude);
-        loginRequest.setLng("" + longitude);
+        loginRequest.setLat("27" );
+        loginRequest.setLng("22" );
         LoginService loginService = new LoginService();
         loginService.executeService(loginRequest, new BaseApiCallback<LoginResponse>() {
             @Override

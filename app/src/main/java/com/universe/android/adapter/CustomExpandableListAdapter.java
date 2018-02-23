@@ -122,7 +122,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
         String headerTitle = _listDataHeader.get(groupPosition).getCategoryName();
-        int count = _listDataHeader.get(groupPosition).getQuestionCount();
+        String count = _listDataHeader.get(groupPosition).getQuestionCount();
         String categoryAnsweredd = _listDataHeader.get(groupPosition).getCategoryAnswered();
         String status = _listDataHeader.get(groupPosition).getStatus();
 
@@ -151,7 +151,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         }else if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("2") ){
              imgStatus.setBackgroundResource(R.drawable.done);
          }
-        tvCount.setText(count+"");
+        tvCount.setText(count);
       //  lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
         if (isExpanded) {

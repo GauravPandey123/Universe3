@@ -67,6 +67,12 @@ public class SearchCustomersActivity extends BaseActivity {
         initialization();
         setUpElements();
         setUpListeners();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         prepareList();
     }
 

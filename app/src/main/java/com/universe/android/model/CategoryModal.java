@@ -27,7 +27,7 @@ public class CategoryModal {
     private String surveyId;
     private String clientId;
     private String customerId;
-    private int questionCount;
+    private String questionCount;
     private String image;
     private ArrayList<Questions> questions;
 
@@ -160,11 +160,11 @@ public class CategoryModal {
         this.questions = questions;
     }
 
-    public int getQuestionCount() {
+    public String getQuestionCount() {
         return questionCount;
     }
 
-    public void setQuestionCount(int questionCount) {
+    public void setQuestionCount(String questionCount) {
         this.questionCount = questionCount;
     }
 

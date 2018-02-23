@@ -547,6 +547,11 @@ public class Utility {
     {
 
     }
-
+    public static String getTodaysDate() {
+        DateTime date = new DateTime();
+        date = date.minusHours(7);
+        DateTimeFormatter dtf = DateTimeFormat.forPattern(AppConstants.utc_format);
+        return dtf.print(date);
+    }
 
 }

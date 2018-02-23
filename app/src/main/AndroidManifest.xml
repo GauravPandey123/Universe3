@@ -88,6 +88,7 @@
         <activity android:name=".activity.ForgotPasswordActivity" />
         <activity android:name=".activity.ResetPasswordActivity" />
         <activity android:name=".workflows.WorkFlowsDetailActivity" />
+        <activity android:name=".workflows.WorkFlowsActivity" />
         <activity android:name=".activity.TeamSurveyDeatilActivity" />
 
 
