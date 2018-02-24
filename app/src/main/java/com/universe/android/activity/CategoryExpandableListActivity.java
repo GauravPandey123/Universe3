@@ -2,6 +2,7 @@
 package com.universe.android.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -25,21 +26,26 @@ import com.universe.android.component.NonScrollExpandableListView;
 import com.universe.android.enums.FormEnum;
 import com.universe.android.model.CategoryModal;
 import com.universe.android.model.Questions;
+import com.universe.android.okkhttp.APIClient;
+import com.universe.android.okkhttp.UniverseAPI;
 import com.universe.android.parent.ParentSaveActivity;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCategory;
 import com.universe.android.realmbean.RealmCategoryAnswers;
+import com.universe.android.realmbean.RealmController;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.realmbean.RealmQuestion;
 import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
+import com.universe.android.workflows.WorkFlowsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +54,12 @@ import java.util.UUID;
 import in.editsoft.api.util.App;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class CategoryExpandableListActivity extends AppCompatActivity {
     private JSONObject jsonSubmitReq = new JSONObject();
@@ -61,6 +73,7 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
     Button btnReject;
     Button btnApprove;
     private SeekBar seekbar;
+    private String updateId;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -89,7 +102,13 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
         Utility.animateView(v);
                 jsonSubmitReq = prepareJsonRequest("Reject");
 
-                    saveNCDResponseLocal("",false);
+
+                if (Utility.isConnected()){
+                    submitAnswers(updateId,true);
+                }else {
+                    saveNCDResponseLocal(updateId,false);
+                }
+
            /* String updateId = "";
             if (view.getTag() != null) {
                 if (view.getTag() instanceof String) {
@@ -105,9 +124,13 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Utility.animateView(v);
                 jsonSubmitReq = prepareJsonRequest("Approve");
+                if (Utility.isConnected()){
+                    submitAnswers(updateId,true);
+                }else {
+                    saveNCDResponseLocal(updateId,false);
+                }
 
 
-                    saveNCDResponseLocal("",false);
            /* String updateId = "";
             if (view.getTag() != null) {
                 if (view.getTag() instanceof String) {
@@ -129,50 +152,80 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
         try{
             RealmResults<RealmAnswers> realmCategoryAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findAll();
 
-            array=new JSONArray(realmCategoryAnswers.get(0).getWorkflow());
-            jsonSubmitReq.put(AppConstants.ANSWERS, realmCategoryAnswers.get(0).getAnswers());
-             jsonSubmitReq.put(AppConstants.ID,  realmCategoryAnswers.get(0).get_id());
-            jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
-            jsonSubmitReq.put(AppConstants.SUBMITBY_RM, "");
-            jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, "");
+            if (realmCategoryAnswers!=null && realmCategoryAnswers.size()>0) {
+                updateId = realmCategoryAnswers.get(0).get_id();
+                array = new JSONArray(realmCategoryAnswers.get(0).getWorkflow());
+                jsonSubmitReq.put(AppConstants.ANSWERS, new JSONArray(realmCategoryAnswers.get(0).getAnswers()));
+                if (Utility.validateString(updateId))
+                jsonSubmitReq.put(AppConstants.ID, realmCategoryAnswers.get(0).get_id());
+                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                if (designation.equalsIgnoreCase("cd"))
+                jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
+                if (designation.equalsIgnoreCase("rm"))
+                jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
+                if (designation.equalsIgnoreCase("zm"))
+                jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
 
-            if (title.contains(AppConstants.WORKFLOWS)){
-                if(type.equalsIgnoreCase("Approve")) {
+                if (title.contains(AppConstants.WORKFLOWS)) {
+
+                    if (designation.equalsIgnoreCase("rm")) {
+                        if (type.equalsIgnoreCase("Approve")) {
+                            jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
+                            jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
+                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "0");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.STATUS, "Approved");
+                            array.put(jsonObject);
+                        } else {
+                            jsonSubmitReq.put(AppConstants.CD_STATUS, "3");
+                            jsonSubmitReq.put(AppConstants.RM_STATUS, "3");
+                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.STATUS, "Rejected");
+                            array.put(jsonObject);
+                        }
+                    }else{
+                        if (type.equalsIgnoreCase("Approve")) {
+                            jsonSubmitReq.put(AppConstants.CD_STATUS, "2");
+                            jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
+                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "2");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.STATUS, "Approved");
+                            array.put(jsonObject);
+                        } else {
+                            jsonSubmitReq.put(AppConstants.CD_STATUS, "3");
+                            jsonSubmitReq.put(AppConstants.RM_STATUS, "3");
+                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.STATUS, "Rejected");
+                            array.put(jsonObject);
+                        }
+                    }
+                } else {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                    jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                    jsonObject.put(AppConstants.STATUS, "Submitted");
+                    array.put(jsonObject);
                     jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
-                    jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
-                    jsonSubmitReq.put(AppConstants.ZM_STATUS, "0");
-                    JSONObject jsonObject=new JSONObject();
-                    jsonObject.put(AppConstants.DATE,Utility.getTodaysDate());
-                    jsonObject.put(AppConstants.UserId,Prefs.getStringPrefs(AppConstants.USERNAME));
-                    jsonObject.put(AppConstants.STATUS,"Approved");
-                    array.put(jsonObject);
-                }else{
-                    jsonSubmitReq.put(AppConstants.CD_STATUS, "3");
-                    jsonSubmitReq.put(AppConstants.RM_STATUS, "3");
+                    jsonSubmitReq.put(AppConstants.RM_STATUS, "0");
                     jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
-                    JSONObject jsonObject=new JSONObject();
-                    jsonObject.put(AppConstants.DATE,Utility.getTodaysDate());
-                    jsonObject.put(AppConstants.UserId,Prefs.getStringPrefs(AppConstants.USERNAME));
-                    jsonObject.put(AppConstants.STATUS,"Rejected");
-                    array.put(jsonObject);
                 }
-            }else {
-                JSONObject jsonObject=new JSONObject();
-                jsonObject.put(AppConstants.DATE,Utility.getTodaysDate());
-                jsonObject.put(AppConstants.UserId,Prefs.getStringPrefs(AppConstants.USERNAME));
-                jsonObject.put(AppConstants.STATUS,"Submitted");
-                array.put(jsonObject);
-                jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
-                jsonSubmitReq.put(AppConstants.RM_STATUS, "0");
-                jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
+                jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
+                jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
+
+                jsonSubmitReq.put(AppConstants.WORKFLOW, array);
+                jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());
             }
-            //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
-            jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
-            jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
-
-            jsonSubmitReq.put(AppConstants.WORKFLOW,array);
-            jsonSubmitReq.put(AppConstants.DATE,Utility.getTodaysDate());
-
 
 
 
@@ -242,6 +295,21 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Utility.animateView(v);
                 dialog.dismiss();
+
+
+                Intent i=new Intent(CategoryExpandableListActivity.this, SearchCustomersActivity.class);
+
+                if (btnApprove.getText().toString().equalsIgnoreCase("Approve")){
+                     i=new Intent(CategoryExpandableListActivity.this, WorkFlowsActivity.class);
+
+                }
+
+                i.putExtra(AppConstants.STR_TITLE,title);
+                i.putExtra(AppConstants.SURVEYID,surveyId);
+                i.putExtra(AppConstants.CUSTOMERID,customerId);
+                i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
                 if (Utility.validateString(isUpdateId)) {
 
                 } else {
@@ -368,11 +436,13 @@ try{
 
                 if (realmAnswers!=null){
                    JSONArray array=new JSONArray(realmAnswers.getAnswers());
+                   // JSONArray array1=new JSONArray(array.toString());
+                    String json=array.get(0).toString();
+                    JSONArray array1=new JSONArray(json);
+                   if (array1.length()>0){
+                       for (int i=0;i<array1.length();i++){
 
-                   if (array.length()>0){
-                       for (int i=0;i<array.length();i++){
-
-                           JSONObject jsonObject=array.getJSONObject(i);
+                           JSONObject jsonObject=array1.getJSONObject(i);
                            String categoryId=jsonObject.optString(AppConstants.CATEGORYID);
                            String isView=jsonObject.optString(AppConstants.ISVIEW);
                            JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
@@ -400,7 +470,7 @@ try{
 
                                            Questions questions1 =new Questions();
                                            questions1.setQuestionId(jsonObject1.optString(AppConstants.QUESTIONID));
-                                           questions1.setTitle((n+1)+". "+jsonObject1.optString(AppConstants.TITLE));
+                                           questions1.setTitle(jsonObject1.optString(AppConstants.TITLE));
                                            questions1.setStatus(jsonObject1.optString(AppConstants.REQUIRED));
                                            questions1.setAnswer(jsonObject1.optString(AppConstants.ANSWER));
                                            questionsArrayList.add(questions1);
@@ -578,6 +648,97 @@ try{
         Utility.showToastMessage(this, strMsg);
     }
 
+    private void submitAnswers(final String isUpdateId, final boolean isBack) {
+        if (Utility.validateString(isUpdateId)) {
+            try {
+                jsonSubmitReq.put(AppConstants.ID, isUpdateId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (jsonSubmitReq.has(AppConstants.ISSYNC)) {
+            jsonSubmitReq.remove(AppConstants.ISSYNC);
+        }
+        if (jsonSubmitReq.has(AppConstants.ISUPDATE)) {
+            jsonSubmitReq.remove(AppConstants.ISUPDATE);
+        }
 
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.submittingAnswers));
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
+        String url="";
+        if (btnReject.getText().toString().equalsIgnoreCase("Reject")) {
+             url = UniverseAPI.WEB_SERVICE_CREATE_APPROVE_METHOD;
+            if (Utility.validateString(isUpdateId)) {
+                url = UniverseAPI.WEB_SERVICE_CREATE_UPDATE_APPROVE_METHOD;
+            }
+        }else {
+            url = UniverseAPI.WEB_SERVICE_CREATE_UPDATE_METHOD;
+        }
+
+
+        /* else if (formId.equalsIgnoreCase(FormEnum.category.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_CATEGORY_METHOD;
+        } else if (formId.equalsIgnoreCase(FormEnum.customer.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_CUSTOMER_METHOD;
+        } else if (formId.equalsIgnoreCase(FormEnum.client.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_ClIENT_METHOD;
+        }*/
+
+
+        Request request = APIClient.getPostRequest(this, url, requestBody);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                if (progressDialog != null) progressDialog.dismiss();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToastMessage(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (Utility.validateString(responseData)) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
+
+                            new RealmController().saveFormInputFromAnswersSubmit(jsonResponse.toString(), isUpdateId, "");
+                        }
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog != null) progressDialog.dismiss();
+                                showMessageDialog(CategoryExpandableListActivity.this, isBack, isUpdateId);
+                            }
+                        });
+
+                    } else {
+                        if (progressDialog != null) progressDialog.dismiss();
+                    }
+
+                } catch (Exception e) {
+                    if (progressDialog != null) progressDialog.dismiss();
+                    e.printStackTrace();
+                } finally {
+                }
+
+            }
+        });
+
+    }
 }
 

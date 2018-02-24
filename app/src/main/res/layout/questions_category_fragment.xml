@@ -21,8 +21,7 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 style="@style/appFormLinear"
@@ -123,7 +122,6 @@
                 <LinearLayout
                     android:id="@+id/parent"
                     style="@style/appLinear"
-                    android:layout_marginTop="@dimen/view_padding"
                     android:orientation="vertical"
                     android:padding="2dp">
 

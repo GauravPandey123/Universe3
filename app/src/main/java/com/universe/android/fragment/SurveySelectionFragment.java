@@ -19,6 +19,7 @@ import com.universe.android.R;
 import com.universe.android.adapter.SurveyListAdapter;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.SurveysModal;
+import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.workflows.WorkFlowsDetailActivity;
@@ -87,7 +88,18 @@ public class SurveySelectionFragment extends BaseFragment {
                     SurveysModal modal = new SurveysModal();
                     modal.setId(realmSurveys.get(i).getId());
                     modal.setTitle(realmSurveys.get(i).getTitle());
-                    modal.setStatus(10+"");
+                    int count=0;
+                    int total=5;
+                    RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
+                   for (int k=0;k<realmAnswers.size();k++){
+                       if (realmAnswers.get(k).getCd_Status()!=null) {
+                           if (realmAnswers.get(k).getCd_Status().equalsIgnoreCase("1")) {
+                               total = total - 1;
+                           }
+                       }
+                   }
+
+                    modal.setStatus(total+"");
                     modal.setExpiryDate(AppConstants.format2.format(realmSurveys.get(i).getExpiryDate()));
                     surveysModals.add(modal);
                 }

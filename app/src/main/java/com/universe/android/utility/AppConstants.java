@@ -117,12 +117,12 @@ public class AppConstants {
     public static final String WORKFLOW = "workflow";
     public static final String REPORT = "report";
 
+    public static final String MULTISELECT = "multiselect";
     public static final String PASSWORD = "password";
     public static final String EMAIL ="email" ;
     public static final String LAT = "lat";
     public static final String LNG = "lng";
     public static final String DETAIL ="detail" ;
-    public static final String MAPPING ="mapping" ;
 
     public static String surveyDetails="surveyDetails";
     public static String crystalDoctorName="crystalDoctorName";
@@ -137,5 +137,10 @@ public class AppConstants {
 
 
 
+    public static final String UPDATEID = "updateId";
+    public static final String MAPPING ="mapping" ;
+    public static final String DETAILS = "details";
+    public static final java.lang.String EMPLOYEE_NAME = "employee_name";
+    public static final String ME ="Me" ;
 }
 

@@ -46,15 +46,16 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium"
                 android:visibility="visible"
+                android:gravity="center"
                 android:orientation="vertical">
                 <TextView
                     android:id="@+id/textViewStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/pending"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/ic_submitted"
                     android:textAllCaps="true"
-                    android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textColor="@color/green"
+                    />
 
                 <TextView
                     android:id="@+id/tvStatus"

@@ -25,9 +25,11 @@ import com.universe.android.model.AnswersModal;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -53,17 +55,19 @@ public class WorkFlowsActivity extends BaseActivity {
     private String strType,surveyId,customerId;
     private LinearLayout llPending,ll_inprogress,ll_completed,ll_rejected;
     private TextView tvPending,tvInprogress,tvCompleted,tvRejected;
+    private ImageView imgCD,imgRM,imgZM;
+    private TextView textViewCd,textViewRM,textViewZM;
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.workflows_details_fragment);
+        setContentView(R.layout.workflow_activity);
         initialization();
         setUpElements();
         setUpListeners();
-
+    prepareList("");
 
     }
 
@@ -75,7 +79,51 @@ public class WorkFlowsActivity extends BaseActivity {
     }
 
     private void setCount() {
+        String userId=Prefs.getStringPrefs(AppConstants.UserId);
+        String mapping= Prefs.getStringPrefs(AppConstants.MAPPING);
+        try {
+            JSONArray array=new JSONArray(mapping);
 
+            for (int i=0;i<array.length();i++){
+                JSONObject jsonObject=array.getJSONObject(i);
+                JSONObject jsonObject1=jsonObject.getJSONObject(AppConstants.DETAILS);
+
+                String id=jsonObject1.optString(AppConstants.ID);
+                String name=jsonObject1.optString(AppConstants.EMPLOYEE_NAME);
+                if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("rm")){
+
+
+                    if (userId.equalsIgnoreCase(id)){
+                        textViewRM.setText(AppConstants.ME);
+                    }else {
+                        if (Utility.validateString(name))
+                        textViewRM.setText(name.substring(0));
+                    }
+
+
+
+                }
+                if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("zm")){
+
+
+                    if (userId.equalsIgnoreCase(id)){
+                        textViewZM.setText(AppConstants.ME);
+                    }else {
+                        if (Utility.validateString(name))
+                            textViewZM.setText(name.substring(0));
+                    }
+
+
+
+                }
+
+            }
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Realm realm = Realm.getDefaultInstance();
 
         try {
@@ -85,6 +133,7 @@ public class WorkFlowsActivity extends BaseActivity {
         if (realmAnswers!=null){
             if (Utility.validateString(realmAnswers.getSubmitbyCD())){
                 if (realmAnswers.getCd_Status().equalsIgnoreCase("1")){
+
 
                 }else  if (realmAnswers.getCd_Status().equalsIgnoreCase("5")){
 
@@ -143,10 +192,11 @@ public class WorkFlowsActivity extends BaseActivity {
 
             if (realmAnswers != null) {
                 JSONArray array=new JSONArray(realmAnswers.getWorkflow());
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject jsonObject=array.getJSONObject(i);
+                JSONArray array1=new JSONArray(array.get(0).toString());
+                for (int i = 0; i < array1.length(); i++) {
+                    JSONObject jsonObject=array1.getJSONObject(i);
                     AnswersModal modal = new AnswersModal();
-                    modal.setTitle(jsonObject.optString(AppConstants.TITLE));
+                    modal.setTitle(jsonObject.optString(AppConstants.USERNAME));
                     modal.setStatus(jsonObject.optString(AppConstants.STATUS));
 
                   //  modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
@@ -207,11 +257,13 @@ public class WorkFlowsActivity extends BaseActivity {
          llPending = (LinearLayout) findViewById(R.id.ll_pending);
          ll_inprogress = (LinearLayout) findViewById(R.id.ll_inprogress);
          ll_completed = (LinearLayout) findViewById(R.id.ll_completed);
+        imgCD = (ImageView) findViewById(R.id.imageCD);
+        imgRM = (ImageView) findViewById(R.id.imgRM);
+        imgZM = (ImageView) findViewById(R.id.imgZM);
 
-
-        tvPending = (TextView) findViewById(R.id.tvPending);
-        tvInprogress = (TextView) findViewById(R.id.tvInprogress);
-        tvCompleted = (TextView) findViewById(R.id.tvCompleted);
+        textViewCd = (TextView) findViewById(R.id.textViewCD);
+        textViewRM = (TextView) findViewById(R.id.textViewRM);
+        textViewZM = (TextView) findViewById(R.id.textViewZM);
 
 
         TextView textViewStatus=(TextView)findViewById(R.id.textViewStatus);
@@ -248,7 +300,7 @@ public class WorkFlowsActivity extends BaseActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            strType = intent.getExtras().getString(AppConstants.TYPE);
+            strType = intent.getExtras().getString(AppConstants.STR_TITLE);
             surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
             customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
         }

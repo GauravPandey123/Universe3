@@ -26,6 +26,7 @@ import com.universe.android.model.AnswersModal;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 
 import java.util.ArrayList;
@@ -77,10 +78,28 @@ public class WorkFlowsDetailActivity extends BaseActivity {
 
         Realm realm = Realm.getDefaultInstance();
         try {
-            long realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"0").equalTo(AppConstants.ZM_STATUS,"4").count();
-            long  realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").count();
-            long  realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").count();
-            long  realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"3").count();
+
+long realmPending = 0,realmInprogress=0,realmCompleted=0,realmRejected=0;
+            String designation= Prefs.getStringPrefs(AppConstants.TYPE);
+
+
+            if (designation.equalsIgnoreCase("rm")){
+                realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"0").equalTo(AppConstants.ZM_STATUS,"4").count();
+                realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").count();
+                realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").count();
+                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"4").count();
+
+            }
+
+            if (designation.equalsIgnoreCase("zm")){
+                realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").count();
+                realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"4").equalTo(AppConstants.RM_STATUS,"4").equalTo(AppConstants.ZM_STATUS,"4").count();
+                realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").count();
+                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"4").count();
+
+            }
+
+
 
             tvPending.setText(realmPending+"");
             tvInprogress.setText(realmInprogress+"");
@@ -102,19 +121,36 @@ public class WorkFlowsDetailActivity extends BaseActivity {
         Realm realm = Realm.getDefaultInstance();
 
         try {
+            RealmResults<RealmAnswers> realmAnswers = null;
+            String designation= Prefs.getStringPrefs(AppConstants.TYPE);
+            if (designation.equalsIgnoreCase("cd")){
 
+            }
+            if (designation.equalsIgnoreCase("rm")){
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"0").equalTo(AppConstants.ZM_STATUS,"4").findAll();
 
-            RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"0").equalTo(AppConstants.ZM_STATUS,"4").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.inprogress))){
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").findAll();
 
-            if (type.equalsIgnoreCase(getString(R.string.inprogress))){
+                }else if (type.equalsIgnoreCase(getString(R.string.completed))){
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").findAll();
+                }else if (type.equalsIgnoreCase(getString(R.string.rejected))){
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"4").findAll();
+                }
+            }
+            if (designation.equalsIgnoreCase("zm")){
                 realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").findAll();
 
-            }else if (type.equalsIgnoreCase(getString(R.string.completed))){
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").findAll();
-            }else if (type.equalsIgnoreCase(getString(R.string.rejected))){
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"4").findAll();
-            }
+                if (type.equalsIgnoreCase(getString(R.string.inprogress))){
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"4").equalTo(AppConstants.RM_STATUS,"4").equalTo(AppConstants.ZM_STATUS,"4").findAll();
 
+                }else if (type.equalsIgnoreCase(getString(R.string.completed))){
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").findAll();
+                }else if (type.equalsIgnoreCase(getString(R.string.rejected))){
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"4").findAll();
+                }
+            }
+            
 
             if (realmAnswers != null && realmAnswers.size() > 0) {
                 for (int i = 0; i < realmAnswers.size(); i++) {
@@ -163,6 +199,10 @@ public class WorkFlowsDetailActivity extends BaseActivity {
             @Override
             public void onItemSelected(View v, int position) {
                 Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
+
+                if (!stringArrayList.get(position).getStatus().equalsIgnoreCase(getString(R.string.pending))){
+                    intent = new Intent(mContext, WorkFlowsActivity.class);
+                }
                 intent.putExtra(AppConstants.STR_TITLE, strType);
                 intent.putExtra(AppConstants.SURVEYID, surveyId);
                 intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getCustomerId());
@@ -176,6 +216,9 @@ public class WorkFlowsDetailActivity extends BaseActivity {
             @Override
             public void onClick(View view, int position) {
                 Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
+                if (!stringArrayList.get(position).getStatus().equalsIgnoreCase(getString(R.string.pending))){
+                    intent = new Intent(mContext, WorkFlowsActivity.class);
+                }
                 intent.putExtra(AppConstants.STR_TITLE, strType);
                 intent.putExtra(AppConstants.SURVEYID, surveyId);
                 intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getCustomerId());

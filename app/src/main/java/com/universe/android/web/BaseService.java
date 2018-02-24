@@ -33,9 +33,9 @@ public abstract class BaseService<U, T extends BaseRequest, L extends BaseRespon
     private static HttpLoggingInterceptor sLoggingInterceptor;
 
     public void executeService(T request, APICallback<L> callback) {
-        request.setAuthToken(Prefs.getStringPrefs(AppConstants.AUTHORIZATION));
+  //      request.setAuthToken(Prefs.getStringPrefs(AppConstants.AUTHORIZATION));
         request.addHeader("X-APP-VERSION", BuildConfig.VERSION_NAME);
-        request.addHeader(AppConstants.TOKEN_KEY, Prefs.getStringPrefs(AppConstants.AUTHORIZATION));
+       // request.addHeader(AppConstants.TOKEN_KEY, Prefs.getStringPrefs(AppConstants.AUTHORIZATION));
         request.addHeaders(getHeaders());
         try {
             execute(request, callback);
