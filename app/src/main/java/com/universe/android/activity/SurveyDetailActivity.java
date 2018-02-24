@@ -65,7 +65,7 @@ public class SurveyDetailActivity extends BaseActivity {
     private ImageView imageViewCancel;
 
     private Dialog dialogFilter, dialogStatus, dialogCalendra;
-    private ArrayList<AnswersModal> stringArrayList;
+//    private ArrayList<CustomerModal> stringArrayList;
     private LinearLayoutManager linearLayoutManager;
     private SurveyDetailAdapter surveyDetailAdapter;
 
@@ -79,7 +79,7 @@ public class SurveyDetailActivity extends BaseActivity {
     private int day, month, year;
     private TextView textViewtargetCount, textViewCompletedCount, textViewAchievementPercentage, textViewInProgressCount;
     private TextView textViewNewRetailersCount, textViewCrystalMembersCount;
-
+    private ArrayList<CustomerModal> stringArrayList;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -204,22 +204,25 @@ public class SurveyDetailActivity extends BaseActivity {
         Realm realm = Realm.getDefaultInstance();
 
         try {
-
-            RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).findAllSorted(AppConstants.TITLE, Sort.DESCENDING);
-            if (realmAnswers != null && realmAnswers.size() > 0) {
-                for (int i = 0; i < realmAnswers.size(); i++) {
-                    AnswersModal modal = new AnswersModal();
-                    modal.set_id(realmAnswers.get(i).get_id());
-
-                    RealmCustomer realmCustomer = realm.where(RealmCustomer.class).findFirst();
-
-                    modal.setTitle(realmCustomer.getName());
-                    modal.setState(realmCustomer.getState());
-                    modal.setTerritory(realmCustomer.getTerritory());
-                    modal.setPincode(realmCustomer.getPincode());
-                    modal.setCustomerId(realmCustomer.getId());
-                    // modal.setStatus(type);
-                    modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getDate()));
+            RealmResults<RealmCustomer> realmCustomers = realm.where(RealmCustomer.class).findAll();
+            if (realmCustomers != null && realmCustomers.size() > 0) {
+                for (int i = 0; i < realmCustomers.size(); i++) {
+                    CustomerModal modal = new CustomerModal();
+                    modal.setId(realmCustomers.get(i).get_id());
+                    RealmAnswers realmAnswers1 = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, realmCustomers.get(i).get_id()).findFirst();
+                    if (realmAnswers1 != null) {
+                        String status = realmAnswers1.getCd_Status();
+                        modal.setStatus(status);
+                    } else {
+                        modal.setStatus("");
+                    }
+                    modal.setTitle(realmCustomers.get(i).getName());
+                    modal.setState(realmCustomers.get(i).getState());
+                    modal.setTerritory(realmCustomers.get(i).getTerritory());
+                    modal.setPincode(realmCustomers.get(i).getPincode());
+                    modal.setContactNo(realmCustomers.get(i).getContactNo());
+                    //modal.setStatus(type);
+                    modal.setDate(AppConstants.format2.format(realmCustomers.get(i).getCreatedAt()));
                     stringArrayList.add(modal);
                 }
             }

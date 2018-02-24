@@ -204,16 +204,11 @@ public class SearchCustomersActivity extends BaseActivity {
 
         try {
             RealmResults<RealmCustomer> realmCustomers = realm.where(RealmCustomer.class).findAll();
-
-
             if (realmCustomers != null && realmCustomers.size() > 0) {
                 for (int i = 0; i < realmCustomers.size(); i++) {
                     CustomerModal modal = new CustomerModal();
                     modal.setId(realmCustomers.get(i).get_id());
-
-
                     RealmAnswers realmAnswers1 = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, realmCustomers.get(i).get_id()).findFirst();
-
                     if (realmAnswers1 != null) {
                         String status = realmAnswers1.getCd_Status();
                         modal.setStatus(status);

@@ -115,5 +115,27 @@ public class AppConstants {
     public static final java.lang.String REQUIRED = "required";
     public static final java.lang.String ISVIEW = "isView";
     public static final String WORKFLOW = "workflow";
+    public static final String REPORT = "report";
+
+    public static final String PASSWORD = "password";
+    public static final String EMAIL ="email" ;
+    public static final String LAT = "lat";
+    public static final String LNG = "lng";
+    public static final String DETAIL ="detail" ;
+    public static final String MAPPING ="mapping" ;
+
+    public static String surveyDetails="surveyDetails";
+    public static String crystalDoctorName="crystalDoctorName";
+    public static String total="total";
+    public static String completed="completed";
+
+    public static String target="target";
+    public static String submitted="submitted";
+    public static String inprogress="inprogress";
+    public static String CrystalCustomer="CrystalCustomer";
+    public static String newRetailer="newRetailer";
+
+
+
 }
 

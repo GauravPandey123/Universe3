@@ -35,7 +35,7 @@
         android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="@string/totalNumber"
+        android:text="2"
         android:textAllCaps="true"
         android:textColor="@color/textColorPrimary"
         android:textSize="@dimen/text_size_small" />
@@ -53,6 +53,7 @@
         android:layout_marginTop="5dp"
         android:layout_weight="1"
         android:gravity="center"
+        android:visibility="gone"
         android:text="@string/totalNumber"
         android:textAllCaps="true"
         android:textColor="@color/textColorPrimary"

@@ -14,19 +14,16 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.github.aakira.expandablelayout.Utils;
 import com.universe.android.R;
 import com.universe.android.adapter.CrystalDoctorAdapter;
-import com.universe.android.adapter.QuestioniareSelectionAdapter;
-import com.universe.android.adapter.SectionedRecyclerViewAdapter;
 import com.universe.android.adapter.StatusAdapter;
+
 import com.universe.android.helper.FontClass;
 import com.universe.android.helper.RecyclerTouchListener;
 import com.universe.android.model.DataModel;
-import com.universe.android.model.ItemModel;
 import com.universe.android.model.StatusModel;
 import com.universe.android.utility.Utility;
 
@@ -53,14 +50,18 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
     private ImageView imageViewCancel, imageviewfilter;
     private StatusAdapter statusAdapter;
     private LinearLayoutManager mLayoutManager;
+    private RelativeLayout relativeLayoutTeamSubmit;
 
     private ArrayList<StatusModel> statusList = new ArrayList<>();
     private ArrayList<StatusModel> multiselectSatuslist = new ArrayList<>();
+    private ArrayList<Number> numberArrayList = new ArrayList<>();
+
     private RecyclerView recylerViewStatus;
     private TextView textViewPeriodFrom, textViewPeriodTo, textViewPeriodStatus, textViewReset, textViewApplyFilter;
 
     private List<DataModel> allSampleData;
     private CrystalDoctorAdapter crystalDoctorAdapter;
+//    private TeamSelectionAdapter teamSelectionAdapter;
 
 
     @Override
@@ -120,23 +121,15 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
     }
 
     private void populateSampleData() {
-
-        for (int i = 1; i <= 10; i++) {
-
+        for (int i = 1; i <= 1; i++) {
             DataModel dm = new DataModel();
-
-            dm.setHeaderTitle("Crystal Doctor  " + i);
-
+            dm.setHeaderTitle("Parth Rawal");
             ArrayList<String> singleItem = new ArrayList<>();
-            for (int j = 1; j <= 4; j++) {
-
-                singleItem.add("1 " + j);
+            for (int j = 1; j <= 1; j++) {
+                singleItem.add("10 ");
             }
-
             dm.setAllItemsInSection(singleItem);
-
             allSampleData.add(dm);
-
         }
     }
 
@@ -154,39 +147,42 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
     }
 
     private void dialogStatusSetUpElements() {
-        statusAdapter = new StatusAdapter(this, statusList, multiselectSatuslist);
-        mLayoutManager = new LinearLayoutManager(mContext);
-        recylerViewStatus.setLayoutManager(mLayoutManager);
-        recylerViewStatus.setItemAnimator(new DefaultItemAnimator());
-
-        recylerViewStatus.setAdapter(statusAdapter);
-//        recylerViewStatus.addOnItemTouchListener(new RecyclerItemClickListener(this, recylerViewStatus, new RecyclerItemClickListener.OnItemClickListener() {
+//        teamSelectionAdapter = new TeamSelectionAdapter(numberArrayList, mContext);
+//        mLayoutManager = new LinearLayoutManager(mContext);
+//        recylerViewStatus.setLayoutManager(mLayoutManager);
+//        recylerViewStatus.setItemAnimator(new DefaultItemAnimator());
+//        recylerViewStatus.setAdapter(teamSelectionAdapter);
+//        relativeLayoutTeamSubmit.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onItemClick(View view, int position) {
-//                if (!isMultiSelect) {
-//                    multiselect_list = new ArrayList<SampleModel>();
-//                    isMultiSelect = true;
-//
-//                    if (mActionMode == null) {
-//                        mActionMode = startActionMode(mActionModeCallback);
+//            public void onClick(View view) {
+//                StringBuilder stringBuilder = new StringBuilder();
+//                for (Number number : numberArrayList) {
+//                    if (number.isSelected()) {
+//                        if (stringBuilder.length() > 0)
+//                            stringBuilder.append(", ");
+//                        stringBuilder.append(number.getTextONEs());
 //                    }
 //                }
-//
-//                multi_select(position);
+//                input_period_status.setText(stringBuilder.toString());
+//                dialogStatus.dismiss();
 //            }
+//        });
 //
+//        imageViewCloseStatus.setOnClickListener(new View.OnClickListener() {
 //            @Override
-//            public void onItemLongClick(View view, int position) {
-//
-//
+//            public void onClick(View view) {
+//                dialogStatus.dismiss();
 //            }
-//        }));
+//        });
+
+
     }
 
     private void dialogStatusInitialization() {
         textViewChooseStatus = dialogStatus.findViewById(R.id.textViewChooseStatus);
         imageViewCloseStatus = dialogStatus.findViewById(R.id.imageViewCloseStatus);
         recylerViewStatus = dialogStatus.findViewById(R.id.recylerViewStatus);
+//        relativeLayoutTeamSubmit = dialogStatus.findViewById(R.id.relativeLayoutTeamSubmit);
     }
 
     private void dialogSetUpElements() {
@@ -337,6 +333,23 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
                 statusDialog();
             }
         });
+
+        textViewReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                input_period_from.setText("");
+                input_period_to.setText(" ");
+                input_period_status.setText(" ");
+            }
+        });
+
+        textViewApplyFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogFilter.dismiss();
+            }
+        });
+
     }
 
     public void statusDialog() {
@@ -346,18 +359,20 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
         dialogStatusInitialization();
         dialogStatusSetUpElements();
         dialogStatus.show();
-        showData();
+        //showData();
     }
 
-    private void showData() {
-        String name[] = {"Srikanta", "Gaurav", "Neeraj", "Girish", "Arjun", "Ankush"};
-        int imageId[] = {R.drawable.ic_target, R.drawable.ic_completed, R.drawable.ic_progress, R.drawable.ic_customer, R.drawable.ic_customer};
-        for (int i = 0; i < name.length - 1; i++) {
-            StatusModel mSample = new StatusModel(name[i], imageId[i]);
-            statusList.add(mSample);
-        }
-
-    }
+//    private void showData() {
+//        String ONEs[] = {"ZERO", "ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE", "TEN",
+//                "ELEVEN", "TWELVE", "THIRTEEN", "FOURTEEN", "FIFTEEN", "SIXTEEN", "SEVENTEEN", "EIGHTEEN", "NINETEEN", "TWENTY"};
+//        for (int i = 0; i <= 20; i++) {
+//            Number number = new Number();
+//            number.setONEs(i + "");
+//            number.setTextONEs(ONEs[i]);
+//            this.numberArrayList.add(number);
+//        }
+//
+//    }
 
     private void showWeekCalendra() {
     }

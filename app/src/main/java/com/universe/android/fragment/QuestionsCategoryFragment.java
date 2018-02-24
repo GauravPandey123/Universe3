@@ -211,9 +211,6 @@ public class QuestionsCategoryFragment extends BaseFragment {
     }
 
     private void addAllQuestions(){
-
-
-
         Realm realm =Realm.getDefaultInstance();
         try {
             RealmSurveys realmSurveys = realm.where(RealmSurveys.class).equalTo(AppConstants.ID, surveyId).findFirst();
@@ -238,8 +235,6 @@ public class QuestionsCategoryFragment extends BaseFragment {
                             if (categoryId.equalsIgnoreCase(jsonArray.get(o).toString())){
                                 RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID,jsonArray.get(o).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
                                 if (realmCategoryDetails != null) {
-
-
                                     CategoryModal categoryModal = new CategoryModal();
                                     categoryModal.setId(realmCategoryDetails.getId());
                                     categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());

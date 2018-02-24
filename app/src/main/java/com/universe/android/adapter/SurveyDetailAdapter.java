@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.AnswersModal;
+import com.universe.android.model.CustomerModal;
 import com.universe.android.utility.Utility;
 
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ import java.util.ArrayList;
 
 public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapter.SurveyViewHolder> {
     private Context mContext;
-    private ArrayList<AnswersModal> stringArrayList;
+    private ArrayList<CustomerModal> stringArrayList;
     private OnItemSelecteListener mListener;
 
-    public SurveyDetailAdapter(Context mContext, ArrayList<AnswersModal> stringArrayList) {
+    public SurveyDetailAdapter(Context mContext, ArrayList<CustomerModal> stringArrayList) {
         this.mContext = mContext;
         this.stringArrayList = stringArrayList;
 

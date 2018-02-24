@@ -55,15 +55,32 @@
                     android:layout_weight="1"
                     android:background="@color/survey_background_color">
 
-                    <TextView
-                        android:id="@+id/textViewtarget"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_medium"
-                        android:text="@string/target"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewtargetCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_normal"
+                            android:layout_marginRight="@dimen/margin_normal"
+                            android:gravity="center"
+                            android:text="10"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <TextView
+                            android:id="@+id/textViewtarget"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_medium"
+                            android:text="@string/target"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="@dimen/margin_large"
@@ -81,15 +98,32 @@
                     android:layout_height="90dp"
                     android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/textViewCompleted"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_medium"
-                        android:text="@string/completed"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewCompletedCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_normal"
+                            android:layout_marginRight="@dimen/margin_normal"
+                            android:text="0"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <TextView
+                            android:id="@+id/textViewCompleted"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/margin_medium"
+                            android:text="@string/completed"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="@dimen/margin_large"
@@ -107,15 +141,31 @@
                     android:layout_weight="1"
                     android:background="@color/survey_background_color">
 
-                    <TextView
-                        android:id="@+id/textViewAchievement"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_medium"
-                        android:text="@string/achiovement"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewAchievementPercentage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_normal"
+                            android:layout_marginRight="@dimen/margin_normal"
+                            android:text="10%"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <TextView
+                            android:id="@+id/textViewAchievement"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_medium"
+                            android:text="@string/achiovement"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="@dimen/margin_large"
@@ -142,24 +192,42 @@
                     android:layout_height="90dp"
                     android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/textViewInProgress"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_small"
-                        android:text="@string/inprogress"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:layout_centerInParent="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewInProgressCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_normal"
+                            android:layout_marginRight="@dimen/margin_normal"
+                            android:text="0"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <TextView
+                            android:id="@+id/textViewInProgress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:text="@string/inprogress"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="@dimen/margin_large"
                         android:layout_height="@dimen/margin_large"
                         android:layout_alignParentRight="true"
-                        android:layout_marginLeft="@dimen/margin_small"
-                        android:layout_marginRight="@dimen/margin_small"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:src="@drawable/ic_progress" />
+
 
                 </RelativeLayout>
 
@@ -169,20 +237,39 @@
                     android:layout_weight="1"
                     android:background="@color/survey_background_color">
 
-                    <TextView
-                        android:id="@+id/textViewNewRetailers"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_small"
-                        android:text="@string/newretailors"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewNewRetailersCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/margin_normal"
+                            android:layout_marginRight="@dimen/margin_normal"
+                            android:text="0"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <TextView
+                            android:id="@+id/textViewNewRetailers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:text="@string/newretailors"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="@dimen/margin_large"
                         android:layout_height="@dimen/margin_large"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
@@ -194,21 +281,38 @@
                     android:layout_height="90dp"
                     android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/textViewCrystalmembers"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_small"
-                        android:text="@string/crystalmembers"
-                        android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_medium" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewCrystalMembersCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_normal"
+                            android:layout_marginRight="@dimen/margin_normal"
+                            android:text="0"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+
+                        <TextView
+                            android:id="@+id/textViewCrystalmembers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_small"
+                            android:text="@string/crystalmembers"
+                            android:textColor="@android:color/black"
+                            android:textSize="@dimen/text_size_medium" />
+                    </LinearLayout>
 
                     <ImageView
                         android:layout_width="@dimen/margin_large"
                         android:layout_height="@dimen/margin_large"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
@@ -229,7 +333,7 @@
         android:layout_margin="@dimen/margin_min"
         app:cardBackgroundColor="@android:color/holo_blue_dark">
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/linearLayoutSurvey"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -237,14 +341,24 @@
 
             <TextView
                 android:id="@+id/textViewCompletedQuestionaire"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:gravity="center_vertical"
                 android:text="@string/questionaire"
                 android:textColor="@android:color/white" />
 
-        </LinearLayout>
+            <ImageView
+                android:id="@+id/imageViewDownload"
+                android:layout_width="@dimen/margin_large"
+                android:layout_height="@dimen/margin_large"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_file_download_black_24dp" />
+
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 

@@ -18,6 +18,16 @@ public class LoginRequest extends BaseRequest {
     private String deviceIMEI;
     private String lat;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private String type;
+
     public String getLat() {
         return lat;
     }

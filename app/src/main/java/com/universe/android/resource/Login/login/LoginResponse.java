@@ -1,5 +1,8 @@
 package com.universe.android.resource.Login.login;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.universe.android.web.BaseResponse;
 
 import java.util.List;
@@ -10,21 +13,20 @@ import java.util.List;
 
 public class LoginResponse extends BaseResponse<LoginResponse> {
 
+    @Override
+    public boolean isValid(String condition, boolean isStrict) {
+        return true;
+    }
 
     /**
      * errorMsg :
      * statusCode : 200
-     * response : {"_id":"5a799e932779e608b435a279","updatedAt":"2018-02-20T08:21:40.360Z","createdAt":"2018-02-06T12:24:51.458Z","designation":"TM","territory":"T1","address":"","loc":[22,77],"lng":"77","lat":"22","isActive":1,"picture":"https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1517996742714.png","designationLevel":"3","phone":9999999999,"password":"12345","email":"gaurav.pandey@quayintech.com","name":"Gaurav singh","__v":15,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YTc5OWU5MzI3NzllNjA4YjQzNWEyNzkiLCJkYXRlIjoxNTE5MTE0OTAwMTMwfQ.9Ntrbd5z8n4obiikI2XiIJR7u9pWaNm-aPQ7pUko3HU","isVerified":1,"location":"Unnamed Road, Chikal Pat, Madhya Pradesh 461228, India","LOB":["test1","test2"]}
+     * response : {"loginDetails":{"detail":{"_id":"5a8eb8b82741361f5827afb5","employee_code":10000297,"employee_name":"Bhajan Lal","mobile":123456789,"email":"BHAJAN.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5MzEyMzI3MTYwfQ.-ZahWLezs1UIM3fi7sruL3_f2sUPnPxg-uJ5UU8LE9I","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"rsm","createdAt":"2018-02-22T14:02:03.809Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:12:07.917Z"},"mapping":[{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo","lat":"28.4975955","lng":"77.082881","loc":[28.4975955,77.082881],"__v":1,"createdAt":"2018-02-22T09:50:59.747Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T13:09:54.414Z","type":"cd"},{"_id":"5a8eb8b82741361f5827afb6","employee_code":10002187,"employee_name":"Abhishek Kumar Rana","mobile":9997919143,"email":"Abhishek.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjYiLCJkYXRlIjoxNTE5MzEyNTM0NzQ4fQ.VKmz1HSiYljqHK6tTqGkUPZA0udf0fWglzU_HMjaovg","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"zsm","createdAt":"2018-02-22T15:13:36.613Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:15:35.037Z"}]},"surveyDetails":[{"pending":0,"details":{"_id":"5a86d4ccb69a800980dadd83","updatedAt":"2018-02-16T12:55:40.132Z","createdAt":"2018-02-16T12:55:40.132Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Retailer\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributer details\",\"_id\":\"5a86ccc423deda0338a9de02\"},{\"categoryName\":\"Owner details\",\"_id\":\"5a86ccd523deda0338a9de03\"},{\"categoryName\":\"distributer email\",\"_id\":\"5a86cd0423deda0338a9de04\"},{\"categoryName\":\"Turn over details\",\"_id\":\"5a86cd1623deda0338a9de05\"},{\"categoryName\":\"Others\",\"_id\":\"5a86cd2523deda0338a9de06\"}],\"categoryId\":\"[\\\"5a86ccc423deda0338a9de02\\\", \\\"5a86ccd523deda0338a9de03\\\", \\\"5a86cd0423deda0338a9de04\\\", \\\"5a86cd1623deda0338a9de05\\\", \\\"5a86cd2523deda0338a9de06\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Distributor","__v":0,"categoryId":["5a86ccc423deda0338a9de02","5a86ccd523deda0338a9de03","5a86cd0423deda0338a9de04","5a86cd1623deda0338a9de05","5a86cd2523deda0338a9de06"]},"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]},{"pending":3,"details":{"_id":"5a86d4a9b69a800980dadd82","updatedAt":"2018-02-16T12:55:05.412Z","createdAt":"2018-02-16T12:55:05.412Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Distributor\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributor Retailer Linkage\",\"_id\":\"5a86cd5923deda0338a9de07\"}],\"categoryId\":\"[\\\"5a86cd5923deda0338a9de07\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Retailer","__v":0,"categoryId":["5a86cd5923deda0338a9de07"]},"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]}]}
      */
 
     private String errorMsg;
     private int statusCode;
     private ResponseBean response;
-
-    @Override
-    public boolean isValid(String condition, boolean isStrict) {
-        return true;
-    }
 
     public String getErrorMsg() {
         return errorMsg;
@@ -50,214 +52,709 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
         this.response = response;
     }
 
-
     public static class ResponseBean {
         /**
-         * _id : 5a799e932779e608b435a279
-         * updatedAt : 2018-02-20T08:21:40.360Z
-         * createdAt : 2018-02-06T12:24:51.458Z
-         * designation : TM
-         * territory : T1
-         * address :
-         * loc : [22,77]
-         * lng : 77
-         * lat : 22
-         * isActive : 1
-         * picture : https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1517996742714.png
-         * designationLevel : 3
-         * phone : 9999999999
-         * password : 12345
-         * email : gaurav.pandey@quayintech.com
-         * name : Gaurav singh
-         * __v : 15
-         * accessToken : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YTc5OWU5MzI3NzllNjA4YjQzNWEyNzkiLCJkYXRlIjoxNTE5MTE0OTAwMTMwfQ.9Ntrbd5z8n4obiikI2XiIJR7u9pWaNm-aPQ7pUko3HU
-         * isVerified : 1
-         * location : Unnamed Road, Chikal Pat, Madhya Pradesh 461228, India
-         * LOB : ["test1","test2"]
+         * loginDetails : {"detail":{"_id":"5a8eb8b82741361f5827afb5","employee_code":10000297,"employee_name":"Bhajan Lal","mobile":123456789,"email":"BHAJAN.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5MzEyMzI3MTYwfQ.-ZahWLezs1UIM3fi7sruL3_f2sUPnPxg-uJ5UU8LE9I","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"rsm","createdAt":"2018-02-22T14:02:03.809Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:12:07.917Z"},"mapping":[{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo","lat":"28.4975955","lng":"77.082881","loc":[28.4975955,77.082881],"__v":1,"createdAt":"2018-02-22T09:50:59.747Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T13:09:54.414Z","type":"cd","employee_code":10002187,"employee_name":"Abhishek Kumar Rana"},{"_id":"5a8eb8b82741361f5827afb6","employee_code":10002187,"employee_name":"Abhishek Kumar Rana","mobile":9997919143,"email":"Abhishek.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjYiLCJkYXRlIjoxNTE5MzEyNTM0NzQ4fQ.VKmz1HSiYljqHK6tTqGkUPZA0udf0fWglzU_HMjaovg","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"zsm","createdAt":"2018-02-22T15:13:36.613Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:15:35.037Z"}]}
+         * surveyDetails : [{"pending":0,"details":{"_id":"5a86d4ccb69a800980dadd83","updatedAt":"2018-02-16T12:55:40.132Z","createdAt":"2018-02-16T12:55:40.132Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Retailer\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributer details\",\"_id\":\"5a86ccc423deda0338a9de02\"},{\"categoryName\":\"Owner details\",\"_id\":\"5a86ccd523deda0338a9de03\"},{\"categoryName\":\"distributer email\",\"_id\":\"5a86cd0423deda0338a9de04\"},{\"categoryName\":\"Turn over details\",\"_id\":\"5a86cd1623deda0338a9de05\"},{\"categoryName\":\"Others\",\"_id\":\"5a86cd2523deda0338a9de06\"}],\"categoryId\":\"[\\\"5a86ccc423deda0338a9de02\\\", \\\"5a86ccd523deda0338a9de03\\\", \\\"5a86cd0423deda0338a9de04\\\", \\\"5a86cd1623deda0338a9de05\\\", \\\"5a86cd2523deda0338a9de06\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Distributor","__v":0,"categoryId":["5a86ccc423deda0338a9de02","5a86ccd523deda0338a9de03","5a86cd0423deda0338a9de04","5a86cd1623deda0338a9de05","5a86cd2523deda0338a9de06"]},"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]},{"pending":3,"details":{"_id":"5a86d4a9b69a800980dadd82","updatedAt":"2018-02-16T12:55:05.412Z","createdAt":"2018-02-16T12:55:05.412Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Distributor\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributor Retailer Linkage\",\"_id\":\"5a86cd5923deda0338a9de07\"}],\"categoryId\":\"[\\\"5a86cd5923deda0338a9de07\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Retailer","__v":0,"categoryId":["5a86cd5923deda0338a9de07"]},"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]}]
          */
 
-        private String _id;
-        private String updatedAt;
-        private String createdAt;
-        private String designation;
-        private String territory;
-        private String address;
-        private String lng;
-        private String lat;
-        private int isActive;
-        private String picture;
-        private String designationLevel;
-        private long phone;
-        private String password;
-        private String email;
-        private String name;
-        private int __v;
-        private String accessToken;
-        private int isVerified;
-        private String location;
+        private LoginDetailsBean loginDetails;
+        private List<SurveyDetailsBean> surveyDetails;
 
-        private List<String> LOB;
-
-        public String get_id() {
-            return _id;
+        public LoginDetailsBean getLoginDetails() {
+            return loginDetails;
         }
 
-        public void set_id(String _id) {
-            this._id = _id;
+        public void setLoginDetails(LoginDetailsBean loginDetails) {
+            this.loginDetails = loginDetails;
         }
 
-        public String getUpdatedAt() {
-            return updatedAt;
+        public List<SurveyDetailsBean> getSurveyDetails() {
+            return surveyDetails;
         }
 
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
+        public void setSurveyDetails(List<SurveyDetailsBean> surveyDetails) {
+            this.surveyDetails = surveyDetails;
         }
 
-        public String getCreatedAt() {
-            return createdAt;
+        public static class LoginDetailsBean {
+            /**
+             * detail : {"_id":"5a8eb8b82741361f5827afb5","employee_code":10000297,"employee_name":"Bhajan Lal","mobile":123456789,"email":"BHAJAN.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5MzEyMzI3MTYwfQ.-ZahWLezs1UIM3fi7sruL3_f2sUPnPxg-uJ5UU8LE9I","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"rsm","createdAt":"2018-02-22T14:02:03.809Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:12:07.917Z"}
+             * mapping : [{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo","lat":"28.4975955","lng":"77.082881","loc":[28.4975955,77.082881],"__v":1,"createdAt":"2018-02-22T09:50:59.747Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T13:09:54.414Z","type":"cd"},{"_id":"5a8eb8b82741361f5827afb6","employee_code":10002187,"employee_name":"Abhishek Kumar Rana","mobile":9997919143,"email":"Abhishek.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjYiLCJkYXRlIjoxNTE5MzEyNTM0NzQ4fQ.VKmz1HSiYljqHK6tTqGkUPZA0udf0fWglzU_HMjaovg","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"zsm","createdAt":"2018-02-22T15:13:36.613Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:15:35.037Z"}]
+             */
+
+            private DetailBean detail;
+            private List<MappingBean> mapping;
+
+            public DetailBean getDetail() {
+                return detail;
+            }
+
+            public void setDetail(DetailBean detail) {
+                this.detail = detail;
+            }
+
+            public List<MappingBean> getMapping() {
+                return mapping;
+            }
+
+            public void setMapping(List<MappingBean> mapping) {
+                this.mapping = mapping;
+            }
+
+            public static class DetailBean {
+                /**
+                 * _id : 5a8eb8b82741361f5827afb5
+                 * employee_code : 10000297
+                 * employee_name : Bhajan Lal
+                 * mobile : 123456789
+                 * email : BHAJAN.LAL@CRYSTALCROP.COM
+                 * isActive : 1
+                 * accessToken : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5MzEyMzI3MTYwfQ.-ZahWLezs1UIM3fi7sruL3_f2sUPnPxg-uJ5UU8LE9I
+                 * lat : 28.4975955
+                 * lng : 77.082881
+                 * password : pass
+                 * loc : [28.4975955,77.082881]
+                 * cd_code : 0
+                 * type : rsm
+                 * createdAt : 2018-02-22T14:02:03.809Z
+                 * location : 582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India
+                 * updatedAt : 2018-02-22T15:12:07.917Z
+                 */
+
+                private String _id;
+                private int employee_code;
+                private String employee_name;
+                private int mobile;
+                private String email;
+                private int isActive;
+                private String accessToken;
+                private String lat;
+                private String lng;
+                private String password;
+                private int cd_code;
+                private String type;
+                private String createdAt;
+                private String location;
+                private String updatedAt;
+                private List<Double> loc;
+
+                public String get_id() {
+                    return _id;
+                }
+
+                public void set_id(String _id) {
+                    this._id = _id;
+                }
+
+                public int getEmployee_code() {
+                    return employee_code;
+                }
+
+                public void setEmployee_code(int employee_code) {
+                    this.employee_code = employee_code;
+                }
+
+                public String getEmployee_name() {
+                    return employee_name;
+                }
+
+                public void setEmployee_name(String employee_name) {
+                    this.employee_name = employee_name;
+                }
+
+                public int getMobile() {
+                    return mobile;
+                }
+
+                public void setMobile(int mobile) {
+                    this.mobile = mobile;
+                }
+
+                public String getEmail() {
+                    return email;
+                }
+
+                public void setEmail(String email) {
+                    this.email = email;
+                }
+
+                public int getIsActive() {
+                    return isActive;
+                }
+
+                public void setIsActive(int isActive) {
+                    this.isActive = isActive;
+                }
+
+                public String getAccessToken() {
+                    return accessToken;
+                }
+
+                public void setAccessToken(String accessToken) {
+                    this.accessToken = accessToken;
+                }
+
+                public String getLat() {
+                    return lat;
+                }
+
+                public void setLat(String lat) {
+                    this.lat = lat;
+                }
+
+                public String getLng() {
+                    return lng;
+                }
+
+                public void setLng(String lng) {
+                    this.lng = lng;
+                }
+
+                public String getPassword() {
+                    return password;
+                }
+
+                public void setPassword(String password) {
+                    this.password = password;
+                }
+
+                public int getCd_code() {
+                    return cd_code;
+                }
+
+                public void setCd_code(int cd_code) {
+                    this.cd_code = cd_code;
+                }
+
+                public String getType() {
+                    return type;
+                }
+
+                public void setType(String type) {
+                    this.type = type;
+                }
+
+                public String getCreatedAt() {
+                    return createdAt;
+                }
+
+                public void setCreatedAt(String createdAt) {
+                    this.createdAt = createdAt;
+                }
+
+                public String getLocation() {
+                    return location;
+                }
+
+                public void setLocation(String location) {
+                    this.location = location;
+                }
+
+                public String getUpdatedAt() {
+                    return updatedAt;
+                }
+
+                public void setUpdatedAt(String updatedAt) {
+                    this.updatedAt = updatedAt;
+                }
+
+                public List<Double> getLoc() {
+                    return loc;
+                }
+
+                public void setLoc(List<Double> loc) {
+                    this.loc = loc;
+                }
+            }
+
+            public static class MappingBean {
+                /**
+                 * _id : 5a8e81022741361f5827ae85
+                 * cd_code : 1000
+                 * name : Parth Rawal
+                 * email : parth@e2eprojects.com
+                 * password : pass
+                 * mkt_territory_code : 9501
+                 * mobile : NULL
+                 * dob : NULL
+                 * doj : NULL
+                 * isActive : 1
+                 * accessToken : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo
+                 * lat : 28.4975955
+                 * lng : 77.082881
+                 * loc : [28.4975955,77.082881]
+                 * __v : 1
+                 * createdAt : 2018-02-22T09:50:59.747Z
+                 * location : 582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India
+                 * updatedAt : 2018-02-22T13:09:54.414Z
+                 * type : cd
+                 * employee_code : 10002187
+                 * employee_name : Abhishek Kumar Rana
+                 */
+
+                private String _id;
+                private int cd_code;
+                private String name;
+                private String email;
+                private String password;
+                private int mkt_territory_code;
+                private String mobile;
+                private String dob;
+                private String doj;
+                private int isActive;
+                private String accessToken;
+                private String lat;
+                private String lng;
+                private int __v;
+                private String createdAt;
+                private String location;
+                private String updatedAt;
+                private String type;
+                private int employee_code;
+                private String employee_name;
+                private List<Double> loc;
+
+                public String get_id() {
+                    return _id;
+                }
+
+                public void set_id(String _id) {
+                    this._id = _id;
+                }
+
+                public int getCd_code() {
+                    return cd_code;
+                }
+
+                public void setCd_code(int cd_code) {
+                    this.cd_code = cd_code;
+                }
+
+                public String getName() {
+                    return name;
+                }
+
+                public void setName(String name) {
+                    this.name = name;
+                }
+
+                public String getEmail() {
+                    return email;
+                }
+
+                public void setEmail(String email) {
+                    this.email = email;
+                }
+
+                public String getPassword() {
+                    return password;
+                }
+
+                public void setPassword(String password) {
+                    this.password = password;
+                }
+
+                public int getMkt_territory_code() {
+                    return mkt_territory_code;
+                }
+
+                public void setMkt_territory_code(int mkt_territory_code) {
+                    this.mkt_territory_code = mkt_territory_code;
+                }
+
+                public String getMobile() {
+                    return mobile;
+                }
+
+                public void setMobile(String mobile) {
+                    this.mobile = mobile;
+                }
+
+                public String getDob() {
+                    return dob;
+                }
+
+                public void setDob(String dob) {
+                    this.dob = dob;
+                }
+
+                public String getDoj() {
+                    return doj;
+                }
+
+                public void setDoj(String doj) {
+                    this.doj = doj;
+                }
+
+                public int getIsActive() {
+                    return isActive;
+                }
+
+                public void setIsActive(int isActive) {
+                    this.isActive = isActive;
+                }
+
+                public String getAccessToken() {
+                    return accessToken;
+                }
+
+                public void setAccessToken(String accessToken) {
+                    this.accessToken = accessToken;
+                }
+
+                public String getLat() {
+                    return lat;
+                }
+
+                public void setLat(String lat) {
+                    this.lat = lat;
+                }
+
+                public String getLng() {
+                    return lng;
+                }
+
+                public void setLng(String lng) {
+                    this.lng = lng;
+                }
+
+                public int get__v() {
+                    return __v;
+                }
+
+                public void set__v(int __v) {
+                    this.__v = __v;
+                }
+
+                public String getCreatedAt() {
+                    return createdAt;
+                }
+
+                public void setCreatedAt(String createdAt) {
+                    this.createdAt = createdAt;
+                }
+
+                public String getLocation() {
+                    return location;
+                }
+
+                public void setLocation(String location) {
+                    this.location = location;
+                }
+
+                public String getUpdatedAt() {
+                    return updatedAt;
+                }
+
+                public void setUpdatedAt(String updatedAt) {
+                    this.updatedAt = updatedAt;
+                }
+
+                public String getType() {
+                    return type;
+                }
+
+                public void setType(String type) {
+                    this.type = type;
+                }
+
+                public int getEmployee_code() {
+                    return employee_code;
+                }
+
+                public void setEmployee_code(int employee_code) {
+                    this.employee_code = employee_code;
+                }
+
+                public String getEmployee_name() {
+                    return employee_name;
+                }
+
+                public void setEmployee_name(String employee_name) {
+                    this.employee_name = employee_name;
+                }
+
+                public List<Double> getLoc() {
+                    return loc;
+                }
+
+                public void setLoc(List<Double> loc) {
+                    this.loc = loc;
+                }
+            }
         }
 
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
+        public static class SurveyDetailsBean implements Parcelable {
+            /**
+             * pending : 0
+             * details : {"_id":"5a86d4ccb69a800980dadd83","updatedAt":"2018-02-16T12:55:40.132Z","createdAt":"2018-02-16T12:55:40.132Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Retailer\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributer details\",\"_id\":\"5a86ccc423deda0338a9de02\"},{\"categoryName\":\"Owner details\",\"_id\":\"5a86ccd523deda0338a9de03\"},{\"categoryName\":\"distributer email\",\"_id\":\"5a86cd0423deda0338a9de04\"},{\"categoryName\":\"Turn over details\",\"_id\":\"5a86cd1623deda0338a9de05\"},{\"categoryName\":\"Others\",\"_id\":\"5a86cd2523deda0338a9de06\"}],\"categoryId\":\"[\\\"5a86ccc423deda0338a9de02\\\", \\\"5a86ccd523deda0338a9de03\\\", \\\"5a86cd0423deda0338a9de04\\\", \\\"5a86cd1623deda0338a9de05\\\", \\\"5a86cd2523deda0338a9de06\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Distributor","__v":0,"categoryId":["5a86ccc423deda0338a9de02","5a86ccd523deda0338a9de03","5a86cd0423deda0338a9de04","5a86cd1623deda0338a9de05","5a86cd2523deda0338a9de06"]}
+             * submitted : 0
+             * inprogress : 0
+             * CrystalCustomer : 0
+             * newRetailer : 0
+             * doctorAssign : [{"_id":"","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]
+             */
 
-        public String getDesignation() {
-            return designation;
-        }
+            private int pending;
+            private DetailsBean details;
+            private int submitted;
+            private int inprogress;
+            private int CrystalCustomer;
+            private int newRetailer;
+            private List<DoctorAssignBean> doctorAssign;
 
-        public void setDesignation(String designation) {
-            this.designation = designation;
-        }
+            protected SurveyDetailsBean(Parcel in) {
+                pending = in.readInt();
+                submitted = in.readInt();
+                inprogress = in.readInt();
+                CrystalCustomer = in.readInt();
+                newRetailer = in.readInt();
+            }
 
-        public String getTerritory() {
-            return territory;
-        }
+            public static final Creator<SurveyDetailsBean> CREATOR = new Creator<SurveyDetailsBean>() {
+                @Override
+                public SurveyDetailsBean createFromParcel(Parcel in) {
+                    return new SurveyDetailsBean(in);
+                }
 
-        public void setTerritory(String territory) {
-            this.territory = territory;
-        }
+                @Override
+                public SurveyDetailsBean[] newArray(int size) {
+                    return new SurveyDetailsBean[size];
+                }
+            };
 
-        public String getAddress() {
-            return address;
-        }
+            public int getPending() {
+                return pending;
+            }
 
-        public void setAddress(String address) {
-            this.address = address;
-        }
+            public void setPending(int pending) {
+                this.pending = pending;
+            }
 
-        public String getLng() {
-            return lng;
-        }
+            public DetailsBean getDetails() {
+                return details;
+            }
 
-        public void setLng(String lng) {
-            this.lng = lng;
-        }
+            public void setDetails(DetailsBean details) {
+                this.details = details;
+            }
 
-        public String getLat() {
-            return lat;
-        }
+            public int getSubmitted() {
+                return submitted;
+            }
 
-        public void setLat(String lat) {
-            this.lat = lat;
-        }
+            public void setSubmitted(int submitted) {
+                this.submitted = submitted;
+            }
 
-        public int getIsActive() {
-            return isActive;
-        }
+            public int getInprogress() {
+                return inprogress;
+            }
 
-        public void setIsActive(int isActive) {
-            this.isActive = isActive;
-        }
+            public void setInprogress(int inprogress) {
+                this.inprogress = inprogress;
+            }
 
-        public String getPicture() {
-            return picture;
-        }
+            public int getCrystalCustomer() {
+                return CrystalCustomer;
+            }
 
-        public void setPicture(String picture) {
-            this.picture = picture;
-        }
+            public void setCrystalCustomer(int CrystalCustomer) {
+                this.CrystalCustomer = CrystalCustomer;
+            }
 
-        public String getDesignationLevel() {
-            return designationLevel;
-        }
+            public int getNewRetailer() {
+                return newRetailer;
+            }
 
-        public void setDesignationLevel(String designationLevel) {
-            this.designationLevel = designationLevel;
-        }
+            public void setNewRetailer(int newRetailer) {
+                this.newRetailer = newRetailer;
+            }
 
-        public long getPhone() {
-            return phone;
-        }
+            public List<DoctorAssignBean> getDoctorAssign() {
+                return doctorAssign;
+            }
 
-        public void setPhone(long phone) {
-            this.phone = phone;
-        }
+            public void setDoctorAssign(List<DoctorAssignBean> doctorAssign) {
+                this.doctorAssign = doctorAssign;
+            }
 
-        public String getPassword() {
-            return password;
-        }
+            @Override
+            public int describeContents() {
+                return 0;
+            }
 
-        public void setPassword(String password) {
-            this.password = password;
-        }
+            @Override
+            public void writeToParcel(Parcel parcel, int i) {
+                parcel.writeInt(pending);
+                parcel.writeInt(submitted);
+                parcel.writeInt(inprogress);
+                parcel.writeInt(CrystalCustomer);
+                parcel.writeInt(newRetailer);
+            }
 
-        public String getEmail() {
-            return email;
-        }
+            public static class DetailsBean {
+                /**
+                 * _id : 5a86d4ccb69a800980dadd83
+                 * updatedAt : 2018-02-16T12:55:40.132Z
+                 * createdAt : 2018-02-16T12:55:40.132Z
+                 * responses : {"expiryDate":"16 Feb 2018","title":"Retailer","status":10,"isActive":1,"description":"","category":[{"categoryName":"Distributer details","_id":"5a86ccc423deda0338a9de02"},{"categoryName":"Owner details","_id":"5a86ccd523deda0338a9de03"},{"categoryName":"distributer email","_id":"5a86cd0423deda0338a9de04"},{"categoryName":"Turn over details","_id":"5a86cd1623deda0338a9de05"},{"categoryName":"Others","_id":"5a86cd2523deda0338a9de06"}],"categoryId":"[\"5a86ccc423deda0338a9de02\", \"5a86ccd523deda0338a9de03\", \"5a86cd0423deda0338a9de04\", \"5a86cd1623deda0338a9de05\", \"5a86cd2523deda0338a9de06\"]"}
+                 * isActive : 1
+                 * expiryDate : 2018-02-16T00:00:00.000Z
+                 * createdBy : 5a799e932779e608b435a279
+                 * description :
+                 * title : Distributor
+                 * __v : 0
+                 * categoryId : ["5a86ccc423deda0338a9de02","5a86ccd523deda0338a9de03","5a86cd0423deda0338a9de04","5a86cd1623deda0338a9de05","5a86cd2523deda0338a9de06"]
+                 */
 
-        public void setEmail(String email) {
-            this.email = email;
-        }
+                private String _id;
+                private String updatedAt;
+                private String createdAt;
+                private String responses;
+                private int isActive;
+                private String expiryDate;
+                private String createdBy;
+                private String description;
+                private String title;
+                private int __v;
+                private List<String> categoryId;
 
-        public String getName() {
-            return name;
-        }
+                public String get_id() {
+                    return _id;
+                }
 
-        public void setName(String name) {
-            this.name = name;
-        }
+                public void set_id(String _id) {
+                    this._id = _id;
+                }
 
-        public int get__v() {
-            return __v;
-        }
+                public String getUpdatedAt() {
+                    return updatedAt;
+                }
 
-        public void set__v(int __v) {
-            this.__v = __v;
-        }
+                public void setUpdatedAt(String updatedAt) {
+                    this.updatedAt = updatedAt;
+                }
 
-        public String getAccessToken() {
-            return accessToken;
-        }
+                public String getCreatedAt() {
+                    return createdAt;
+                }
 
-        public void setAccessToken(String accessToken) {
-            this.accessToken = accessToken;
-        }
+                public void setCreatedAt(String createdAt) {
+                    this.createdAt = createdAt;
+                }
 
-        public int getIsVerified() {
-            return isVerified;
-        }
+                public String getResponses() {
+                    return responses;
+                }
 
-        public void setIsVerified(int isVerified) {
-            this.isVerified = isVerified;
-        }
+                public void setResponses(String responses) {
+                    this.responses = responses;
+                }
 
-        public String getLocation() {
-            return location;
-        }
+                public int getIsActive() {
+                    return isActive;
+                }
 
-        public void setLocation(String location) {
-            this.location = location;
-        }
+                public void setIsActive(int isActive) {
+                    this.isActive = isActive;
+                }
 
+                public String getExpiryDate() {
+                    return expiryDate;
+                }
 
+                public void setExpiryDate(String expiryDate) {
+                    this.expiryDate = expiryDate;
+                }
 
-        public List<String> getLOB() {
-            return LOB;
-        }
+                public String getCreatedBy() {
+                    return createdBy;
+                }
 
-        public void setLOB(List<String> LOB) {
-            this.LOB = LOB;
+                public void setCreatedBy(String createdBy) {
+                    this.createdBy = createdBy;
+                }
+
+                public String getDescription() {
+                    return description;
+                }
+
+                public void setDescription(String description) {
+                    this.description = description;
+                }
+
+                public String getTitle() {
+                    return title;
+                }
+
+                public void setTitle(String title) {
+                    this.title = title;
+                }
+
+                public int get__v() {
+                    return __v;
+                }
+
+                public void set__v(int __v) {
+                    this.__v = __v;
+                }
+
+                public List<String> getCategoryId() {
+                    return categoryId;
+                }
+
+                public void setCategoryId(List<String> categoryId) {
+                    this.categoryId = categoryId;
+                }
+            }
+
+            public static class DoctorAssignBean {
+                /**
+                 * _id :
+                 * crystalDoctorName : Parth Rawal
+                 * total : 10
+                 * completed : 2
+                 */
+
+                private String _id;
+                private String crystalDoctorName;
+                private int total;
+                private int completed;
+
+                public String get_id() {
+                    return _id;
+                }
+
+                public void set_id(String _id) {
+                    this._id = _id;
+                }
+
+                public String getCrystalDoctorName() {
+                    return crystalDoctorName;
+                }
+
+                public void setCrystalDoctorName(String crystalDoctorName) {
+                    this.crystalDoctorName = crystalDoctorName;
+                }
+
+                public int getTotal() {
+                    return total;
+                }
+
+                public void setTotal(int total) {
+                    this.total = total;
+                }
+
+                public int getCompleted() {
+                    return completed;
+                }
+
+                public void setCompleted(int completed) {
+                    this.completed = completed;
+                }
+            }
         }
     }
 }

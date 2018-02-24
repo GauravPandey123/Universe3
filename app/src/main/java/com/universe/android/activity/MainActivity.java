@@ -88,8 +88,6 @@ public class MainActivity extends BaseActivity {
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(R.string.questionairemenu);
                         replaceFragment(new SurveySelectionFragment().newInstance(getResources().getString(R.string.questionairemenu)), mContainerId);
-
-                        //  replaceFragment(new QuestionarieSelectionFragment(), mContainerId);
                         break;
 
                     case 6:
