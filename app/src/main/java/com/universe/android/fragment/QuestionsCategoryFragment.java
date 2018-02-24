@@ -176,8 +176,12 @@ public class QuestionsCategoryFragment extends BaseFragment {
             public void onClick(View v) {
 
                 jsonSubmitReq = prepareJsonRequest(questionsMap);
-
-                saveNCDResponseLocal(updateId,false);
+                if (Utility.isConnected()) {
+                    submitAnswers(updateId, false);
+                } else {
+                    saveNCDResponseLocal(updateId, false);
+                }
+               // saveNCDResponseLocal(updateId,false);
            /* String updateId = "";
             if (view.getTag() != null) {
                 if (view.getTag() instanceof String) {
@@ -192,9 +196,13 @@ public class QuestionsCategoryFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 jsonSubmitReq = prepareJsonRequest(questionsMap);
+                if (Utility.isConnected()) {
+                    submitAnswers(updateId, false);
+                } else {
+                    saveNCDResponseLocal(updateId, false);
+                }
 
-
-                saveNCDResponseLocal("",false);
+            //    saveNCDResponseLocal("",false);
            /* String updateId = "";
             if (view.getTag() != null) {
                 if (view.getTag() instanceof String) {
@@ -228,12 +236,15 @@ public class QuestionsCategoryFragment extends BaseFragment {
                     JSONArray array=new JSONArray(realmAnswers.getAnswers());
                     JSONArray workFlow=new JSONArray(realmAnswers.getWorkflow());
                     updateId=realmAnswers.get_id();
-                    jsonArrayAnswers=array;
-                    jsonArrayWorkFLow=workFlow;
-                    if (array.length()>0){
-                        for (int i=0;i<array.length();i++){
+                    String json=array.get(0).toString();
+                    JSONArray array1=new JSONArray(json);
+                    JSONArray arraywork=new JSONArray(workFlow.get(0).toString());
+                    jsonArrayAnswers=array1;
+                    jsonArrayWorkFLow=arraywork;
+                    if (array1.length()>0){
+                        for (int i=0;i<array1.length();i++){
 
-                            JSONObject jsonObject=array.getJSONObject(i);
+                            JSONObject jsonObject=array1.getJSONObject(i);
                             String categoryId=jsonObject.optString(AppConstants.CATEGORYID);
                             String isView=jsonObject.optString(AppConstants.ISVIEW);
                             JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
@@ -1392,7 +1403,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
                 if (!Utility.validateString(updateId)){
                     JSONObject jsonObject=new JSONObject();
                     jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
-                    jsonObject.put(AppConstants.DATE, "23/02/2018");
+                    jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
                     jsonObject.put(AppConstants.STATUS,"Initiated");
                     jsonArrayWorkFLow.put(jsonObject);
                 }
@@ -1404,11 +1415,15 @@ public class QuestionsCategoryFragment extends BaseFragment {
                 updatePosition.put(AppConstants.QUESTIONS,jsonArrayQuestions);
                 jsonArrayAnswers.put(position,updatePosition);
 
-                jsonSubmitReq.put(AppConstants.ANSWERS, jsonArrayAnswers.toString());
+                jsonSubmitReq.put(AppConstants.ANSWERS, jsonArrayAnswers);
                // jsonSubmitReq.put(AppConstants.RESPONSES, jsonSubmitReq);
-                jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
-                jsonSubmitReq.put(AppConstants.SUBMITBY_RM, "");
-                jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, "");
+                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                if (designation.equalsIgnoreCase("cd"))
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
+                if (designation.equalsIgnoreCase("rm"))
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
+                if (designation.equalsIgnoreCase("zm"))
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
                 jsonSubmitReq.put(AppConstants.CD_STATUS, "5");
                 jsonSubmitReq.put(AppConstants.RM_STATUS, "4");
                 jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
@@ -1416,7 +1431,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
                 jsonSubmitReq.put(AppConstants.WORKFLOW, jsonArrayWorkFLow);
-               // jsonSubmitReq.put(AppConstants.DATE, new Date());
+               jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());
 
                 if (Utility.validateString(formAnsId)) {
                     //  jsonSubmitReq.put(AppConstants.UPDATEDAT, Utility.get);

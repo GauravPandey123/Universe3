@@ -47,7 +47,7 @@
 
 
                     <TextView
-                        android:id="@+id/textViewPending"
+                        android:id="@+id/textViewCD"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -82,7 +82,7 @@
 
 
                     <TextView
-                        android:id="@+id/textViewApproved"
+                        android:id="@+id/textViewRM"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -116,7 +116,7 @@
 
                     </RelativeLayout>
                     <TextView
-                        android:id="@+id/textViewCompleted"
+                        android:id="@+id/textViewZM"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"

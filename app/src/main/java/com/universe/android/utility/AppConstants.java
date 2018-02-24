@@ -120,5 +120,10 @@ public class AppConstants {
     public static final String LAT = "lat";
     public static final String LNG = "lng";
     public static final String DETAIL ="detail" ;
+    public static final String UPDATEID = "updateId";
+    public static final String MAPPING ="mapping" ;
+    public static final String DETAILS = "details";
+    public static final java.lang.String EMPLOYEE_NAME = "employee_name";
+    public static final String ME ="Me" ;
 }
 

@@ -197,9 +197,9 @@ public class RealmController {
                 } else {
                     jsonResponse.put(AppConstants.ISSYNC, true);
                 }
-                if (formId.equalsIgnoreCase(FormEnum.survey.toString())) {
+
                     realm.createOrUpdateObjectFromJson(RealmAnswers.class, jsonResponse);
-                }
+
             }
         } catch (Exception e) {
             realm.cancelTransaction();
@@ -211,6 +211,8 @@ public class RealmController {
         }
     }
     public void saveUserDetail(String responseData) {
+
+
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         try {
@@ -242,6 +244,23 @@ public class RealmController {
             }
 
     }
+    public void saveAnswers(String responseData) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        try {
+            realm.createOrUpdateAllFromJson(RealmAnswers.class, new JSONArray(responseData));
+        } catch (Exception e) {
+            if (realm.isInTransaction())
+                realm.cancelTransaction();
+            e.printStackTrace();
+        } finally {
+            if (realm.isInTransaction())
+                realm.commitTransaction();
+            realm.close();
+        }
+
+    }
+
     public void saveSurveyQuestions(String responseData) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();

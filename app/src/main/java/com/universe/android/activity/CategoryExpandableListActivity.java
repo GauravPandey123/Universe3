@@ -102,12 +102,13 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
         Utility.animateView(v);
                 jsonSubmitReq = prepareJsonRequest("Reject");
 
+
                 if (Utility.isConnected()){
-
+                    submitAnswers(updateId,true);
                 }else {
-
-                }
                     saveNCDResponseLocal(updateId,false);
+                }
+
            /* String updateId = "";
             if (view.getTag() != null) {
                 if (view.getTag() instanceof String) {
@@ -124,12 +125,12 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                 Utility.animateView(v);
                 jsonSubmitReq = prepareJsonRequest("Approve");
                 if (Utility.isConnected()){
-
+                    submitAnswers(updateId,true);
                 }else {
-
+                    saveNCDResponseLocal(updateId,false);
                 }
 
-                    saveNCDResponseLocal(updateId,false);
+
            /* String updateId = "";
             if (view.getTag() != null) {
                 if (view.getTag() instanceof String) {
@@ -154,36 +155,64 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
             if (realmCategoryAnswers!=null && realmCategoryAnswers.size()>0) {
                 updateId = realmCategoryAnswers.get(0).get_id();
                 array = new JSONArray(realmCategoryAnswers.get(0).getWorkflow());
-                jsonSubmitReq.put(AppConstants.ANSWERS, realmCategoryAnswers.get(0).getAnswers());
+                jsonSubmitReq.put(AppConstants.ANSWERS, new JSONArray(realmCategoryAnswers.get(0).getAnswers()));
+                if (Utility.validateString(updateId))
                 jsonSubmitReq.put(AppConstants.ID, realmCategoryAnswers.get(0).get_id());
+                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                if (designation.equalsIgnoreCase("cd"))
                 jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
-                jsonSubmitReq.put(AppConstants.SUBMITBY_RM, "");
-                jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, "");
+                if (designation.equalsIgnoreCase("rm"))
+                jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
+                if (designation.equalsIgnoreCase("zm"))
+                jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
 
                 if (title.contains(AppConstants.WORKFLOWS)) {
-                    if (type.equalsIgnoreCase("Approve")) {
-                        jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
-                        jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
-                        jsonSubmitReq.put(AppConstants.ZM_STATUS, "0");
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
-                        jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.name));
-                        jsonObject.put(AppConstants.STATUS, "Approved");
-                        array.put(jsonObject);
-                    } else {
-                        jsonSubmitReq.put(AppConstants.CD_STATUS, "3");
-                        jsonSubmitReq.put(AppConstants.RM_STATUS, "3");
-                        jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
-                        jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.name));
-                        jsonObject.put(AppConstants.STATUS, "Rejected");
-                        array.put(jsonObject);
+
+                    if (designation.equalsIgnoreCase("rm")) {
+                        if (type.equalsIgnoreCase("Approve")) {
+                            jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
+                            jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
+                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "0");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.STATUS, "Approved");
+                            array.put(jsonObject);
+                        } else {
+                            jsonSubmitReq.put(AppConstants.CD_STATUS, "3");
+                            jsonSubmitReq.put(AppConstants.RM_STATUS, "3");
+                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.STATUS, "Rejected");
+                            array.put(jsonObject);
+                        }
+                    }else{
+                        if (type.equalsIgnoreCase("Approve")) {
+                            jsonSubmitReq.put(AppConstants.CD_STATUS, "2");
+                            jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
+                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "2");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.STATUS, "Approved");
+                            array.put(jsonObject);
+                        } else {
+                            jsonSubmitReq.put(AppConstants.CD_STATUS, "3");
+                            jsonSubmitReq.put(AppConstants.RM_STATUS, "3");
+                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.STATUS, "Rejected");
+                            array.put(jsonObject);
+                        }
                     }
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
-                    jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.name));
+                    jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
                     jsonObject.put(AppConstants.STATUS, "Submitted");
                     array.put(jsonObject);
                     jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
@@ -407,11 +436,13 @@ try{
 
                 if (realmAnswers!=null){
                    JSONArray array=new JSONArray(realmAnswers.getAnswers());
+                   // JSONArray array1=new JSONArray(array.toString());
+                    String json=array.get(0).toString();
+                    JSONArray array1=new JSONArray(json);
+                   if (array1.length()>0){
+                       for (int i=0;i<array1.length();i++){
 
-                   if (array.length()>0){
-                       for (int i=0;i<array.length();i++){
-
-                           JSONObject jsonObject=array.getJSONObject(i);
+                           JSONObject jsonObject=array1.getJSONObject(i);
                            String categoryId=jsonObject.optString(AppConstants.CATEGORYID);
                            String isView=jsonObject.optString(AppConstants.ISVIEW);
                            JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
@@ -640,9 +671,14 @@ try{
 
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
-        String url = UniverseAPI.WEB_SERVICE_CREATE_APPROVE_METHOD;
-        if (Utility.validateString(isUpdateId)) {
-            url = UniverseAPI.WEB_SERVICE_CREATE_UPDATE_APPROVE_METHOD;
+        String url="";
+        if (btnReject.getText().toString().equalsIgnoreCase("Reject")) {
+             url = UniverseAPI.WEB_SERVICE_CREATE_APPROVE_METHOD;
+            if (Utility.validateString(isUpdateId)) {
+                url = UniverseAPI.WEB_SERVICE_CREATE_UPDATE_APPROVE_METHOD;
+            }
+        }else {
+            url = UniverseAPI.WEB_SERVICE_CREATE_UPDATE_METHOD;
         }
 
 

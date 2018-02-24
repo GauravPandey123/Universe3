@@ -2,10 +2,11 @@ package com.universe.android.realmbean;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Index;
+import io.realm.annotations.PrimaryKey;
 
 
 public class RealmUser extends RealmObject {
-
+    @PrimaryKey
     private String _id;
     private String cd_code;
     private String name;

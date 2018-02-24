@@ -106,8 +106,10 @@ public class SurveySelectionFragment extends BaseFragment {
                     int total=5;
                     RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
                    for (int k=0;k<realmAnswers.size();k++){
-                       if (realmAnswers.get(k).getCd_Status().equalsIgnoreCase("1")){
-                           total=total-1;
+                       if (realmAnswers.get(k).getCd_Status()!=null) {
+                           if (realmAnswers.get(k).getCd_Status().equalsIgnoreCase("1")) {
+                               total = total - 1;
+                           }
                        }
                    }
 

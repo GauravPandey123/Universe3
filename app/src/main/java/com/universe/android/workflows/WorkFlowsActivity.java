@@ -25,9 +25,11 @@ import com.universe.android.model.AnswersModal;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -54,6 +56,7 @@ public class WorkFlowsActivity extends BaseActivity {
     private LinearLayout llPending,ll_inprogress,ll_completed,ll_rejected;
     private TextView tvPending,tvInprogress,tvCompleted,tvRejected;
     private ImageView imgCD,imgRM,imgZM;
+    private TextView textViewCd,textViewRM,textViewZM;
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -76,7 +79,51 @@ public class WorkFlowsActivity extends BaseActivity {
     }
 
     private void setCount() {
+        String userId=Prefs.getStringPrefs(AppConstants.UserId);
+        String mapping= Prefs.getStringPrefs(AppConstants.MAPPING);
+        try {
+            JSONArray array=new JSONArray(mapping);
 
+            for (int i=0;i<array.length();i++){
+                JSONObject jsonObject=array.getJSONObject(i);
+                JSONObject jsonObject1=jsonObject.getJSONObject(AppConstants.DETAILS);
+
+                String id=jsonObject1.optString(AppConstants.ID);
+                String name=jsonObject1.optString(AppConstants.EMPLOYEE_NAME);
+                if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("rm")){
+
+
+                    if (userId.equalsIgnoreCase(id)){
+                        textViewRM.setText(AppConstants.ME);
+                    }else {
+                        if (Utility.validateString(name))
+                        textViewRM.setText(name.substring(0));
+                    }
+
+
+
+                }
+                if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("zm")){
+
+
+                    if (userId.equalsIgnoreCase(id)){
+                        textViewZM.setText(AppConstants.ME);
+                    }else {
+                        if (Utility.validateString(name))
+                            textViewZM.setText(name.substring(0));
+                    }
+
+
+
+                }
+
+            }
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Realm realm = Realm.getDefaultInstance();
 
         try {
@@ -145,8 +192,9 @@ public class WorkFlowsActivity extends BaseActivity {
 
             if (realmAnswers != null) {
                 JSONArray array=new JSONArray(realmAnswers.getWorkflow());
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject jsonObject=array.getJSONObject(i);
+                JSONArray array1=new JSONArray(array.get(0).toString());
+                for (int i = 0; i < array1.length(); i++) {
+                    JSONObject jsonObject=array1.getJSONObject(i);
                     AnswersModal modal = new AnswersModal();
                     modal.setTitle(jsonObject.optString(AppConstants.USERNAME));
                     modal.setStatus(jsonObject.optString(AppConstants.STATUS));
@@ -213,9 +261,9 @@ public class WorkFlowsActivity extends BaseActivity {
         imgRM = (ImageView) findViewById(R.id.imgRM);
         imgZM = (ImageView) findViewById(R.id.imgZM);
 
-        tvPending = (TextView) findViewById(R.id.tvPending);
-        tvInprogress = (TextView) findViewById(R.id.tvInprogress);
-        tvCompleted = (TextView) findViewById(R.id.tvCompleted);
+        textViewCd = (TextView) findViewById(R.id.textViewCD);
+        textViewRM = (TextView) findViewById(R.id.textViewRM);
+        textViewZM = (TextView) findViewById(R.id.textViewZM);
 
 
         TextView textViewStatus=(TextView)findViewById(R.id.textViewStatus);
