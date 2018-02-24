@@ -77,8 +77,8 @@ public class WorkFlowsDetailActivity extends BaseActivity {
     private void setCount() {
 
         Realm realm = Realm.getDefaultInstance();
-
         try {
+
 long realmPending = 0,realmInprogress=0,realmCompleted=0,realmRejected=0;
             String designation= Prefs.getStringPrefs(AppConstants.TYPE);
 
@@ -100,13 +100,11 @@ long realmPending = 0,realmInprogress=0,realmCompleted=0,realmRejected=0;
             }
 
 
+
             tvPending.setText(realmPending+"");
             tvInprogress.setText(realmInprogress+"");
             tvCompleted.setText(realmCompleted+"");
             tvRejected.setText(realmRejected+"");
-
-
-
 
         } catch (Exception e) {
             realm.close();

@@ -55,18 +55,21 @@ public class SearchCustomersActivity extends BaseActivity {
 
     private ArrayList<CustomerModal> stringArrayList;
 
+
     private ArrayList<CustomerModal> arrSearlist;
-    private String surveyId,strTitle;
+
+    private String surveyId, strTitle;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_customers_activity);
-        Intent intent=getIntent();
-        if (intent!=null){
+        Intent intent = getIntent();
+        if (intent != null) {
 
-            surveyId= intent.getExtras().getString(AppConstants.SURVEYID);
-            strTitle= intent.getExtras().getString(AppConstants.TYPE);
+            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
+            strTitle = intent.getExtras().getString(AppConstants.TYPE);
 
         }
 
@@ -146,8 +149,6 @@ public class SearchCustomersActivity extends BaseActivity {
         surveyDetailAdapter.setOnItemClickLister(new CustomerListAdapter.OnItemSelecteListener() {
             @Override
             public void onItemSelected(View v, int position) {
-
-
                 Intent intent=new Intent(mContext,MapsActivity.class);
 
                 if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
@@ -156,6 +157,7 @@ public class SearchCustomersActivity extends BaseActivity {
                 intent.putExtra(AppConstants.STR_TITLE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
                 intent.putExtra(AppConstants.CUSTOMERID,stringArrayList.get(position).getId());
+
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
@@ -164,6 +166,7 @@ public class SearchCustomersActivity extends BaseActivity {
         recyclerViewSearch.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewSearch, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
+
                 Intent intent = new Intent(mContext, MapsActivity.class);
                 if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
                     intent=new Intent(mContext,WorkFlowsActivity.class);
@@ -171,6 +174,7 @@ public class SearchCustomersActivity extends BaseActivity {
                 intent.putExtra(AppConstants.STR_TITLE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
                 intent.putExtra(AppConstants.CUSTOMERID,stringArrayList.get(position).getId());
+
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -215,34 +219,61 @@ public class SearchCustomersActivity extends BaseActivity {
     }
 
     public void addTextListener() {
+
         editTextSearchcustomers.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
             }
 
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            public void onTextChanged(CharSequence query, int start, int before, int count) {
-
+            @Override
+            public void onTextChanged(CharSequence query, int i, int i1, int i2) {
                 query = query.toString().toLowerCase();
 
-                final ArrayList<CustomerModal> filteredList = new ArrayList<>();
-
-             /*   for (int i = 0; i < stringArrayList.size(); i++) {
-
-                    final String text = stringArrayList.get(i).toLowerCase();
+                final ArrayList<CustomerModal> filteredModelList = new ArrayList<>();
+                for (CustomerModal model : stringArrayList) {
+                    final String text = model.getName().toLowerCase();
                     if (text.contains(query)) {
-
-                        filteredList.add(stringArrayList.get(i));
+                        filteredModelList.add(model);
                     }
-                }*/
-
+                }
                 recyclerViewSearch.setLayoutManager(new LinearLayoutManager(mContext));
-                surveyDetailAdapter = new CustomerListAdapter(mContext, filteredList);
+                surveyDetailAdapter = new CustomerListAdapter(mContext, filteredModelList);
                 recyclerViewSearch.setAdapter(surveyDetailAdapter);
                 surveyDetailAdapter.notifyDataSetChanged();  // data set changed
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
+//        editTextSearchcustomers.addTextChangedListener(new TextWatcher() {
+//            public void afterTextChanged(Editable s) {
+//            }
+//
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            public void onTextChanged(CharSequence query, int start, int before, int count) {
+
+////                query = query.toString().toLowerCase();
+////
+////                final ArrayList<CustomerModal> filteredList = new ArrayList<>();
+////
+////                for (int i = 0; i < stringArrayList.size(); i++) {
+////                    stringArrayList.clear();
+////                    final CustomerModal text = filteredList.get(i);
+////                    if (text.getName().equalsIgnoreCase("query")) {
+////                        filteredList.add(stringArrayList.get(i));
+////                    }
+////                }
+////
+
+//            }
+//        });
+//    }
     }
 
     private void prepareList() {
@@ -256,20 +287,18 @@ public class SearchCustomersActivity extends BaseActivity {
             RealmResults<RealmCustomer> realmCustomers = realm.where(RealmCustomer.class)/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findAll();
 
 
-
-
             if (realmCustomers != null && realmCustomers.size() > 0) {
                 for (int i = 0; i < realmCustomers.size(); i++) {
                     CustomerModal modal = new CustomerModal();
                     modal.setId(realmCustomers.get(i).get_id());
 
 
-                    RealmAnswers realmAnswers1=realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,realmCustomers.get(i).get_id()).findFirst();
+                    RealmAnswers realmAnswers1 = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, realmCustomers.get(i).get_id()).findFirst();
 
-                    if (realmAnswers1!=null){
-                        String status=realmAnswers1.getCd_Status();
+                    if (realmAnswers1 != null) {
+                        String status = realmAnswers1.getCd_Status();
                         modal.setStatus(status);
-                    }else {
+                    } else {
                         modal.setStatus("");
                     }
                     modal.setTitle(realmCustomers.get(i).getName());
@@ -293,8 +322,6 @@ public class SearchCustomersActivity extends BaseActivity {
             surveyDetailAdapter.notifyDataSetChanged();
         }
     }
-
-
 
 
     @Override

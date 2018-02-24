@@ -19,6 +19,7 @@
             android:src="@drawable/ic_arrow_back_black_24dp" />
 
         <TextView
+            android:id="@+id/textViewSurveyDetailActivity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -46,11 +47,9 @@
         android:id="@+id/linaerLyout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/include"
-        android:orientation="vertical">
+        android:layout_below="@+id/include">
 
-        <include layout="@layout/survey_report_fragment_detail_header" />
-
+        <include layout="@layout/survey_report_fragment_detail_header"/>
     </LinearLayout>
 
 

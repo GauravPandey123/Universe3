@@ -34,6 +34,16 @@ public class CustomerModal{
     private String title;
     private String date;
 
+    public String getQuery() {
+        return query;
+    }
+
+    public void setQuery(String query) {
+        this.query = query;
+    }
+
+    private String query;
+
     public String getId() {
         return id;
     }

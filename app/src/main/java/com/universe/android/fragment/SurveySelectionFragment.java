@@ -44,11 +44,9 @@ public class SurveySelectionFragment extends BaseFragment {
 
     public static SurveySelectionFragment newInstance(String type) {
         SurveySelectionFragment myFragment = new SurveySelectionFragment();
-
         Bundle args = new Bundle();
         args.putString(AppConstants.TYPE, type);
         myFragment.setArguments(args);
-
         return myFragment;
     }
 
@@ -56,31 +54,23 @@ public class SurveySelectionFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         strType = getArguments().getString(AppConstants.TYPE);
-
-
     }
-
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.act_list_view, container, false);
         prepareList();
         initialization(view);
-
-        return view;
-    }
+        return view;}
 
     private void initialization(View view) {
-
-        RelativeLayout include=(RelativeLayout)view.findViewById(R.id.include);
+        RelativeLayout include=view.findViewById(R.id.include);
         include.setVisibility(View.GONE);
-        TextView textView=(TextView)view.findViewById(R.id.tvName);
+        TextView textView=view.findViewById(R.id.tvName);
         textView.setVisibility(View.GONE);
-        FloatingActionButton fabAdd=(FloatingActionButton)view.findViewById(R.id.fabAdd);
+        FloatingActionButton fabAdd=view.findViewById(R.id.fabAdd);
         fabAdd.setVisibility(View.GONE);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView =  view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new SurveyListAdapter(getActivity(), surveysModals,strType);
         recyclerView.setAdapter(adapter);
@@ -91,12 +81,8 @@ public class SurveySelectionFragment extends BaseFragment {
         if (surveysModals == null) surveysModals = new ArrayList<>();
         surveysModals.clear();
         Realm realm = Realm.getDefaultInstance();
-
         try {
-
             RealmResults<RealmSurveys> realmSurveys = realm.where(RealmSurveys.class).findAllSorted(AppConstants.TITLE, Sort.DESCENDING);
-
-
             if (realmSurveys != null && realmSurveys.size() > 0) {
                 for (int i = 0; i < realmSurveys.size(); i++) {
                     SurveysModal modal = new SurveysModal();

@@ -68,6 +68,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true;
     }
+    compile 'com.google.android.gms:play-services-places:10.2.1'
+
 
 
 }

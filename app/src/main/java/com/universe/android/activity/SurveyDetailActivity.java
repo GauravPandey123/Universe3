@@ -22,9 +22,11 @@ import com.github.clans.fab.FloatingActionMenu;
 import com.universe.android.R;
 import com.universe.android.adapter.StatusAdapter;
 import com.universe.android.adapter.SurveyDetailAdapter;
+import com.universe.android.adapter.WorkFLowDetailAdapter;
 import com.universe.android.helper.FontClass;
 
 import com.universe.android.model.AnswersModal;
+import com.universe.android.model.CustomerModal;
 import com.universe.android.model.StatusModel;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCustomer;
@@ -75,6 +77,8 @@ public class SurveyDetailActivity extends BaseActivity {
     private StatusAdapter statusAdapter;
     private Calendar mcalendar;
     private int day, month, year;
+    private TextView textViewtargetCount, textViewCompletedCount, textViewAchievementPercentage, textViewInProgressCount;
+    private TextView textViewNewRetailersCount, textViewCrystalMembersCount;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +88,29 @@ public class SurveyDetailActivity extends BaseActivity {
         setUpElements();
         setUpListeners();
         prepareList();
+        setCounts();
+    }
+
+    private void setCounts() {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            long realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
+            long realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "2").equalTo(AppConstants.ZM_STATUS, "0").count();
+            long realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "2").equalTo(AppConstants.RM_STATUS, "2").equalTo(AppConstants.ZM_STATUS, "2").count();
+            long realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "3").equalTo(AppConstants.RM_STATUS, "3").equalTo(AppConstants.ZM_STATUS, "3").count();
+//            textViewInProgressCount.setText(realmPending + "");
+            textViewInProgressCount.setText(realmInprogress + "");
+            textViewCompletedCount.setText(realmCompleted + "");
+//            tvRejected.setText(realmRejected + "");
+
+        } catch (Exception e) {
+            realm.close();
+            e.printStackTrace();
+        } finally {
+            realm.close();
+        }
+
+
     }
 
     private void setUpListeners() {
@@ -126,15 +153,26 @@ public class SurveyDetailActivity extends BaseActivity {
         floatingCrystal = findViewById(R.id.floatingCrystal);
         floatingRetailers = findViewById(R.id.floatingRetailers);
         textViewFilter = findViewById(R.id.textViewFilter);
-
+        textViewtargetCount = findViewById(R.id.textViewtargetCount);
+        textViewAchievementPercentage = findViewById(R.id.textViewAchievementPercentage);
+        textViewCompletedCount = findViewById(R.id.textViewCompletedCount);
+        textViewInProgressCount = findViewById(R.id.textViewInProgressCount);
+        textViewNewRetailersCount = findViewById(R.id.textViewNewRetailersCount);
+        textViewCrystalMembersCount = findViewById(R.id.textViewCrystalMembersCount);
 
         textViewToday.setTypeface(FontClass.openSemiBold(mContext));
         textViewtarget.setTypeface(FontClass.openSansRegular(mContext));
-        textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
-        textViewInProgress.setTypeface(FontClass.openSansRegular(mContext));
-        textViewNewRetailers.setTypeface(FontClass.openSansRegular(mContext));
-        textViewCrystalmembers.setTypeface(FontClass.openSansRegular(mContext));
-        textViewCompletedQuestionaire.setTypeface(FontClass.openSansRegular(mContext));
+//        textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
+//        textViewInProgress.setTypeface(FontClass.openSansRegular(mContext));
+//        textViewNewRetailers.setTypeface(FontClass.openSansRegular(mContext));
+//        textViewCrystalmembers.setTypeface(FontClass.openSansRegular(mContext));
+//        textViewtargetCount.setTypeface(FontClass.openSansRegular(mContext));
+//        textViewAchievementPercentage.setTypeface(FontClass.openSansRegular(mContext));
+//        textViewCompletedCount.setTypeface(FontClass.openSansRegular(mContext));
+//        textViewInProgressCount.setTypeface(FontClass.openSansRegular(mContext));
+//        textViewNewRetailersCount.setTypeface(FontClass.openSansRegular(mContext));
+//        textViewCrystalMembersCount.setTypeface(FontClass.openSansRegular(mContext));
+//        textViewCompletedQuestionaire.setTypeface(FontClass.openSansRegular(mContext));
 //        textViewFilter.setTypeface(FontClass.openSemiBold(mContext));
 
         floatingActionMenu.setClosedOnTouchOutside(true);
@@ -168,22 +206,19 @@ public class SurveyDetailActivity extends BaseActivity {
         try {
 
             RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).findAllSorted(AppConstants.TITLE, Sort.DESCENDING);
-
-
-
             if (realmAnswers != null && realmAnswers.size() > 0) {
                 for (int i = 0; i < realmAnswers.size(); i++) {
                     AnswersModal modal = new AnswersModal();
                     modal.set_id(realmAnswers.get(i).get_id());
 
-                    RealmCustomer realmCustomer=realm.where(RealmCustomer.class).findFirst();
+                    RealmCustomer realmCustomer = realm.where(RealmCustomer.class).findFirst();
 
                     modal.setTitle(realmCustomer.getName());
                     modal.setState(realmCustomer.getState());
                     modal.setTerritory(realmCustomer.getTerritory());
                     modal.setPincode(realmCustomer.getPincode());
                     modal.setCustomerId(realmCustomer.getId());
-                   // modal.setStatus(type);
+                    // modal.setStatus(type);
                     modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getDate()));
                     stringArrayList.add(modal);
                 }
@@ -199,6 +234,7 @@ public class SurveyDetailActivity extends BaseActivity {
             surveyDetailAdapter.notifyDataSetChanged();
         }
     }
+
     public void showDialog() {
         // Create custom dialog object
         dialogFilter = new Dialog(mContext);
