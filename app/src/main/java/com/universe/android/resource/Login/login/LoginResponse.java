@@ -1,8 +1,5 @@
 package com.universe.android.resource.Login.login;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import com.universe.android.web.BaseResponse;
 
 import java.util.List;
@@ -13,20 +10,20 @@ import java.util.List;
 
 public class LoginResponse extends BaseResponse<LoginResponse> {
 
-    @Override
-    public boolean isValid(String condition, boolean isStrict) {
-        return true;
-    }
-
     /**
      * errorMsg :
      * statusCode : 200
-     * response : {"loginDetails":{"detail":{"_id":"5a8eb8b82741361f5827afb5","employee_code":10000297,"employee_name":"Bhajan Lal","mobile":123456789,"email":"BHAJAN.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5MzEyMzI3MTYwfQ.-ZahWLezs1UIM3fi7sruL3_f2sUPnPxg-uJ5UU8LE9I","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"rsm","createdAt":"2018-02-22T14:02:03.809Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:12:07.917Z"},"mapping":[{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo","lat":"28.4975955","lng":"77.082881","loc":[28.4975955,77.082881],"__v":1,"createdAt":"2018-02-22T09:50:59.747Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T13:09:54.414Z","type":"cd"},{"_id":"5a8eb8b82741361f5827afb6","employee_code":10002187,"employee_name":"Abhishek Kumar Rana","mobile":9997919143,"email":"Abhishek.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjYiLCJkYXRlIjoxNTE5MzEyNTM0NzQ4fQ.VKmz1HSiYljqHK6tTqGkUPZA0udf0fWglzU_HMjaovg","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"zsm","createdAt":"2018-02-22T15:13:36.613Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:15:35.037Z"}]},"surveyDetails":[{"pending":0,"details":{"_id":"5a86d4ccb69a800980dadd83","updatedAt":"2018-02-16T12:55:40.132Z","createdAt":"2018-02-16T12:55:40.132Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Retailer\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributer details\",\"_id\":\"5a86ccc423deda0338a9de02\"},{\"categoryName\":\"Owner details\",\"_id\":\"5a86ccd523deda0338a9de03\"},{\"categoryName\":\"distributer email\",\"_id\":\"5a86cd0423deda0338a9de04\"},{\"categoryName\":\"Turn over details\",\"_id\":\"5a86cd1623deda0338a9de05\"},{\"categoryName\":\"Others\",\"_id\":\"5a86cd2523deda0338a9de06\"}],\"categoryId\":\"[\\\"5a86ccc423deda0338a9de02\\\", \\\"5a86ccd523deda0338a9de03\\\", \\\"5a86cd0423deda0338a9de04\\\", \\\"5a86cd1623deda0338a9de05\\\", \\\"5a86cd2523deda0338a9de06\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Distributor","__v":0,"categoryId":["5a86ccc423deda0338a9de02","5a86ccd523deda0338a9de03","5a86cd0423deda0338a9de04","5a86cd1623deda0338a9de05","5a86cd2523deda0338a9de06"]},"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]},{"pending":3,"details":{"_id":"5a86d4a9b69a800980dadd82","updatedAt":"2018-02-16T12:55:05.412Z","createdAt":"2018-02-16T12:55:05.412Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Distributor\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributor Retailer Linkage\",\"_id\":\"5a86cd5923deda0338a9de07\"}],\"categoryId\":\"[\\\"5a86cd5923deda0338a9de07\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Retailer","__v":0,"categoryId":["5a86cd5923deda0338a9de07"]},"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]}]}
+     * response : {"report":{"report":"report","type":"rm"},"loginDetails":{"detail":{"_id":"5a8eb8b82741361f5827afb5","employee_code":10000297,"employee_name":"Bhajan Lal","mobile":123456789,"email":"BHAJAN.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5Mzk4MDQwMDcwfQ.y7iqid9WD5b-r3GPoioedh-8wDucKX9bokW24kBg8EQ","lat":"27","lng":"22","password":"pass123456","loc":[27,22],"cd_code":0,"type":"rsm","createdAt":"2018-02-22T14:02:03.809Z","location":"Kufra District, Libya","updatedAt":"2018-02-23T15:00:41.192Z","__v":5},"mapping":[{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass123456","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5NDU4MjMwMzc1fQ.tVi9BCMZMG-Wsp8ohbNXrZ9JTU4ZFrBBHDb5uC1VjmM","lat":"27","lng":"22","loc":[27,22],"__v":2,"createdAt":"2018-02-22T09:50:59.747Z","location":"Kufra District, Libya","updatedAt":"2018-02-24T07:43:51.427Z","type":"cd"},{"_id":"5a8eb8b82741361f5827afb6","employee_code":10002187,"employee_name":"Abhishek Kumar Rana","mobile":9997919143,"email":"Abhishek.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjYiLCJkYXRlIjoxNTE5Mzg3MzMzMjYwfQ.p8I9tHThO9Hulx6N-lBujNDySXhz5XonikkoiRmtb98","lat":"27","lng":"22","password":"pass123456","loc":[27,22],"cd_code":0,"type":"zsm","createdAt":"2018-02-22T15:13:36.613Z","location":"Kufra District, Libya","updatedAt":"2018-02-23T12:02:13.525Z","__v":1}]},"surveyDetails":[{"id":1,"pending":3,"details":{"_id":"5a86d4a9b69a800980dadd82","updatedAt":"2018-02-16T12:55:05.412Z","createdAt":"2018-02-16T12:55:05.412Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Distributor\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributor Retailer Linkage\",\"_id\":\"5a86cd5923deda0338a9de07\"}],\"categoryId\":\"[\\\"5a86cd5923deda0338a9de07\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Retailer","__v":0,"target":10,"categoryId":["5a86cd5923deda0338a9de07"]},"target":10,"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"5a8e81022741361f5827ae85","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]},{"id":2,"pending":0,"details":{"_id":"5a86d4ccb69a800980dadd83","updatedAt":"2018-02-16T12:55:40.132Z","createdAt":"2018-02-16T12:55:40.132Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Retailer\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributer details\",\"_id\":\"5a86ccc423deda0338a9de02\"},{\"categoryName\":\"Owner details\",\"_id\":\"5a86ccd523deda0338a9de03\"},{\"categoryName\":\"distributer email\",\"_id\":\"5a86cd0423deda0338a9de04\"},{\"categoryName\":\"Turn over details\",\"_id\":\"5a86cd1623deda0338a9de05\"},{\"categoryName\":\"Others\",\"_id\":\"5a86cd2523deda0338a9de06\"}],\"categoryId\":\"[\\\"5a86ccc423deda0338a9de02\\\", \\\"5a86ccd523deda0338a9de03\\\", \\\"5a86cd0423deda0338a9de04\\\", \\\"5a86cd1623deda0338a9de05\\\", \\\"5a86cd2523deda0338a9de06\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Distributor","__v":0,"target":10,"categoryId":["5a86ccc423deda0338a9de02","5a86ccd523deda0338a9de03","5a86cd0423deda0338a9de04","5a86cd1623deda0338a9de05","5a86cd2523deda0338a9de06"]},"target":10,"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"5a8e81022741361f5827ae85","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]}]}
      */
 
     private String errorMsg;
     private int statusCode;
     private ResponseBean response;
+
+    @Override
+    public boolean isValid(String condition, boolean isStrict) {
+        return true;
+    }
 
     public String getErrorMsg() {
         return errorMsg;
@@ -52,14 +49,25 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
         this.response = response;
     }
 
+
     public static class ResponseBean {
         /**
-         * loginDetails : {"detail":{"_id":"5a8eb8b82741361f5827afb5","employee_code":10000297,"employee_name":"Bhajan Lal","mobile":123456789,"email":"BHAJAN.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5MzEyMzI3MTYwfQ.-ZahWLezs1UIM3fi7sruL3_f2sUPnPxg-uJ5UU8LE9I","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"rsm","createdAt":"2018-02-22T14:02:03.809Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:12:07.917Z"},"mapping":[{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo","lat":"28.4975955","lng":"77.082881","loc":[28.4975955,77.082881],"__v":1,"createdAt":"2018-02-22T09:50:59.747Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T13:09:54.414Z","type":"cd","employee_code":10002187,"employee_name":"Abhishek Kumar Rana"},{"_id":"5a8eb8b82741361f5827afb6","employee_code":10002187,"employee_name":"Abhishek Kumar Rana","mobile":9997919143,"email":"Abhishek.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjYiLCJkYXRlIjoxNTE5MzEyNTM0NzQ4fQ.VKmz1HSiYljqHK6tTqGkUPZA0udf0fWglzU_HMjaovg","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"zsm","createdAt":"2018-02-22T15:13:36.613Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:15:35.037Z"}]}
-         * surveyDetails : [{"pending":0,"details":{"_id":"5a86d4ccb69a800980dadd83","updatedAt":"2018-02-16T12:55:40.132Z","createdAt":"2018-02-16T12:55:40.132Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Retailer\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributer details\",\"_id\":\"5a86ccc423deda0338a9de02\"},{\"categoryName\":\"Owner details\",\"_id\":\"5a86ccd523deda0338a9de03\"},{\"categoryName\":\"distributer email\",\"_id\":\"5a86cd0423deda0338a9de04\"},{\"categoryName\":\"Turn over details\",\"_id\":\"5a86cd1623deda0338a9de05\"},{\"categoryName\":\"Others\",\"_id\":\"5a86cd2523deda0338a9de06\"}],\"categoryId\":\"[\\\"5a86ccc423deda0338a9de02\\\", \\\"5a86ccd523deda0338a9de03\\\", \\\"5a86cd0423deda0338a9de04\\\", \\\"5a86cd1623deda0338a9de05\\\", \\\"5a86cd2523deda0338a9de06\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Distributor","__v":0,"categoryId":["5a86ccc423deda0338a9de02","5a86ccd523deda0338a9de03","5a86cd0423deda0338a9de04","5a86cd1623deda0338a9de05","5a86cd2523deda0338a9de06"]},"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]},{"pending":3,"details":{"_id":"5a86d4a9b69a800980dadd82","updatedAt":"2018-02-16T12:55:05.412Z","createdAt":"2018-02-16T12:55:05.412Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Distributor\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributor Retailer Linkage\",\"_id\":\"5a86cd5923deda0338a9de07\"}],\"categoryId\":\"[\\\"5a86cd5923deda0338a9de07\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Retailer","__v":0,"categoryId":["5a86cd5923deda0338a9de07"]},"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]}]
+         * report : {"report":"report","type":"rm"}
+         * loginDetails : {"detail":{"_id":"5a8eb8b82741361f5827afb5","employee_code":10000297,"employee_name":"Bhajan Lal","mobile":123456789,"email":"BHAJAN.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5Mzk4MDQwMDcwfQ.y7iqid9WD5b-r3GPoioedh-8wDucKX9bokW24kBg8EQ","lat":"27","lng":"22","password":"pass123456","loc":[27,22],"cd_code":0,"type":"rsm","createdAt":"2018-02-22T14:02:03.809Z","location":"Kufra District, Libya","updatedAt":"2018-02-23T15:00:41.192Z","__v":5},"mapping":[{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass123456","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5NDU4MjMwMzc1fQ.tVi9BCMZMG-Wsp8ohbNXrZ9JTU4ZFrBBHDb5uC1VjmM","lat":"27","lng":"22","loc":[27,22],"__v":2,"createdAt":"2018-02-22T09:50:59.747Z","location":"Kufra District, Libya","updatedAt":"2018-02-24T07:43:51.427Z","type":"cd"},{"_id":"5a8eb8b82741361f5827afb6","employee_code":10002187,"employee_name":"Abhishek Kumar Rana","mobile":9997919143,"email":"Abhishek.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjYiLCJkYXRlIjoxNTE5Mzg3MzMzMjYwfQ.p8I9tHThO9Hulx6N-lBujNDySXhz5XonikkoiRmtb98","lat":"27","lng":"22","password":"pass123456","loc":[27,22],"cd_code":0,"type":"zsm","createdAt":"2018-02-22T15:13:36.613Z","location":"Kufra District, Libya","updatedAt":"2018-02-23T12:02:13.525Z","__v":1}]}
+         * surveyDetails : [{"id":1,"pending":3,"details":{"_id":"5a86d4a9b69a800980dadd82","updatedAt":"2018-02-16T12:55:05.412Z","createdAt":"2018-02-16T12:55:05.412Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Distributor\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributor Retailer Linkage\",\"_id\":\"5a86cd5923deda0338a9de07\"}],\"categoryId\":\"[\\\"5a86cd5923deda0338a9de07\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Retailer","__v":0,"target":10,"categoryId":["5a86cd5923deda0338a9de07"]},"target":10,"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"5a8e81022741361f5827ae85","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]},{"id":2,"pending":0,"details":{"_id":"5a86d4ccb69a800980dadd83","updatedAt":"2018-02-16T12:55:40.132Z","createdAt":"2018-02-16T12:55:40.132Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Retailer\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributer details\",\"_id\":\"5a86ccc423deda0338a9de02\"},{\"categoryName\":\"Owner details\",\"_id\":\"5a86ccd523deda0338a9de03\"},{\"categoryName\":\"distributer email\",\"_id\":\"5a86cd0423deda0338a9de04\"},{\"categoryName\":\"Turn over details\",\"_id\":\"5a86cd1623deda0338a9de05\"},{\"categoryName\":\"Others\",\"_id\":\"5a86cd2523deda0338a9de06\"}],\"categoryId\":\"[\\\"5a86ccc423deda0338a9de02\\\", \\\"5a86ccd523deda0338a9de03\\\", \\\"5a86cd0423deda0338a9de04\\\", \\\"5a86cd1623deda0338a9de05\\\", \\\"5a86cd2523deda0338a9de06\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Distributor","__v":0,"target":10,"categoryId":["5a86ccc423deda0338a9de02","5a86ccd523deda0338a9de03","5a86cd0423deda0338a9de04","5a86cd1623deda0338a9de05","5a86cd2523deda0338a9de06"]},"target":10,"submitted":0,"inprogress":0,"CrystalCustomer":0,"newRetailer":0,"doctorAssign":[{"_id":"5a8e81022741361f5827ae85","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]}]
          */
 
+        private ReportBean report;
         private LoginDetailsBean loginDetails;
         private List<SurveyDetailsBean> surveyDetails;
+
+        public ReportBean getReport() {
+            return report;
+        }
+
+        public void setReport(ReportBean report) {
+            this.report = report;
+        }
 
         public LoginDetailsBean getLoginDetails() {
             return loginDetails;
@@ -77,10 +85,36 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
             this.surveyDetails = surveyDetails;
         }
 
+        public static class ReportBean {
+            /**
+             * report : report
+             * type : rm
+             */
+
+            private String report;
+            private String type;
+
+            public String getReport() {
+                return report;
+            }
+
+            public void setReport(String report) {
+                this.report = report;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+        }
+
         public static class LoginDetailsBean {
             /**
-             * detail : {"_id":"5a8eb8b82741361f5827afb5","employee_code":10000297,"employee_name":"Bhajan Lal","mobile":123456789,"email":"BHAJAN.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5MzEyMzI3MTYwfQ.-ZahWLezs1UIM3fi7sruL3_f2sUPnPxg-uJ5UU8LE9I","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"rsm","createdAt":"2018-02-22T14:02:03.809Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:12:07.917Z"}
-             * mapping : [{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo","lat":"28.4975955","lng":"77.082881","loc":[28.4975955,77.082881],"__v":1,"createdAt":"2018-02-22T09:50:59.747Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T13:09:54.414Z","type":"cd"},{"_id":"5a8eb8b82741361f5827afb6","employee_code":10002187,"employee_name":"Abhishek Kumar Rana","mobile":9997919143,"email":"Abhishek.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjYiLCJkYXRlIjoxNTE5MzEyNTM0NzQ4fQ.VKmz1HSiYljqHK6tTqGkUPZA0udf0fWglzU_HMjaovg","lat":"28.4975955","lng":"77.082881","password":"pass","loc":[28.4975955,77.082881],"cd_code":0,"type":"zsm","createdAt":"2018-02-22T15:13:36.613Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T15:15:35.037Z"}]
+             * detail : {"_id":"5a8eb8b82741361f5827afb5","employee_code":10000297,"employee_name":"Bhajan Lal","mobile":123456789,"email":"BHAJAN.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5Mzk4MDQwMDcwfQ.y7iqid9WD5b-r3GPoioedh-8wDucKX9bokW24kBg8EQ","lat":"27","lng":"22","password":"pass123456","loc":[27,22],"cd_code":0,"type":"rsm","createdAt":"2018-02-22T14:02:03.809Z","location":"Kufra District, Libya","updatedAt":"2018-02-23T15:00:41.192Z","__v":5}
+             * mapping : [{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass123456","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5NDU4MjMwMzc1fQ.tVi9BCMZMG-Wsp8ohbNXrZ9JTU4ZFrBBHDb5uC1VjmM","lat":"27","lng":"22","loc":[27,22],"__v":2,"createdAt":"2018-02-22T09:50:59.747Z","location":"Kufra District, Libya","updatedAt":"2018-02-24T07:43:51.427Z","type":"cd"},{"_id":"5a8eb8b82741361f5827afb6","employee_code":10002187,"employee_name":"Abhishek Kumar Rana","mobile":9997919143,"email":"Abhishek.LAL@CRYSTALCROP.COM","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjYiLCJkYXRlIjoxNTE5Mzg3MzMzMjYwfQ.p8I9tHThO9Hulx6N-lBujNDySXhz5XonikkoiRmtb98","lat":"27","lng":"22","password":"pass123456","loc":[27,22],"cd_code":0,"type":"zsm","createdAt":"2018-02-22T15:13:36.613Z","location":"Kufra District, Libya","updatedAt":"2018-02-23T12:02:13.525Z","__v":1}]
              */
 
             private DetailBean detail;
@@ -110,16 +144,17 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
                  * mobile : 123456789
                  * email : BHAJAN.LAL@CRYSTALCROP.COM
                  * isActive : 1
-                 * accessToken : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5MzEyMzI3MTYwfQ.-ZahWLezs1UIM3fi7sruL3_f2sUPnPxg-uJ5UU8LE9I
-                 * lat : 28.4975955
-                 * lng : 77.082881
-                 * password : pass
-                 * loc : [28.4975955,77.082881]
+                 * accessToken : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlYjhiODI3NDEzNjFmNTgyN2FmYjUiLCJkYXRlIjoxNTE5Mzk4MDQwMDcwfQ.y7iqid9WD5b-r3GPoioedh-8wDucKX9bokW24kBg8EQ
+                 * lat : 27
+                 * lng : 22
+                 * password : pass123456
+                 * loc : [27,22]
                  * cd_code : 0
                  * type : rsm
                  * createdAt : 2018-02-22T14:02:03.809Z
-                 * location : 582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India
-                 * updatedAt : 2018-02-22T15:12:07.917Z
+                 * location : Kufra District, Libya
+                 * updatedAt : 2018-02-23T15:00:41.192Z
+                 * __v : 5
                  */
 
                 private String _id;
@@ -137,7 +172,8 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
                 private String createdAt;
                 private String location;
                 private String updatedAt;
-                private List<Double> loc;
+                private int __v;
+                private List<Integer> loc;
 
                 public String get_id() {
                     return _id;
@@ -259,11 +295,19 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
                     this.updatedAt = updatedAt;
                 }
 
-                public List<Double> getLoc() {
+                public int get__v() {
+                    return __v;
+                }
+
+                public void set__v(int __v) {
+                    this.__v = __v;
+                }
+
+                public List<Integer> getLoc() {
                     return loc;
                 }
 
-                public void setLoc(List<Double> loc) {
+                public void setLoc(List<Integer> loc) {
                     this.loc = loc;
                 }
             }
@@ -274,20 +318,20 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
                  * cd_code : 1000
                  * name : Parth Rawal
                  * email : parth@e2eprojects.com
-                 * password : pass
+                 * password : pass123456
                  * mkt_territory_code : 9501
                  * mobile : NULL
                  * dob : NULL
                  * doj : NULL
                  * isActive : 1
-                 * accessToken : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo
-                 * lat : 28.4975955
-                 * lng : 77.082881
-                 * loc : [28.4975955,77.082881]
-                 * __v : 1
+                 * accessToken : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5NDU4MjMwMzc1fQ.tVi9BCMZMG-Wsp8ohbNXrZ9JTU4ZFrBBHDb5uC1VjmM
+                 * lat : 27
+                 * lng : 22
+                 * loc : [27,22]
+                 * __v : 2
                  * createdAt : 2018-02-22T09:50:59.747Z
-                 * location : 582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India
-                 * updatedAt : 2018-02-22T13:09:54.414Z
+                 * location : Kufra District, Libya
+                 * updatedAt : 2018-02-24T07:43:51.427Z
                  * type : cd
                  * employee_code : 10002187
                  * employee_name : Abhishek Kumar Rana
@@ -313,7 +357,7 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
                 private String type;
                 private int employee_code;
                 private String employee_name;
-                private List<Double> loc;
+                private List<Integer> loc;
 
                 public String get_id() {
                     return _id;
@@ -475,54 +519,46 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
                     this.employee_name = employee_name;
                 }
 
-                public List<Double> getLoc() {
+                public List<Integer> getLoc() {
                     return loc;
                 }
 
-                public void setLoc(List<Double> loc) {
+                public void setLoc(List<Integer> loc) {
                     this.loc = loc;
                 }
             }
         }
 
-        public static class SurveyDetailsBean implements Parcelable {
+        public static class SurveyDetailsBean {
             /**
-             * pending : 0
-             * details : {"_id":"5a86d4ccb69a800980dadd83","updatedAt":"2018-02-16T12:55:40.132Z","createdAt":"2018-02-16T12:55:40.132Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Retailer\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributer details\",\"_id\":\"5a86ccc423deda0338a9de02\"},{\"categoryName\":\"Owner details\",\"_id\":\"5a86ccd523deda0338a9de03\"},{\"categoryName\":\"distributer email\",\"_id\":\"5a86cd0423deda0338a9de04\"},{\"categoryName\":\"Turn over details\",\"_id\":\"5a86cd1623deda0338a9de05\"},{\"categoryName\":\"Others\",\"_id\":\"5a86cd2523deda0338a9de06\"}],\"categoryId\":\"[\\\"5a86ccc423deda0338a9de02\\\", \\\"5a86ccd523deda0338a9de03\\\", \\\"5a86cd0423deda0338a9de04\\\", \\\"5a86cd1623deda0338a9de05\\\", \\\"5a86cd2523deda0338a9de06\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Distributor","__v":0,"categoryId":["5a86ccc423deda0338a9de02","5a86ccd523deda0338a9de03","5a86cd0423deda0338a9de04","5a86cd1623deda0338a9de05","5a86cd2523deda0338a9de06"]}
+             * id : 1
+             * pending : 3
+             * details : {"_id":"5a86d4a9b69a800980dadd82","updatedAt":"2018-02-16T12:55:05.412Z","createdAt":"2018-02-16T12:55:05.412Z","responses":"{\"expiryDate\":\"16 Feb 2018\",\"title\":\"Distributor\",\"status\":10,\"isActive\":1,\"description\":\"\",\"category\":[{\"categoryName\":\"Distributor Retailer Linkage\",\"_id\":\"5a86cd5923deda0338a9de07\"}],\"categoryId\":\"[\\\"5a86cd5923deda0338a9de07\\\"]\"}","isActive":1,"expiryDate":"2018-02-16T00:00:00.000Z","createdBy":"5a799e932779e608b435a279","description":"","title":"Retailer","__v":0,"target":10,"categoryId":["5a86cd5923deda0338a9de07"]}
+             * target : 10
              * submitted : 0
              * inprogress : 0
              * CrystalCustomer : 0
              * newRetailer : 0
-             * doctorAssign : [{"_id":"","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]
+             * doctorAssign : [{"_id":"5a8e81022741361f5827ae85","crystalDoctorName":"Parth Rawal","total":10,"completed":2}]
              */
 
+            private int id;
             private int pending;
             private DetailsBean details;
+            private int target;
             private int submitted;
             private int inprogress;
             private int CrystalCustomer;
             private int newRetailer;
             private List<DoctorAssignBean> doctorAssign;
 
-            protected SurveyDetailsBean(Parcel in) {
-                pending = in.readInt();
-                submitted = in.readInt();
-                inprogress = in.readInt();
-                CrystalCustomer = in.readInt();
-                newRetailer = in.readInt();
+            public int getId() {
+                return id;
             }
 
-            public static final Creator<SurveyDetailsBean> CREATOR = new Creator<SurveyDetailsBean>() {
-                @Override
-                public SurveyDetailsBean createFromParcel(Parcel in) {
-                    return new SurveyDetailsBean(in);
-                }
-
-                @Override
-                public SurveyDetailsBean[] newArray(int size) {
-                    return new SurveyDetailsBean[size];
-                }
-            };
+            public void setId(int id) {
+                this.id = id;
+            }
 
             public int getPending() {
                 return pending;
@@ -538,6 +574,14 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
 
             public void setDetails(DetailsBean details) {
                 this.details = details;
+            }
+
+            public int getTarget() {
+                return target;
+            }
+
+            public void setTarget(int target) {
+                this.target = target;
             }
 
             public int getSubmitted() {
@@ -580,33 +624,20 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
                 this.doctorAssign = doctorAssign;
             }
 
-            @Override
-            public int describeContents() {
-                return 0;
-            }
-
-            @Override
-            public void writeToParcel(Parcel parcel, int i) {
-                parcel.writeInt(pending);
-                parcel.writeInt(submitted);
-                parcel.writeInt(inprogress);
-                parcel.writeInt(CrystalCustomer);
-                parcel.writeInt(newRetailer);
-            }
-
             public static class DetailsBean {
                 /**
-                 * _id : 5a86d4ccb69a800980dadd83
-                 * updatedAt : 2018-02-16T12:55:40.132Z
-                 * createdAt : 2018-02-16T12:55:40.132Z
-                 * responses : {"expiryDate":"16 Feb 2018","title":"Retailer","status":10,"isActive":1,"description":"","category":[{"categoryName":"Distributer details","_id":"5a86ccc423deda0338a9de02"},{"categoryName":"Owner details","_id":"5a86ccd523deda0338a9de03"},{"categoryName":"distributer email","_id":"5a86cd0423deda0338a9de04"},{"categoryName":"Turn over details","_id":"5a86cd1623deda0338a9de05"},{"categoryName":"Others","_id":"5a86cd2523deda0338a9de06"}],"categoryId":"[\"5a86ccc423deda0338a9de02\", \"5a86ccd523deda0338a9de03\", \"5a86cd0423deda0338a9de04\", \"5a86cd1623deda0338a9de05\", \"5a86cd2523deda0338a9de06\"]"}
+                 * _id : 5a86d4a9b69a800980dadd82
+                 * updatedAt : 2018-02-16T12:55:05.412Z
+                 * createdAt : 2018-02-16T12:55:05.412Z
+                 * responses : {"expiryDate":"16 Feb 2018","title":"Distributor","status":10,"isActive":1,"description":"","category":[{"categoryName":"Distributor Retailer Linkage","_id":"5a86cd5923deda0338a9de07"}],"categoryId":"[\"5a86cd5923deda0338a9de07\"]"}
                  * isActive : 1
                  * expiryDate : 2018-02-16T00:00:00.000Z
                  * createdBy : 5a799e932779e608b435a279
                  * description :
-                 * title : Distributor
+                 * title : Retailer
                  * __v : 0
-                 * categoryId : ["5a86ccc423deda0338a9de02","5a86ccd523deda0338a9de03","5a86cd0423deda0338a9de04","5a86cd1623deda0338a9de05","5a86cd2523deda0338a9de06"]
+                 * target : 10
+                 * categoryId : ["5a86cd5923deda0338a9de07"]
                  */
 
                 private String _id;
@@ -619,6 +650,7 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
                 private String description;
                 private String title;
                 private int __v;
+                private int target;
                 private List<String> categoryId;
 
                 public String get_id() {
@@ -701,6 +733,14 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
                     this.__v = __v;
                 }
 
+                public int getTarget() {
+                    return target;
+                }
+
+                public void setTarget(int target) {
+                    this.target = target;
+                }
+
                 public List<String> getCategoryId() {
                     return categoryId;
                 }
@@ -712,7 +752,7 @@ public class LoginResponse extends BaseResponse<LoginResponse> {
 
             public static class DoctorAssignBean {
                 /**
-                 * _id :
+                 * _id : 5a8e81022741361f5827ae85
                  * crystalDoctorName : Parth Rawal
                  * total : 10
                  * completed : 2

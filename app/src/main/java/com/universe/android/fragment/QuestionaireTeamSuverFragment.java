@@ -2,6 +2,7 @@ package com.universe.android.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.universe.android.R;
 import com.universe.android.activity.TeamSurveyDeatilActivity;
 import com.universe.android.adapter.SurveyListAdapter;
@@ -19,12 +21,20 @@ import com.universe.android.model.CrystalDoctorModel;
 import com.universe.android.model.SurveysModal;
 import com.universe.android.realmbean.RealmCrystalDoctor;
 import com.universe.android.realmbean.RealmSurveys;
+import com.universe.android.resource.Login.login.LoginRequest;
+import com.universe.android.resource.Login.login.LoginResponse;
+import com.universe.android.resource.Login.login.LoginService;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Utility;
+import com.universe.android.web.BaseApiCallback;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
+import in.editsoft.api.exception.APIException;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -40,16 +50,15 @@ public class QuestionaireTeamSuverFragment extends BaseFragment {
 
     private TeamSurveySelectionAdapter teamSurveySelectionAdapter;
     private LinearLayoutManager linearLayoutManager;
-    private ArrayList<CrystalDoctorModel> crystalDoctorModels;
+    private ArrayList<LoginResponse.ResponseBean.SurveyDetailsBean> crystalDoctorModels;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.team_survey_selection_fragemnt, container, false);
         initialization();
-        prepareList();
         setupElemenets();
-
         setUpListeners();
         return view;
     }
@@ -71,50 +80,61 @@ public class QuestionaireTeamSuverFragment extends BaseFragment {
     }
 
     private void setupElemenets() {
-//        teamSurveySelectionAdapter = new TeamSurveySelectionAdapter(getActivity());
-
-        RecyclerView recyclerView =  view.findViewById(R.id.recyclerViewTeamSurveySelection);
+        crystalDoctorModels = new ArrayList<>();
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewTeamSurveySelection);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         teamSurveySelectionAdapter = new TeamSurveySelectionAdapter(getActivity(), crystalDoctorModels);
         recyclerView.setAdapter(teamSurveySelectionAdapter);
-//        linearLayoutManager = new LinearLayoutManager(getActivity());
-//        recyclerViewTeamSurveySelection.setLayoutManager(linearLayoutManager);
-//        recyclerViewTeamSurveySelection.computeVerticalScrollOffset();
-//        recyclerViewTeamSurveySelection.setAdapter(teamSurveySelectionAdapter);
+        setWebService();
+    }
+
+    private void setWebService() {
+        if (!Utility.isConnected()) {
+            Utility.showToast(R.string.msg_disconnected);
+        } else {
+            teamSurveyDetail();
+        }
     }
 
     private void initialization() {
         swipeRefrehLayoutTeamSurveySelection = view.findViewById(R.id.swipeRefrehLayoutTeamSurveySelection);
         recyclerViewTeamSurveySelection = view.findViewById(R.id.recyclerViewTeamSurveySelection);
     }
-    private void prepareList() {
-        if (crystalDoctorModels == null) crystalDoctorModels = new ArrayList<>();
-        crystalDoctorModels.clear();
-        Realm realm = Realm.getDefaultInstance();
-        try {
-            RealmResults<RealmCrystalDoctor> realmSurveys = realm.where(RealmCrystalDoctor.class).findAll();
-            if (realmSurveys != null && realmSurveys.size() > 0) {
-                for (int i = 0; i < realmSurveys.size(); i++) {
-                    CrystalDoctorModel modal = new CrystalDoctorModel();
-                    modal.setId(realmSurveys.get(i).getId());
-                    JSONObject jsonObject=new JSONObject(realmSurveys.get(i).getDetails());
-                    modal.setTitle(jsonObject.optString(AppConstants.TITLE));
-                 //   modal.setStatus(realmSurveys.get(i).getPending()+"");
-                    modal.setStatus(10+"");
-//                    modal.setExpiryDate(AppConstants.format2.format(realmSurveys.get(i).getExpiryDate()));
-                    crystalDoctorModels.add(modal);
-                }
-            }
-        } catch (Exception e) {
-            realm.close();
-            e.printStackTrace();
-        } finally {
-            realm.close();
-        }
 
-        if (teamSurveySelectionAdapter != null) {
-            teamSurveySelectionAdapter.notifyDataSetChanged();
-        }
+    public void teamSurveyDetail() {
+//        showProgress();
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("BHAJAN.LAL@CRYSTALCROP.COM");
+        loginRequest.setPassword("pass123456");
+        loginRequest.setLat("22");
+        loginRequest.setLng("77");
+        loginRequest.setType("report");
+        LoginService loginService = new LoginService();
+        loginService.executeService(loginRequest, new BaseApiCallback<LoginResponse>() {
+            @Override
+            public void onComplete() {
+               // dismissProgress();
+            }
+
+            @Override
+            public void onSuccess(@NonNull LoginResponse response) {
+                super.onSuccess(response);
+                List<LoginResponse.ResponseBean.SurveyDetailsBean> responsed = response.getResponse().getSurveyDetails();
+                String value = new Gson().toJson(responsed);
+                LoginResponse.ResponseBean.SurveyDetailsBean[] surveyDetailsBeans = new Gson().fromJson(value, LoginResponse.ResponseBean.SurveyDetailsBean[].class);
+                Collections.addAll(crystalDoctorModels, surveyDetailsBeans);
+                teamSurveySelectionAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+            }
+        });
+
+
     }
+
 
 }

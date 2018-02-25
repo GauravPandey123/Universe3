@@ -7,7 +7,7 @@
     <TextView
         android:id="@+id/sectionTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:clickable="false"
         android:drawableRight="@drawable/ic_chevron_right_black_24dp"

@@ -67,6 +67,7 @@ public class AppConstants {
     //for login Module
     public static final String TOKEN_ID = "token_id";
     public static final String TOKEN_KEY = "Authorization";
+    public static final String ACCESS_TOKEN = "accessToken";
 
     public static final String DESIGNATION = "designation";
     public static final String UserId = "user_id";
@@ -74,15 +75,16 @@ public class AppConstants {
     public static final String designationLevel = "designationLevel";
     public static final String phone = "phone";
     public static final String password = "password";
-    public static final String email = "Email";
-    public static final String name = "name";
+    public static final String email = "email";
+    public static final String name = "employee_name";
     public static final String picture = "picture";
     public static final String location = "location";
+    public static final String lat = "lat";
+    public static final String lng = "lat";
 
     public static final String Login_Status = "login_status";
     public static final String AUTHORIZATION = "Authorization";
     public static final String LAST_SYNC_DATE = "LastSyncDate";
-    public static final String TYPE = "type";
     public static final String WORKFLOWS = "workflows";
     public static final String SURVEYREPORT = "surveyReport";
     public static final String CREATED_BY = "createdBy";
@@ -100,7 +102,7 @@ public class AppConstants {
     public static final int SUBMITTED = 2;
     public static final int COMPLETED = 3;
     public static final int REJECT = 4;
-    public static final String ANSWERS ="answers" ;
+    public static final String ANSWERS = "answers";
     public static final String SUBMITBY_CD = "submitbyCD";
     public static final String SUBMITBY_RM = "submitbyRM";
     public static final String SUBMITBY_ZM = "submitbyZM";
@@ -119,28 +121,32 @@ public class AppConstants {
 
     public static final String MULTISELECT = "multiselect";
     public static final String PASSWORD = "password";
-    public static final String EMAIL ="email" ;
+    public static final String EMAIL = "email";
     public static final String LAT = "lat";
     public static final String LNG = "lng";
-    public static final String DETAIL ="detail" ;
+    public static final String DETAIL = "detail";
+    public static final String TYPE = "type";
 
-    public static String surveyDetails="surveyDetails";
-    public static String crystalDoctorName="crystalDoctorName";
-    public static String total="total";
-    public static String completed="completed";
+    public static String surveyDetails = "surveyDetails";
+    public static String crystalDoctorName = "crystalDoctorName";
+    public static String total = "total";
+    public static String completed = "completed";
 
-    public static String target="target";
-    public static String submitted="submitted";
-    public static String inprogress="inprogress";
-    public static String CrystalCustomer="CrystalCustomer";
-    public static String newRetailer="newRetailer";
-
+    public static String target = "target";
+    public static String submitted = "submitted";
+    public static String inprogress = "inprogress";
+    public static String CrystalCustomer = "CrystalCustomer";
+    public static String newRetailer = "newRetailer";
 
 
     public static final String UPDATEID = "updateId";
-    public static final String MAPPING ="mapping" ;
+    public static final String MAPPING = "mapping";
     public static final String DETAILS = "details";
     public static final java.lang.String EMPLOYEE_NAME = "employee_name";
-    public static final String ME ="Me" ;
+    public static final String ME = "Me";
+
+
+    public static String Percent = "percent";
+    public static String CrystaDoctorName="CrystaDoctorName";
 }
 

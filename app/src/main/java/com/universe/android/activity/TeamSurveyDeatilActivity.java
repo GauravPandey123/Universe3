@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
@@ -17,19 +18,30 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.universe.android.R;
 import com.universe.android.adapter.CrystalDoctorAdapter;
 import com.universe.android.adapter.StatusAdapter;
 
+import com.universe.android.adapter.TeamSurveyAdapter;
 import com.universe.android.helper.FontClass;
 import com.universe.android.helper.RecyclerTouchListener;
 import com.universe.android.model.DataModel;
 import com.universe.android.model.StatusModel;
+import com.universe.android.resource.Login.login.LoginRequest;
+import com.universe.android.resource.Login.login.LoginResponse;
+import com.universe.android.resource.Login.login.LoginService;
+import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
+import com.universe.android.web.BaseApiCallback;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
+
+import in.editsoft.api.exception.APIException;
 
 /**
  * Created by gaurav.pandey on 12-02-2018.
@@ -45,6 +57,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
 
     private EditText input_period_from, input_period_to, input_period_status;
     private TextView textViewTodayFilter, textViewWeekFilter, textViewMonthFilter, textViewOthersFilter, textViewFilter;
+    private TextView textViewtargetCount, textViewCompletedCount, textViewAchievementPercentage, textViewInProgressCount, textViewNewRetailersCount, textViewCrystalMembersCount;
     private TextView textViewChooseStatus;
     private ImageView imageViewCloseStatus;
     private ImageView imageViewCancel, imageviewfilter;
@@ -60,6 +73,8 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
     private TextView textViewPeriodFrom, textViewPeriodTo, textViewPeriodStatus, textViewReset, textViewApplyFilter;
 
     private List<DataModel> allSampleData;
+    private ArrayList<LoginResponse.ResponseBean.SurveyDetailsBean> surveyDetailsBeanArrayList;
+    private TeamSurveyAdapter teamSurveyAdapter;
     private CrystalDoctorAdapter crystalDoctorAdapter;
 //    private TeamSelectionAdapter teamSelectionAdapter;
 
@@ -74,17 +89,17 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
 
     private void setUpElements() {
         carView.setVisibility(View.GONE);
-        populateSampleData();
+        surveyDetailsBeanArrayList = new ArrayList<>();
         reyclerViewCategory.setLayoutManager(new LinearLayoutManager(mContext));
-        crystalDoctorAdapter = new CrystalDoctorAdapter(allSampleData, mContext);
-        reyclerViewCategory.setAdapter(crystalDoctorAdapter);
+//        crystalDoctorAdapter = new CrystalDoctorAdapter(allSampleData, mContext);
+        teamSurveyAdapter = new TeamSurveyAdapter(mContext, surveyDetailsBeanArrayList);
+        reyclerViewCategory.setAdapter(teamSurveyAdapter);
+        setWebService();
 
         reyclerViewCategory.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), reyclerViewCategory, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                Intent intent = new Intent(mContext, TeamSurveyDetailReport.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
             }
 
             @Override
@@ -103,6 +118,12 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
         reyclerViewCategory = findViewById(R.id.reyclerViewCategory);
         imageViewBack = findViewById(R.id.imageviewback);
         imageviewfilter = findViewById(R.id.imageviewfilter);
+        textViewtargetCount = findViewById(R.id.textViewtargetCount);
+        textViewCompletedCount = findViewById(R.id.textViewCompletedCount);
+        textViewAchievementPercentage = findViewById(R.id.textViewAchievementPercentage);
+        textViewInProgressCount = findViewById(R.id.textViewInProgressCount);
+        textViewNewRetailersCount = findViewById(R.id.textViewNewRetailersCount);
+        textViewCrystalMembersCount = findViewById(R.id.textViewCrystalMembersCount);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -429,6 +450,61 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
                 }, y, m, d);
         dp.setTitle("Calender");
         dp.show();
+
+    }
+
+    private void setWebService() {
+        if (!Utility.isConnected()) {
+            Utility.showToast(R.string.msg_disconnected);
+        } else {
+            teamSurveyDetail();
+        }
+    }
+
+    public void teamSurveyDetail() {
+        showProgress();
+        LoginRequest loginRequest = new LoginRequest();
+        loginRequest.setEmail("BHAJAN.LAL@CRYSTALCROP.COM");
+        loginRequest.setPassword("pass123456");
+        loginRequest.setLat("22");
+        loginRequest.setLng("77");
+        loginRequest.setType("report");
+        LoginService loginService = new LoginService();
+        loginService.executeService(loginRequest, new BaseApiCallback<LoginResponse>() {
+            @Override
+            public void onComplete() {
+                dismissProgress();
+            }
+
+            @Override
+            public void onSuccess(@NonNull LoginResponse response) {
+                super.onSuccess(response);
+                List<LoginResponse.ResponseBean.SurveyDetailsBean> responsed = response.getResponse().getSurveyDetails();
+                String totalString=String.valueOf(responsed.get(0).getTarget());
+                String completedString=String.valueOf(responsed.get(0).getSubmitted());
+
+                textViewtargetCount.setText(totalString);
+                textViewCompletedCount.setText(completedString);
+                int n = Integer.parseInt(totalString);
+                int v = Integer.parseInt(completedString);
+                int percent = v * 100 / n;
+                textViewAchievementPercentage.setText(String.valueOf(percent).concat("%"));
+                textViewInProgressCount.setText(String.valueOf(responsed.get(0).getInprogress()));
+                textViewNewRetailersCount.setText(String.valueOf(responsed.get(0).getNewRetailer()));
+                textViewCrystalMembersCount.setText(String.valueOf(responsed.get(0).getCrystalCustomer()));
+                String value = new Gson().toJson(responsed);
+                LoginResponse.ResponseBean.SurveyDetailsBean[] surveyDetailsBeans = new Gson().fromJson(value, LoginResponse.ResponseBean.SurveyDetailsBean[].class);
+                Collections.addAll(surveyDetailsBeanArrayList, surveyDetailsBeans);
+                teamSurveyAdapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+            }
+        });
+
 
     }
 

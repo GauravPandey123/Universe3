@@ -1,5 +1,6 @@
 package com.universe.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -103,9 +104,11 @@ public class MainActivity extends BaseActivity {
 
                     case 8:
                         mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.teamSurveyReport);
+                        mToolbar.setTitle(R.string.team_survey_detail);
                         replaceFragment(new QuestionaireTeamSuverFragment(), mContainerId);
                         break;
+                       // mContext.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
 
 
                 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
@@ -75,6 +76,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
     public class SurveyViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewRetailersName, textViewMobileNo, textViewStatus;
         private LinearLayout llStatus;
+        private RelativeLayout relativeLayout;
 
         public SurveyViewHolder(View itemView) {
             super(itemView);
@@ -82,6 +84,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
             llStatus = itemView.findViewById(R.id.llStatus);
+            relativeLayout=itemView.findViewById(R.id.relativeLayout);
            /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

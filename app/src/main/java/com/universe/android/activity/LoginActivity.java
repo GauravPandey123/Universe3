@@ -199,7 +199,15 @@ public class LoginActivity extends BaseActivity {
                             if (responseData != null) {
                                 JSONObject jsonResponse = new JSONObject(responseData);
                                 JSONObject jsonObject = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-                                Prefs.putStringPrefs(AppConstants.designationLevel, jsonObject.optString(AppConstants.TYPE));
+                                Prefs.putStringPrefs(AppConstants.TOKEN_ID, jsonObject.optString(AppConstants.ACCESS_TOKEN));
+                                Prefs.putStringPrefs(AppConstants.UserId, jsonObject.optString(AppConstants.ID));
+                                Prefs.putStringPrefs(AppConstants.password, jsonObject.optString(AppConstants.password));
+                                Prefs.putStringPrefs(AppConstants.email, jsonObject.optString(AppConstants.email));
+                                Prefs.putStringPrefs(AppConstants.name, jsonObject.optString(AppConstants.name));
+                                Prefs.putLongPrefs(AppConstants.phone, jsonObject.optLong(AppConstants.phone));
+                                Prefs.putStringPrefs(AppConstants.DESIGNATION, jsonObject.optString(AppConstants.TYPE));
+                                Prefs.putStringPrefs(AppConstants.location, jsonObject.optString(AppConstants.location));
+                                Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
 
                                 if (jsonObject.has("report")) {
                                     JSONObject jsonObject2 = jsonObject.getJSONObject("loginDetails");
@@ -217,17 +225,6 @@ public class LoginActivity extends BaseActivity {
 
 
                                 //  JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
-                        /*    Prefs.putStringPrefs(AppConstants.TOKEN_ID, responseBean.getAccessToken());
-                            Prefs.putStringPrefs(AppConstants.UserId, responseBean.get_id());
-                            Prefs.putStringPrefs(AppConstants.password, responseBean.getPassword());
-                            Prefs.putStringPrefs(AppConstants.email, responseBean.getEmail());
-                            Prefs.putStringPrefs(AppConstants.name, responseBean.getName());
-                            Prefs.putLongPrefs(AppConstants.phone, responseBean.getPhone());
-                            Prefs.putStringPrefs(AppConstants.designationLevel, responseBean.getDesignationLevel());
-                            Prefs.putStringPrefs(AppConstants.DESIGNATION, responseBean.getDesignation());
-                            Prefs.putStringPrefs(AppConstants.picture, responseBean.getPicture());
-                            Prefs.putStringPrefs(AppConstants.location, responseBean.getLocation());
-                            Prefs.putBooleanPrefs(AppConstants.Login_Status, true);*/
 
 
                                 // new RealmController().saveQuestions(array.toString());
@@ -504,12 +501,8 @@ public class LoginActivity extends BaseActivity {
 
 
     private void getCategoryResponse() {
-
-
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         String url = UniverseAPI.WEB_SERVICE_LIST_CATEGORY_METHOD;
-
-
         Request request = APIClient.getRequest(mContext, url);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override

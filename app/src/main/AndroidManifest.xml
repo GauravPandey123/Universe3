@@ -44,7 +44,7 @@
         <activity android:name=".fragment.QuestinaireFragment" />
         <!--<activity android:name=".activity.TeamSurveyDetailReport" />-->
         <activity android:name=".activity.AddNewRetailors" />
-        <activity android:name=".activity.AddNewRetailorsActivity" />
+        <!--<activity android:name=".activity.AddNewRetailorsActivity" />-->
 
         <activity
             android:name=".activity.CategoryExpandableListActivity"
@@ -89,8 +89,9 @@
         <activity android:name=".activity.ResetPasswordActivity" />
         <activity android:name=".workflows.WorkFlowsDetailActivity" />
         <activity android:name=".workflows.WorkFlowsActivity" />
-        <activity android:name=".activity.TeamSurveyDeatilActivity"/>
-        <activity android:name=".activity.TeamSurveyDetailReport"/>
+        <activity android:name=".activity.TeamSurveyDeatilActivity" />
+        <activity android:name=".activity.TeamSurveyDetailReport" />
+        <activity android:name=".activity.MapsOneActivity" />
 
 
         <!--
@@ -105,10 +106,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
         <!--<meta-data-->
-            <!--android:name="com.google.android.geo.API_KEY"-->
-            <!--android:value="AIzaSyAHQXVAvN3NT_iJJYXjmFdNSgH63ZDqXfM" />-->
+        <!--android:name="com.google.android.geo.API_KEY"-->
+        <!--android:value="AIzaSyAHQXVAvN3NT_iJJYXjmFdNSgH63ZDqXfM" />-->
 
-        <activity android:name=".activity.MapsActivity"></activity>
     </application>
 
 </manifest>

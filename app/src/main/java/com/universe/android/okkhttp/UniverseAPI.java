@@ -29,12 +29,8 @@ public interface UniverseAPI {
     String WEB_SERVICE_LIST_CUSTOMER_METHOD = WEB_SERVICE_BASE_URL + "customerList";
     String WEB_SERVICE_LIST_CATEGORY_METHOD = WEB_SERVICE_BASE_URL + "categoryList";
     String WEB_SERVICE_LIST_QUESTION_METHOD = WEB_SERVICE_BASE_URL + "surveyQuestionList";
-<<<<<<< HEAD
-    String WEB_SERVICE_LOGIN_METHOD = WEB_SERVICE_BASE_URL + "login";
-=======
     String WEB_SERVICE_LIST_ANSWERS_METHOD = WEB_SERVICE_BASE_URL + "answersList";
 
->>>>>>> ea50f0fe3d7a64bf182caaa77a86d67d21a0c8a2
 
 
 }

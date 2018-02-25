@@ -23,9 +23,9 @@ import java.util.ArrayList;
 public class TeamSurveySelectionAdapter extends RecyclerView.Adapter<TeamSurveySelectionAdapter.TeamSurveyViewHolder> {
 
     private Context mContext;
-    private ArrayList<CrystalDoctorModel> mappingBeans;
+    private ArrayList<LoginResponse.ResponseBean.SurveyDetailsBean> mappingBeans;
 
-    public TeamSurveySelectionAdapter(Context mContext, ArrayList<CrystalDoctorModel> mappingBeans) {
+    public TeamSurveySelectionAdapter(Context mContext, ArrayList<LoginResponse.ResponseBean.SurveyDetailsBean> mappingBeans) {
         this.mContext = mContext;
         this.mappingBeans = mappingBeans;
     }
@@ -38,19 +38,9 @@ public class TeamSurveySelectionAdapter extends RecyclerView.Adapter<TeamSurveyS
 
     @Override
     public void onBindViewHolder(TeamSurveyViewHolder holder, int position) {
-        CrystalDoctorModel mappingBean = mappingBeans.get(position);
-
-        if (Utility.validateString(mappingBean.getTitle())){
-            holder.tvTitle.setText(mappingBean.getTitle());
-        }
-        if (Utility.validateString(mappingBean.getExpiryDate())){
-            holder.tvExpiryDate.setText(mappingBean.getExpiryDate());
-
-        }
-//        if (Utility.validateString(surveysModal.getStatus())){
-//            holder.tvPending.setText(surveysModal.getStatus());
-//        }
-
+        LoginResponse.ResponseBean.SurveyDetailsBean mappingBean = mappingBeans.get(position);
+        holder.tvTitle.setText(mappingBean.getDetails().getTitle());
+        holder.tvPending.setText(String.valueOf(mappingBean.getPending()));
         setUpListners(holder, position);
     }
 

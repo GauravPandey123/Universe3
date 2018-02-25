@@ -1,5 +1,6 @@
 package com.universe.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -52,6 +53,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
     private TextView textViewCrystalDoctor, textViewAmtala, textViewPosition, textViewAchievementNumbers, textViewAchievement;
     private TeamSurveyDetailAdapter teamSurveyDetailAdapter;
     private ArrayList<CrystalReportResponse.ResponseBean> responseBeanArrayList;
+    Intent intent;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +84,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
     }
 
     private void initialization() {
+        intent = getIntent();
         relativeLayout = findViewById(R.id.include);
         imageviewback = findViewById(R.id.imageviewback);
         textViewCrystalDoctor = findViewById(R.id.textViewCraystalDoctor);
@@ -90,6 +93,8 @@ public class TeamSurveyDetailReport extends BaseActivity {
         textViewAchievementNumbers = findViewById(R.id.textViewAchievementNumbers);
         textViewAchievement = findViewById(R.id.textViewAchievement);
         relativeLayout.setVisibility(View.GONE);
+        textViewAchievementNumbers.setText("20".concat("%"));
+        textViewCrystalDoctor.setText(intent.getStringExtra(AppConstants.CrystaDoctorName));
         textViewCrystalDoctor.setTypeface(FontClass.openSansBold(mContext));
         textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
         textViewPosition.setTypeface(FontClass.openSansRegular(mContext));

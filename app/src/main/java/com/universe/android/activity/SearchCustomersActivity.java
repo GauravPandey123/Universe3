@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -50,15 +51,12 @@ public class SearchCustomersActivity extends BaseActivity {
     private RecyclerView recyclerViewSearch;
     private ImageView imageViewback;
     private TextView textViewSuverDetail;
-
     private CustomerListAdapter surveyDetailAdapter;
 
     private ArrayList<CustomerModal> stringArrayList;
-
-
     private ArrayList<CustomerModal> arrSearlist;
-
     private String surveyId, strTitle;
+
 
 
     @Override
@@ -67,10 +65,8 @@ public class SearchCustomersActivity extends BaseActivity {
         setContentView(R.layout.search_customers_activity);
         Intent intent = getIntent();
         if (intent != null) {
-
             surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
             strTitle = intent.getExtras().getString(AppConstants.TYPE);
-
         }
 
         SearchView searchView = (SearchView) findViewById(R.id.searchView);
@@ -98,7 +94,6 @@ public class SearchCustomersActivity extends BaseActivity {
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-
                     filter(newText, responseList);
                     return false;
                 }
@@ -113,7 +108,6 @@ public class SearchCustomersActivity extends BaseActivity {
      * @param charText the char text
      */
     private void filter(String charText, List<CustomerModal> responseList) {
-
         if (arrSearlist != null && responseList != null) {
             charText = charText.toLowerCase(Locale.getDefault());
             arrSearlist.clear();
@@ -127,8 +121,6 @@ public class SearchCustomersActivity extends BaseActivity {
                         }
                     }
                 }
-
-
             }
         }
 
@@ -149,7 +141,7 @@ public class SearchCustomersActivity extends BaseActivity {
         surveyDetailAdapter.setOnItemClickLister(new CustomerListAdapter.OnItemSelecteListener() {
             @Override
             public void onItemSelected(View v, int position) {
-                Intent intent=new Intent(mContext,MapsActivity.class);
+                Intent intent=new Intent(mContext,MapsOneActivity.class);
 
                 if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
                      intent=new Intent(mContext,WorkFlowsActivity.class);
@@ -167,7 +159,7 @@ public class SearchCustomersActivity extends BaseActivity {
             @Override
             public void onClick(View view, int position) {
 
-                Intent intent = new Intent(mContext, MapsActivity.class);
+                Intent intent = new Intent(mContext, MapsOneActivity.class);
                 if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
                     intent=new Intent(mContext,WorkFlowsActivity.class);
                 }
@@ -249,31 +241,7 @@ public class SearchCustomersActivity extends BaseActivity {
 
             }
         });
-//        editTextSearchcustomers.addTextChangedListener(new TextWatcher() {
-//            public void afterTextChanged(Editable s) {
-//            }
-//
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            public void onTextChanged(CharSequence query, int start, int before, int count) {
 
-////                query = query.toString().toLowerCase();
-////
-////                final ArrayList<CustomerModal> filteredList = new ArrayList<>();
-////
-////                for (int i = 0; i < stringArrayList.size(); i++) {
-////                    stringArrayList.clear();
-////                    final CustomerModal text = filteredList.get(i);
-////                    if (text.getName().equalsIgnoreCase("query")) {
-////                        filteredList.add(stringArrayList.get(i));
-////                    }
-////                }
-////
-
-//            }
-//        });
-//    }
     }
 
     private void prepareList() {
