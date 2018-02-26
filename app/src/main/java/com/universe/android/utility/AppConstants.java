@@ -148,5 +148,7 @@ public class AppConstants {
 
     public static String Percent = "percent";
     public static String CrystaDoctorName="CrystaDoctorName";
+    public static String LoginDetail="loginDetails";
+    public static String detail="detail";
 }
 

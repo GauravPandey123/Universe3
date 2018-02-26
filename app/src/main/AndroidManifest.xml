@@ -37,11 +37,19 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.LoginActivity" />
+        <activity
+            android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".activity.BaseActivity" />
-        <activity android:name=".activity.SurveyDetailActivity" />
-        <activity android:name=".activity.FIlterActivity" />
-        <activity android:name=".fragment.QuestinaireFragment" />
+        <activity
+            android:name=".activity.SurveyDetailActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activity.FIlterActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".fragment.QuestinaireFragment"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <!--<activity android:name=".activity.TeamSurveyDetailReport" />-->
         <activity android:name=".activity.AddNewRetailors" />
         <!--<activity android:name=".activity.AddNewRetailorsActivity" />-->
@@ -84,9 +92,15 @@
         <activity android:name=".activity.SearchCustomersActivity" />
         <activity android:name=".activity.QuestionaireActivity" />
         <activity android:name=".activity.QuestionsCategoryActivity" />
-        <activity android:name=".activity.OtpActivity" />
-        <activity android:name=".activity.ForgotPasswordActivity" />
-        <activity android:name=".activity.ResetPasswordActivity" />
+        <activity
+            android:name=".activity.OtpActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activity.ForgotPasswordActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activity.ResetPasswordActivity"
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity android:name=".workflows.WorkFlowsDetailActivity" />
         <activity android:name=".workflows.WorkFlowsActivity" />
         <activity android:name=".activity.TeamSurveyDeatilActivity" />

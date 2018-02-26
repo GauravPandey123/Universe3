@@ -102,6 +102,13 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 updateLocationService(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
             }
         });
+
+        imageViewSearchBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
     private void setupDetail() {
@@ -154,10 +161,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
     private void updateMap(LatLng latLng, String place) {
         mMap.clear();
-        String tempTitle = place + " : " + latLng.toString();
-        mMap.addMarker(new MarkerOptions().position(latLng).title(tempTitle));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(8.0f));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLng.latitude, latLng.longitude), 10.0f));
         Prefs.putStringPrefs(AppConstants.LATTITUDE, String.valueOf(latLng.latitude));
         Prefs.putStringPrefs(AppConstants.LONGITUDE, String.valueOf(latLng.longitude));
     }
@@ -167,6 +171,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         upadteLocationRequest.setUserId("5a8eb8b82741361f5827afb5");
         upadteLocationRequest.setLat(lat);
         upadteLocationRequest.setLng(lan);
+        upadteLocationRequest.setCustomerId(customerId);
         UpdateLocationService updateLocationService = new UpdateLocationService();
         updateLocationService.executeService(upadteLocationRequest, new BaseApiCallback<UpDateLocationResponse>() {
             @Override
