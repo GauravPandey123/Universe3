@@ -56,6 +56,7 @@
                     android:background="@color/survey_background_color">
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutTarget"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -94,11 +95,13 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/relativeLayoutSubmitted"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:layout_weight="1">
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutSubmitted"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -136,12 +139,14 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/realtiveLayoutAchivement"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:layout_weight="1"
                     android:background="@color/survey_background_color">
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutAchivement"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -193,6 +198,7 @@
                     android:layout_weight="1">
 
                     <LinearLayout
+                        android:id="@+id/linearLayoutInprogress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
@@ -232,6 +238,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/realativeNewRetailers"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:layout_weight="1"
@@ -277,6 +284,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/relativeLayoutCrystalCustomers"
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
                     android:layout_weight="1">

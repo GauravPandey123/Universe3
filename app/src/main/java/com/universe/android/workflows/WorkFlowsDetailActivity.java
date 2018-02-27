@@ -79,7 +79,7 @@ public class WorkFlowsDetailActivity extends BaseActivity {
         Realm realm = Realm.getDefaultInstance();
         try {
 
-long realmPending = 0,realmInprogress=0,realmCompleted=0,realmRejected=0;
+            long realmPending = 0,realmInprogress=0,realmCompleted=0,realmRejected=0;
             String designation= Prefs.getStringPrefs(AppConstants.TYPE);
 
 

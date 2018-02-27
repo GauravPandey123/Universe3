@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,7 +66,7 @@ public class SurveyDetailActivity extends BaseActivity {
     private ImageView imageViewCancel;
 
     private Dialog dialogFilter, dialogStatus, dialogCalendra;
-//    private ArrayList<CustomerModal> stringArrayList;
+    //    private ArrayList<CustomerModal> stringArrayList;
     private LinearLayoutManager linearLayoutManager;
     private SurveyDetailAdapter surveyDetailAdapter;
 
@@ -79,7 +80,12 @@ public class SurveyDetailActivity extends BaseActivity {
     private int day, month, year;
     private TextView textViewtargetCount, textViewCompletedCount, textViewAchievementPercentage, textViewInProgressCount;
     private TextView textViewNewRetailersCount, textViewCrystalMembersCount;
+    private RelativeLayout relativelayoutTarget, relativeLayoutSubmitted, realtiveLayoutAchivement, relativelayoutInprogress;
+    private RelativeLayout realativeNewRetailers, relativeLayoutCrystalCustomers;
+
     private ArrayList<CustomerModal> stringArrayList;
+    private ArrayList<AnswersModal> answersModalArrayList;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -126,6 +132,63 @@ public class SurveyDetailActivity extends BaseActivity {
                 showDialog();
             }
         });
+        floatingActionMenu.setClosedOnTouchOutside(true);
+        floatingCrystal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, SearchCustomersActivity.class));
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                floatingActionMenu.close(true);
+
+            }
+        });
+
+        floatingRetailers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, SearchCustomersActivity.class));
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                floatingActionMenu.close(true);
+
+            }
+        });
+        relativelayoutTarget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        relativeLayoutSubmitted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        realtiveLayoutAchivement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        relativelayoutInprogress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        realativeNewRetailers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        relativeLayoutCrystalCustomers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     private void setUpElements() {
@@ -159,6 +222,12 @@ public class SurveyDetailActivity extends BaseActivity {
         textViewInProgressCount = findViewById(R.id.textViewInProgressCount);
         textViewNewRetailersCount = findViewById(R.id.textViewNewRetailersCount);
         textViewCrystalMembersCount = findViewById(R.id.textViewCrystalMembersCount);
+        relativelayoutTarget = findViewById(R.id.relativelayoutTarget);
+        relativeLayoutSubmitted = findViewById(R.id.relativeLayoutSubmitted);
+        realtiveLayoutAchivement = findViewById(R.id.realtiveLayoutAchivement);
+        relativelayoutInprogress = findViewById(R.id.relativelayoutInprogress);
+        realativeNewRetailers = findViewById(R.id.realativeNewRetailers);
+        relativeLayoutCrystalCustomers = findViewById(R.id.relativeLayoutCrystalCustomers);
 
         textViewToday.setTypeface(FontClass.openSemiBold(mContext));
         textViewtarget.setTypeface(FontClass.openSansRegular(mContext));
@@ -174,27 +243,6 @@ public class SurveyDetailActivity extends BaseActivity {
 //        textViewCrystalMembersCount.setTypeface(FontClass.openSansRegular(mContext));
 //        textViewCompletedQuestionaire.setTypeface(FontClass.openSansRegular(mContext));
 //        textViewFilter.setTypeface(FontClass.openSemiBold(mContext));
-
-        floatingActionMenu.setClosedOnTouchOutside(true);
-        floatingCrystal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, SearchCustomersActivity.class));
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                floatingActionMenu.close(true);
-
-            }
-        });
-
-        floatingRetailers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, SearchCustomersActivity.class));
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                floatingActionMenu.close(true);
-
-            }
-        });
 
     }
 
