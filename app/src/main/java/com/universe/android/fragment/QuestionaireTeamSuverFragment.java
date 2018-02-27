@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.universe.android.R;
+import com.universe.android.activity.BaseActivity;
 import com.universe.android.activity.TeamSurveyDeatilActivity;
 import com.universe.android.adapter.SurveyListAdapter;
 import com.universe.android.adapter.TeamSurveySelectionAdapter;
@@ -102,7 +103,7 @@ public class QuestionaireTeamSuverFragment extends BaseFragment {
     }
 
     public void teamSurveyDetail() {
-//        showProgress();
+        ((BaseActivity) getActivity()).showProgress();
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setEmail("BHAJAN.LAL@CRYSTALCROP.COM");
         loginRequest.setPassword("pass123456");
@@ -113,7 +114,7 @@ public class QuestionaireTeamSuverFragment extends BaseFragment {
         loginService.executeService(loginRequest, new BaseApiCallback<LoginResponse>() {
             @Override
             public void onComplete() {
-               // dismissProgress();
+                ((BaseActivity) getActivity()).dismissProgress();
             }
 
             @Override

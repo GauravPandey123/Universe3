@@ -41,6 +41,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     private GoogleMap mMap;
     private TextView textViewHeader, textViewRetailersNameMap, textViewMobileNoMap, textViewStatusMap, textViewSetLocation;
     private String title, surveyId, customerId;
+    private ImageView imageViewLocation;
 
     private ImageView imageViewSearch, imageViewSearchBack;
     private Activity activity;
@@ -80,6 +81,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         textViewSetLocation = findViewById(R.id.textViewSetLocation);
+        imageViewLocation = findViewById(R.id.imageViewLocation);
 
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
@@ -100,6 +102,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onClick(View view) {
                 updateLocationService(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
+                updateLocationServiceEmployee(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
             }
         });
 
@@ -107,6 +110,12 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onClick(View view) {
                 onBackPressed();
+            }
+        });
+        imageViewLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateMap(new LatLng(28.4595, 77.0266), "");
             }
         });
     }
@@ -118,9 +127,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
             if (Utility.validateString(realmCustomer.getName()))
                 textViewRetailersNameMap.setText(realmCustomer.getName());
-            textViewMobileNoMap.setText(realmCustomer.getContactNo() + " | " +
-                    realmCustomer.getTerritory() + " | " + realmCustomer.getState() + "  \n" +
-                    "Pincode - " + realmCustomer.getPincode());
+            textViewMobileNoMap.setText(String.format("%s | %s | %s  \nPincode - %s", realmCustomer.getContactNo(), realmCustomer.getTerritory(), realmCustomer.getState(), realmCustomer.getPincode()));
 
         } catch (Exception e0) {
             e0.printStackTrace();
@@ -137,7 +144,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
-        updateMap(new LatLng(-34, 151), "Sydney");
+        updateMap(new LatLng(28.4595, 77.0266), "");
     }
 
     @Override
@@ -147,7 +154,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
     @Override
     public void onPlaceSelected(Place place) {
-        Toast.makeText(this, "Place Selected", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Place Selected".concat(place.getAddress().toString()), Toast.LENGTH_SHORT).show();
         updateMap(place.getLatLng(), String.valueOf(place.getName()));
 
 
@@ -161,22 +168,57 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
     private void updateMap(LatLng latLng, String place) {
         mMap.clear();
+        mMap.addMarker(new MarkerOptions().position(latLng));
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latLng.latitude, latLng.longitude), 10.0f));
         Prefs.putStringPrefs(AppConstants.LATTITUDE, String.valueOf(latLng.latitude));
         Prefs.putStringPrefs(AppConstants.LONGITUDE, String.valueOf(latLng.longitude));
     }
 
     public void updateLocationService(String lat, String lan) {
+        showProgress();
         UpadteLocationRequest upadteLocationRequest = new UpadteLocationRequest();
         upadteLocationRequest.setUserId("5a8eb8b82741361f5827afb5");
         upadteLocationRequest.setLat(lat);
         upadteLocationRequest.setLng(lan);
+        upadteLocationRequest.setType(AppConstants.customer);
         upadteLocationRequest.setCustomerId(customerId);
         UpdateLocationService updateLocationService = new UpdateLocationService();
         updateLocationService.executeService(upadteLocationRequest, new BaseApiCallback<UpDateLocationResponse>() {
             @Override
             public void onComplete() {
+                dismissProgress();
+            }
 
+            @Override
+            public void onSuccess(@NonNull UpDateLocationResponse response) {
+                super.onSuccess(response);
+                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLat());
+                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLongX());
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+                Utility.showToast(e.getData());
+            }
+        });
+
+
+    }
+
+    public void updateLocationServiceEmployee(String lat, String lan) {
+        showProgress();
+        UpadteLocationRequest upadteLocationRequest = new UpadteLocationRequest();
+        upadteLocationRequest.setUserId("5a8eb8b82741361f5827afb5");
+        upadteLocationRequest.setLat(lat);
+        upadteLocationRequest.setLng(lan);
+        upadteLocationRequest.setType(AppConstants.employee);
+        upadteLocationRequest.setCustomerId(customerId);
+        UpdateLocationService updateLocationService = new UpdateLocationService();
+        updateLocationService.executeService(upadteLocationRequest, new BaseApiCallback<UpDateLocationResponse>() {
+            @Override
+            public void onComplete() {
+                dismissProgress();
             }
 
             @Override

@@ -185,19 +185,26 @@ public class LoginActivity extends BaseActivity {
                             if (responseData != null) {
                                 JSONObject jsonResponse = new JSONObject(responseData);
                                 JSONObject jsonObject = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-//                                JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.LoginDetail);
-//                                JSONObject jsonObject2 = jsonObject1.getJSONObject(AppConstants.DETAIL);
-//
-//                                Prefs.putStringPrefs(AppConstants.TOKEN_ID, jsonObject2.optString(AppConstants.ACCESS_TOKEN));
-//                                Prefs.putStringPrefs(AppConstants.UserId, jsonObject2.optString(AppConstants.ID));
-//                                Prefs.putStringPrefs(AppConstants.password, jsonObject2.optString(AppConstants.password));
-//                                Prefs.putStringPrefs(AppConstants.email, jsonObject2.optString(AppConstants.email));
-//                                Prefs.putStringPrefs(AppConstants.name, jsonObject2.optString(AppConstants.name));
-//                                Prefs.putLongPrefs(AppConstants.phone, jsonObject2.optLong(AppConstants.phone));
-//                                Prefs.putStringPrefs(AppConstants.DESIGNATION, jsonObject2.optString(AppConstants.TYPE));
-////                                Prefs.putStringPrefs(AppConstants.LATTITUDE,jsonObject.optString(AppConstants.));
-//                                Prefs.putStringPrefs(AppConstants.location, jsonObject2.optString(AppConstants.location));
+                                Prefs.putStringPrefs(AppConstants.TOKEN_ID, jsonObject.optString(AppConstants.ACCESS_TOKEN));
+                                Prefs.putStringPrefs(AppConstants.UserId, jsonObject.optString(AppConstants.ID));
+                                Prefs.putStringPrefs(AppConstants.password, jsonObject.optString(AppConstants.password));
+                                Prefs.putStringPrefs(AppConstants.email, jsonObject.optString(AppConstants.email));
+                                Prefs.putStringPrefs(AppConstants.name, jsonObject.optString(AppConstants.name));
+                                Prefs.putLongPrefs(AppConstants.phone, jsonObject.optLong(AppConstants.phone));
+                                Prefs.putStringPrefs(AppConstants.DESIGNATION, jsonObject.optString(AppConstants.TYPE));
+//                                Prefs.putStringPrefs(AppConstants.LATTITUDE,jsonObject.optString(AppConstants.));
+                                Prefs.putStringPrefs(AppConstants.location, jsonObject.optString(AppConstants.location));
                                 Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
+                                if (jsonObject.has("report")) {
+                                    JSONObject jsonObject2 = jsonObject.getJSONObject("loginDetails");
+                                    JSONObject jsonObject1 = jsonObject2.getJSONObject(AppConstants.DETAIL);
+                                    new RealmController().saveUserDetail(jsonObject1.toString());
+                                    JSONArray jsonObject3 = jsonObject.getJSONArray(AppConstants.surveyDetails);
+                                    new RealmController().saveSurveyData(jsonObject3.toString());
+                                } else {
+                                    JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
+                                    new RealmController().saveUserDetail(jsonObject1.toString());
+                                }
                                 getSurveyResponse();
                             }
                         } else {

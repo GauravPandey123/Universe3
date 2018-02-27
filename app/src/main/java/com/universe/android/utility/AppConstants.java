@@ -144,6 +144,8 @@ public class AppConstants {
     public static final String DETAILS = "details";
     public static final java.lang.String EMPLOYEE_NAME = "employee_name";
     public static final String ME = "Me";
+    public static final String customer = "customer";
+    public static final String employee = "employee";
 
 
     public static String Percent = "percent";

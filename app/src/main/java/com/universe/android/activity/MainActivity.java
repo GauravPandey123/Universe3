@@ -104,12 +104,9 @@ public class MainActivity extends BaseActivity {
 
                     case 8:
                         mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.team_survey_detail);
+                        mToolbar.setTitle(R.string.team_survey_report);
                         replaceFragment(new QuestionaireTeamSuverFragment(), mContainerId);
                         break;
-                       // mContext.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
-
 
                 }
 
@@ -180,7 +177,6 @@ public class MainActivity extends BaseActivity {
         item9.setIcon(R.drawable.ic_logout);
         item9.setTitle("Logout");
         mDrawerItemList.add(item9);
-
 
 
         mDrawerAdapter = new DrawerAdapter(mDrawerItemList, mContext);

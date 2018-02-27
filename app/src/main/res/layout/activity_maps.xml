@@ -38,6 +38,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_margin="@dimen/margin_small"
+            android:visibility="gone"
             android:src="@drawable/ic_arrow_forward_black_24dp" />
 
     </RelativeLayout>
@@ -95,8 +96,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/margin_medium"
-        android:src="@drawable/ic_location_searching_black_24dp"
-        android:visibility="gone" />
+        android:src="@drawable/ic_location_searching_black_24dp" />
 
 
 </RelativeLayout>

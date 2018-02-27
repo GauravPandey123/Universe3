@@ -50,12 +50,12 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
                     stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  \n"+
                     stringArrayList.get(position).getDate());
 
-
-            if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
-                holder.llStatus.setVisibility(View.VISIBLE);
-            }else{
-                holder.llStatus.setVisibility(View.GONE);
-            }
+//
+//            if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
+//                holder.llStatus.setVisibility(View.VISIBLE);
+//            }else{
+//                holder.llStatus.setVisibility(View.GONE);
+//            }
 
 
     }
