@@ -21,10 +21,10 @@ import java.util.ArrayList;
 
 public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapter.SurveyViewHolder> {
     private Context mContext;
-    private ArrayList<CustomerModal> stringArrayList;
+    private ArrayList<AnswersModal> stringArrayList;
     private OnItemSelecteListener mListener;
 
-    public SurveyDetailAdapter(Context mContext, ArrayList<CustomerModal> stringArrayList) {
+    public SurveyDetailAdapter(Context mContext, ArrayList<AnswersModal> stringArrayList) {
         this.mContext = mContext;
         this.stringArrayList = stringArrayList;
 

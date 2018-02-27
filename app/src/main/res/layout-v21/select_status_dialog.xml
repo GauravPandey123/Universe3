@@ -36,8 +36,8 @@
         android:id="@+id/swipeRefreshLayoutStatus"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/margin_medium"
-        android:layout_below="@+id/relativeLayoutFilterStatus">
+        android:layout_below="@+id/relativeLayoutFilterStatus"
+        android:layout_margin="@dimen/margin_medium">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recylerViewStatus"
@@ -48,5 +48,13 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <RelativeLayout
+        android:id="@+id/relativeLayoutSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <include layout="@layout/submit_button_layout" />
+    </RelativeLayout>
 
 </RelativeLayout>

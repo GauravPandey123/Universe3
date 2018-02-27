@@ -7,16 +7,16 @@ import com.universe.android.web.BaseRequest;
  */
 
 public class CrystalReportRequest extends BaseRequest {
-
-    public String getCdId() {
-        return cdId;
+    public String getSurveyId() {
+        return surveyId;
     }
 
-    public void setCdId(String cdId) {
-        this.cdId = cdId;
+    public void setSurveyId(String surveyId) {
+        this.surveyId = surveyId;
     }
 
-    private String cdId;
+    private String surveyId;
+
 
     @Override
     public boolean isValid(String Scenario) {

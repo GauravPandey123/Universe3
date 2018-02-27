@@ -299,15 +299,10 @@ public class WorkFlowsDetailActivity extends BaseActivity {
             }
         });
 
-
-
-
         Intent intent = getIntent();
         if (intent != null) {
             strType = intent.getExtras().getString(AppConstants.TYPE);
-            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
-        }
-
+            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);}
         TextView tvHeaderName=(TextView)findViewById(R.id.tvHeaderName);
         tvHeaderName.setText(strType);
 

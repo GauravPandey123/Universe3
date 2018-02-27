@@ -126,6 +126,7 @@ public class AppConstants {
     public static final String LNG = "lng";
     public static final String DETAIL = "detail";
     public static final String TYPE = "type";
+    public static final String TODATE ="toDate" ;
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";
@@ -152,5 +153,9 @@ public class AppConstants {
     public static String CrystaDoctorName="CrystaDoctorName";
     public static String LoginDetail="loginDetails";
     public static String detail="detail";
+
+
+    public static String CDID="cdid";
+    public static String FROMDATE="formdate";
 }
 
