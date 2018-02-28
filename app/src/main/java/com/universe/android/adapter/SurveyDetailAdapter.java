@@ -42,11 +42,11 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
         holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
         holder.textViewStatus.setTypeface(FontClass.openSansRegular(mContext));
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
-        holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
+            holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
 
-            holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo()+" | "+
-                    stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  "+
-                    stringArrayList.get(position).getDate());
+        holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo() + " | " +
+                stringArrayList.get(position).getTerritory() + " | " + stringArrayList.get(position).getState() + "  " +
+                stringArrayList.get(position).getDate());
 
 
     }

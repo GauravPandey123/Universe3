@@ -38,6 +38,7 @@ public class RealmAnswers extends RealmObject {
     private String surveyId;
     private String customerId;
     private String workflow;
+    private String customer;
 
 
     public String get_id() {
@@ -278,5 +279,21 @@ public class RealmAnswers extends RealmObject {
 
     public void setZm_Status(String zm_Status) {
         this.zm_Status = zm_Status;
+    }
+
+    public String getRm_Status() {
+        return rm_Status;
+    }
+
+    public void setRm_Status(String rm_Status) {
+        this.rm_Status = rm_Status;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
     }
 }

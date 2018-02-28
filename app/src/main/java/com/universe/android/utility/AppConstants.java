@@ -127,6 +127,7 @@ public class AppConstants {
     public static final String DETAIL = "detail";
     public static final String TYPE = "type";
     public static final String TODATE ="toDate" ;
+    public static final String CUSTOMER = "customer";
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";

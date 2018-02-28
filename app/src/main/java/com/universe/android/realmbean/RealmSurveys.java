@@ -24,6 +24,16 @@ public class RealmSurveys extends RealmObject {
     private boolean isUpdate=true;
     private String categoryId;
 
+    public int getTarget() {
+        return target;
+    }
+
+    public void setTarget(int target) {
+        this.target = target;
+    }
+
+    private int target;
+
 
     public String getStatus() {
         return status;
