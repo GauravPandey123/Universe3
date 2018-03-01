@@ -2,6 +2,8 @@ package com.universe.android.resource.Login.Profile;
 
 import com.universe.android.web.BaseRequest;
 
+import java.io.File;
+
 /**
  * Created by gaurav.pandey on 07-02-2018.
  */
@@ -17,6 +19,7 @@ public class ProfileRequest extends BaseRequest {
     private String address;
     private int isPicture;
     private String photo;
+
 
     public String getRole() {
         return role;

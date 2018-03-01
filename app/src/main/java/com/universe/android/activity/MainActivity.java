@@ -1,7 +1,9 @@
 package com.universe.android.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -183,9 +185,11 @@ public class MainActivity extends BaseActivity {
 
                     case 8:
                         mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.team_survey_detail);
+                        mToolbar.setTitle(R.string.team_survey_report);
                         replaceFragment(new QuestionaireTeamSuverFragment(), mContainerId);
                         break;
+<<<<<<< HEAD
+=======
                        // mContext.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
 
@@ -196,6 +200,7 @@ public class MainActivity extends BaseActivity {
                         i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                         break;
+>>>>>>> d771e06f5802c60a97297089c0938f05deed160b
 
                 }*/
 
@@ -332,7 +337,6 @@ public class MainActivity extends BaseActivity {
         mDrawerItemList.add(item9);*/
 
 
-
         mDrawerAdapter = new DrawerAdapter(mDrawerItemList, mContext);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mRecyclerView.setAdapter(mDrawerAdapter);
@@ -368,6 +372,14 @@ public class MainActivity extends BaseActivity {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+    @SuppressLint("RestrictedApi")
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

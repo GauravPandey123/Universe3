@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
@@ -21,10 +23,10 @@ import java.util.ArrayList;
 
 public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapter.SurveyViewHolder> {
     private Context mContext;
-    private ArrayList<CustomerModal> stringArrayList;
+    private ArrayList<AnswersModal> stringArrayList;
     private OnItemSelecteListener mListener;
 
-    public SurveyDetailAdapter(Context mContext, ArrayList<CustomerModal> stringArrayList) {
+    public SurveyDetailAdapter(Context mContext, ArrayList<AnswersModal> stringArrayList) {
         this.mContext = mContext;
         this.stringArrayList = stringArrayList;
 
@@ -40,13 +42,28 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
     public void onBindViewHolder(SurveyViewHolder holder, int position) {
         holder.textViewRetailersName.setTypeface(FontClass.openSansBold(mContext));
         holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
-        holder.textViewStatus.setTypeface(FontClass.openSansRegular(mContext));
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
-        holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
+            holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
 
-            holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo()+" | "+
-                    stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  "+
-                    stringArrayList.get(position).getDate());
+        holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo() + " | " +
+                stringArrayList.get(position).getTerritory() + " | " + stringArrayList.get(position).getState() + "  " +
+                stringArrayList.get(position).getDate());
+//        if (stringArrayList.get(position).getStatus().equalsIgnoreCase("0")) {
+//            holder.imageViewStatus.setImageResource(R.drawable.pending);
+//            holder.tvStatus.setText(R.string.pending);
+//        } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
+//            holder.imageViewStatus.setImageResource(R.drawable.ic_submitted);
+//            holder.tvStatus.setText(R.string.submit);
+//        } else if (stringArrayList.get((position)).getStatus().equalsIgnoreCase("2")) {
+//
+//        } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("3")) {
+//
+//        } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("4")) {
+//
+//        } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
+//            holder.imageViewStatus.setImageResource(R.drawable.ic_progress);
+//            holder.tvStatus.setText(R.string.inprogress);
+//        }
 
 
     }
@@ -65,20 +82,16 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
     }
 
     public class SurveyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewRetailersName, textViewMobileNo, textViewStatus;
+        private TextView textViewRetailersName, textViewMobileNo, tvStatus;
+        private LinearLayout llStatus;
+        public ImageView imageViewStatus;
 
         public SurveyViewHolder(View itemView) {
             super(itemView);
             textViewRetailersName = itemView.findViewById(R.id.textViewRetailersName);
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
-            textViewStatus = itemView.findViewById(R.id.textViewStatus);
-           /* itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mListener.onItemSelected(view, getAdapterPosition());
-
-                }
-            });*/
+            imageViewStatus = itemView.findViewById(R.id.imageViewStatus);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
 
         }
     }

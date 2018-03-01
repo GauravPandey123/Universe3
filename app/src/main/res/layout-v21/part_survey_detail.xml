@@ -49,11 +49,11 @@
                 android:visibility="visible"
                 android:gravity="center"
                 android:orientation="vertical">
-                <TextView
-                    android:id="@+id/textViewStatus"
+                <ImageView
+                    android:id="@+id/imageViewStatus"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:background="@drawable/ic_submitted"
+                    android:src="@drawable/ic_submitted"
                     android:textAllCaps="true"
                     android:textColor="@color/green"
                     />

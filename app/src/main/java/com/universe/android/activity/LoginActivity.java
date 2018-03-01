@@ -230,7 +230,7 @@ public class LoginActivity extends BaseActivity {
                     e.printStackTrace();
                 }
             }
-            });
+        });
     }
 
     private void getQuestionsResponse() {

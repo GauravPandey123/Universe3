@@ -50,8 +50,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
                     stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  \n"+
                     stringArrayList.get(position).getDate());
 
-
-            if (Utility.validateString(stringArrayList.get(position).getStatus())) {
+           if (Utility.validateString(stringArrayList.get(position).getStatus())) {
                 if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
                     holder.llStatus.setVisibility(View.VISIBLE);
                     holder.tvStatus.setText("Submitted");

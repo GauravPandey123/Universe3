@@ -16,6 +16,7 @@
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
 
     <application
@@ -28,8 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.SplashActivity"
-            android:noHistory="true">
+            android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,9 +50,9 @@
         <activity
             android:name=".fragment.QuestinaireFragment"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <!--<activity android:name=".activity.TeamSurveyDetailReport" />-->
+        <!-- <activity android:name=".activity.TeamSurveyDetailReport" /> -->
         <activity android:name=".activity.AddNewRetailors" />
-        <!--<activity android:name=".activity.AddNewRetailorsActivity" />-->
+        <!-- <activity android:name=".activity.AddNewRetailorsActivity" /> -->
 
         <activity
             android:name=".activity.CategoryExpandableListActivity"
@@ -88,7 +88,6 @@
             android:name=".activity.admin.ClientListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
-
         <activity android:name=".activity.SearchCustomersActivity" />
         <activity android:name=".activity.QuestionaireActivity" />
         <activity android:name=".activity.QuestionsCategoryActivity" />
@@ -107,7 +106,6 @@
         <activity android:name=".activity.TeamSurveyDetailReport" />
         <activity android:name=".activity.MapsOneActivity" />
 
-
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -119,9 +117,10 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <!--<meta-data-->
-        <!--android:name="com.google.android.geo.API_KEY"-->
-        <!--android:value="AIzaSyAHQXVAvN3NT_iJJYXjmFdNSgH63ZDqXfM" />-->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.android.geo.API_KEY" -->
+        <!-- android:value="AIzaSyAHQXVAvN3NT_iJJYXjmFdNSgH63ZDqXfM" /> -->
+
 
     </application>
 

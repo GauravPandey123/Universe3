@@ -57,10 +57,12 @@ public class ProfileFragment extends BaseFragment {
     private ArrayList<ProfileResponse.ResponseBean> responseBeans;
     private HashTagHelper hashTagHelper;
     private CircleImageView circleImageViewProfile;
-
+    private boolean isUpdateImage = false;
     private static final int WRITE_EXTERNAL_STORAGE = 1;
+    private String mImageId ;
     public int CAMERA_REQUEST = 2121;
     public int GALLERY_REQUEST = 2221;
+    private String mImageUrl;
 
 
     @Nullable
@@ -95,7 +97,11 @@ public class ProfileFragment extends BaseFragment {
         if (!Utility.isConnected()) {
             Utility.showToast(R.string.msg_disconnected);
         } else {
-            profileWebservice();
+            if (isUpdateImage) {
+                imageUpload();
+            } else {
+                profileWebservice();
+            }
         }
     }
 
@@ -145,6 +151,7 @@ public class ProfileFragment extends BaseFragment {
         ProfileRequest profileRequest = new ProfileRequest();
         profileRequest.addHeader(AppConstants.TOKEN_KEY, Prefs.getStringPrefs(AppConstants.TOKEN_ID));
         profileRequest.setUserId(Prefs.getStringPrefs(AppConstants.UserId));
+//        profileRequest.setIsPicture(Integer.valueOf(mImageId));
         ProfileService profileService = new ProfileService();
         profileService.executeService(profileRequest, new BaseApiCallback<ProfileResponse>() {
             @Override
@@ -180,6 +187,37 @@ public class ProfileFragment extends BaseFragment {
         });
     }
 
+    public void imageUpload() {
+        ((BaseActivity) getActivity()).showProgress();
+        ProfileRequest profileRequest = new ProfileRequest();
+        profileRequest.setUserId(Prefs.getStringPrefs(AppConstants.UserId));
+        profileRequest.setIsPicture(1);
+        ProfileService profileService = new ProfileService();
+        profileService.executeService(profileRequest, new BaseApiCallback<ProfileResponse>() {
+            @Override
+            public void onComplete() {
+                ((BaseActivity) getActivity()).dismissProgress();
+            }
+
+            @Override
+            public void onSuccess(@NonNull ProfileResponse response) {
+                super.onSuccess(response);
+                mImageId = response.getResponse().get_id();
+                Glide.with(mActivity)
+                        .load(mImageId)
+                        .into(circleImageViewProfile);
+
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+            }
+        });
+
+    }
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent result) {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
@@ -207,11 +245,14 @@ public class ProfileFragment extends BaseFragment {
 
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
-           // mImageUrl = Crop.getOutput(result).getPath();
+            mImageUrl = Crop.getOutput(result).getPath();
             if (Crop.getOutput(result).getPath() != null) {
-//                mUserData.setUserImageUrl(Crop.getOutput(result).getPath());
-               /// setUserData();
-                //isUpdateImage = true;
+                File file=new File(Crop.getOutput(result).getPath());
+                Glide.with(mActivity)
+                        .load(file)
+                        .into(circleImageViewProfile);
+                isUpdateImage = true;
+                imageUpload();
             }
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(getActivity(), Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();

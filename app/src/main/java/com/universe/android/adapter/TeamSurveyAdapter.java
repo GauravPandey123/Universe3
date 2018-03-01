@@ -36,7 +36,6 @@ public class TeamSurveyAdapter extends RecyclerView.Adapter<TeamSurveyAdapter.Te
     @Override
     public TeamSurveyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.list_item, parent, false);
-
         return new TeamSurveyViewHolder(view);
     }
 
@@ -69,6 +68,7 @@ public class TeamSurveyAdapter extends RecyclerView.Adapter<TeamSurveyAdapter.Te
                 Intent intent = new Intent(mContext, TeamSurveyDetailReport.class);
                 intent.putExtra(AppConstants.Percent, percent);
                 intent.putExtra(AppConstants.CrystaDoctorName, surveyDetailsBean.getDoctorAssign().get(position).getCrystalDoctorName());
+                intent.putExtra(AppConstants.CDID, surveyDetailsBean.getDoctorAssign().get(position).get_id());
                 mContext.startActivity(intent);
 //                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }

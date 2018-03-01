@@ -168,26 +168,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity {
     }
 
     private void dialogStatusSetUpElements() {
-//        teamSelectionAdapter = new TeamSelectionAdapter(numberArrayList, mContext);
-//        mLayoutManager = new LinearLayoutManager(mContext);
-//        recylerViewStatus.setLayoutManager(mLayoutManager);
-//        recylerViewStatus.setItemAnimator(new DefaultItemAnimator());
-//        recylerViewStatus.setAdapter(teamSelectionAdapter);
-//        relativeLayoutTeamSubmit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                StringBuilder stringBuilder = new StringBuilder();
-//                for (Number number : numberArrayList) {
-//                    if (number.isSelected()) {
-//                        if (stringBuilder.length() > 0)
-//                            stringBuilder.append(", ");
-//                        stringBuilder.append(number.getTextONEs());
-//                    }
-//                }
-//                input_period_status.setText(stringBuilder.toString());
-//                dialogStatus.dismiss();
-//            }
-//        });
+
 //
 //        imageViewCloseStatus.setOnClickListener(new View.OnClickListener() {
 //            @Override

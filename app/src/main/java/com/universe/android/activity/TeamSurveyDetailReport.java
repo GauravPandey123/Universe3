@@ -30,6 +30,7 @@ import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import in.editsoft.api.exception.APIException;
@@ -54,6 +55,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
     private TeamSurveyDetailAdapter teamSurveyDetailAdapter;
     private ArrayList<CrystalReportResponse.ResponseBean> responseBeanArrayList;
     Intent intent;
+    private int surveyId;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,6 +95,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
         textViewAchievementNumbers = findViewById(R.id.textViewAchievementNumbers);
         textViewAchievement = findViewById(R.id.textViewAchievement);
         relativeLayout.setVisibility(View.GONE);
+        surveyId=intent.getIntExtra(AppConstants.CDID,0);
         textViewAchievementNumbers.setText("20".concat("%"));
         textViewCrystalDoctor.setText(intent.getStringExtra(AppConstants.CrystaDoctorName));
         textViewCrystalDoctor.setTypeface(FontClass.openSansBold(mContext));
@@ -105,7 +108,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
 
     private void TeamReportService() {
         CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
-        crystalReportRequest.setCdId("5a8e81022741361f5827ae85");
+        crystalReportRequest.setSurveyId("5a8e81022741361f5827ae85");
         CrystalReportService crystalReportService = new CrystalReportService();
         crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
             @Override
@@ -113,7 +116,6 @@ public class TeamSurveyDetailReport extends BaseActivity {
                 Log.e(TAG, "complete");
 
             }
-
             @Override
             public void onSuccess(@NonNull CrystalReportResponse response) {
                 super.onSuccess(response);
@@ -121,9 +123,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
                 List<CrystalReportResponse.ResponseBean> responseBeans = response.getResponse();
                 String value = new Gson().toJson(responseBeans);
                 CrystalReportResponse.ResponseBean[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean[].class);
-                for (CrystalReportResponse.ResponseBean responseBean : responseBeans1) {
-                    responseBeanArrayList.add(responseBean);
-                }
+                Collections.addAll(responseBeanArrayList, responseBeans1);
                 teamSurveyDetailAdapter.notifyDataSetChanged();
             }
 

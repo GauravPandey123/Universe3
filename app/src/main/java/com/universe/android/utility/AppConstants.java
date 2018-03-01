@@ -126,6 +126,8 @@ public class AppConstants {
     public static final String LNG = "lng";
     public static final String DETAIL = "detail";
     public static final String TYPE = "type";
+    public static final String TODATE ="toDate" ;
+    public static final String CUSTOMER = "customer";
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";
@@ -143,6 +145,9 @@ public class AppConstants {
     public static final String MAPPING = "mapping";
     public static final String DETAILS = "details";
     public static final java.lang.String EMPLOYEE_NAME = "employee_name";
+
+    public static final String customer = "customer";
+    public static final String employee = "employee";
     public static final String ME ="Me" ;
     public static final String REASON = "reason";
     public static final String VISIBLITY = "visiblity";
@@ -153,5 +158,9 @@ public class AppConstants {
     public static String CrystaDoctorName="CrystaDoctorName";
     public static String LoginDetail="loginDetails";
     public static String detail="detail";
+
+
+    public static String CDID="cdid";
+    public static String FROMDATE="formdate";
 }
 
