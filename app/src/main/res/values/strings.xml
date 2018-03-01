@@ -184,6 +184,8 @@
     <string name="verifierr">Verifier</string>
 
     <string name="location_updated">LocationUpdated</string>
+    <string name="message">Please specify reason for reject</string>
+    <string name="reason">Reason</string>
 
     <string-array name="filterItem">
         <item>@string/category1</item>

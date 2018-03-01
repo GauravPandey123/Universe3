@@ -25,13 +25,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
-<<<<<<< HEAD
 import com.universe.android.resource.Login.LocationUpdate.UpDateLocationResponse;
 import com.universe.android.resource.Login.LocationUpdate.UpadteLocationRequest;
 import com.universe.android.resource.Login.LocationUpdate.UpdateLocationService;
-=======
 import com.universe.android.realmbean.RealmCustomer;
->>>>>>> aab77b4f3eb6ceb93b18c8ae29389f43d4cbb06c
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
@@ -41,11 +38,8 @@ import java.io.IOException;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-<<<<<<< HEAD
 import in.editsoft.api.exception.APIException;
-=======
 import io.realm.Realm;
->>>>>>> aab77b4f3eb6ceb93b18c8ae29389f43d4cbb06c
 
 public class MapsActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 

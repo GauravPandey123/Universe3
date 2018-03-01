@@ -32,8 +32,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 
+import in.editsoft.api.util.App;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -56,7 +60,7 @@ public class WorkFlowsActivity extends BaseActivity {
     private LinearLayout llPending,ll_inprogress,ll_completed,ll_rejected;
     private TextView tvPending,tvInprogress,tvCompleted,tvRejected;
     private ImageView imgCD,imgRM,imgZM;
-    private TextView textViewCd,textViewRM,textViewZM;
+    private TextView textViewCd,textViewRM,textViewZM,textViewStatus;
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -80,50 +84,158 @@ public class WorkFlowsActivity extends BaseActivity {
 
     private void setCount() {
         String userId=Prefs.getStringPrefs(AppConstants.UserId);
-        String mapping= Prefs.getStringPrefs(AppConstants.MAPPING);
-        try {
-            JSONArray array=new JSONArray(mapping);
+        String type=Prefs.getStringPrefs(AppConstants.TYPE);
+        String userName=Prefs.getStringPrefs(AppConstants.USERNAME);
 
-            for (int i=0;i<array.length();i++){
-                JSONObject jsonObject=array.getJSONObject(i);
-                JSONObject jsonObject1=jsonObject.getJSONObject(AppConstants.DETAILS);
+        if (type.equalsIgnoreCase("cd")){
 
-                String id=jsonObject1.optString(AppConstants.ID);
-                String name=jsonObject1.optString(AppConstants.EMPLOYEE_NAME);
-                if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("rm")){
+            textViewCd.setText(AppConstants.ME);
+
+            String mapping= Prefs.getStringPrefs(AppConstants.MAPPING);
+            try {
+                JSONArray array = new JSONArray(mapping);
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonObject = array.getJSONObject(i);
+                    JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAILS);
+
+                    String id = jsonObject1.optString(AppConstants.ID);
+                    String name = jsonObject1.optString(AppConstants.EMPLOYEE_NAME);
+                    if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("rm")) {
 
 
-                    if (userId.equalsIgnoreCase(id)){
-                        textViewRM.setText(AppConstants.ME);
+                        if (userId.equalsIgnoreCase(id)) {
+                            textViewRM.setText(AppConstants.ME);
+                        } else {
+                            if (Utility.validateString(name))
+                                textViewRM.setText(name.substring(0));
+                        }
+
+
+                    }
+                    if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("zm")) {
+
+
+                        if (userId.equalsIgnoreCase(id)) {
+                            textViewZM.setText(AppConstants.ME);
+                        } else {
+                            if (Utility.validateString(name))
+                                textViewZM.setText(name.substring(0));
+                        }
+
+                    }
+                    }  }
+
+                 catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        if (type.equalsIgnoreCase("rm")){
+
+            textViewRM.setText(AppConstants.ME);
+
+
+            String mapping= Prefs.getStringPrefs(AppConstants.MAPPING);
+            try {
+                JSONArray array = new JSONArray(mapping);
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonObject = array.getJSONObject(i);
+                    JSONObject jsonObject1;
+                    if (jsonObject.has(AppConstants.DETAILS)){
+                        jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAILS);
                     }else {
-                        if (Utility.validateString(name))
-                        textViewRM.setText(name.substring(0));
+                        jsonObject1=jsonObject;
                     }
 
 
 
-                }
-                if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("zm")){
+                    String id = jsonObject1.optString(AppConstants.ID);
+                    String name = jsonObject1.optString(AppConstants.EMPLOYEE_NAME);
+                    if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("cd")) {
 
 
-                    if (userId.equalsIgnoreCase(id)){
-                        textViewZM.setText(AppConstants.ME);
-                    }else {
-                        if (Utility.validateString(name))
-                            textViewZM.setText(name.substring(0));
+                        if (userId.equalsIgnoreCase(id)) {
+                            textViewCd.setText(AppConstants.ME);
+                        } else {
+                            if (Utility.validateString(name))
+                                textViewCd.setText(name.substring(0));
+                        }
+
+
                     }
+                    if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("zsm")) {
 
 
+                        if (userId.equalsIgnoreCase(id)) {
+                            textViewZM.setText(AppConstants.ME);
+                        } else {
+                            if (Utility.validateString(name))
+                                textViewZM.setText(name.substring(0));
+                        }
 
-                }
+                    }
+                }  }
 
+            catch (JSONException e) {
+                e.printStackTrace();
             }
 
 
-
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
+
+        if (type.equalsIgnoreCase("zm")){
+
+            textViewZM.setText(AppConstants.ME);
+
+            String mapping= Prefs.getStringPrefs(AppConstants.MAPPING);
+            try {
+                JSONArray array = new JSONArray(mapping);
+
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonObject = array.getJSONObject(i);
+                    JSONObject jsonObject1;
+                    if (jsonObject.has(AppConstants.DETAILS)){
+                        jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAILS);
+                    }else {
+                        jsonObject1=jsonObject;
+                    }
+
+
+                    String id = jsonObject1.optString(AppConstants.ID);
+                    String name = jsonObject1.optString(AppConstants.EMPLOYEE_NAME);
+                    if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("cd")) {
+
+
+                        if (userId.equalsIgnoreCase(id)) {
+                            textViewCd.setText(AppConstants.ME);
+                        } else {
+                            if (Utility.validateString(name))
+                                textViewCd.setText(name.substring(0));
+                        }
+
+
+                    }
+                    if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("rsm")) {
+
+
+                        if (userId.equalsIgnoreCase(id)) {
+                            textViewRM.setText(AppConstants.ME);
+                        } else {
+                            if (Utility.validateString(name))
+                                textViewRM.setText(name.substring(0));
+                        }
+
+                    }
+                }  }
+
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
         Realm realm = Realm.getDefaultInstance();
 
         try {
@@ -131,39 +243,51 @@ public class WorkFlowsActivity extends BaseActivity {
         RealmAnswers realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findFirst();
 
         if (realmAnswers!=null){
-            if (Utility.validateString(realmAnswers.getSubmitbyCD())){
+
                 if (realmAnswers.getCd_Status().equalsIgnoreCase("1")){
-
-
+                    imgCD.setImageResource(R.drawable.green_circle);
                 }else  if (realmAnswers.getCd_Status().equalsIgnoreCase("5")){
-
+                    imgCD.setImageResource(R.drawable.yellow_circle);
+                }else  if (realmAnswers.getCd_Status().equalsIgnoreCase("2")){
+                    imgCD.setImageResource(R.drawable.green_circle);
+                }else  if (realmAnswers.getCd_Status().equalsIgnoreCase("3")){
+                    imgCD.setImageResource(R.drawable.red_circle);
                 }else {
 
                 }
 
-            }
 
-            if (Utility.validateString(realmAnswers.getSubmitbyRM())){
+
+
                 if (realmAnswers.getRm_STatus().equalsIgnoreCase("2")){
 
+                    imgRM.setImageResource(R.drawable.green_circle);
                 }else  if (realmAnswers.getRm_STatus().equalsIgnoreCase("3")){
 
+                    imgRM.setImageResource(R.drawable.red_circle);
+
+                }else  if (realmAnswers.getRm_STatus().equalsIgnoreCase("0")){
+
+                    imgRM.setImageResource(R.drawable.yellow_circle);
+
                 }else {
 
                 }
 
-            }
 
-            if (Utility.validateString(realmAnswers.getSubmitbyZM())){
+
+
                 if (realmAnswers.getZm_Status().equalsIgnoreCase("2")){
-
+                    imgZM.setImageResource(R.drawable.green_circle);
                 }else if (realmAnswers.getZm_Status().equalsIgnoreCase("3")){
-
+                    imgZM.setImageResource(R.drawable.red_circle);
+                }else if (realmAnswers.getZm_Status().equalsIgnoreCase("0")){
+                    imgZM.setImageResource(R.drawable.yellow_circle);
                 }else {
 
                 }
 
-            }
+
         }
 
 
@@ -192,16 +316,29 @@ public class WorkFlowsActivity extends BaseActivity {
 
             if (realmAnswers != null) {
                 JSONArray array=new JSONArray(realmAnswers.getWorkflow());
-                JSONArray array1=new JSONArray(array.get(0).toString());
-                for (int i = 0; i < array1.length(); i++) {
-                    JSONObject jsonObject=array1.getJSONObject(i);
+             //   JSONArray array1=new JSONArray(array.get(0).toString());
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonObject=array.getJSONObject(i);
                     AnswersModal modal = new AnswersModal();
-                    modal.setTitle(jsonObject.optString(AppConstants.USERNAME));
+                    String userId=Prefs.getStringPrefs(AppConstants.UserId);
+                    if (userId.equalsIgnoreCase(jsonObject.optString(AppConstants.ID))){
+                        modal.setTitle(AppConstants.ME);
+                    }else{
+                        modal.setTitle(jsonObject.optString(AppConstants.USERNAME));
+                    }
                     modal.setStatus(jsonObject.optString(AppConstants.STATUS));
-
-                  //  modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
+                    SimpleDateFormat format1 = new SimpleDateFormat(AppConstants.utc_format1);
+                    SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = format1.parse(jsonObject.optString(AppConstants.DATE));
+                    System.out.println(format2.format(date));
+                    modal.setDate(format2.format(date));
+                //    modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
                     stringArrayList.add(modal);
                 }
+                Collections.reverse(stringArrayList);
+
+                if (stringArrayList.size()>0)
+                textViewStatus.setText(stringArrayList.get(0).getStatus() +" "+stringArrayList.get(0).getDate());
             }else {
                 Utility.showToast(getString(R.string.no_data));
             }
@@ -257,7 +394,7 @@ public class WorkFlowsActivity extends BaseActivity {
          llPending = (LinearLayout) findViewById(R.id.ll_pending);
          ll_inprogress = (LinearLayout) findViewById(R.id.ll_inprogress);
          ll_completed = (LinearLayout) findViewById(R.id.ll_completed);
-        imgCD = (ImageView) findViewById(R.id.imageCD);
+        imgCD = (ImageView) findViewById(R.id.imgCD);
         imgRM = (ImageView) findViewById(R.id.imgRM);
         imgZM = (ImageView) findViewById(R.id.imgZM);
 
@@ -266,8 +403,8 @@ public class WorkFlowsActivity extends BaseActivity {
         textViewZM = (TextView) findViewById(R.id.textViewZM);
 
 
-        TextView textViewStatus=(TextView)findViewById(R.id.textViewStatus);
-        textViewStatus.setVisibility(View.GONE);
+         textViewStatus=(TextView)findViewById(R.id.textViewStatus);
+
 
 
         llPending.setOnClickListener(new View.OnClickListener() {

@@ -148,7 +148,7 @@ public class LoginActivity extends BaseActivity {
         showProgress(R.string.msg_load_default);
         JSONObject jsonSubmitReq=new JSONObject();
         try {
-            jsonSubmitReq.put(AppConstants.EMAIL,"parth@e2eprojects.com");
+            jsonSubmitReq.put(AppConstants.EMAIL,email);
             jsonSubmitReq.put(AppConstants.PASSWORD,"pass123456");
             jsonSubmitReq.put(AppConstants.LAT,"27");
             jsonSubmitReq.put(AppConstants.LNG,"22");
@@ -196,6 +196,11 @@ public class LoginActivity extends BaseActivity {
                             Prefs.putStringPrefs(AppConstants.TYPE, jsonObject.optString(AppConstants.TYPE));
 
                                 JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
+                                Prefs.putStringPrefs(AppConstants.UserId,jsonObject1.optString(AppConstants.ID));
+                                if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
+                                Prefs.putStringPrefs(AppConstants.USERNAME,jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
+                                else
+                                    Prefs.putStringPrefs(AppConstants.USERNAME,jsonObject1.optString(AppConstants.name));
                                 new RealmController().saveUserDetail(jsonObject1.toString());
                                 JSONArray mapping=jsonObject.getJSONArray("mapping");
                                 Prefs.putStringPrefs(AppConstants.MAPPING,mapping.toString());

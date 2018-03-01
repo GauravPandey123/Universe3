@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.bumptech.glide.util.Util;
 import com.universe.android.R;
 import com.universe.android.adapter.CustomerListAdapter;
 import com.universe.android.adapter.SurveyDetailAdapter;
@@ -28,6 +29,7 @@ import com.universe.android.model.CustomerModal;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Utility;
 import com.universe.android.workflows.WorkFlowsActivity;
 
 import java.util.ArrayList;
@@ -149,10 +151,14 @@ public class SearchCustomersActivity extends BaseActivity {
         surveyDetailAdapter.setOnItemClickLister(new CustomerListAdapter.OnItemSelecteListener() {
             @Override
             public void onItemSelected(View v, int position) {
-                Intent intent=new Intent(mContext,MapsActivity.class);
+                Intent intent=new Intent(mContext,WorkFlowsActivity.class);
 
-                if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
-                     intent=new Intent(mContext,WorkFlowsActivity.class);
+
+                if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
+
+                    intent = new Intent(mContext, CategoryExpandableListActivity.class);
+
+
                 }
                 intent.putExtra(AppConstants.STR_TITLE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
@@ -167,9 +173,13 @@ public class SearchCustomersActivity extends BaseActivity {
             @Override
             public void onClick(View view, int position) {
 
-                Intent intent = new Intent(mContext, MapsActivity.class);
-                if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
-                    intent=new Intent(mContext,WorkFlowsActivity.class);
+                Intent intent=new Intent(mContext,WorkFlowsActivity.class);
+
+                if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
+
+                        intent = new Intent(mContext, CategoryExpandableListActivity.class);
+
+
                 }
                 intent.putExtra(AppConstants.STR_TITLE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
@@ -220,35 +230,7 @@ public class SearchCustomersActivity extends BaseActivity {
 
     public void addTextListener() {
 
-        editTextSearchcustomers.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence query, int i, int i1, int i2) {
-                query = query.toString().toLowerCase();
-
-                final ArrayList<CustomerModal> filteredModelList = new ArrayList<>();
-                for (CustomerModal model : stringArrayList) {
-                    final String text = model.getName().toLowerCase();
-                    if (text.contains(query)) {
-                        filteredModelList.add(model);
-                    }
-                }
-                recyclerViewSearch.setLayoutManager(new LinearLayoutManager(mContext));
-                surveyDetailAdapter = new CustomerListAdapter(mContext, filteredModelList);
-                recyclerViewSearch.setAdapter(surveyDetailAdapter);
-                surveyDetailAdapter.notifyDataSetChanged();  // data set changed
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
 //        editTextSearchcustomers.addTextChangedListener(new TextWatcher() {
 //            public void afterTextChanged(Editable s) {
 //            }
