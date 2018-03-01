@@ -127,13 +127,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     private void setUpElements() {
-        imageViewSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onMapSearch(v);
-                Utility.hideSoftKeyboard(activity);
-            }
-        });
+
         locationSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -154,7 +148,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     private void initialization() {
-        imageViewSearch = findViewById(R.id.imageviewSearch);
+      //  imageViewSearch = findViewById(R.id.imageviewSearch);
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
         locationSearch = findViewById(R.id.searchcustomers);
         circleImageViewMap = findViewById(R.id.circularImageViewMap);
