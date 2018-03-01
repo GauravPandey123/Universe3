@@ -83,15 +83,15 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 fromDateString = input_period_from.getText().toString();
                 toDateString = input_period_to.getText().toString();
                 statusString = input_period_status.getText().toString();
-                Intent intent = new Intent(getActivity(), SurveyDetailActivity.class);
-                intent.putExtra(AppConstants.FROMDATE, fromDateString);
-                intent.putExtra(AppConstants.TODATE, toDateString);
-                intent.putExtra(AppConstants.STATUS, statusString);
-                startActivity(intent);
+                SetDataListListener setDataListListener = (SetDataListListener) getActivity();
+                setDataListListener.submitData(statusString, fromDateString, toDateString);
                 dismiss();
+
 
             }
         });
+
+
     }
 
     private void setUpElements() {
@@ -233,8 +233,9 @@ public class SurveyDetailDialogFragment extends DialogFragment {
     }
 
     private void showData() {
-        String ONEs[] = {"Target", "Completed", "Achievement", "InProgress", "New Retailers", "Crystal Members"};
-        for (int i = 0; i <= 5; i++) {
+
+        String ONEs[] = {"Target", "Submitted", "InProgress"};
+        for (int i = 0; i <= 2; i++) {
             Number number = new Number();
             number.setONEs(i + "");
             number.setTextONEs(ONEs[i]);
@@ -335,6 +336,10 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         dp.setTitle("Calender");
         dp.show();
 
+    }
+
+    public interface SetDataListListener {
+        public void submitData(String statusString, String fromDateString, String toDateString);
     }
 
 }

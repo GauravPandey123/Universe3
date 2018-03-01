@@ -36,14 +36,17 @@ public class SplashActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= 23) {
             List<String> permissionList = new ArrayList<>();
             int permissionExternalRead = checkCallingOrSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE);
-            if (permissionExternalRead != PackageManager.PERMISSION_GRANTED)
+            if (permissionExternalRead != PackageManager.PERMISSION_GRANTED) {
                 permissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-            permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
-            permissionList.add(Manifest.permission.ACCESS_COARSE_LOCATION);
-            permissionList.add(Manifest.permission.CAMERA);
-            if (permissionList.size() > 0) {
-                ActivityCompat.requestPermissions(SplashActivity.this, permissionList.toArray(new String[]{}), 1);
-            } else {
+                permissionList.add(Manifest.permission.ACCESS_FINE_LOCATION);
+                permissionList.add(Manifest.permission.ACCESS_COARSE_LOCATION);
+                permissionList.add(Manifest.permission.CAMERA);
+                if (permissionList.size() > 0) {
+                    ActivityCompat.requestPermissions(SplashActivity.this, permissionList.toArray(new String[]{}), 1);
+                } else {
+                    loadContent();
+                }
+            }else {
                 loadContent();
             }
         } else {

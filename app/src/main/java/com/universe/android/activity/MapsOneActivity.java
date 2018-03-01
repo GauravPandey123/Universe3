@@ -154,7 +154,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
     @Override
     public void onPlaceSelected(Place place) {
-        Toast.makeText(this, "Place Selected".concat(place.getAddress().toString()), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Place Selected"+" ".concat(place.getAddress().toString()), Toast.LENGTH_SHORT).show();
         updateMap(place.getLatLng(), String.valueOf(place.getName()));
 
 

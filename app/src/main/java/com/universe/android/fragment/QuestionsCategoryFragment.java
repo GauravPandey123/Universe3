@@ -5,14 +5,11 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
@@ -23,23 +20,23 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.common.collect.Collections2;
 import com.universe.android.R;
 import com.universe.android.activity.BaseActivity;
-import com.universe.android.activity.admin.FormQuestionActivity;
-import com.universe.android.adapter.QuestionsAdapter;
-import com.universe.android.adapter.QuestionsSearchAdapter;
 import com.universe.android.component.FilterPredicate;
 import com.universe.android.component.MultiEdittextListItemDialog;
 import com.universe.android.component.MultiSelectItemListDialog;
@@ -48,7 +45,8 @@ import com.universe.android.component.QuestionMapComparator;
 import com.universe.android.component.SelectionItemListDialog;
 import com.universe.android.enums.FormEnum;
 import com.universe.android.enums.FormEnumKeys;
-import com.universe.android.helper.FontClass;
+import com.universe.android.listneners.IUpdateTask;
+import com.universe.android.listneners.PageChangeInterface;
 import com.universe.android.model.CategoryModal;
 import com.universe.android.model.MultiSpinnerList;
 import com.universe.android.model.Questions;
@@ -57,12 +55,10 @@ import com.universe.android.okkhttp.APIClient;
 import com.universe.android.okkhttp.UniverseAPI;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCategory;
-import com.universe.android.realmbean.RealmCategoryAnswers;
 import com.universe.android.realmbean.RealmClient;
 import com.universe.android.realmbean.RealmController;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.realmbean.RealmQuestion;
-import com.universe.android.realmbean.RealmQuestions;
 import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.InputFilterMinMax;
@@ -80,14 +76,12 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import in.editsoft.api.util.App;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import okhttp3.Call;
@@ -101,7 +95,7 @@ import okhttp3.Response;
  * Created by gaurav.pandey on 25-01-2018.
  */
 
-public class QuestionsCategoryFragment extends BaseFragment {
+public class QuestionsCategoryFragment extends BaseFragment implements PageChangeInterface,IUpdateTask {
     private View view;
     private static final int SAVE_NEXT = 5002;
     private JSONObject jsonSubmitReq = new JSONObject();
@@ -125,10 +119,14 @@ public class QuestionsCategoryFragment extends BaseFragment {
     JSONArray jsonArrayAnswers=new JSONArray();
     JSONArray jsonArrayQuestions=new JSONArray();
     JSONArray jsonArrayWorkFLow=new JSONArray();
-    private int position;
+    private int position=0;
     private String updateId;
+    public static PageChangeInterface pageChangeInterface;
+   public boolean flag=false;
+   public boolean showFields=true;
+    String visiblity="";
 
-    public static QuestionsCategoryFragment newInstance(String type, String categoryId, String customerId,int position) {
+    public static QuestionsCategoryFragment newInstance(String type, String categoryId, String customerId, int position, String updateId) {
         QuestionsCategoryFragment myFragment = new QuestionsCategoryFragment();
 
         Bundle args = new Bundle();
@@ -136,6 +134,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
         args.putString(AppConstants.CATEGORYID, categoryId);
         args.putString(AppConstants.CUSTOMERID, customerId);
         args.putInt(AppConstants.POSITION, position);
+        args.putString(AppConstants.UPDATEID,updateId);
         myFragment.setArguments(args);
 
         return myFragment;
@@ -146,6 +145,8 @@ public class QuestionsCategoryFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.questions_category_fragment, container, false);
+
+        pageChangeInterface=QuestionsCategoryFragment.this;
         initialization();
         setUpElements();
         setUpListeners();
@@ -167,10 +168,10 @@ public class QuestionsCategoryFragment extends BaseFragment {
         spnOptionValues = (TextView) view.findViewById(R.id.spnOptionValues);
         spnCategorySingle = (TextView) view.findViewById(R.id.spnCategorySingle);
 
+        addAllQuestions();
 
-
-        prepareQuestionList();
-
+        prepareQuestionList(true, "");
+        btnReject.setVisibility(View.GONE);
         btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -192,6 +193,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
             }
 
         });
+        btnApprove.setVisibility(View.GONE);
         btnApprove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,7 +216,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
 
         });
 
-        addAllQuestions();
+
         return view;
     }
 
@@ -233,15 +235,16 @@ public class QuestionsCategoryFragment extends BaseFragment {
                     JSONArray array=new JSONArray(realmAnswers.getAnswers());
                     JSONArray workFlow=new JSONArray(realmAnswers.getWorkflow());
                     updateId=realmAnswers.get_id();
-                    String json=array.get(0).toString();
-                    JSONArray array1=new JSONArray(json);
-                    JSONArray arraywork=new JSONArray(workFlow.get(0).toString());
-                    jsonArrayAnswers=array1;
-                    jsonArrayWorkFLow=arraywork;
-                    if (array1.length()>0){
-                        for (int i=0;i<array1.length();i++){
+                    isSync=realmAnswers.isSync();
+                //    String json=array.get(0).toString();
+                  //  JSONArray array1=new JSONArray(json);
+                  //  JSONArray arraywork=new JSONArray(workFlow.get(0).toString());
+                    jsonArrayAnswers=array;
+                    jsonArrayWorkFLow=workFlow;
+                    if (array.length()>0){
+                        for (int i=0;i<array.length();i++){
 
-                            JSONObject jsonObject=array1.getJSONObject(i);
+                            JSONObject jsonObject=array.getJSONObject(i);
                             String categoryId=jsonObject.optString(AppConstants.CATEGORYID);
                             String isView=jsonObject.optString(AppConstants.ISVIEW);
                             JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
@@ -405,12 +408,13 @@ public class QuestionsCategoryFragment extends BaseFragment {
         categoryId = getArguments().getString(AppConstants.CATEGORYID);
         customerId = getArguments().getString(AppConstants.CUSTOMERID);
         position=getArguments().getInt(AppConstants.POSITION);
+        updateId=getArguments().getString(AppConstants.UPDATEID);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-
+        System.out.println("Hello dear");
     }
 
     private void setUpListeners() {
@@ -536,12 +540,20 @@ public class QuestionsCategoryFragment extends BaseFragment {
             if (textView.getId() == R.id.spnOptionValues)
                 selectedOptions = new ArrayList<>();
             for (MultiSpinnerList sp : selectedItems) {
-                if (strBuilder.length() > 0) strBuilder.append(", ");
+                if (strBuilder.length() > 0) {
+                    if (sp.isChecked())
+                    strBuilder.append(", ");
+                }
+                if (sp.isChecked())
                 strBuilder.append(sp.getName());
+
                 if (textView.getId() == R.id.spnOptionValues) {
 
                     selectedOptions.add(sp.getName());
                 }
+            }
+            if (strBuilder.toString().trim().endsWith(",")){
+            //    strBuilder.toString().trim().replace(",","").charAt(strBuilder.toString().length()-1);
             }
             textView.setText(strBuilder.toString());
 
@@ -689,7 +701,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    private void prepareQuestionList() {
+    private void prepareQuestionList(boolean b, String search) {
         List<String> noDisplayKeys = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.question)));
         if (formId.equalsIgnoreCase(FormEnum.survey.toString())) {
             noDisplayKeys = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.surveys)));
@@ -701,7 +713,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
             noDisplayKeys = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.category)));
         }
         questionsMap = new LinkedHashMap<>();
-        questionsMap = prepareFormQuestions(formId, noDisplayKeys);
+        questionsMap = prepareFormQuestions(formId, noDisplayKeys,b,search);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -842,7 +854,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
                         if (Utility.validateString(responseData)) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-
+                            flag=true;
                             new RealmController().saveFormInputFromAnswersSubmit(jsonResponse.toString(), isUpdateId, formId);
                         }
 
@@ -881,7 +893,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
             e1.printStackTrace();
         }
         addAllQuestions();
-        showMessageDialog(getActivity(), isBack, isUpdate);
+        //showMessageDialog(getActivity(), isBack, isUpdate);
     }
 
 
@@ -913,31 +925,39 @@ public class QuestionsCategoryFragment extends BaseFragment {
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    protected Map<String, Questions> prepareFormQuestions(String stationFormId, List<String> noDisplayKeys) {
+    protected Map<String, Questions> prepareFormQuestions(String stationFormId, List<String> noDisplayKeys, boolean b,String search) {
         Realm realm = Realm.getDefaultInstance();
         Map<String, Questions> questionsMap = new LinkedHashMap<>();
+
         try {
+            JSONObject jsonObject=new JSONObject();
             formId = stationFormId;
             RealmResults<RealmQuestion> realmFormQuestions = null;
             JSONObject jsonAnswers = null;
             realmFormQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, categoryId).equalTo(AppConstants.SURVEYID,surveyId).findAll();
-            if (Utility.validateString(formAnsId)) {
+            if (Utility.validateString(updateId)) {
 
-                if (formId.equalsIgnoreCase(FormEnum.survey.toString())) {
-                    RealmResults<RealmAnswers> realmSurveys = realm.where(RealmAnswers.class).equalTo(AppConstants.ID, formAnsId).findAll();
+                RealmAnswers realmSurveys = realm.where(RealmAnswers.class).equalTo(AppConstants.ID, updateId).findFirst();
 
-                    if (realmSurveys != null && realmSurveys.size() > 0) {
-
-
-                        JSONArray jsonArray=new JSONArray(realmSurveys.get(0).getAnswers());
-
-                        //  isSync = realmQuestions.get(0).isSync();
-                        jsonAnswers = new JSONObject(realmSurveys.get(0).getAnswers());
-                        JSONArray jsonArray1 = jsonAnswers.getJSONArray(AppConstants.CATEGORY);
+                if (realmSurveys != null ) {
 
 
+                    JSONArray jsonArray=new JSONArray(realmSurveys.getAnswers());
 
+                    //  isSync = realmQuestions.get(0).isSync();
+                    jsonAnswers = jsonArray.getJSONObject(position);
+                    JSONArray jsonArray1 = jsonAnswers.getJSONArray(AppConstants.QUESTIONS);
+
+
+                    for (int i=0;i<jsonArray1.length();i++){
+                        JSONObject jsonObject1=jsonArray1.getJSONObject(i);
+                        jsonObject.put(jsonObject1.optString(AppConstants.QUESTIONID),jsonObject1.optString(AppConstants.ANSWER));
                     }
+
+
+                }
+                if (formId.equalsIgnoreCase(FormEnum.survey.toString())) {
+
                 } else if (formId.equalsIgnoreCase(FormEnum.client.toString())) {
                     RealmResults<RealmClient> realmClients = realm.where(RealmClient.class).equalTo(AppConstants.ID, formAnsId).findAll();
 
@@ -1029,9 +1049,12 @@ public class QuestionsCategoryFragment extends BaseFragment {
             if (realmFormQuestions!=null && realmFormQuestions.size()>0){
                 for (RealmQuestion realmQuestion: realmFormQuestions){
                     Questions question = new RealmController().getSurveyQuestionVOFromJson(realmQuestion);
-                    /*if (jsonAnswers != null && jsonAnswers.optString(key) != null) {
-                        question.setAnswer(jsonAnswers.optString(key));
-                    }*/
+                    if (!jsonObject.equals("{}")) {
+                     //   if (jsonObject != null &&  Utility.validateString(jsonObject.optString(AppConstants.QUESTIONID))) {
+
+                            question.setAnswer(jsonObject.optString(question.getQuestionId()));
+                      //  }
+                    }
                     questionsMap.put(question.getTitle(), question);
                 }
             }
@@ -1044,7 +1067,9 @@ public class QuestionsCategoryFragment extends BaseFragment {
         } finally {
             realm.close();
         }
-        addQuestionsForm(questionsMap);
+      //  if (showFields)
+        if (b)
+        addQuestionsForm(questionsMap,search);
         return questionsMap;
     }
 
@@ -1055,9 +1080,10 @@ public class QuestionsCategoryFragment extends BaseFragment {
         JSONArray jsonCategory = new JSONArray();
 
         addAllQuestions();
+
         jsonArrayQuestions=new JSONArray();
         try {
-            llFields = (LinearLayout) view.findViewById(R.id.parent);
+          //  llFields = (LinearLayout) view.findViewById(R.id.parent);
             if (llFields != null && llFields.getChildCount() > 0) {
                 if (questionsMap != null && questionsMap.size() > 0) {
                     questionsMap = QuestionMapComparator.sortByValue(questionsMap);
@@ -1397,31 +1423,43 @@ public class QuestionsCategoryFragment extends BaseFragment {
                 }
                 if (!Utility.validateString(updateId)){
                     JSONObject jsonObject=new JSONObject();
-                    jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                    jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
                     jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                    jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
                     jsonObject.put(AppConstants.STATUS,"Initiated");
                     jsonArrayWorkFLow.put(jsonObject);
                 }
 
-
+                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                 JSONObject updatePosition=new JSONObject();
-                updatePosition.put(AppConstants.ISVIEW, "0");
+                if (designation.equalsIgnoreCase("rm") || designation.equalsIgnoreCase("zm")) {
+                    updatePosition.put(AppConstants.ISVIEW, "1");
+                }else{
+                    updatePosition.put(AppConstants.ISVIEW, "0");
+                }
                 updatePosition.put(AppConstants.CATEGORYID, categoryId);
                 updatePosition.put(AppConstants.QUESTIONS,jsonArrayQuestions);
                 jsonArrayAnswers.put(position,updatePosition);
 
                 jsonSubmitReq.put(AppConstants.ANSWERS, jsonArrayAnswers);
                // jsonSubmitReq.put(AppConstants.RESPONSES, jsonSubmitReq);
-                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+
                 if (designation.equalsIgnoreCase("cd"))
                     jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
                 if (designation.equalsIgnoreCase("rm"))
                     jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
                 if (designation.equalsIgnoreCase("zm"))
                     jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
-                jsonSubmitReq.put(AppConstants.CD_STATUS, "5");
-                jsonSubmitReq.put(AppConstants.RM_STATUS, "4");
-                jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+
+                if (designation.equalsIgnoreCase("cd")) {
+                    jsonSubmitReq.put(AppConstants.CD_STATUS, "5");
+                    jsonSubmitReq.put(AppConstants.RM_STATUS, "4");
+                    jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                }else {
+                    jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
+                    jsonSubmitReq.put(AppConstants.RM_STATUS, "0");
+                    jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                }
               //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
@@ -1445,15 +1483,20 @@ public class QuestionsCategoryFragment extends BaseFragment {
     }
 
 
-    protected void addQuestionsForm(Map<String, Questions> questionsMap) {
+    protected void addQuestionsForm(Map<String, Questions> questionsMap, String search) {
+
+        showFields=true;
         try {
             if (llFields!=null) {
-                llFields.removeAllViews();
 
+                llFields.removeAllViews();
+                if (!search.isEmpty())
+                llFields = (LinearLayout) view.findViewById(R.id.parent);
             }else {
                 llFields = (LinearLayout) view.findViewById(R.id.parent);
             }
             View child;
+            final boolean visible=false;
             if (questionsMap != null && questionsMap.size() > 0) {
                 questionsMap = QuestionMapComparator.sortByValue(questionsMap);
                 for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
@@ -1465,6 +1508,8 @@ public class QuestionsCategoryFragment extends BaseFragment {
                         child = getLayoutInflater().inflate(R.layout.field_row_edit, null);
                         final EditText edtChild = (EditText) child.findViewById(R.id.edtChild);
                         final Map<String, Questions> finalQuestionsMap = questionsMap;
+                        final Map<String, Questions> finalQuestionsMap1 = questionsMap;
+
                         edtChild.addTextChangedListener(new TextWatcher() {
                             @Override
                             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1476,6 +1521,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
 
                             }
 
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                             @Override
                             public void afterTextChanged(Editable s) {
                                 Questions q1 = finalQuestionsMap.get(FormEnumKeys.optionValuesCount.toString());
@@ -1483,12 +1529,18 @@ public class QuestionsCategoryFragment extends BaseFragment {
                                     q1.setAnswer(s.toString());
 
                                 }
+                               String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                                if (Utility.validateString(visiblity)) {
+                                    jsonSubmitReq = prepareJsonRequest(finalQuestionsMap1);
+                                    saveNCDResponseLocal(updateId, false);
+                                }
+
                             }
                         });
                         edtChild.setText(question.getAnswer());
                         if (AppConstants.STRING.equals(question.getType())) {
                             edtChild.setInputType(InputType.TYPE_CLASS_TEXT);
-                            Utility.setEditFilter(edtChild, question.getMaxLength(), AppConstants.STRING, false, question.isAlpha());
+                          //  Utility.setEditFilter(edtChild, question.getMaxLength(), AppConstants.STRING, false, question.isAlpha());
                         } else if (AppConstants.LONG.equals(question.getType())) {
                             edtChild.setInputType(InputType.TYPE_CLASS_NUMBER);
                             if ("0".equals(question.getAnswer())) {
@@ -1529,6 +1581,32 @@ public class QuestionsCategoryFragment extends BaseFragment {
                     } else if (AppConstants.TEXTAREA.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_textarea, null);
                         EditText edtChild = (EditText) child.findViewById(R.id.edtChild);
+
+                        final Map<String, Questions> finalQuestionsMap2 = questionsMap;
+                        edtChild.addTextChangedListener(new TextWatcher() {
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                            }
+
+                            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                                String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                                if (Utility.validateString(visiblity)) {
+                                    jsonSubmitReq = prepareJsonRequest(finalQuestionsMap2);
+                                    saveNCDResponseLocal(updateId, false);
+                                }
+
+                            }
+                        });
+
                         edtChild.setText(question.getAnswer());
                         Utility.setEditFilter(edtChild, question.getMaxLength(), AppConstants.STRING, false, question.isAlpha());
                     } else if (AppConstants.RADIO.equals(question.getInputType())) {
@@ -1559,7 +1637,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
                         child = getLayoutInflater().inflate(R.layout.field_row_select, null);
                         final TextView tvSelect = (TextView) child.findViewById(R.id.spnSelect);
                         addSingleSelectionView(tvSelect, question,"", child);
-                        addSelectTextView(tvSelect, question);
+
 
 
                     }else if (question.getInputType().equals(AppConstants.MULTISELECT)) {
@@ -1619,7 +1697,17 @@ public class QuestionsCategoryFragment extends BaseFragment {
                         llFields.addView(child);
                     }
                 }
+
+                if (position==jsonArrayAnswers.length()-1){
+                    Prefs.putStringPrefs(AppConstants.VISIBLITY,"1");
+
+                }
+
+
             }
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1823,7 +1911,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
                             spinner.setName((String) jsonArray.get(m));
                             spinnerList.add(spinner);
                         }
-                        tvSelect.setTag(new ArrayList<MultiSpinnerList>());
+                        tvSelect.setTag(spinnerList);
                     }
                 } catch (Exception e) {
 
@@ -1863,11 +1951,10 @@ public class QuestionsCategoryFragment extends BaseFragment {
 
     private void showMultiSelectionList(Context context, final TextView textView, List<MultiSpinnerList> list, final String defaultMsg, final List<MultiSpinnerList> selectedItems1) {
         if (list != null && list.size() > 0) {
-            for (int i = 0; i < list.size(); i++) {
-                list.get(i).setChecked(false);
-            }
+
 
             MultiSelectItemListDialog selectionPickerDialog = new MultiSelectItemListDialog(context, defaultMsg, selectedItems1, list, R.layout.pop_up_question_list, new MultiSelectItemListDialog.ItemPickerListner() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void OnDoneButton(Dialog ansPopup, List<MultiSpinnerList> selectedItems) {
                     ansPopup.dismiss();
@@ -1879,8 +1966,16 @@ public class QuestionsCategoryFragment extends BaseFragment {
                         textView.setText(defaultMsg);
                     }
                     textView.setTag(selectedItems);
+
+
+                    String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                    if (Utility.validateString(visiblity)) {
+                        jsonSubmitReq = prepareJsonRequest(questionsMap);
+                        saveNCDResponseLocal(updateId, false);
+                    }
                 }
 
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void OnCancelButton(Dialog ansPopup, List<MultiSpinnerList> selectedItems) {
                     ansPopup.dismiss();
@@ -1890,6 +1985,12 @@ public class QuestionsCategoryFragment extends BaseFragment {
                         textView.setText(defaultMsg);
                     }
                     textView.setTag(selectedItems);
+
+                    String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                    if (Utility.validateString(visiblity)) {
+                        jsonSubmitReq = prepareJsonRequest(questionsMap);
+                        saveNCDResponseLocal(updateId, false);
+                    }
                 }
 
             });
@@ -2163,6 +2264,18 @@ public class QuestionsCategoryFragment extends BaseFragment {
 
         }
         rdbtn.setText(strVal);
+
+        rdbtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                if (Utility.validateString(visiblity)) {
+                    jsonSubmitReq = prepareJsonRequest(questionsMap);
+                    saveNCDResponseLocal(updateId, false);
+                }
+            }
+        });
         radioGroup.addView(rdbtn);
     }
 
@@ -2188,50 +2301,18 @@ public class QuestionsCategoryFragment extends BaseFragment {
         rdbtn.setText(strVal);
         rdbtn.setTag(questions);
 
-      /*  rdbtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        rdbtn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                Utility.hideSoftKeyboard(FormParentActivity.this);
-                if (rdbtn.getTag() instanceof Questions) {
-                    Questions question = (Questions) rdbtn.getTag();
-                    if (question != null && question.getQuestionId().equals(FormEnumKeys.radio.toString())) {
-                        if (compoundButton.isChecked()) {
-                            if (FormEnumKeys.Other.equalsName(compoundButton.getText().toString().trim())) {
-                                if (questionsMap != null && questionsMap.size() > 0) {
-                                    Questions q = questionsMap.get(FormEnumKeys.HEALTH_RISE_OTHER.toString());
-                                    if (q != null) {
-                                        View childView = llFields.findViewWithTag(q);
-                                        if (childView != null) {
-                                            if (childView.findViewById(R.id.tvChild) != null) {
-                                                ((TextView) childView.findViewById(R.id.tvChild)).setText(Html.fromHtml(q.getTitle() + Constants.ASTERIK_SIGN));
-                                            }
-                                            q.setRequired(true);
-                                            childView.setVisibility(View.VISIBLE);
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            if (FormEnumKeys.Other.equalsName(compoundButton.getText().toString().trim())) {
-                                if (questionsMap != null && questionsMap.size() > 0) {
-                                    Questions q = questionsMap.get(FormEnumKeys.HEALTH_RISE_OTHER.toString());
-                                    if (q != null) {
-                                        View childView = llFields.findViewWithTag(q);
-                                        if (childView != null && childView.findViewById(R.id.tvChild) != null) {
-                                            ((TextView) childView.findViewById(R.id.tvChild)).setText("");
-                                            childView.setVisibility(View.GONE);
-                                            q.setAnswer("");
-                                            q.setRequired(false);
-                                        }
-                                    }
-                                }
-
-                            }
-                        }
-                    }
+                Utility.hideSoftKeyboard(getActivity());
+                String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                if (Utility.validateString(visiblity)) {
+                    jsonSubmitReq = prepareJsonRequest(questionsMap);
+                    saveNCDResponseLocal(updateId, false);
                 }
             }
-        });*/
+        });
         llCheck.addView(rdbtn);
     }
 
@@ -2402,11 +2483,17 @@ public class QuestionsCategoryFragment extends BaseFragment {
         }
 
         DatePickerDialog dialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 tvDate.setText(AppConstants.format2.format(newDate.getTime()));
+                String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                if (Utility.validateString(visiblity)) {
+                    jsonSubmitReq = prepareJsonRequest(questionsMap);
+                    saveNCDResponseLocal(updateId, false);
+                }
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
         dialog.show();
@@ -2415,6 +2502,7 @@ public class QuestionsCategoryFragment extends BaseFragment {
     protected void showSelectionList(Context context, final TextView textView, final List<SpinnerList> list, final String defaultMsg) {
         if (list != null && list.size() > 0) {
             QuestionItemListDialog selectionPickerDialog = new QuestionItemListDialog(context, defaultMsg, textView.getText().toString().trim(), list, R.layout.pop_up_question_list, new QuestionItemListDialog.ItemPickerListner() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void OnDoneButton(Dialog ansPopup, String strAns, List<SpinnerList> spinnerItem) {
                     ansPopup.dismiss();
@@ -2424,7 +2512,11 @@ public class QuestionsCategoryFragment extends BaseFragment {
                     } else {
                         textView.setText(defaultMsg);
                     }
-
+                    String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                    if (Utility.validateString(visiblity)) {
+                        jsonSubmitReq = prepareJsonRequest(questionsMap);
+                        saveNCDResponseLocal(updateId, false);
+                    }
 
 
 
@@ -2555,5 +2647,156 @@ public class QuestionsCategoryFragment extends BaseFragment {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onDataPass(String data,int pos,String category) {
+        position=pos;
+       categoryId = category;
+       prepareQuestionList(true,"search");
+        if (Utility.validateString(data)){
+            if (questionsMap != null && questionsMap.size() > 0) {
+                questionsMap = QuestionMapComparator.sortByValue(questionsMap);
+                  for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
+                //Set<Map.Entry<String, Questions>> entry=questionsMap.entrySet();
+                Questions question = (Questions) entry.getValue();
+                if (question.getTitle().contains(data)){
+                    if (llFields != null && llFields.getChildCount() > 0) {
+                       // for (int i=0;i<llFields.getChildCount();i++) {
+                            View targetView=  llFields.findViewWithTag(question);
+                      //      TextView tvChild = (TextView) (targetView).findViewById(R.id.tvChild);
+                        if (targetView!=null){
+                        targetView.setBackgroundResource(R.color.light_blue);
+                            llFields.getParent().requestChildFocus(targetView, targetView);
+                        }
+                       // }
+                    }
+                }else{
+                    if (llFields != null && llFields.getChildCount() > 0) {
+                        // for (int i=0;i<llFields.getChildCount();i++) {
+                        View targetView=  llFields.findViewWithTag(question);
+                        //      TextView tvChild = (TextView) (targetView).findViewById(R.id.tvChild);
+                        if (targetView!=null){
+                            targetView.setBackgroundResource(R.color.white);
+                            llFields.getParent().requestChildFocus(targetView, targetView);
+                        }
+                        // }
+                    }
+                }
+         /*   if (llFields != null && llFields.getChildCount() > 0) {
+                for (int i=0;i<llFields.getChildCount();i++) {
 
+                            View targetView=  llFields.getChildAt(i);
+                            TextView tvChild = (TextView) (targetView).findViewById(R.id.tvChild);
+                            if (question.getTitle().contains(data)) {
+
+                                // View targetView=llFields.findViewWithTag(question);
+                                tvChild.setBackgroundResource(R.color.light_blue);
+                                llFields.getParent().requestChildFocus(targetView, targetView);
+                             //   llFields.setBackgroundResource(R.color.light_blue);
+
+                            }else{
+                                tvChild.setBackgroundResource(R.color.white);
+                                llFields.getParent().requestChildFocus(targetView, targetView);
+                            }
+                        }
+                    }*/
+                }
+            }
+        }else{
+            if (questionsMap != null && questionsMap.size() > 0) {
+                questionsMap = QuestionMapComparator.sortByValue(questionsMap);
+                for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
+                    //Set<Map.Entry<String, Questions>> entry=questionsMap.entrySet();
+                    Questions question = (Questions) entry.getValue();
+                    if (question.getTitle().contains(data)){
+                        if (llFields != null && llFields.getChildCount() > 0) {
+                            // for (int i=0;i<llFields.getChildCount();i++) {
+                            View targetView=  llFields.findViewWithTag(question);
+                            //      TextView tvChild = (TextView) (targetView).findViewById(R.id.tvChild);
+                            if (targetView!=null){
+                                targetView.setBackgroundResource(R.color.white);
+                                llFields.getParent().requestChildFocus(targetView, targetView);
+                            }
+                            // }
+                        }
+                    }else{
+                        if (llFields != null && llFields.getChildCount() > 0) {
+                            // for (int i=0;i<llFields.getChildCount();i++) {
+                            View targetView=  llFields.findViewWithTag(question);
+                            //      TextView tvChild = (TextView) (targetView).findViewById(R.id.tvChild);
+                            if (targetView!=null){
+                                targetView.setBackgroundResource(R.color.white);
+                                llFields.getParent().requestChildFocus(targetView, targetView);
+                            }
+                            // }
+                        }
+                    }
+         /*   if (llFields != null && llFields.getChildCount() > 0) {
+                for (int i=0;i<llFields.getChildCount();i++) {
+
+                            View targetView=  llFields.getChildAt(i);
+                            TextView tvChild = (TextView) (targetView).findViewById(R.id.tvChild);
+                            if (question.getTitle().contains(data)) {
+
+                                // View targetView=llFields.findViewWithTag(question);
+                                tvChild.setBackgroundResource(R.color.light_blue);
+                                llFields.getParent().requestChildFocus(targetView, targetView);
+                             //   llFields.setBackgroundResource(R.color.light_blue);
+
+                            }else{
+                                tvChild.setBackgroundResource(R.color.white);
+                                llFields.getParent().requestChildFocus(targetView, targetView);
+                            }
+                        }
+                    }*/
+                }
+            }
+        }
+
+        /*showFields=false;
+      //  if (!flag) {
+            position=pos;
+            categoryId = data;
+            prepareQuestionList(false);
+            jsonSubmitReq = prepareJsonRequest(questionsMap);
+            if (Utility.isConnected()) {
+                submitAnswers(updateId, false);
+            } else {
+                saveNCDResponseLocal(updateId, false);
+            }
+      //  }
+        System.out.println("HEYMETHOD CALLED");*/
+    }
+
+    private void scrollToView(final ScrollView scrollViewParent, final View view) {
+        // Get deepChild Offset
+        Point childOffset = new Point();
+        getDeepChildOffset(scrollViewParent, view.getParent(), view, childOffset);
+        // Scroll to child.
+        scrollViewParent.smoothScrollTo(0, childOffset.y);
+    }
+    private void getDeepChildOffset(final ViewGroup mainParent, final ViewParent parent, final View child, final Point accumulatedOffset) {
+        ViewGroup parentGroup = (ViewGroup) parent;
+        accumulatedOffset.x += child.getLeft();
+        accumulatedOffset.y += child.getTop();
+        if (parentGroup.equals(mainParent)) {
+            return;
+        }
+        getDeepChildOffset(mainParent, parentGroup.getParent(), parentGroup, accumulatedOffset);
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser){
+            flag=true;
+        }
+    }
+
+
+    @Override
+    public void updateFragment() {
+
+        System.out.println("ehfnf");
+    }
 }

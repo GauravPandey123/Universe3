@@ -53,6 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/margin_medium"
+
                     android:layout_marginRight="@dimen/margin_medium">
 
                     <TextView
@@ -62,13 +63,11 @@
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:text="100%"
-
-                        android:layout_marginRight="8dp"
+                        android:text="0%"
+                        android:layout_marginRight="16dp"
                         android:gravity="center"
                         />
                     <SeekBar
-                        android:id="@+id/seek_bar"
                         android:layout_width="54dp"
                         android:layout_height="54dp"
                         android:layout_alignParentRight="true"
@@ -76,6 +75,21 @@
                         android:layout_centerVertical="true"
                         android:visibility="gone"
                         android:max="100"/>
+
+                    <me.tankery.lib.circularseekbar.CircularSeekBar
+                        android:id="@+id/seek_bar"
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center_horizontal"
+                        app:cs_negative_enabled="true"
+                        app:cs_circle_style="round"
+                        app:cs_circle_stroke_width="4dp"
+                        app:cs_pointer_stroke_width="4dp"
+                        app:cs_pointer_angle="44"/>
+
 
                 </RelativeLayout>
                 <TextView

@@ -4,8 +4,10 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
+import com.bumptech.glide.util.Util;
 import com.universe.android.R;
 import com.universe.android.adapter.CustomerListAdapter;
 import com.universe.android.adapter.SurveyDetailAdapter;
@@ -29,6 +32,7 @@ import com.universe.android.model.CustomerModal;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Utility;
 import com.universe.android.workflows.WorkFlowsActivity;
 
 import java.util.ArrayList;
@@ -81,6 +85,7 @@ public class SearchCustomersActivity extends BaseActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.FROYO)
     private void setupSearchView(SearchView searchView, final List<CustomerModal> responseList) {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
@@ -139,12 +144,18 @@ public class SearchCustomersActivity extends BaseActivity {
 
     private void setUpListeners() {
         surveyDetailAdapter.setOnItemClickLister(new CustomerListAdapter.OnItemSelecteListener() {
+            @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
             @Override
             public void onItemSelected(View v, int position) {
-                Intent intent=new Intent(mContext,MapsOneActivity.class);
+                Intent intent=new Intent(mContext,WorkFlowsActivity.class);
 
-                if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
-                     intent=new Intent(mContext,WorkFlowsActivity.class);
+
+                if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
+
+                    intent = new Intent(mContext, MapsOneActivity.class);
+
+
+
                 }
                 intent.putExtra(AppConstants.STR_TITLE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
@@ -159,9 +170,10 @@ public class SearchCustomersActivity extends BaseActivity {
             @Override
             public void onClick(View view, int position) {
 
-                Intent intent = new Intent(mContext, MapsOneActivity.class);
-                if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
-                    intent=new Intent(mContext,WorkFlowsActivity.class);
+                Intent intent=new Intent(mContext,WorkFlowsActivity.class);
+
+                if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
+                    intent = new Intent(mContext, MapsOneActivity.class);
                 }
                 intent.putExtra(AppConstants.STR_TITLE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
@@ -212,35 +224,38 @@ public class SearchCustomersActivity extends BaseActivity {
 
     public void addTextListener() {
 
-        editTextSearchcustomers.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
+//        editTextSearchcustomers.addTextChangedListener(new TextWatcher() {
+//            public void afterTextChanged(Editable s) {
+//            }
+//
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            public void onTextChanged(CharSequence query, int start, int before, int count) {
 
-            @Override
-            public void onTextChanged(CharSequence query, int i, int i1, int i2) {
-                query = query.toString().toLowerCase();
+////                query = query.toString().toLowerCase();
+////
+////                final ArrayList<CustomerModal> filteredList = new ArrayList<>();
+////
+////                for (int i = 0; i < stringArrayList.size(); i++) {
+////                    stringArrayList.clear();
+////                    final CustomerModal text = filteredList.get(i);
+////                    if (text.getName().equalsIgnoreCase("query")) {
+////                        filteredList.add(stringArrayList.get(i));
+////                    }
+////                }
+////
 
-                final ArrayList<CustomerModal> filteredModelList = new ArrayList<>();
-                for (CustomerModal model : stringArrayList) {
-                    final String text = model.getName().toLowerCase();
-                    if (text.contains(query)) {
-                        filteredModelList.add(model);
-                    }
-                }
-                recyclerViewSearch.setLayoutManager(new LinearLayoutManager(mContext));
-                surveyDetailAdapter = new CustomerListAdapter(mContext, filteredModelList);
-                recyclerViewSearch.setAdapter(surveyDetailAdapter);
-                surveyDetailAdapter.notifyDataSetChanged();  // data set changed
+//            }
+//        });
+//    }
 
-            }
 
-            @Override
-            public void afterTextChanged(Editable editable) {
 
-            }
-        });
+
+
+
 
     }
 

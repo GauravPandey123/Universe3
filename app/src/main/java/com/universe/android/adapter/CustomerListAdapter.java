@@ -50,12 +50,22 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
                     stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  \n"+
                     stringArrayList.get(position).getDate());
 
-//
-//            if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")){
-//                holder.llStatus.setVisibility(View.VISIBLE);
-//            }else{
-//                holder.llStatus.setVisibility(View.GONE);
-//            }
+           if (Utility.validateString(stringArrayList.get(position).getStatus())) {
+                if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
+                    holder.llStatus.setVisibility(View.VISIBLE);
+                    holder.tvStatus.setText("Submitted");
+                } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("2")) {
+                    holder.llStatus.setVisibility(View.VISIBLE);
+                    holder.tvStatus.setText("Approved");
+                } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("3")) {
+                    holder.llStatus.setVisibility(View.VISIBLE);
+                    holder.tvStatus.setText("Rejected");
+                } else {
+                    holder.llStatus.setVisibility(View.GONE);
+                }
+            }else{
+                holder.llStatus.setVisibility(View.GONE);
+            }
 
 
     }
@@ -74,7 +84,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
     }
 
     public class SurveyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewRetailersName, textViewMobileNo, textViewStatus;
+        private TextView textViewRetailersName, textViewMobileNo, textViewStatus,tvStatus;
         private LinearLayout llStatus;
         private RelativeLayout relativeLayout;
 
@@ -84,6 +94,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
             textViewStatus = itemView.findViewById(R.id.textViewStatus);
             llStatus = itemView.findViewById(R.id.llStatus);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
             relativeLayout=itemView.findViewById(R.id.relativeLayout);
            /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -95,7 +95,7 @@ public class WorkFlowsDetailActivity extends BaseActivity {
                 realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").count();
                 realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"4").equalTo(AppConstants.RM_STATUS,"4").equalTo(AppConstants.ZM_STATUS,"4").count();
                 realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").count();
-                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"4").count();
+                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"3").count();
 
             }
 
@@ -147,7 +147,7 @@ public class WorkFlowsDetailActivity extends BaseActivity {
                 }else if (type.equalsIgnoreCase(getString(R.string.completed))){
                     realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").findAll();
                 }else if (type.equalsIgnoreCase(getString(R.string.rejected))){
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"4").findAll();
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"3").findAll();
                 }
             }
             

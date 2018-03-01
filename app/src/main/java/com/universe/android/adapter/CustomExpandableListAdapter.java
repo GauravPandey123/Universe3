@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.universe.android.R;
 import com.universe.android.model.CategoryModal;
 import com.universe.android.model.Questions;
+import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 
 import java.util.HashMap;
@@ -146,8 +148,10 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
             imgStatus.setBackgroundResource(R.drawable.wrong);
         }
 
+        String designation= Prefs.getStringPrefs(AppConstants.TYPE);
+
          if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("1") ){
-            imgStatus.setBackgroundResource(R.drawable.done);
+            imgStatus.setBackgroundResource(R.drawable.double_done);
         }else if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("2") ){
              imgStatus.setBackgroundResource(R.drawable.done);
          }

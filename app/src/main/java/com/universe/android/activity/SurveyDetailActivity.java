@@ -52,7 +52,7 @@ import io.realm.Sort;
  * Created by gaurav.pandey on 24-01-2018.
  */
 
-public class SurveyDetailActivity extends BaseActivity {
+public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDialogFragment.SetDataListListener {
     //decalre the Views here
     private RecyclerView recyclerViewSurveyDetail;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -109,7 +109,7 @@ public class SurveyDetailActivity extends BaseActivity {
             textViewInProgressCount.setText(String.valueOf(realmInprogress));
             textViewNewRetailersCount.setText(String.valueOf(realmNewRetailer));
             textViewCrystalMembersCount.setText(String.valueOf(realmCystal));
-            textViewCompletedQuestionaire.setText("Compelted Questionaire".concat(String.valueOf(realmSubmitted)));
+            textViewCompletedQuestionaire.setText("Compelted Questionaire".concat("(").concat(String.valueOf(realmSubmitted).concat(")")));
         } catch (Exception e) {
             realm.close();
             e.printStackTrace();
@@ -137,8 +137,8 @@ public class SurveyDetailActivity extends BaseActivity {
         floatingCrystal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext, SearchCustomersActivity.class);
-                intent.putExtra(AppConstants.SURVEYID,surveyId);
+                Intent intent = new Intent(mContext, SearchCustomersActivity.class);
+                intent.putExtra(AppConstants.SURVEYID, surveyId);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 floatingActionMenu.close(true);
@@ -149,8 +149,8 @@ public class SurveyDetailActivity extends BaseActivity {
         floatingRetailers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mContext, SearchCustomersActivity.class);
-                intent.putExtra(AppConstants.SURVEYID,surveyId);
+                Intent intent = new Intent(mContext, SearchCustomersActivity.class);
+                intent.putExtra(AppConstants.SURVEYID, surveyId);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 floatingActionMenu.close(true);
@@ -208,13 +208,12 @@ public class SurveyDetailActivity extends BaseActivity {
 
     private void initialization() {
         intent = getIntent();
-        if (intent != null) {
-            fromDate = intent.getExtras().getString(AppConstants.FROMDATE);
-            toDate = intent.getExtras().getString(AppConstants.TODATE);
-            statusData = intent.getExtras().getString(AppConstants.STATUS);
-            if (fromDate != null && toDate != null) {
-                prepareListFilter(getResources().getString(R.string.newretailor), fromDate, toDate);
-            }
+//        if (intent != null) {
+//            fromDate = intent.getExtras().getString(AppConstants.FROMDATE);
+//            toDate = intent.getExtras().getString(AppConstants.TODATE);
+//            statusData = intent.getExtras().getString(AppConstants.STATUS);
+//            if (fromDate != null && toDate != null) {
+//            }
 //            } else if (fromDate != null && toDate != null && statusData.equalsIgnoreCase(getResources().getString(R.string.inprogress))) {
 //                prepareListFilter(getResources().getString(R.string.inprogress), fromDate, toDate);
 //            } else if (fromDate != null && toDate != null && statusData.equalsIgnoreCase(getResources().getString(R.string.target))) {
@@ -228,7 +227,7 @@ public class SurveyDetailActivity extends BaseActivity {
 //            } else if (fromDate != null && toDate != null && statusData.equalsIgnoreCase(getResources().getString(R.string.completed)) && statusData.equalsIgnoreCase(getResources().getString(R.string.inprogress))) {
 //                prepareListFilter(getResources().getString(R.string.completed).concat(getResources().getString(R.string.inprogress)), fromDate, toDate);
 //            }
-        }
+
 
         stringArrayList = new ArrayList<>();
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
@@ -354,7 +353,7 @@ public class SurveyDetailActivity extends BaseActivity {
         }
 
         if (surveyDetailAdapter != null) {
-             surveyDetailAdapter.notifyDataSetChanged();
+            surveyDetailAdapter.notifyDataSetChanged();
         }
         setUpElements();
     }
@@ -478,7 +477,6 @@ public class SurveyDetailActivity extends BaseActivity {
         }
     }
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -486,4 +484,12 @@ public class SurveyDetailActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void submitData(String fromDateString, String toDateString, String statusString) {
+        fromDate = fromDateString;
+        toDate = toDateString;
+        statusData = statusString;
+        prepareListFilter(getResources().getString(R.string.submitted), fromDate, toDate);
+
+    }
 }

@@ -1,9 +1,11 @@
 
 package com.universe.android.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,8 +16,8 @@ import android.text.Html;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -23,15 +25,12 @@ import android.widget.TextView;
 import com.universe.android.R;
 import com.universe.android.adapter.CustomExpandableListAdapter;
 import com.universe.android.component.NonScrollExpandableListView;
-import com.universe.android.enums.FormEnum;
 import com.universe.android.model.CategoryModal;
 import com.universe.android.model.Questions;
 import com.universe.android.okkhttp.APIClient;
 import com.universe.android.okkhttp.UniverseAPI;
-import com.universe.android.parent.ParentSaveActivity;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCategory;
-import com.universe.android.realmbean.RealmCategoryAnswers;
 import com.universe.android.realmbean.RealmController;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.realmbean.RealmQuestion;
@@ -51,9 +50,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import in.editsoft.api.util.App;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import me.tankery.lib.circularseekbar.CircularSeekBar;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -72,7 +71,7 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
     private TextView textViewRetailersNameMap,textViewMobileNoMap;
     Button btnReject;
     Button btnApprove;
-    private SeekBar seekbar;
+    private CircularSeekBar seekBar;
     private String updateId;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -80,6 +79,7 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_category_expand_list);
+
 
         initViews();
         setHeader();
@@ -100,14 +100,21 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
         Utility.animateView(v);
-                jsonSubmitReq = prepareJsonRequest("Reject");
 
+        if (title.contains(AppConstants.WORKFLOWS)) {
+            showReasonDialog();
 
-                if (Utility.isConnected()){
-                    submitAnswers(updateId,true);
-                }else {
-                    saveNCDResponseLocal(updateId,false);
-                }
+        }else{
+
+            jsonSubmitReq = prepareJsonRequest("Reject", "");
+
+            if (Utility.isConnected()) {
+                submitAnswers(updateId, true);
+            } else {
+                saveNCDResponseLocal(updateId, true);
+            }
+        }
+
 
            /* String updateId = "";
             if (view.getTag() != null) {
@@ -123,11 +130,11 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Utility.animateView(v);
-                jsonSubmitReq = prepareJsonRequest("Approve");
+                jsonSubmitReq = prepareJsonRequest("Approve", "");
                 if (Utility.isConnected()){
                     submitAnswers(updateId,true);
                 }else {
-                    saveNCDResponseLocal(updateId,false);
+                    saveNCDResponseLocal(updateId,true);
                 }
 
 
@@ -145,7 +152,7 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
 
 
 
-    private JSONObject prepareJsonRequest(String type) {
+    private JSONObject prepareJsonRequest(String type, String reason) {
         jsonSubmitReq=new JSONObject();
         JSONArray array=new JSONArray();
         Realm realm = Realm.getDefaultInstance();
@@ -153,7 +160,9 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
             RealmResults<RealmAnswers> realmCategoryAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findAll();
 
             if (realmCategoryAnswers!=null && realmCategoryAnswers.size()>0) {
-                updateId = realmCategoryAnswers.get(0).get_id();
+                if (realmCategoryAnswers.get(0).isSync()) {
+                    updateId = realmCategoryAnswers.get(0).get_id();
+                }
                 array = new JSONArray(realmCategoryAnswers.get(0).getWorkflow());
                 jsonSubmitReq.put(AppConstants.ANSWERS, new JSONArray(realmCategoryAnswers.get(0).getAnswers()));
                 if (Utility.validateString(updateId))
@@ -175,16 +184,19 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                             jsonSubmitReq.put(AppConstants.ZM_STATUS, "0");
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
-                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
                             jsonObject.put(AppConstants.STATUS, "Approved");
                             array.put(jsonObject);
                         } else {
                             jsonSubmitReq.put(AppConstants.CD_STATUS, "3");
                             jsonSubmitReq.put(AppConstants.RM_STATUS, "3");
                             jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                            jsonSubmitReq.put(AppConstants.REASON, reason);
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
-                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
                             jsonObject.put(AppConstants.STATUS, "Rejected");
                             array.put(jsonObject);
                         }
@@ -195,16 +207,19 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                             jsonSubmitReq.put(AppConstants.ZM_STATUS, "2");
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
-                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
                             jsonObject.put(AppConstants.STATUS, "Approved");
                             array.put(jsonObject);
                         } else {
                             jsonSubmitReq.put(AppConstants.CD_STATUS, "3");
                             jsonSubmitReq.put(AppConstants.RM_STATUS, "3");
-                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "3");
+                            jsonSubmitReq.put(AppConstants.REASON, reason);
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
-                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
                             jsonObject.put(AppConstants.STATUS, "Rejected");
                             array.put(jsonObject);
                         }
@@ -212,7 +227,8 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
-                    jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.name));
+                    jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
                     jsonObject.put(AppConstants.STATUS, "Submitted");
                     array.put(jsonObject);
                     jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
@@ -391,7 +407,9 @@ try{
         textViewRetailersNameMap = (TextView) findViewById(R.id.textViewRetailersNameMap);
         btnReject = (Button) findViewById(R.id.btnReject);
         btnApprove = (Button) findViewById(R.id.btnApprove);
-        seekbar=(SeekBar)findViewById(R.id.seek_bar);
+      //  seekbar=(SeekBar)findViewById(R.id.seek_bar);
+         seekBar = (CircularSeekBar) findViewById(R.id.seek_bar);
+
         expandableListView.setGroupIndicator(null);
 
 
@@ -408,6 +426,9 @@ try{
                         i.putExtra(AppConstants.STR_TITLE,title);
                         i.putExtra(AppConstants.SURVEYID,surveyId);
                         i.putExtra(AppConstants.CUSTOMERID,customerId);
+                        i.putExtra(AppConstants.UPDATEID,updateId);
+                        Prefs.putStringPrefs(AppConstants.VISIBLITY,"");
+                        i.putExtra(AppConstants.GROUP_POSITION,groupPosition);
                         startActivity(i);
 
                         return false;
@@ -435,14 +456,15 @@ try{
               RealmAnswers realmAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,surveyId).equalTo(AppConstants.CUSTOMERID,customerId).findFirst();
 
                 if (realmAnswers!=null){
+                    updateId=realmAnswers.get_id();
                    JSONArray array=new JSONArray(realmAnswers.getAnswers());
                    // JSONArray array1=new JSONArray(array.toString());
-                    String json=array.get(0).toString();
-                    JSONArray array1=new JSONArray(json);
-                   if (array1.length()>0){
-                       for (int i=0;i<array1.length();i++){
+                 //   String json=array.get(0).toString();
+                  //  JSONArray array1=new JSONArray(json);
+                   if (array.length()>0){
+                       for (int i=0;i<array.length();i++){
 
-                           JSONObject jsonObject=array1.getJSONObject(i);
+                           JSONObject jsonObject=array.getJSONObject(i);
                            String categoryId=jsonObject.optString(AppConstants.CATEGORYID);
                            String isView=jsonObject.optString(AppConstants.ISVIEW);
                            JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
@@ -596,16 +618,16 @@ try{
             expandableListView.setAdapter(expandableListAdapter);
 
             TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
-            seekbar.setProgress(progressRequired);
-            seekbar.setMax(progressTotal);
+            seekBar.setProgress(progressRequired);
+            seekBar.setMax(progressTotal);
             int percent=(progressRequired*100)/progressTotal;
             textViewProgress.setText(percent+"%");
             if (title.contains(AppConstants.WORKFLOWS)){
                 btnApprove.setText(getString(R.string.approve));
                 btnReject.setText(getString(R.string.reject));
                 if (arraylistTitle.size()!=arrISView.size()){
-                    btnApprove.setBackgroundResource(R.color.green);
-                    btnApprove.setEnabled(true);
+                    btnApprove.setBackgroundResource(R.color.grey);
+                    btnApprove.setEnabled(false);
                     btnReject.setBackgroundResource(R.color.red);
                     btnReject.setEnabled(true);
 
@@ -675,10 +697,15 @@ try{
         if (btnReject.getText().toString().equalsIgnoreCase("Reject")) {
              url = UniverseAPI.WEB_SERVICE_CREATE_APPROVE_METHOD;
             if (Utility.validateString(isUpdateId)) {
-                url = UniverseAPI.WEB_SERVICE_CREATE_UPDATE_APPROVE_METHOD;
+                url = UniverseAPI.WEB_SERVICE_CREATE_APPROVE_METHOD;
             }
         }else {
-            url = UniverseAPI.WEB_SERVICE_CREATE_UPDATE_METHOD;
+            if (Utility.validateString(isUpdateId)){
+                url = UniverseAPI.WEB_SERVICE_CREATE_UPDATE_METHOD;
+            }else{
+                url = UniverseAPI.WEB_SERVICE_CREATE_ANSWER_METHOD;
+            }
+
         }
 
 
@@ -713,7 +740,23 @@ try{
                         if (Utility.validateString(responseData)) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-
+                            if (!Utility.validateString(updateId)){
+                                Realm realm = Realm.getDefaultInstance();
+                                try {
+                                    realm.beginTransaction();
+                                    RealmResults<RealmAnswers> realmDeleteInputForms = realm.where(RealmAnswers.class).equalTo(AppConstants.ISSYNC, false).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findAll();
+                                    if (realmDeleteInputForms != null && realmDeleteInputForms.size() > 0) {
+                                        realmDeleteInputForms.deleteAllFromRealm();
+                                    }
+                                } catch (Exception e) {
+                                    realm.cancelTransaction();
+                                    realm.close();
+                                    e.printStackTrace();
+                                } finally {
+                                    realm.commitTransaction();
+                                    realm.close();
+                                }
+                            }
                             new RealmController().saveFormInputFromAnswersSubmit(jsonResponse.toString(), isUpdateId, "");
                         }
 
@@ -738,6 +781,33 @@ try{
 
             }
         });
+
+    }
+
+
+    public void showReasonDialog(){
+        final EditText taskEditText = new EditText(this);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.reason))
+                .setView(taskEditText)
+                .setPositiveButton(getString(R.string.submit), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String reason = String.valueOf(taskEditText.getText());
+                        jsonSubmitReq = prepareJsonRequest("Reject",reason);
+
+
+                        if (Utility.isConnected()){
+                            submitAnswers(updateId,true);
+                        }else {
+                            saveNCDResponseLocal(updateId,false);
+                        }
+                    }
+                })
+                .setNegativeButton(getString(R.string.cancel), null)
+                .create();
+        dialog.show();
+
 
     }
 }

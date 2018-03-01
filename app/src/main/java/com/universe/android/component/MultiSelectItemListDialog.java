@@ -87,7 +87,7 @@ public class MultiSelectItemListDialog extends Dialog {
                 for (int i = 0; i < selectItems.size(); i++) {
                     for (int j = 0; j < questions.size(); j++) {
                         if (selectItems.get(i).getId().equals(questions.get(j).getId())) {
-                            questions.get(j).setChecked(true);
+                          //  questions.get(j).setChecked(true);
                             adapter.notifyDataSetChanged();
                             break;
                         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.universe.android.enums.FormEnum;
 import com.universe.android.model.Questions;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 
 import org.json.JSONArray;
@@ -106,7 +107,25 @@ public class RealmController {
         try {
             realm.beginTransaction();
 
+            Prefs.clearValue(AppConstants.UserId);
+            Prefs.clearValue(AppConstants.Login_Status);
+            Prefs.clearValue(AppConstants.USERNAME);
+            Prefs.clearValue(AppConstants.EMPLOYEE_NAME);
+            Prefs.clearValue(AppConstants.name);
+            realm.delete(RealmAnswers.class);
+            realm.delete(RealmCategory.class);
+            realm.delete(RealmCategoryAnswers.class);
+            realm.delete(RealmClient.class);
+            realm.delete(RealmCustomer.class);
+            realm.delete(RealmQuestion.class);
             realm.delete(RealmQuestions.class);
+            realm.delete(RealmSurveys.class);
+            realm.delete(RealmUser.class);
+            realm.delete(RealmSurveyQuestion.class);
+
+
+
+
         } catch (Exception e) {
             realm.cancelTransaction();
             realm.close();
@@ -199,6 +218,8 @@ public class RealmController {
                 }
 
                 realm.createOrUpdateObjectFromJson(RealmAnswers.class, jsonResponse);
+
+
 
             }
         } catch (Exception e) {
