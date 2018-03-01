@@ -343,6 +343,7 @@ public class SurveyDetailActivity extends BaseActivity {
                     stringArrayList.add(modal);
                 }
             } else {
+                recyclerViewSurveyDetail.setVisibility(View.GONE);
                 Utility.showToast(getString(R.string.no_data));
             }
         } catch (Exception e) {
@@ -353,7 +354,7 @@ public class SurveyDetailActivity extends BaseActivity {
         }
 
         if (surveyDetailAdapter != null) {
-
+             surveyDetailAdapter.notifyDataSetChanged();
         }
         setUpElements();
     }

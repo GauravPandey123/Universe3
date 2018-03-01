@@ -194,7 +194,6 @@ public class LoginActivity extends BaseActivity {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             JSONObject jsonObject=jsonResponse.getJSONObject(AppConstants.RESPONSE);
                             Prefs.putStringPrefs(AppConstants.TYPE, jsonObject.optString(AppConstants.TYPE));
-
                             JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
                             Prefs.putStringPrefs(AppConstants.UserId,jsonObject1.optString(AppConstants.ID));
                             if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
