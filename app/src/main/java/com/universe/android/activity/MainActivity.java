@@ -168,8 +168,6 @@ public class MainActivity extends BaseActivity {
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(R.string.questionairemenu);
                         replaceFragment(new SurveySelectionFragment().newInstance(getResources().getString(R.string.questionairemenu)), mContainerId);
-
-                        //  replaceFragment(new QuestionarieSelectionFragment(), mContainerId);
                         break;
 
                     case 6:
@@ -185,9 +183,11 @@ public class MainActivity extends BaseActivity {
 
                     case 8:
                         mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.teamSurveyReport);
+                        mToolbar.setTitle(R.string.team_survey_detail);
                         replaceFragment(new QuestionaireTeamSuverFragment(), mContainerId);
                         break;
+                       // mContext.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
 
                     case 12:
                         mDrawerLayout.closeDrawers();

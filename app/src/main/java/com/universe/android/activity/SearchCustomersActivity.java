@@ -4,8 +4,10 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +16,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -52,15 +55,12 @@ public class SearchCustomersActivity extends BaseActivity {
     private RecyclerView recyclerViewSearch;
     private ImageView imageViewback;
     private TextView textViewSuverDetail;
-
     private CustomerListAdapter surveyDetailAdapter;
 
     private ArrayList<CustomerModal> stringArrayList;
-
-
     private ArrayList<CustomerModal> arrSearlist;
-
     private String surveyId, strTitle;
+
 
 
     @Override
@@ -69,10 +69,8 @@ public class SearchCustomersActivity extends BaseActivity {
         setContentView(R.layout.search_customers_activity);
         Intent intent = getIntent();
         if (intent != null) {
-
             surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
             strTitle = intent.getExtras().getString(AppConstants.TYPE);
-
         }
 
         SearchView searchView = (SearchView) findViewById(R.id.searchView);
@@ -87,6 +85,7 @@ public class SearchCustomersActivity extends BaseActivity {
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.FROYO)
     private void setupSearchView(SearchView searchView, final List<CustomerModal> responseList) {
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
@@ -100,7 +99,6 @@ public class SearchCustomersActivity extends BaseActivity {
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-
                     filter(newText, responseList);
                     return false;
                 }
@@ -115,7 +113,6 @@ public class SearchCustomersActivity extends BaseActivity {
      * @param charText the char text
      */
     private void filter(String charText, List<CustomerModal> responseList) {
-
         if (arrSearlist != null && responseList != null) {
             charText = charText.toLowerCase(Locale.getDefault());
             arrSearlist.clear();
@@ -129,8 +126,6 @@ public class SearchCustomersActivity extends BaseActivity {
                         }
                     }
                 }
-
-
             }
         }
 
@@ -149,6 +144,7 @@ public class SearchCustomersActivity extends BaseActivity {
 
     private void setUpListeners() {
         surveyDetailAdapter.setOnItemClickLister(new CustomerListAdapter.OnItemSelecteListener() {
+            @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
             @Override
             public void onItemSelected(View v, int position) {
                 Intent intent=new Intent(mContext,WorkFlowsActivity.class);
@@ -156,7 +152,8 @@ public class SearchCustomersActivity extends BaseActivity {
 
                 if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
 
-                    intent = new Intent(mContext, CategoryExpandableListActivity.class);
+                    intent = new Intent(mContext, MapsOneActivity.class);
+
 
 
                 }
@@ -176,10 +173,7 @@ public class SearchCustomersActivity extends BaseActivity {
                 Intent intent=new Intent(mContext,WorkFlowsActivity.class);
 
                 if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
-
-                        intent = new Intent(mContext, CategoryExpandableListActivity.class);
-
-
+                    intent = new Intent(mContext, MapsOneActivity.class);
                 }
                 intent.putExtra(AppConstants.STR_TITLE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
@@ -256,6 +250,13 @@ public class SearchCustomersActivity extends BaseActivity {
 //            }
 //        });
 //    }
+
+
+
+
+
+
+
     }
 
     private void prepareList() {
@@ -267,16 +268,11 @@ public class SearchCustomersActivity extends BaseActivity {
 
         try {
             RealmResults<RealmCustomer> realmCustomers = realm.where(RealmCustomer.class)/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findAll();
-
-
             if (realmCustomers != null && realmCustomers.size() > 0) {
                 for (int i = 0; i < realmCustomers.size(); i++) {
                     CustomerModal modal = new CustomerModal();
                     modal.setId(realmCustomers.get(i).get_id());
-
-
                     RealmAnswers realmAnswers1 = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, realmCustomers.get(i).get_id()).findFirst();
-
                     if (realmAnswers1 != null) {
                         String status = realmAnswers1.getCd_Status();
                         modal.setStatus(status);

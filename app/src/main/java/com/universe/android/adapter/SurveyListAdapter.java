@@ -50,13 +50,11 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
     @Override
     public void onBindViewHolder(StatusViewHolder holder, int position) {
         final SurveysModal surveysModal = surveysModals.get(position);
-
         if (Utility.validateString(surveysModal.getTitle())){
             holder.tvTitle.setText(surveysModal.getTitle());
         }
         if (Utility.validateString(surveysModal.getExpiryDate())){
             holder.tvExpiryDate.setText(surveysModal.getExpiryDate());
-
         }
         if (Utility.validateString(surveysModal.getStatus())){
             holder.tvPending.setText(surveysModal.getStatus());

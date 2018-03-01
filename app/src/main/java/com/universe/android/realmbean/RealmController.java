@@ -217,7 +217,7 @@ public class RealmController {
                     jsonResponse.put(AppConstants.ISSYNC, true);
                 }
 
-                    realm.createOrUpdateObjectFromJson(RealmAnswers.class, jsonResponse);
+                realm.createOrUpdateObjectFromJson(RealmAnswers.class, jsonResponse);
 
 
 
@@ -250,19 +250,19 @@ public class RealmController {
 
     }
     public void saveQuestions(String responseData) {
-            Realm realm = Realm.getDefaultInstance();
-            realm.beginTransaction();
-            try {
-                realm.createOrUpdateAllFromJson(RealmQuestions.class, new JSONArray(responseData));
-            } catch (Exception e) {
-                if (realm.isInTransaction())
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        try {
+            realm.createOrUpdateAllFromJson(RealmQuestions.class, new JSONArray(responseData));
+        } catch (Exception e) {
+            if (realm.isInTransaction())
                 realm.cancelTransaction();
-                e.printStackTrace();
-            } finally {
-                if (realm.isInTransaction())
+            e.printStackTrace();
+        } finally {
+            if (realm.isInTransaction())
                 realm.commitTransaction();
-                realm.close();
-            }
+            realm.close();
+        }
 
     }
     public void saveAnswers(String responseData) {
@@ -367,4 +367,22 @@ public class RealmController {
             }
         }
     }
+
+    public void saveSurveyData(String responseData) {
+        if (responseData != null) {
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            try {
+                realm.createOrUpdateAllFromJson(RealmCrystalDoctor.class, new JSONArray(responseData));
+            } catch (Exception e) {
+                realm.cancelTransaction();
+                realm.close();
+                e.printStackTrace();
+            } finally {
+                realm.commitTransaction();
+                realm.close();
+            }
+        }
+    }
 }
+

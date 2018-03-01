@@ -7,8 +7,18 @@ import com.universe.android.web.BaseRequest;
  */
 
 public class UpadteLocationRequest extends BaseRequest {
-    String userId;
-    String lat;
+    private String userId;
+    private String lat;
+
+    public String getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    private String customerId;
 
     public String getUserId() {
         return userId;
@@ -34,7 +44,7 @@ public class UpadteLocationRequest extends BaseRequest {
         this.lng = lng;
     }
 
-    String lng;
+    private String lng;
 
     @Override
     public boolean isValid(String Scenario) {

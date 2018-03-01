@@ -6,6 +6,34 @@ import io.realm.annotations.PrimaryKey;
 
 
 public class RealmUser extends RealmObject {
+    private String status;
+
+    private int designationLevel;
+
+    private String reportingManager;
+
+    private String designation;
+
+    private String state;
+
+    private String block;
+
+    private String lockingPeriod;
+
+    private String userType;
+
+    private String country;
+
+    private String username;
+
+    private String village;
+
+    private String createdBy;
+
+    private String address;
+
+    private String createdAt;
+
     @PrimaryKey
     private String _id;
     private String cd_code;

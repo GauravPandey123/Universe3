@@ -118,27 +118,6 @@ public class SurveySelectionFragment extends BaseFragment {
 
 
 
-   /* private void initialization() {
-        cardViewRetailer = view.findViewById(R.id.retailerSelection);
-        cardViewDistributor = view.findViewById(R.id.retailerDistributor);
-        textViewSelectRetailer = view.findViewById(R.id.textViewSelectRetailer);
-        textViewSelectDistributor = view.findViewById(R.id.textViewSelectDistributor);
-        textViewReatilersDate = view.findViewById(R.id.textViewReatilersDate);
-        textViewReatilersDistributor = view.findViewById(R.id.textViewDistributorDate);
-        retailerPending = view.findViewById(R.id.retailerPending);
-        distributorPending = view.findViewById(R.id.distributorPending);
-        textViewDistributor = view.findViewById(R.id.textViewDistributor);
-        textViewReatilers = view.findViewById(R.id.textViewReatilers);
-
-        textViewDistributor.setTypeface(FontClass.openSansBold(getActivity()));
-        textViewReatilers.setTypeface(FontClass.openSansBold(getActivity()));
-        textViewReatilersDate.setTypeface(FontClass.openSansLight(getActivity()));
-        textViewReatilersDistributor.setTypeface(FontClass.openSansLight(getActivity()));
-        textViewSelectDistributor.setTypeface(FontClass.openSansRegular(getActivity()));
-        retailerPending.setTypeface(FontClass.openSansRegular(getActivity()));
-        distributorPending.setTypeface(FontClass.openSansRegular(getActivity()));
-        textViewSelectRetailer.setTypeface(FontClass.openSansRegular(getActivity()));
-    }*/
 
 
 }

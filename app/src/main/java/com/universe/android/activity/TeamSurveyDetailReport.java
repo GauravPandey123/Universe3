@@ -1,6 +1,8 @@
 package com.universe.android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,16 +13,26 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.universe.android.R;
 import com.universe.android.adapter.SurveyDetailAdapter;
+import com.universe.android.adapter.TeamSurveyDetailAdapter;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.AnswersModal;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCustomer;
+import com.universe.android.resource.Login.CrystalReport.CrystalReportRequest;
+import com.universe.android.resource.Login.CrystalReport.CrystalReportResponse;
+import com.universe.android.resource.Login.CrystalReport.CrystalReportService;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Log;
+import com.universe.android.utility.Utility;
+import com.universe.android.web.BaseApiCallback;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import in.editsoft.api.exception.APIException;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
@@ -30,6 +42,7 @@ import io.realm.Sort;
  */
 
 public class TeamSurveyDetailReport extends BaseActivity {
+    private static final String TAG = TeamSurveyDetailReport.class.getSimpleName();
     RelativeLayout relativeLayout;
     ImageView imageviewback;
     private RecyclerView recyclerViewWorkFLowsDetail;
@@ -38,6 +51,9 @@ public class TeamSurveyDetailReport extends BaseActivity {
     private LinearLayoutManager linearLayoutManager;
     private SurveyDetailAdapter surveyDetailAdapter;
     private TextView textViewCrystalDoctor, textViewAmtala, textViewPosition, textViewAchievementNumbers, textViewAchievement;
+    private TeamSurveyDetailAdapter teamSurveyDetailAdapter;
+    private ArrayList<CrystalReportResponse.ResponseBean> responseBeanArrayList;
+    Intent intent;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,7 +62,6 @@ public class TeamSurveyDetailReport extends BaseActivity {
         initialization();
         setUpELements();
         setUpListeners();
-        prepareList();
     }
 
     private void setUpListeners() {
@@ -59,7 +74,17 @@ public class TeamSurveyDetailReport extends BaseActivity {
 
     }
 
+
+    public void setWebservice() {
+        if (!Utility.isConnected()) {
+            Utility.showToast(R.string.msg_disconnected);
+        } else {
+            TeamReportService();
+        }
+    }
+
     private void initialization() {
+        intent = getIntent();
         relativeLayout = findViewById(R.id.include);
         imageviewback = findViewById(R.id.imageviewback);
         textViewCrystalDoctor = findViewById(R.id.textViewCraystalDoctor);
@@ -68,62 +93,59 @@ public class TeamSurveyDetailReport extends BaseActivity {
         textViewAchievementNumbers = findViewById(R.id.textViewAchievementNumbers);
         textViewAchievement = findViewById(R.id.textViewAchievement);
         relativeLayout.setVisibility(View.GONE);
+        textViewAchievementNumbers.setText("20".concat("%"));
+        textViewCrystalDoctor.setText(intent.getStringExtra(AppConstants.CrystaDoctorName));
         textViewCrystalDoctor.setTypeface(FontClass.openSansBold(mContext));
         textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
         textViewPosition.setTypeface(FontClass.openSansRegular(mContext));
         textViewAchievementNumbers.setTypeface(FontClass.openSansRegular(mContext));
         textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
-
     }
 
-    private void prepareList() {
-        if (stringArrayList == null) stringArrayList = new ArrayList<>();
-        stringArrayList.clear();
-        Realm realm = Realm.getDefaultInstance();
 
-        try {
+    private void TeamReportService() {
+        CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
+        crystalReportRequest.setCdId("5a8e81022741361f5827ae85");
+        CrystalReportService crystalReportService = new CrystalReportService();
+        crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
+            @Override
+            public void onComplete() {
+                Log.e(TAG, "complete");
 
-            RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).findAllSorted(AppConstants.TITLE, Sort.DESCENDING);
-
-
-
-            if (realmAnswers != null && realmAnswers.size() > 0) {
-                for (int i = 0; i < realmAnswers.size(); i++) {
-                    AnswersModal modal = new AnswersModal();
-                    modal.set_id(realmAnswers.get(i).get_id());
-
-                    RealmCustomer realmCustomer=realm.where(RealmCustomer.class).findFirst();
-
-                    modal.setTitle(realmCustomer.getName());
-                    modal.setState(realmCustomer.getState());
-                    modal.setTerritory(realmCustomer.getTerritory());
-                    modal.setPincode(realmCustomer.getPincode());
-                    modal.setCustomerId(realmCustomer.getId());
-                    //modal.setStatus(type);
-                    modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getDate()));
-                    stringArrayList.add(modal);
-                }
             }
-        } catch (Exception e) {
-            realm.close();
-            e.printStackTrace();
-        } finally {
-            realm.close();
-        }
 
-        if (surveyDetailAdapter != null) {
-            surveyDetailAdapter.notifyDataSetChanged();
-        }
+            @Override
+            public void onSuccess(@NonNull CrystalReportResponse response) {
+                super.onSuccess(response);
+                Log.e(TAG, "Success");
+                List<CrystalReportResponse.ResponseBean> responseBeans = response.getResponse();
+                String value = new Gson().toJson(responseBeans);
+                CrystalReportResponse.ResponseBean[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean[].class);
+                for (CrystalReportResponse.ResponseBean responseBean : responseBeans1) {
+                    responseBeanArrayList.add(responseBean);
+                }
+                teamSurveyDetailAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+                Log.e(TAG, "Failure");
+            }
+        });
     }
+
 
     private void setUpELements() {
-        stringArrayList = new ArrayList<>();
+        responseBeanArrayList = new ArrayList<>();
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerViewWorkFLowsDetail = findViewById(R.id.recylerViewSurveyDetail);
-        surveyDetailAdapter = new SurveyDetailAdapter(mContext, stringArrayList);
+//        surveyDetailAdapter = new SurveyDetailAdapter(mContext, stringArrayList);
+        teamSurveyDetailAdapter = new TeamSurveyDetailAdapter(mContext, responseBeanArrayList);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
         recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewWorkFLowsDetail.setAdapter(surveyDetailAdapter);
+        recyclerViewWorkFLowsDetail.setAdapter(teamSurveyDetailAdapter);
+        setWebservice();
     }
 }

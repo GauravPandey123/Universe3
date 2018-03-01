@@ -11,10 +11,6 @@ import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.activity.AddNewRetailors;
-import com.universe.android.activity.MapsActivity;
-import com.universe.android.activity.QuestionaireActivity;
-import com.universe.android.activity.SearchCustomersActivity;
-import com.universe.android.activity.SurveyDetailActivity;
 import com.universe.android.helper.FontClass;
 
 /**

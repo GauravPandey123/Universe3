@@ -90,9 +90,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Utility.animateView(v);
-               login();
-               // getSurveyResponse();
-
+                login();
+                // getSurveyResponse();
             }
         });
         textViewForgotPassword.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +128,7 @@ public class LoginActivity extends BaseActivity {
         } else if (!Utility.validateString(pass)) {
             Utility.showToast(R.string.msg_enter_pass1);
             return false;
-        } else if (pass.length() < 5) {
+        } else if (pass.length() < 1) {
             Utility.showToast(R.string.msg_pass_error);
             return false;
         } else {
@@ -146,8 +145,9 @@ public class LoginActivity extends BaseActivity {
 
     public void submitLoginRequest(String email, String password) {
         showProgress(R.string.msg_load_default);
-        JSONObject jsonSubmitReq=new JSONObject();
+        JSONObject jsonSubmitReq = new JSONObject();
         try {
+
             jsonSubmitReq.put(AppConstants.EMAIL,email);
             jsonSubmitReq.put(AppConstants.PASSWORD,"pass123456");
             jsonSubmitReq.put(AppConstants.LAT,"27");
@@ -192,23 +192,21 @@ public class LoginActivity extends BaseActivity {
                         String responseData = response.body().string();
                         if (responseData != null) {
                             JSONObject jsonResponse = new JSONObject(responseData);
-                            JSONObject jsonObject=jsonResponse.getJSONObject(AppConstants.RESPONSE);
+                            JSONObject jsonObject = jsonResponse.getJSONObject(AppConstants.RESPONSE);
                             Prefs.putStringPrefs(AppConstants.TYPE, jsonObject.optString(AppConstants.TYPE));
 
-                                JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
-                                Prefs.putStringPrefs(AppConstants.UserId,jsonObject1.optString(AppConstants.ID));
-                                if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
-                                Prefs.putStringPrefs(AppConstants.USERNAME,jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
-                                else
-                                    Prefs.putStringPrefs(AppConstants.USERNAME,jsonObject1.optString(AppConstants.name));
-                                new RealmController().saveUserDetail(jsonObject1.toString());
-                                JSONArray mapping=jsonObject.getJSONArray("mapping");
-                                Prefs.putStringPrefs(AppConstants.MAPPING,mapping.toString());
+                            JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
+                            Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
+                            if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
+                                Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
+                            else
+                                Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.name));
+                            new RealmController().saveUserDetail(jsonObject1.toString());
+                            JSONArray mapping = jsonObject.getJSONArray("mapping");
+                            Prefs.putStringPrefs(AppConstants.MAPPING, mapping.toString());
 
 
-
-
-                          //  JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
+                            //  JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
                         /*    Prefs.putStringPrefs(AppConstants.TOKEN_ID, responseBean.getAccessToken());
                             Prefs.putStringPrefs(AppConstants.UserId, responseBean.get_id());
                             Prefs.putStringPrefs(AppConstants.password, responseBean.getPassword());
@@ -223,74 +221,17 @@ public class LoginActivity extends BaseActivity {
 
                             getSurveyResponse();
 
-                           // new RealmController().saveQuestions(array.toString());
+                            // new RealmController().saveQuestions(array.toString());
                         }
 
-                    } else {
+
                     }
-
-                } catch (Exception e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
-                } finally {
                 }
-
             }
-        });
-
+            });
     }
-/*
-    //hit web service here
-    public void submitLoginRequest(String email, String password) {
-       showProgress(R.string.msg_load_default);
-
-
-        //  showProgress();
-        // showProgress(R.string.msg_load_default);
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail(email);
-        loginRequest.setPassword(password);
-        loginRequest.setLat("27" );
-        loginRequest.setLng("22" );
-        LoginService loginService = new LoginService();
-        loginService.executeService(loginRequest, new BaseApiCallback<LoginResponse>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(@NonNull LoginResponse response) {
-                super.onSuccess(response);
-                LoginResponse.ResponseBean responseBean = response.getResponse();
-                Prefs.putStringPrefs(AppConstants.TOKEN_ID, responseBean.getAccessToken());
-                Prefs.putStringPrefs(AppConstants.UserId, responseBean.get_id());
-                Prefs.putStringPrefs(AppConstants.password, responseBean.getPassword());
-                Prefs.putStringPrefs(AppConstants.email, responseBean.getEmail());
-                Prefs.putStringPrefs(AppConstants.name, responseBean.getName());
-                Prefs.putLongPrefs(AppConstants.phone, responseBean.getPhone());
-                Prefs.putStringPrefs(AppConstants.designationLevel, responseBean.getDesignationLevel());
-                Prefs.putStringPrefs(AppConstants.DESIGNATION, responseBean.getDesignation());
-                Prefs.putStringPrefs(AppConstants.picture, responseBean.getPicture());
-                Prefs.putStringPrefs(AppConstants.location, responseBean.getLocation());
-                Prefs.putStringPrefs(AppConstants.LATTITUDE, responseBean.getLat());
-                Prefs.putStringPrefs(AppConstants.LONGITUDE, responseBean.getLng());
-                Prefs.putBooleanPrefs(AppConstants.Login_Status, true);
-
-                getSurveyResponse();
-
-
-            }
-
-            @Override
-            public void onFailure(APIException e) {
-                super.onFailure(e);
-                Utility.showToast(e.getData());
-            }
-        });
-
-    }
-*/
-
 
     private void getQuestionsResponse() {
         OkHttpClient okHttpClient = APIClient.getHttpClient();
@@ -334,8 +275,11 @@ public class LoginActivity extends BaseActivity {
 
 
     private void getSurveyResponse() {
+
+
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         String url = UniverseAPI.WEB_SERVICE_LIST_ADMIN_SURVEY_METHOD;
+
 
         Request request = APIClient.getRequest(mContext, url);
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -493,12 +437,8 @@ public class LoginActivity extends BaseActivity {
 
 
     private void getCategoryResponse() {
-
-
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         String url = UniverseAPI.WEB_SERVICE_LIST_CATEGORY_METHOD;
-
-
         Request request = APIClient.getRequest(mContext, url);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -626,7 +566,6 @@ public class LoginActivity extends BaseActivity {
         });
 
     }
-
 
 
     private void goToMain() {

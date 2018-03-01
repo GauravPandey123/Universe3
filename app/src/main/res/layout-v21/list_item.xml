@@ -1,61 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/margin_small"
-    android:layout_marginRight="@dimen/margin_small"
-    android:layout_marginTop="2dp"
-    android:layout_marginBottom="2dp"
-    android:background="@drawable/rectangular_shape"
-    android:orientation="horizontal">
+    android:id="@+id/relativeLayoutHeader">
 
-    <TextView
-        android:id="@+id/itemTitle"
+    <include
+        android:id="@+id/include"
+        layout="@layout/crystal_doctor_header" />
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="@string/totalNumber"
-        android:textAllCaps="true"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="@dimen/text_size_small" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include">
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="40dp"
-        android:background="@color/divider_color" />
+        <LinearLayout
+            android:id="@+id/linearLayoutTeam"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/rectangular_shape"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/itemno"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="@string/totalNumber"
-        android:textAllCaps="true"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="@dimen/text_size_small" />
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="40dp"
-        android:background="@color/divider_color" />
+            <TextView
+                android:id="@+id/itemTitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/totalNumber"
+                android:textAllCaps="true"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/text_size_small" />
 
-    <TextView
-        android:id="@+id/itempercentage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="@string/totalNumber"
-        android:textAllCaps="true"
-        android:textColor="@color/textColorPrimary"
-        android:textSize="@dimen/text_size_small" />
-</LinearLayout>
+            <View
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:background="@color/divider_color" />
 
+            <TextView
+                android:id="@+id/itemno"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="2"
+                android:textAllCaps="true"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/text_size_small" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:background="@color/divider_color" />
+
+            <TextView
+                android:id="@+id/itempercentage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/totalNumber"
+                android:textAllCaps="true"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayoutTeam"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/rectangular_shape"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/textViewteamInprogress"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/totalNumber"
+                android:textAllCaps="true"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/text_size_small" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:background="@color/divider_color" />
+
+            <TextView
+                android:id="@+id/textViewNewReatilors"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="2"
+                android:textAllCaps="true"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/text_size_small" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:background="@color/divider_color" />
+
+            <TextView
+                android:id="@+id/textViewCrystalMembers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/totalNumber"
+                android:textAllCaps="true"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/text_size_small" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
