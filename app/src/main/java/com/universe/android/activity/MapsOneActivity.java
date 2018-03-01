@@ -23,7 +23,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
+import com.universe.android.model.CategoryModal;
+import com.universe.android.model.Questions;
+import com.universe.android.realmbean.RealmAnswers;
+import com.universe.android.realmbean.RealmCategory;
 import com.universe.android.realmbean.RealmCustomer;
+import com.universe.android.realmbean.RealmQuestion;
+import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.resource.Login.LocationUpdate.UpDateLocationResponse;
 import com.universe.android.resource.Login.LocationUpdate.UpadteLocationRequest;
 import com.universe.android.resource.Login.LocationUpdate.UpdateLocationService;
@@ -32,9 +38,17 @@ import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.editsoft.api.exception.APIException;
 import io.realm.Realm;
+import io.realm.RealmResults;
+import me.tankery.lib.circularseekbar.CircularSeekBar;
 
 public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, PlaceSelectionListener {
 
@@ -45,6 +59,8 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     private ImageView imageViewSearch, imageViewSearchBack;
     private Activity activity;
     private CircleImageView circleImageViewMap;
+    List<CategoryModal> arraylistTitle = new ArrayList<>();
+    private CircularSeekBar seekBar;
 
 
     @Override
@@ -72,6 +88,12 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        prepareCategory();
+    }
+
     private void initialization() {
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
         circleImageViewMap = findViewById(R.id.circularImageViewMap);
@@ -80,6 +102,8 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         textViewSetLocation = findViewById(R.id.textViewSetLocation);
+
+        seekBar = (CircularSeekBar) findViewById(R.id.seek_bar);
 
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
@@ -199,6 +223,204 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
 
     }
+    private void prepareCategory(){
 
+        int progressTotal=0;
+        int progressRequired=0;
+
+        arraylistTitle = new ArrayList<>();
+        //  expandableListDetail=new HashMap<CategoryModal, List<Questions>>();
+        ArrayList<String> arrISView=new ArrayList<>();
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmSurveys realmSurveys=realm.where(RealmSurveys.class).equalTo(AppConstants.ID,surveyId).findFirst();
+
+        try {
+            JSONArray jsonArray = new JSONArray(realmSurveys.getCategoryId());
+            for (int l=0;l<jsonArray.length();l++){
+
+                RealmAnswers realmAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,surveyId).equalTo(AppConstants.CUSTOMERID,customerId).findFirst();
+
+                if (realmAnswers!=null){
+                    // updateId=realmAnswers.get_id();
+                    JSONArray array=new JSONArray(realmAnswers.getAnswers());
+                    // JSONArray array1=new JSONArray(array.toString());
+                    //   String json=array.get(0).toString();
+                    //  JSONArray array1=new JSONArray(json);
+                    if (array.length()>0){
+                        for (int i=0;i<array.length();i++){
+
+                            JSONObject jsonObject=array.getJSONObject(i);
+                            String categoryId=jsonObject.optString(AppConstants.CATEGORYID);
+                            String isView=jsonObject.optString(AppConstants.ISVIEW);
+                            JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
+                            if (categoryId.equalsIgnoreCase(jsonArray.get(l).toString())){
+                                RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID,jsonArray.get(l).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
+                                if (realmCategoryDetails != null) {
+
+
+                                    CategoryModal categoryModal = new CategoryModal();
+                                    categoryModal.setId(realmCategoryDetails.getId());
+                                    categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
+                                    categoryModal.setStatus(isView);
+                                    if (isView.equalsIgnoreCase("1"))
+                                        arrISView.add(isView);
+                                    try {
+                                        //  RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID,surveyId).findAll();
+
+                                        //  if (realmQuestions != null && realmQuestions.size() > 0) {
+                                        //         String categoryId = realmCategoryDetails.get(k).getId();
+                                        ArrayList<Questions> questionsArrayList = new ArrayList<>();
+
+                                        for (int n=0;n<questions.length();n++){
+
+                                            JSONObject jsonObject1=questions.getJSONObject(n);
+
+                                            Questions questions1 =new Questions();
+                                            questions1.setQuestionId(jsonObject1.optString(AppConstants.QUESTIONID));
+                                            questions1.setTitle(jsonObject1.optString(AppConstants.TITLE));
+                                            questions1.setStatus(jsonObject1.optString(AppConstants.REQUIRED));
+                                            questions1.setAnswer(jsonObject1.optString(AppConstants.ANSWER));
+                                            questionsArrayList.add(questions1);
+
+                                        }
+                                        ArrayList<String> stringsRequired=new ArrayList<>();
+                                        ArrayList<String> stringsRequiredAnswers=new ArrayList<>();
+                                        ArrayList<String> doneQuestions=new ArrayList<>();
+                                        for (int p=0;p<questionsArrayList.size();p++){
+                                            if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+
+                                                stringsRequired.add(questionsArrayList.get(p).getStatus());
+                                            }
+                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+
+                                                stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                            }
+                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
+
+                                                doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                            }
+
+                                        }
+                                        if (stringsRequired.size()==stringsRequiredAnswers.size()){
+                                            categoryModal.setCategoryAnswered("Yes");
+                                        }else {
+                                            categoryModal.setCategoryAnswered("No");
+                                        }
+                                        categoryModal.setQuestionCount(doneQuestions.size()+"/"+questionsArrayList.size());
+                                        categoryModal.setQuestions(questionsArrayList);
+
+                                        arraylistTitle.add(categoryModal);
+                                        progressRequired=progressRequired+stringsRequiredAnswers.size();
+                                        progressTotal=progressTotal+stringsRequired.size();
+
+                                        //   }
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+
+
+
+
+
+
+
+                                }else{
+                                    //    showToastMessage(getResources().getString(R.string.no_data));
+                                }
+
+                            }
+
+                        }
+                    }
+                }else {
+                    RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID, jsonArray.get(l).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
+                    if (realmCategoryDetails != null) {
+
+
+                        CategoryModal categoryModal = new CategoryModal();
+                        categoryModal.setId(realmCategoryDetails.getId());
+                        categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
+                        categoryModal.setStatus("");
+                        categoryModal.setCategoryAnswered("");
+                        try {
+                            RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID, surveyId).findAll();
+
+                            //  if (realmQuestions != null && realmQuestions.size() > 0) {
+                            //         String categoryId = realmCategoryDetails.get(k).getId();
+                            ArrayList<Questions> questionsArrayList = new ArrayList<>();
+
+                            for (int i = 0; i < realmQuestions.size(); i++) {
+
+
+                                Questions questions = new Questions();
+                                questions.setQuestionId(realmQuestions.get(i).getId());
+                                questions.setTitle((i + 1) + ". " + realmQuestions.get(i).getTitle());
+                                if (realmQuestions.get(i).getRequired().equalsIgnoreCase("true"))
+                                    questions.setStatus("Yes");
+                                else {
+                                    questions.setStatus("No");
+                                }
+                                questions.setAnswer("");
+                                questionsArrayList.add(questions);
+
+                            }
+                            categoryModal.setQuestionCount(questionsArrayList.size()+"");
+                            categoryModal.setQuestions(questionsArrayList);
+                            progressRequired=0;
+                            progressTotal=100;
+                            arraylistTitle.add(categoryModal);
+
+                            //   }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    } else {
+                        //    showToastMessage(getResources().getString(R.string.no_data));
+                    }
+
+
+                }
+
+
+            }
+
+            ArrayList<String> categoryAnswered=new ArrayList<>();
+            for (int m=0;m<arraylistTitle.size();m++) {
+                categoryAnswered.add(arraylistTitle.get(m).getCategoryAnswered());
+                ArrayList<Questions> productDetailsModelArrayList=new ArrayList<>();
+                for (int k = 0; k < arraylistTitle.get(m).getQuestions().size(); k++) {
+                    productDetailsModelArrayList.add(arraylistTitle.get(m).getQuestions().get(k));
+                }
+                //   expandableListDetail.put(arraylistTitle.get(m), productDetailsModelArrayList);
+            }
+
+
+
+            TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
+            seekBar.setProgress(progressRequired);
+            seekBar.setMax(progressTotal);
+            int percent=(progressRequired*100)/progressTotal;
+            textViewProgress.setText(percent+"%");
+
+
+
+        }catch (Exception e0){
+
+            e0.printStackTrace();
+            realm.close();
+        }finally {
+            if(!realm.isClosed()){
+                realm.close();
+            }
+
+        }
+
+
+    }
 
 }
