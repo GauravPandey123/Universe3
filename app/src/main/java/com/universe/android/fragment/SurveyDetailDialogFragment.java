@@ -42,7 +42,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
     private TextView textViewTodayFilter, textViewWeekFilter, textViewMonthFilter, textViewOthersFilter, textViewFilter;
     private TextView textViewPeriodFrom, textViewPeriodTo, textViewPeriodStatus, textViewReset, textViewApplyFilter;
     private TextView textViewChooseStatus;
-    private ImageView imageViewCloseStatus;
+
     private Dialog dialogFilter, dialogStatus, dialogCalendra;
     private ImageView imageViewCancel;
     ArrayList<StatusModel> statusList = new ArrayList<>();
@@ -55,7 +55,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
     private RecyclerView recylerViewStatus;
     private TeamSelectionAdapter teamSelectionAdapter;
     private RelativeLayout relativeLayoutSubmit;
-
+    private ImageView imageViewClose, imageViewCloseStatus;
     private String fromDateString, toDateString, statusString;
 
     @Nullable
@@ -249,6 +249,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         imageViewCloseStatus = dialogStatus.findViewById(R.id.imageViewCloseStatus);
         recylerViewStatus = dialogStatus.findViewById(R.id.recylerViewStatus);
         relativeLayoutSubmit = dialogStatus.findViewById(R.id.relativeLayoutSubmit);
+
     }
 
     private void initialization() {

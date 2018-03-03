@@ -158,8 +158,8 @@
     <string name="distributorName">Distributor Name(Crystal Primary Customer)</string>
     <string name="totalSales">Total Sales</string>
     <string name="focusvillage">Focus Village</string>
-    <string name="addNewReatiors">Add New Retailors</string>
-    <string name="err_msg_name">Please Enter Retailor Name</string>
+    <string name="addNewReatiors">Add New Retailers</string>
+    <string name="err_msg_name">Please Enter Retailer Name</string>
     <string name="err_msg_address">Please Enter Address</string>
     <string name="err_msg_terroritry">Enter Your Territory</string>
     <string name="err_msg_distributor">Please Enter Your Distributor</string>
@@ -195,5 +195,10 @@
         <item>@string/category4</item>
     </string-array>
     <string name="title_activity_maps">Map</string>
+    <string name="pincode">PinCode</string>
+    <string name="retailersState">State</string>
+    <string name="err_msg_pincode">Please Enter Pincode</string>
+    <string name="err_msg_state">Please Enter State</string>
+    <string name="state">Select State</string>
 
 </resources>

@@ -1,14 +1,21 @@
 package com.universe.android.activity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 
 
+import com.cocosw.bottomsheet.BottomSheet;
 import com.universe.android.R;
+import com.universe.android.utility.Utility;
 
 import static com.universe.android.utility.Utility.getStringRes;
 
@@ -22,6 +29,11 @@ public class BaseActivity extends AppCompatActivity {
     protected Context mContext;
     private ProgressDialog mProgressDialog;
     public boolean isReplaced = false;
+    public int CAMERA_REQUEST = 2121;
+    public int GALLERY_REQUEST = 2221;
+    private Activity mActivity;
+
+
 
 
     @Override
@@ -29,6 +41,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(setLayoutId());
         mContext = this;
+        mActivity=this;
     }
 
     public int setLayoutId() {
@@ -81,5 +94,27 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+
+    public void showImageOptions() {
+        String title = Utility.getStringRes(R.string.dialog_image_title);
+        new BottomSheet.Builder(mActivity)
+                .title(Html.fromHtml("<font color=#4A4E55>" + title + "</font>"))
+                .sheet(R.menu.image_options)
+                .listener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case R.id.image_camera:
+                                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                                break;
+                            case R.id.image_gallery:
+                                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                                startActivityForResult(i, GALLERY_REQUEST);
+                                break;
+                        }
+                    }
+                }).show();
+    }
 
 }

@@ -29,6 +29,7 @@ import com.universe.android.R;
 import com.universe.android.activity.BaseActivity;
 import com.universe.android.helper.FontClass;
 import com.universe.android.helper.HashTagHelper;
+import com.universe.android.resource.Login.Profile.ImageUploadService;
 import com.universe.android.resource.Login.Profile.ProfileRequest;
 import com.universe.android.resource.Login.Profile.ProfileResponse;
 import com.universe.android.resource.Login.Profile.ProfileService;
@@ -43,6 +44,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.editsoft.api.exception.APIException;
+import retrofit2.http.Multipart;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -59,7 +61,7 @@ public class ProfileFragment extends BaseFragment {
     private CircleImageView circleImageViewProfile;
     private boolean isUpdateImage = false;
     private static final int WRITE_EXTERNAL_STORAGE = 1;
-    private String mImageId ;
+    private String mImageId;
     public int CAMERA_REQUEST = 2121;
     public int GALLERY_REQUEST = 2221;
     private String mImageUrl;
@@ -97,11 +99,8 @@ public class ProfileFragment extends BaseFragment {
         if (!Utility.isConnected()) {
             Utility.showToast(R.string.msg_disconnected);
         } else {
-            if (isUpdateImage) {
-                imageUpload();
-            } else {
-                profileWebservice();
-            }
+            profileWebservice();
+
         }
     }
 
@@ -187,16 +186,17 @@ public class ProfileFragment extends BaseFragment {
         });
     }
 
-    public void imageUpload() {
-        ((BaseActivity) getActivity()).showProgress();
+    public void imageUpload(String path) {
+//        ((BaseActivity) getActivity()).showProgress();
         ProfileRequest profileRequest = new ProfileRequest();
         profileRequest.setUserId(Prefs.getStringPrefs(AppConstants.UserId));
         profileRequest.setIsPicture(1);
-        ProfileService profileService = new ProfileService();
+        profileRequest.setPhoto(path);
+        ImageUploadService profileService = new ImageUploadService();
         profileService.executeService(profileRequest, new BaseApiCallback<ProfileResponse>() {
             @Override
             public void onComplete() {
-                ((BaseActivity) getActivity()).dismissProgress();
+//                ((BaseActivity) getActivity()).dismissProgress();
             }
 
             @Override
@@ -204,7 +204,7 @@ public class ProfileFragment extends BaseFragment {
                 super.onSuccess(response);
                 mImageId = response.getResponse().get_id();
                 Glide.with(mActivity)
-                        .load(mImageId)
+                        .load(response.getResponse().getPicture())
                         .into(circleImageViewProfile);
 
             }
@@ -247,12 +247,12 @@ public class ProfileFragment extends BaseFragment {
         if (resultCode == RESULT_OK) {
             mImageUrl = Crop.getOutput(result).getPath();
             if (Crop.getOutput(result).getPath() != null) {
-                File file=new File(Crop.getOutput(result).getPath());
+                File file = new File(Crop.getOutput(result).getPath());
                 Glide.with(mActivity)
                         .load(file)
                         .into(circleImageViewProfile);
                 isUpdateImage = true;
-                imageUpload();
+                imageUpload(mImageUrl);
             }
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(getActivity(), Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();

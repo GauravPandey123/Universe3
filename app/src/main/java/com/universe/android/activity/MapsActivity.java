@@ -154,7 +154,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Go
     }
 
     private void initialization() {
-        imageViewSearch = findViewById(R.id.imageviewSearch);
+//        imageViewSearch = findViewById(R.id.imageviewSearch);
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
         locationSearch = findViewById(R.id.searchcustomers);
         circleImageViewMap = findViewById(R.id.circularImageViewMap);

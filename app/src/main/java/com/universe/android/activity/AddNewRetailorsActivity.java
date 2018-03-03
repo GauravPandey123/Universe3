@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.adapter.StatusAdapter;
+import com.universe.android.fragment.StateAndCropFragment;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.StatusModel;
 
@@ -31,7 +33,7 @@ import java.util.ArrayList;
  * Created by gaurav.pandey on 13-02-2018.
  */
 
-public class AddNewRetailorsActivity extends BaseActivity {
+public class AddNewRetailorsActivity extends BaseActivity implements StateAndCropFragment.SetStateData {
 
     private ImageView imageviewbackRetailors;
     private TextView textViewRetailorsName;
@@ -54,7 +56,10 @@ public class AddNewRetailorsActivity extends BaseActivity {
     private EditText editTextBrands;
     private TextInputLayout textInputLayoutSelectBrands;
     private EditText editTextSelectBrands;
-
+    private TextInputLayout textInputLayoutRetailorState;
+    private EditText editTextRetailersState;
+    private TextInputLayout textInputLayoutTerroitryPincode;
+    private EditText editTextTerroitryPinCode;
     private StatusAdapter statusAdapter;
     private ArrayList<StatusModel> statusModels;
     private ArrayList<StatusModel> multiselectSatuslist = new ArrayList<>();
@@ -62,7 +67,9 @@ public class AddNewRetailorsActivity extends BaseActivity {
     private Dialog dialogTerritory;
     private Dialog dialogAddDetail;
     private LinearLayoutManager linearLayoutManager;
+    String stateDataString;
 
+    FragmentManager fm = getSupportFragmentManager();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,42 +84,42 @@ public class AddNewRetailorsActivity extends BaseActivity {
         retailorTerroitry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                territoryDialog();
+
             }
         });
         retailorTerroitryRetailorDistributor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                territoryDialog();
             }
         });
 
         retailorTerroitryRetailorTotalSales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                territoryDialog();
+
             }
         });
 
         retailorTerroitryRetailorFocusVillage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                territoryDialog();
+
             }
         });
         retailorTerroitryCrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                territoryDialog();
+
+            }
+        });
+        editTextRetailersState.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                StateAndCropFragment dFragment = new StateAndCropFragment();
+                dFragment.show(fm, "Dialog Fragment");
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                addDetailDialog();
-            }
-        });
 
     }
 
@@ -124,6 +131,9 @@ public class AddNewRetailorsActivity extends BaseActivity {
         retailorTerroitryRetailorDistributor.addTextChangedListener(new MyTextWatcher(retailorTerroitryRetailorDistributor));
         retailorTerroitryRetailorTotalSales.addTextChangedListener(new MyTextWatcher(retailorTerroitryRetailorTotalSales));
         retailorTerroitryRetailorFocusVillage.addTextChangedListener(new MyTextWatcher(retailorTerroitryRetailorFocusVillage));
+        editTextRetailersState.addTextChangedListener(new MyTextWatcher(editTextRetailersState));
+        editTextTerroitryPinCode.addTextChangedListener(new MyTextWatcher(editTextTerroitryPinCode));
+        retailorTerroitryCrop.addTextChangedListener(new MyTextWatcher(retailorTerroitryCrop));
         submitDetails();
     }
 
@@ -150,6 +160,12 @@ public class AddNewRetailorsActivity extends BaseActivity {
             return;
         }
         if (!validateCrop()) {
+            return;
+        }
+        if (!validateState()) {
+            return;
+        }
+        if (!validatePincode()) {
             return;
         }
 
@@ -226,6 +242,29 @@ public class AddNewRetailorsActivity extends BaseActivity {
         return true;
     }
 
+    private boolean validatePincode() {
+        if (editTextTerroitryPinCode.getText().toString().trim().isEmpty()) {
+            textInputLayoutTerroitryPincode.setError(getString(R.string.err_msg_pincode));
+            requestFocus(editTextTerroitryPinCode);
+            return false;
+        } else {
+            textInputLayoutTerroitryPincode.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+    private boolean validateState() {
+        if (editTextRetailersState.getText().toString().trim().isEmpty()) {
+            textInputLayoutRetailorState.setError(getString(R.string.err_msg_state));
+            requestFocus(editTextRetailersState);
+            return false;
+        } else {
+            textInputLayoutRetailorState.setErrorEnabled(false);
+        }
+        return true;
+    }
+
+
     private boolean validateFocusVillage() {
         if (retailorTerroitryRetailorFocusVillage.getText().toString().trim().isEmpty()) {
             textInputLayoutRetailorFocusVillage.setError(getString(R.string.err_msg_focusVillage));
@@ -283,6 +322,11 @@ public class AddNewRetailorsActivity extends BaseActivity {
         retailorTerroitryRetailorFocusVillage = findViewById(R.id.retailorTerroitryRetailorFocusVillage);
         retailorTerroitryCrop = findViewById(R.id.retailorTerroitryCrop);
         textInputLayoutRetailorCrop = findViewById(R.id.textInputLayoutRetailorCrop);
+        editTextRetailersState = findViewById(R.id.retailorState);
+        textInputLayoutRetailorState = findViewById(R.id.textInputLayoutRetailorState);
+        textInputLayoutTerroitryPincode = findViewById(R.id.textInputLayoutTerroitryPincode);
+        editTextTerroitryPinCode = findViewById(R.id.retailorTerroitryPinCode);
+
         fab = findViewById(R.id.fab);
 
         textViewRetailorsName.setTypeface(FontClass.openSansRegular(mContext));
@@ -301,6 +345,8 @@ public class AddNewRetailorsActivity extends BaseActivity {
         textInputLayoutRetailorCrop.setTypeface(FontClass.openSansRegular(mContext));
         retailorTerroitryCrop.setTypeface(FontClass.openSansRegular(mContext));
 
+        stateDataString = editTextRetailersState.getText().toString();
+
     }
 
 
@@ -314,83 +360,10 @@ public class AddNewRetailorsActivity extends BaseActivity {
 
     }
 
-    public void addDetailDialog() {
-        dialogAddDetail = new Dialog(mContext);
-        dialogAddDetail.setCanceledOnTouchOutside(true);
-        dialogAddDetail.setContentView(R.layout.add_retailor_detail_dialog);
-        dialogAddDetailInitialization();
-        dialogAddDetailSetUpElments();
-        dialogAddDetail.show();
-    }
-
-    private void dialogAddDetailSetUpElments() {
-        editTextComapanyName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                territoryDialog();
-            }
-        });
-        editTextBrands.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                territoryDialog();
-            }
-        });
-        editTextSelectBrands.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                territoryDialog();
-            }
-        });
-
-    }
-
-    private void dialogAddDetailInitialization() {
-        textViewAdddetail = dialogAddDetail.findViewById(R.id.textViewAdddetail);
-        imageViewDetailClose = dialogAddDetail.findViewById(R.id.imageViewDetailClose);
-        textInputLayoutCompanyName = dialogAddDetail.findViewById(R.id.textInputLayoutCompanyName);
-        editTextComapanyName = dialogAddDetail.findViewById(R.id.editTextComapanyName);
-        textInputLayoutBrandName = dialogAddDetail.findViewById(R.id.textInputLayoutBrandName);
-        editTextBrands = dialogAddDetail.findViewById(R.id.editTextBrands);
-        textInputLayoutSelectBrands = dialogAddDetail.findViewById(R.id.textInputLayoutSelectBrands);
-        editTextSelectBrands = dialogAddDetail.findViewById(R.id.editTextSelectBrands);
-
-        textViewAdddetail.setTypeface(FontClass.openSansRegular(mContext));
-        textInputLayoutCompanyName.setTypeface(FontClass.openSansRegular(mContext));
-        editTextComapanyName.setTypeface(FontClass.openSansRegular(mContext));
-        textInputLayoutBrandName.setTypeface(FontClass.openSansRegular(mContext));
-        editTextBrands.setTypeface(FontClass.openSansRegular(mContext));
-        textInputLayoutSelectBrands.setTypeface(FontClass.openSansRegular(mContext));
-        editTextSelectBrands.setTypeface(FontClass.openSansRegular(mContext));
-
-
-    }
-
-
-    public void territoryDialog() {
-        dialogTerritory = new Dialog(mContext);
-        dialogTerritory.setCanceledOnTouchOutside(true);
-        dialogTerritory.setContentView(R.layout.terroritiory_diloag);
-        dialogTerritoryInitialization();
-        dialogTerritorySetUpElements();
-        dialogTerritory.show();
-        showData();
-    }
-
-    private void dialogTerritoryInitialization() {
-        textViewTerritory = dialogTerritory.findViewById(R.id.textViewTerritory);
-        imageViewCloseTerritory = dialogTerritory.findViewById(R.id.imageViewTerritoryClose);
-        swipeRefreshLayoutTerritory = dialogTerritory.findViewById(R.id.swipeRefreshLayoutTerritory);
-        recyclerViewTerritory = dialogTerritory.findViewById(R.id.recyclerViewTerritory);
-    }
-
-    private void dialogTerritorySetUpElements() {
-        statusAdapter = new StatusAdapter(this, statusModels, multiselectSatuslist);
-        linearLayoutManager = new LinearLayoutManager(mContext);
-        recyclerViewTerritory.setLayoutManager(linearLayoutManager);
-        recyclerViewTerritory.setItemAnimator(new DefaultItemAnimator());
-
-        recyclerViewTerritory.setAdapter(statusAdapter);
+    @Override
+    public void submitStateData(String State) {
+        stateDataString = State;
+        editTextRetailersState.setText(stateDataString);
     }
 
     public class MyTextWatcher implements TextWatcher {
@@ -434,9 +407,17 @@ public class AddNewRetailorsActivity extends BaseActivity {
                 case R.id.retailorTerroitryRetailorFocusVillage:
                     validateTotalSales();
                     break;
+                case R.id.retailorTerroitryPinCode:
+                    validatePincode();
+                    break;
+                case R.id.retailorState:
+                    validateState();
+                    break;
 
             }
 
         }
     }
+
+
 }
