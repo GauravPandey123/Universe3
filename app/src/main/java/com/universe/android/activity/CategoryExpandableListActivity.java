@@ -508,11 +508,11 @@ try{
 
                                                stringsRequired.add(questionsArrayList.get(p).getStatus());
                                            }
-                                           if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+                                           if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")&& !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0")) {
 
                                                stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
                                            }
-                                           if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
+                                           if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0")) {
 
                                                doneQuestions.add(questionsArrayList.get(p).getAnswer());
                                            }

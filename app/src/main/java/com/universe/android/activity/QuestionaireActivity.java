@@ -80,6 +80,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
     private int groupPosition=0;
     private CircleSeekBar seekBar;
     boolean isSync=false;
+    String searchText="";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -141,7 +142,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         pagerSlidingTabStrip.setTextSize((int) getResources().getDimension(R.dimen.text_size_medium));
         pagerSlidingTabStrip.setDeactivateTextColor(getResources().getColor(R.color.white));
         pagerSlidingTabStrip.setActivateTextColor(getResources().getColor(R.color.white));
-      // mViewPager.setOffscreenPageLimit(5);
+       mViewPager.setOffscreenPageLimit(4);
 
         questionaireTabsFilterAdapter = new QuestionaireTabsFilterAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(questionaireTabsFilterAdapter);
@@ -206,7 +207,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         public int getItemPosition(Object object) {
             if (object instanceof Fragment) {
                 QuestionsCategoryFragment f = (QuestionsCategoryFragment) object;
-                f.updateFragment(mViewPager.getCurrentItem(),categoryModals.get(mViewPager.getCurrentItem()).getId());
+                f.updateFragment(mViewPager.getCurrentItem(),categoryModals.get(mViewPager.getCurrentItem()).getId(),searchText,"1");
             }
             return super.getItemPosition(object);
         }
@@ -259,17 +260,21 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         if (searchView != null) {
             searchView.setSearchableInfo(searchableInfo);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-
+               //     if (object instanceof Fragment) {
+                      //  QuestionsCategoryFragment f = new QuestionsCategoryFragment();
+                   // QuestionsCategoryFragment.pageChangeInterface.onDataPass(query,mViewPager.getCurrentItem(),categoryModals.get(mViewPager.getCurrentItem()).getId());
+                //    }
 
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
-
-                    QuestionsCategoryFragment.pageChangeInterface.onDataPass(newText ,positionValue,categoryModals.get(mViewPager.getCurrentItem()).getId());
+                    searchText=newText;
+                 //   QuestionsCategoryFragment.pageChangeInterface.onDataPass(newText ,positionValue,categoryModals.get(mViewPager.getCurrentItem()).getId());
 
                     return false;
                 }
