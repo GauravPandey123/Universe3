@@ -2,6 +2,7 @@ package com.universe.android.activity;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
@@ -19,21 +20,34 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.adapter.StatusAdapter;
+import com.universe.android.fragment.CropFragment;
+import com.universe.android.fragment.DistributorFragment;
 import com.universe.android.fragment.StateAndCropFragment;
+import com.universe.android.fragment.TerroryFragment;
+import com.universe.android.fragment.VillageFragement;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.StatusModel;
+import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatiler.AddNewReatilerRequest;
+import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatiler.AddNewReatilerResponse;
+import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatiler.AddNewReatilerService;
+import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
+import com.universe.android.web.BaseApiCallback;
 
 import java.util.ArrayList;
+
+import in.editsoft.api.exception.APIException;
 
 /**
  * Created by gaurav.pandey on 13-02-2018.
  */
 
-public class AddNewRetailorsActivity extends BaseActivity implements StateAndCropFragment.SetStateData {
+public class AddNewRetailorsActivity extends BaseActivity implements StateAndCropFragment.SetStateData, TerroryFragment.SubmitTerroitryData, CropFragment.SetCropData, DistributorFragment.submitDistributor, VillageFragement.VillageSubmission {
 
     private ImageView imageviewbackRetailors;
     private TextView textViewRetailorsName;
@@ -41,21 +55,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     private TextInputLayout textInputLayoutRetailorMobileNumber, textInputLayoutRetailorDistributorName, textInputLayoutRetailorFocusVillage;
     private EditText retailorName, retailorTerroitry, retailorTerroitryAddress, retailorPhoneNumber, retailorTerroitryRetailorDistributor;
     private EditText retailorTerroitryRetailorTotalSales, retailorTerroitryRetailorFocusVillage, retailorTerroitryCrop;
-    private CheckBox checkboxRetailors;
     private TextView textViewRetailors;
-    private TextView textViewTerritory;
-    private ImageView imageViewCloseTerritory;
-    private RecyclerView recyclerViewTerritory;
-    private SwipeRefreshLayout swipeRefreshLayoutTerritory;
-    private FloatingActionButton fab;
-    private TextView textViewAdddetail;
-    private ImageView imageViewDetailClose;
-    private TextInputLayout textInputLayoutCompanyName;
-    private EditText editTextComapanyName;
-    private TextInputLayout textInputLayoutBrandName;
-    private EditText editTextBrands;
-    private TextInputLayout textInputLayoutSelectBrands;
-    private EditText editTextSelectBrands;
     private TextInputLayout textInputLayoutRetailorState;
     private EditText editTextRetailersState;
     private TextInputLayout textInputLayoutTerroitryPincode;
@@ -63,11 +63,9 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     private StatusAdapter statusAdapter;
     private ArrayList<StatusModel> statusModels;
     private ArrayList<StatusModel> multiselectSatuslist = new ArrayList<>();
+    private String cropString, stateDataString, terroritryDataString, distributorString, villageSubmitString;
+    private RelativeLayout relativeLayoutSubmit;
 
-    private Dialog dialogTerritory;
-    private Dialog dialogAddDetail;
-    private LinearLayoutManager linearLayoutManager;
-    String stateDataString;
 
     FragmentManager fm = getSupportFragmentManager();
 
@@ -85,31 +83,31 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
             @Override
             public void onClick(View view) {
 
+                TerroryFragment dFragment = new TerroryFragment();
+                dFragment.show(fm, "Dialog Fragment");
             }
         });
         retailorTerroitryRetailorDistributor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DistributorFragment dFragment = new DistributorFragment();
+                dFragment.show(fm, "Dialog Fragment");
             }
         });
 
-        retailorTerroitryRetailorTotalSales.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         retailorTerroitryRetailorFocusVillage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                VillageFragement dFragment = new VillageFragement();
+                dFragment.show(fm, "Dialog Fragment");
             }
         });
         retailorTerroitryCrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                CropFragment cropFragment = new CropFragment();
+                cropFragment.show(fm, "Dialog Fragment");
             }
         });
         editTextRetailersState.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +115,12 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
             public void onClick(View view) {
                 StateAndCropFragment dFragment = new StateAndCropFragment();
                 dFragment.show(fm, "Dialog Fragment");
+            }
+        });
+        relativeLayoutSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
@@ -134,43 +138,47 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         editTextRetailersState.addTextChangedListener(new MyTextWatcher(editTextRetailersState));
         editTextTerroitryPinCode.addTextChangedListener(new MyTextWatcher(editTextTerroitryPinCode));
         retailorTerroitryCrop.addTextChangedListener(new MyTextWatcher(retailorTerroitryCrop));
-        submitDetails();
-    }
-
-    public void submitDetails() {
-        if (!validateName()) {
-            return;
-        }
-        if (!validateAddress()) {
-            return;
-        }
-        if (!validateDistributoName()) {
-            return;
-        }
-        if (!validateFocusVillage()) {
-            return;
-        }
-        if (!validateTerroitryName()) {
-            return;
-        }
-        if (!validateTotalSales()) {
-            return;
-        }
-        if (!validatePhone()) {
-            return;
-        }
-        if (!validateCrop()) {
-            return;
-        }
-        if (!validateState()) {
-            return;
-        }
-        if (!validatePincode()) {
-            return;
-        }
-
 
     }
+
+    public void submitNewReatilers()
+    {
+    }
+//
+//    public boolean submitDetails() {
+//        if (!validateName()) {
+//            return;
+//        }
+//        if (!validateAddress()) {
+//            return;
+//        }
+//        if (!validateDistributoName()) {
+//            return;
+//        }
+//        if (!validateFocusVillage()) {
+//            return;
+//        }
+//        if (!validateTerroitryName()) {
+//            return;
+//        }
+//        if (!validateTotalSales()) {
+//            return;
+//        }
+//        if (!validatePhone()) {
+//            return;
+//        }
+//        if (!validateCrop()) {
+//            return;
+//        }
+//        if (!validateState()) {
+//            return;
+//        }
+//        if (!validatePincode()) {
+//            return;
+//        }
+//
+//
+//    }
 
     private boolean validateName() {
         if (retailorName.getText().toString().trim().isEmpty()) {
@@ -278,7 +286,6 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
 
     public boolean validatePhone() {
         String phone = retailorPhoneNumber.getText().toString().trim();
-
         if (phone.isEmpty() || !isValidPhone(phone)) {
             textInputLayoutRetailorMobileNumber.setError(getString(R.string.err_msg_phone));
             requestFocus(retailorPhoneNumber);
@@ -316,7 +323,8 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         retailorTerroitryAddress = findViewById(R.id.retailorTerroitryAddress);
         retailorPhoneNumber = findViewById(R.id.retailorPhoneNumber);
         retailorTerroitryRetailorTotalSales = findViewById(R.id.retailorTerroitryRetailorTotalSales);
-        checkboxRetailors = findViewById(R.id.checkboxRetailors);
+        relativeLayoutSubmit = findViewById(R.id.relativeLayoutSubmit);
+
         textViewRetailors = findViewById(R.id.textViewRetailors);
         textInputLayoutRetailorTotalSales = findViewById(R.id.textInputLayoutRetailorTotalSales);
         retailorTerroitryRetailorFocusVillage = findViewById(R.id.retailorTerroitryRetailorFocusVillage);
@@ -326,8 +334,6 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         textInputLayoutRetailorState = findViewById(R.id.textInputLayoutRetailorState);
         textInputLayoutTerroitryPincode = findViewById(R.id.textInputLayoutTerroitryPincode);
         editTextTerroitryPinCode = findViewById(R.id.retailorTerroitryPinCode);
-
-        fab = findViewById(R.id.fab);
 
         textViewRetailorsName.setTypeface(FontClass.openSansRegular(mContext));
         textInputLayoutRetailorName.setTypeface(FontClass.openSansRegular(mContext));
@@ -346,17 +352,9 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         retailorTerroitryCrop.setTypeface(FontClass.openSansRegular(mContext));
 
         stateDataString = editTextRetailersState.getText().toString();
-
-    }
-
-
-    private void showData() {
-        String name[] = {"RM", "Gaurav", "Neeraj", "Girish", "Arjun", "Ankush"};
-        int imageId[] = {R.drawable.ic_target, R.drawable.ic_completed, R.drawable.ic_progress, R.drawable.ic_customer, R.drawable.ic_customer};
-        for (int i = 0; i < name.length - 1; i++) {
-            StatusModel mSample = new StatusModel(name[i], imageId[i]);
-            statusModels.add(mSample);
-        }
+        terroritryDataString = retailorTerroitry.getText().toString();
+        cropString = retailorTerroitryCrop.getText().toString();
+        distributorString = retailorTerroitryRetailorDistributor.getText().toString();
 
     }
 
@@ -364,6 +362,62 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     public void submitStateData(String State) {
         stateDataString = State;
         editTextRetailersState.setText(stateDataString);
+    }
+
+    @Override
+    public void submitTerroitryData(String Terroitry) {
+        terroritryDataString = Terroitry;
+        retailorTerroitry.setText(Terroitry);
+    }
+
+    @Override
+    public void submitCropData(String State) {
+        cropString = State;
+        retailorTerroitryCrop.setText(cropString);
+    }
+
+    @Override
+    public void submitDistriButor(String DistributorName) {
+        distributorString = DistributorName;
+        retailorTerroitryRetailorDistributor.setText(distributorString);
+
+    }
+
+    @Override
+    public void showVillage(String villageString) {
+        villageSubmitString = villageString;
+        retailorTerroitryRetailorFocusVillage.setText(villageString);
+    }
+
+    public void addNewReatiler(String reiltersName, String Address, String pinCode, String totalSales) {
+        AddNewReatilerRequest addNewReatilerRequest = new AddNewReatilerRequest();
+        addNewReatilerRequest.setRetailerName(reiltersName);
+        addNewReatilerRequest.setAddress(Address);
+        addNewReatilerRequest.setPincode(pinCode);
+        addNewReatilerRequest.setTotalSales(totalSales);
+        addNewReatilerRequest.setState_code(Prefs.getIntegerPrefs(AppConstants.STATECODE));
+        addNewReatilerRequest.setTerritory_code(Prefs.getIntegerPrefs(AppConstants.TerroitryCode));
+        addNewReatilerRequest.setDistributer_code(Prefs.getStringPrefs(AppConstants.Distributor_Id));
+        addNewReatilerRequest.setVillage_code(Prefs.getStringPrefs(AppConstants.VillageId));
+        addNewReatilerRequest.setCropId(Prefs.getStringPrefs(AppConstants.CROPID));
+
+        AddNewReatilerService addNewReatilerService = new AddNewReatilerService();
+        addNewReatilerService.executeService(addNewReatilerRequest, new BaseApiCallback<AddNewReatilerResponse>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(@NonNull AddNewReatilerResponse response) {
+                super.onSuccess(response);
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+            }
+        });
     }
 
     public class MyTextWatcher implements TextWatcher {

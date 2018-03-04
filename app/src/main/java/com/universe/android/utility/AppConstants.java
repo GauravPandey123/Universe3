@@ -163,5 +163,11 @@ public class AppConstants {
     public static String CDID="cdid";
     public static String FROMDATE="formdate";
     public static String STATECODE="statecode";
+    public static String TerroitryCode="TerroitryCode";
+    public static String CROPID="cropid";
+    public static String Distributor_Id="distributor_id";
+
+
+    public static String VillageId="villageId";
 }
 

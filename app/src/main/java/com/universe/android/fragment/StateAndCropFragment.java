@@ -134,26 +134,7 @@ public class StateAndCropFragment extends DialogFragment {
     }
 
 
-    public void cropService() {
-        StateAndCropRequest stateAndCropRequest = new StateAndCropRequest();
-        StateAndCropService stateAndCropService = new StateAndCropService();
-        stateAndCropService.executeService(stateAndCropRequest, new BaseApiCallback<StaeAndCropResponse>() {
-            @Override
-            public void onComplete() {
 
-            }
-
-            @Override
-            public void onSuccess(@NonNull StaeAndCropResponse response) {
-                super.onSuccess(response);
-            }
-
-            @Override
-            public void onFailure(APIException e) {
-                super.onFailure(e);
-            }
-        });
-    }
 
 
     public interface SetStateData {

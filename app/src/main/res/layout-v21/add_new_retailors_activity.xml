@@ -242,10 +242,19 @@
                         android:textColor="@color/textColorPrimary"
                         android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textInputLayoutRetailorFocusVillage">
+
+                    <include layout="@layout/submit_button_layout" />
+
+                </RelativeLayout>
             </RelativeLayout>
 
-
         </RelativeLayout>
+
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
@@ -260,12 +269,5 @@
         android:visibility="gone"
         app:backgroundTint="@color/app_theme_color" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
 
-        <include layout="@layout/submit_button_layout" />
-
-    </RelativeLayout>
 </RelativeLayout>
