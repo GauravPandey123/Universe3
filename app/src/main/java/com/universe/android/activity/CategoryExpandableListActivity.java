@@ -52,13 +52,15 @@ import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import me.tankery.lib.circularseekbar.CircularSeekBar;
+
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import ru.bullyboo.view.CircleSeekBar;
 
 public class CategoryExpandableListActivity extends AppCompatActivity {
     private JSONObject jsonSubmitReq = new JSONObject();
@@ -71,7 +73,7 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
     private TextView textViewRetailersNameMap,textViewMobileNoMap;
     Button btnReject;
     Button btnApprove;
-    private CircularSeekBar seekBar;
+    private CircleSeekBar seekBar;
     private String updateId;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -408,7 +410,7 @@ try{
         btnReject = (Button) findViewById(R.id.btnReject);
         btnApprove = (Button) findViewById(R.id.btnApprove);
       //  seekbar=(SeekBar)findViewById(R.id.seek_bar);
-         seekBar = (CircularSeekBar) findViewById(R.id.seek_bar);
+         seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
 
         expandableListView.setGroupIndicator(null);
 
@@ -618,8 +620,8 @@ try{
             expandableListView.setAdapter(expandableListAdapter);
 
             TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
-            seekBar.setProgress(progressRequired);
-            seekBar.setMax(progressTotal);
+            seekBar.setValue(progressRequired);
+            seekBar.setMaxValue(progressTotal);
             int percent=(progressRequired*100)/progressTotal;
             textViewProgress.setText(percent+"%");
             if (title.contains(AppConstants.WORKFLOWS)){

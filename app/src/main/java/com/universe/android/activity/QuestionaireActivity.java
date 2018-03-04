@@ -5,7 +5,9 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -51,13 +53,14 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import me.tankery.lib.circularseekbar.CircularSeekBar;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import ru.bullyboo.view.CircleSeekBar;
 
 public class QuestionaireActivity extends BaseActivity  implements PageChangeInterface{
     private ViewPager mViewPager;
@@ -75,7 +78,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
     List<CategoryModal> arraylistTitle = new ArrayList<>();
     HashMap<CategoryModal, List<Questions>> expandableListDetail = new HashMap<CategoryModal, List<Questions>>();
     private int groupPosition=0;
-    private CircularSeekBar seekBar;
+    private CircleSeekBar seekBar;
     boolean isSync=false;
 
     @Override
@@ -138,7 +141,8 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         pagerSlidingTabStrip.setTextSize((int) getResources().getDimension(R.dimen.text_size_medium));
         pagerSlidingTabStrip.setDeactivateTextColor(getResources().getColor(R.color.white));
         pagerSlidingTabStrip.setActivateTextColor(getResources().getColor(R.color.white));
-        mViewPager.setOffscreenPageLimit(4);
+      // mViewPager.setOffscreenPageLimit(5);
+
         questionaireTabsFilterAdapter = new QuestionaireTabsFilterAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(questionaireTabsFilterAdapter);
         mViewPager.setCurrentItem(groupPosition);
@@ -158,12 +162,14 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
             public void onPageSelected(int position) {
 
                 mViewPager.setCurrentItem(position);
-                questionaireTabsFilterAdapter.notifyDataSetChanged();
+
+               mViewPager.getAdapter().notifyDataSetChanged();
                 System.out.println("HHEEEE");
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
+                questionaireTabsFilterAdapter.notifyDataSetChanged();
            //    QuestionsCategoryFragment.pageChangeInterface.onDataPass(categoryModals.get(positionValue).getId(),positionValue);
 
             }
@@ -195,11 +201,12 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         public int getCount() {
             return categoryModals.size();
         }
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         public int getItemPosition(Object object) {
             if (object instanceof Fragment) {
                 QuestionsCategoryFragment f = (QuestionsCategoryFragment) object;
-                f.updateFragment();
+                f.updateFragment(mViewPager.getCurrentItem(),categoryModals.get(mViewPager.getCurrentItem()).getId());
             }
             return super.getItemPosition(object);
         }
@@ -227,7 +234,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
-        seekBar = (CircularSeekBar) findViewById(R.id.seek_bar);
+        seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
         pagerSlidingTabStrip=findViewById(R.id.pagerSlidingStrip);
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
@@ -247,6 +254,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         final SearchView searchView=(SearchView)findViewById(R.id.searchView);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        assert searchManager != null;
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
         if (searchView != null) {
             searchView.setSearchableInfo(searchableInfo);
@@ -735,8 +743,8 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
 
 
             TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
-            seekBar.setProgress(progressRequired);
-            seekBar.setMax(progressTotal);
+            seekBar.setValue(progressRequired);
+            seekBar.setMaxValue(progressTotal);
             //seekbar.setProgress(progressRequired);
            // seekbar.setMax(progressTotal);
             int percent=(progressRequired*100)/progressTotal;

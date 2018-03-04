@@ -48,7 +48,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import in.editsoft.api.exception.APIException;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import me.tankery.lib.circularseekbar.CircularSeekBar;
+
+import ru.bullyboo.view.CircleSeekBar;
 
 public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, PlaceSelectionListener {
 
@@ -61,7 +62,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     private Activity activity;
     private CircleImageView circleImageViewMap;
     List<CategoryModal> arraylistTitle = new ArrayList<>();
-    private CircularSeekBar seekBar;
+    private CircleSeekBar seekBar;
 
 
     @Override
@@ -105,7 +106,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         textViewSetLocation = findViewById(R.id.textViewSetLocation);
         imageViewLocation = findViewById(R.id.imageViewLocation);
 
-        seekBar = (CircularSeekBar) findViewById(R.id.seek_bar);
+        seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
 
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
@@ -444,8 +445,8 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
 
             TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
-            seekBar.setProgress(progressRequired);
-            seekBar.setMax(progressTotal);
+            seekBar.setValue(progressRequired);
+            seekBar.setMaxValue(progressTotal);
             int percent=(progressRequired*100)/progressTotal;
             textViewProgress.setText(percent+"%");
 
