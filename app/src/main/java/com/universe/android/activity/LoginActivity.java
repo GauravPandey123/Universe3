@@ -148,10 +148,10 @@ public class LoginActivity extends BaseActivity {
         JSONObject jsonSubmitReq = new JSONObject();
         try {
 
-            jsonSubmitReq.put(AppConstants.EMAIL,email);
-            jsonSubmitReq.put(AppConstants.PASSWORD,"pass123456");
-            jsonSubmitReq.put(AppConstants.LAT,"27");
-            jsonSubmitReq.put(AppConstants.LNG,"22");
+            jsonSubmitReq.put(AppConstants.EMAIL, email);
+            jsonSubmitReq.put(AppConstants.PASSWORD, "pass123456");
+            jsonSubmitReq.put(AppConstants.LAT, "27");
+            jsonSubmitReq.put(AppConstants.LNG, "22");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -205,23 +205,8 @@ public class LoginActivity extends BaseActivity {
                             JSONArray mapping = jsonObject.getJSONArray("mapping");
                             Prefs.putStringPrefs(AppConstants.MAPPING, mapping.toString());
 
-
-                            //  JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
-                        /*    Prefs.putStringPrefs(AppConstants.TOKEN_ID, responseBean.getAccessToken());
-                            Prefs.putStringPrefs(AppConstants.UserId, responseBean.get_id());
-                            Prefs.putStringPrefs(AppConstants.password, responseBean.getPassword());
-                            Prefs.putStringPrefs(AppConstants.email, responseBean.getEmail());
-                            Prefs.putStringPrefs(AppConstants.name, responseBean.getName());
-                            Prefs.putLongPrefs(AppConstants.phone, responseBean.getPhone());
-                            Prefs.putStringPrefs(AppConstants.designationLevel, responseBean.getDesignationLevel());
-                            Prefs.putStringPrefs(AppConstants.DESIGNATION, responseBean.getDesignation());
-                            Prefs.putStringPrefs(AppConstants.picture, responseBean.getPicture());
-                            Prefs.putStringPrefs(AppConstants.location, responseBean.getLocation());
-                            Prefs.putBooleanPrefs(AppConstants.Login_Status, true);*/
-
                             getSurveyResponse();
 
-                            // new RealmController().saveQuestions(array.toString());
                         }
 
 
@@ -328,12 +313,8 @@ public class LoginActivity extends BaseActivity {
 
 
     private void getClientResponse() {
-
-
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         String url = UniverseAPI.WEB_SERVICE_LIST_CLIENT_METHOD;
-
-
         Request request = APIClient.getRequest(mContext, url);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -462,7 +443,6 @@ public class LoginActivity extends BaseActivity {
                             JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
                             new RealmController().saveCategoryResponse(array.toString());
                         }
-
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -525,7 +505,6 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-
     private void getAnswersResponse() {
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         String url = UniverseAPI.WEB_SERVICE_LIST_ANSWERS_METHOD;
@@ -556,7 +535,6 @@ public class LoginActivity extends BaseActivity {
                         goToMain();
                     } else {
                     }
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -566,6 +544,7 @@ public class LoginActivity extends BaseActivity {
         });
 
     }
+
 
 
     private void goToMain() {

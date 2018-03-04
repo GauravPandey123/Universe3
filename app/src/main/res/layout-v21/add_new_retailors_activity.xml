@@ -66,10 +66,26 @@
                 </android.support.design.widget.TextInputLayout>
                 <!--  Email Label -->
                 <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutRetailorState"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textInputLayoutRetailorName">
+
+                    <EditText
+                        android:id="@+id/retailorState"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/retailersState"
+                        android:focusable="false"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/white" />
+                </android.support.design.widget.TextInputLayout>
+                <!--  Email Label -->
+                <android.support.design.widget.TextInputLayout
                     android:id="@+id/textInputLayoutRetailorTerroitryName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutRetailorName"
+                    android:layout_below="@+id/textInputLayoutRetailorState"
 
                     android:layout_marginTop="@dimen/margin_medium">
 
@@ -100,13 +116,29 @@
                         android:textColor="@color/textColorPrimary"
                         android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
+                <!--  Email Label -->
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textInputLayoutTerroitryPincode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textInputLayoutTerroitryAddress"
+                    android:layout_marginTop="@dimen/margin_medium">
+
+                    <EditText
+                        android:id="@+id/retailorTerroitryPinCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/pincode"
+                        android:textColor="@color/textColorPrimary"
+                        android:textColorHint="@color/white" />
+                </android.support.design.widget.TextInputLayout>
 
                 <!--  Email Label -->
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/textInputLayoutRetailorMobileNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textInputLayoutTerroitryAddress"
+                    android:layout_below="@+id/textInputLayoutTerroitryPincode"
                     android:layout_marginTop="@dimen/margin_medium">
 
                     <EditText
@@ -122,6 +154,7 @@
                 <LinearLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
+                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textInputLayoutRetailorMobileNumber"
                     android:layout_marginTop="@dimen/margin_medium">
@@ -209,10 +242,19 @@
                         android:textColor="@color/textColorPrimary"
                         android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
+                <RelativeLayout
+                    android:id="@+id/relativeLayoutSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textInputLayoutRetailorFocusVillage">
+
+                    <include layout="@layout/submit_button_layout" />
+
+                </RelativeLayout>
             </RelativeLayout>
 
-
         </RelativeLayout>
+
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
@@ -224,14 +266,8 @@
         android:layout_marginBottom="?actionBarSize"
         android:layout_marginRight="@dimen/margin_medium"
         android:src="@drawable/fab_add"
+        android:visibility="gone"
         app:backgroundTint="@color/app_theme_color" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
 
-        <include layout="@layout/submit_button_layout" />
-
-    </RelativeLayout>
 </RelativeLayout>

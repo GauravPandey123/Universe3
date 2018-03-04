@@ -31,6 +31,10 @@ public interface UniverseAPI {
     String WEB_SERVICE_LIST_QUESTION_METHOD = WEB_SERVICE_BASE_URL + "surveyQuestionList";
     String WEB_SERVICE_LIST_ANSWERS_METHOD = WEB_SERVICE_BASE_URL + "answersList";
 
+    //newRetailers
+
+    String WERSERVICESTATEANDCROPLISTMETHOD=WEB_SERVICE_BASE_URL+"stateAndcropList";
+
 
 
 }

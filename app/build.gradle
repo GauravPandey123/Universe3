@@ -71,6 +71,8 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true;
     }
+    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+
     implementation 'com.google.android.gms:play-services-places:11.8.0'
 
 

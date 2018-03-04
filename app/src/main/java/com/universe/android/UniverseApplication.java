@@ -3,6 +3,8 @@ package com.universe.android;
 import android.content.Context;
 import android.support.multidex.MultiDex;
 
+import com.facebook.stetho.Stetho;
+
 import in.editsoft.api.util.App;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -27,6 +29,8 @@ public class UniverseApplication extends App {
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(realmConfiguration);
+        Stetho.initializeWithDefaults(this);
+
 
     }
     public static Context getContext() {
