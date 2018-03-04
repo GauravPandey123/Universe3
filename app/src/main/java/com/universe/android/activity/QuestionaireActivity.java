@@ -234,7 +234,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
-        seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
+
         pagerSlidingTabStrip=findViewById(R.id.pagerSlidingStrip);
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));

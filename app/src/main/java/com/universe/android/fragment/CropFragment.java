@@ -129,6 +129,7 @@ public class CropFragment extends DialogFragment {
         textViewState = view.findViewById(R.id.textViewState);
         imageViewStateClose = view.findViewById(R.id.imageViewStateClose);
         recyclerViewStateandCrop = view.findViewById(R.id.recyclerViewStateandCrop);
+        textViewState.setText("Select Crop");
     }
 
     public interface SetCropData {

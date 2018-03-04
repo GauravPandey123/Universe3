@@ -127,6 +127,13 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
             }
         });
 
+        imageviewbackRetailors.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
 
     }
 
@@ -400,11 +407,11 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     }
 
     public void addNewReatiler(String reiltersName, String phonee, String Address, String pinCode, String totalSales) {
+        showProgress();
         AddNewReatilerRequest addNewReatilerRequest = new AddNewReatilerRequest();
         addNewReatilerRequest.setRetailerName(reiltersName);
         addNewReatilerRequest.setMobile(phonee);
         addNewReatilerRequest.setAddress(Address);
-
         addNewReatilerRequest.setPincode(pinCode);
         addNewReatilerRequest.setTotalSales(totalSales);
         addNewReatilerRequest.setState_code(Prefs.getIntegerPrefs(AppConstants.STATECODE));
@@ -417,19 +424,20 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         addNewReatilerService.executeService(addNewReatilerRequest, new BaseApiCallback<AddNewReatilerResponse>() {
             @Override
             public void onComplete() {
-
+               dismissProgress();
             }
 
             @Override
             public void onSuccess(@NonNull AddNewReatilerResponse response) {
                 super.onSuccess(response);
-                Log.e("success","success");
+                Log.e("success", "success");
+                finish();
             }
 
             @Override
             public void onFailure(APIException e) {
                 super.onFailure(e);
-                Log.e("failure","failure");
+                Log.e("failure", "failure");
             }
         });
     }
@@ -473,7 +481,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
                     validateTotalSales();
                     break;
                 case R.id.retailorTerroitryRetailorFocusVillage:
-                    validateTotalSales();
+                    validateFocusVillage();
                     break;
                 case R.id.retailorTerroitryPinCode:
                     validatePincode();

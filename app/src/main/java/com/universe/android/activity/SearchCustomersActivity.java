@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.bumptech.glide.util.Util;
+import com.github.clans.fab.FloatingActionMenu;
 import com.universe.android.R;
 import com.universe.android.adapter.CustomerListAdapter;
 import com.universe.android.adapter.SurveyDetailAdapter;
@@ -60,8 +62,7 @@ public class SearchCustomersActivity extends BaseActivity {
     private ArrayList<CustomerModal> stringArrayList;
     private ArrayList<CustomerModal> arrSearlist;
     private String surveyId, strTitle;
-
-
+    private FloatingActionButton floatingActionButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +75,9 @@ public class SearchCustomersActivity extends BaseActivity {
         }
 
         SearchView searchView = (SearchView) findViewById(R.id.searchView);
-        TextView title=(TextView)findViewById(R.id.textViewSuverDetail);
+        TextView title = (TextView) findViewById(R.id.textViewSuverDetail);
+        floatingActionButton=findViewById(R.id.floatingActionButton);
+
 
         title.setText(strTitle);
         initialization();
@@ -147,7 +150,7 @@ public class SearchCustomersActivity extends BaseActivity {
             @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
             @Override
             public void onItemSelected(View v, int position) {
-                Intent intent=new Intent(mContext,WorkFlowsActivity.class);
+                Intent intent = new Intent(mContext, WorkFlowsActivity.class);
 
 
                 if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
@@ -155,11 +158,10 @@ public class SearchCustomersActivity extends BaseActivity {
                     intent = new Intent(mContext, CategoryExpandableListActivity.class);
 
 
-
                 }
-                intent.putExtra(AppConstants.STR_TITLE,strTitle);
-                intent.putExtra(AppConstants.SURVEYID,surveyId);
-                intent.putExtra(AppConstants.CUSTOMERID,stringArrayList.get(position).getId());
+                intent.putExtra(AppConstants.STR_TITLE, strTitle);
+                intent.putExtra(AppConstants.SURVEYID, surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getId());
 
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -170,14 +172,14 @@ public class SearchCustomersActivity extends BaseActivity {
             @Override
             public void onClick(View view, int position) {
 
-                Intent intent=new Intent(mContext,WorkFlowsActivity.class);
+                Intent intent = new Intent(mContext, WorkFlowsActivity.class);
 
                 if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
                     intent = new Intent(mContext, CategoryExpandableListActivity.class);
                 }
-                intent.putExtra(AppConstants.STR_TITLE,strTitle);
-                intent.putExtra(AppConstants.SURVEYID,surveyId);
-                intent.putExtra(AppConstants.CUSTOMERID,stringArrayList.get(position).getId());
+                intent.putExtra(AppConstants.STR_TITLE, strTitle);
+                intent.putExtra(AppConstants.SURVEYID, surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getId());
 
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -188,6 +190,13 @@ public class SearchCustomersActivity extends BaseActivity {
 
             }
         }));
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(SearchCustomersActivity.this,AddNewRetailorsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setUpElements() {
@@ -250,11 +259,6 @@ public class SearchCustomersActivity extends BaseActivity {
 //            }
 //        });
 //    }
-
-
-
-
-
 
 
     }

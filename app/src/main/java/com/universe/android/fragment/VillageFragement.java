@@ -63,7 +63,7 @@ public class VillageFragement extends DialogFragment {
         textViewState = view.findViewById(R.id.textViewState);
         imageViewStateClose = view.findViewById(R.id.imageViewStateClose);
         recyclerViewStateandCrop = view.findViewById(R.id.recyclerViewStateandCrop);
-        textViewState.setText("Village Name");
+        textViewState.setText("Select Village");
     }
 
     private void setUpElements() {

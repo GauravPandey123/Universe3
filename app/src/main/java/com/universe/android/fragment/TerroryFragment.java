@@ -75,6 +75,12 @@ public class TerroryFragment extends DialogFragment {
 
             }
         }));
+        imageViewStateClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 
     }
 
@@ -98,6 +104,7 @@ public class TerroryFragment extends DialogFragment {
         textViewState = view.findViewById(R.id.textViewState);
         imageViewStateClose = view.findViewById(R.id.imageViewStateClose);
         recyclerViewStateandCrop = view.findViewById(R.id.recyclerViewStateandCrop);
+        textViewState.setText("Select Territory");
     }
 
 

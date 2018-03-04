@@ -105,9 +105,6 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         textViewSetLocation = findViewById(R.id.textViewSetLocation);
         imageViewLocation = findViewById(R.id.imageViewLocation);
-
-        seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
-
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));

@@ -7,8 +7,11 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,6 +21,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -69,12 +73,15 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
     HashMap<CategoryModal, List<Questions>> expandableListDetail = new HashMap<CategoryModal, List<Questions>>();
     private NonScrollExpandableListView expandableListView;
     private CustomExpandableListAdapter expandableListAdapter;
-    private String title,surveyId,customerId;
-    private TextView textViewRetailersNameMap,textViewMobileNoMap;
+    private String title, surveyId, customerId;
+    private TextView textViewRetailersNameMap, textViewMobileNoMap;
     Button btnReject;
     Button btnApprove;
-    private CircleSeekBar seekBar;
+    ProgressBar circularProgressbar;
     private String updateId;
+    int pStatus = 0;
+    private Handler handler = new Handler();
+    TextView textViewProgress;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -86,14 +93,14 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
         initViews();
         setHeader();
 
-        Intent intent=getIntent();
-        if (intent!=null){
-           title= intent.getExtras().getString(AppConstants.STR_TITLE);
-            surveyId= intent.getExtras().getString(AppConstants.SURVEYID);
-            customerId= intent.getExtras().getString(AppConstants.CUSTOMERID);
-           // customerId="5a83ca4296318c134c534cb9";
+        Intent intent = getIntent();
+        if (intent != null) {
+            title = intent.getExtras().getString(AppConstants.STR_TITLE);
+            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
+            customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
+            // customerId="5a83ca4296318c134c534cb9";
         }
-        TextView toolbarTtile=(TextView)findViewById(R.id.toolbarTtile);
+        TextView toolbarTtile = (TextView) findViewById(R.id.toolbarTtile);
         toolbarTtile.setText(title);
         setupDetail();
 
@@ -101,21 +108,21 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
         btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-        Utility.animateView(v);
+                Utility.animateView(v);
 
-        if (title.contains(AppConstants.WORKFLOWS)) {
-            showReasonDialog();
+                if (title.contains(AppConstants.WORKFLOWS)) {
+                    showReasonDialog();
 
-        }else{
+                } else {
 
-            jsonSubmitReq = prepareJsonRequest("Reject", "");
+                    jsonSubmitReq = prepareJsonRequest("Reject", "");
 
-            if (Utility.isConnected()) {
-                submitAnswers(updateId, true);
-            } else {
-                saveNCDResponseLocal(updateId, true);
-            }
-        }
+                    if (Utility.isConnected()) {
+                        submitAnswers(updateId, true);
+                    } else {
+                        saveNCDResponseLocal(updateId, true);
+                    }
+                }
 
 
            /* String updateId = "";
@@ -125,7 +132,7 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                 }
             }
             showReviewConfirmAlert(updateId, false);*/
-                }
+            }
 
         });
         btnApprove.setOnClickListener(new View.OnClickListener() {
@@ -133,10 +140,10 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Utility.animateView(v);
                 jsonSubmitReq = prepareJsonRequest("Approve", "");
-                if (Utility.isConnected()){
-                    submitAnswers(updateId,true);
-                }else {
-                    saveNCDResponseLocal(updateId,true);
+                if (Utility.isConnected()) {
+                    submitAnswers(updateId, true);
+                } else {
+                    saveNCDResponseLocal(updateId, true);
                 }
 
 
@@ -147,35 +154,34 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                 }
             }
             showReviewConfirmAlert(updateId, false);*/
-                }
+            }
 
         });
     }
 
 
-
     private JSONObject prepareJsonRequest(String type, String reason) {
-        jsonSubmitReq=new JSONObject();
-        JSONArray array=new JSONArray();
+        jsonSubmitReq = new JSONObject();
+        JSONArray array = new JSONArray();
         Realm realm = Realm.getDefaultInstance();
-        try{
-            RealmResults<RealmAnswers> realmCategoryAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findAll();
+        try {
+            RealmResults<RealmAnswers> realmCategoryAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, customerId).equalTo(AppConstants.SURVEYID, surveyId).findAll();
 
-            if (realmCategoryAnswers!=null && realmCategoryAnswers.size()>0) {
+            if (realmCategoryAnswers != null && realmCategoryAnswers.size() > 0) {
                 if (realmCategoryAnswers.get(0).isSync()) {
                     updateId = realmCategoryAnswers.get(0).get_id();
                 }
                 array = new JSONArray(realmCategoryAnswers.get(0).getWorkflow());
                 jsonSubmitReq.put(AppConstants.ANSWERS, new JSONArray(realmCategoryAnswers.get(0).getAnswers()));
                 if (Utility.validateString(updateId))
-                jsonSubmitReq.put(AppConstants.ID, realmCategoryAnswers.get(0).get_id());
-                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                    jsonSubmitReq.put(AppConstants.ID, realmCategoryAnswers.get(0).get_id());
+                String designation = Prefs.getStringPrefs(AppConstants.TYPE);
                 if (designation.equalsIgnoreCase("cd"))
-                jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
                 if (designation.equalsIgnoreCase("rm"))
-                jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
                 if (designation.equalsIgnoreCase("zm"))
-                jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
 
                 if (title.contains(AppConstants.WORKFLOWS)) {
 
@@ -202,7 +208,7 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                             jsonObject.put(AppConstants.STATUS, "Rejected");
                             array.put(jsonObject);
                         }
-                    }else{
+                    } else {
                         if (type.equalsIgnoreCase("Approve")) {
                             jsonSubmitReq.put(AppConstants.CD_STATUS, "2");
                             jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
@@ -246,19 +252,17 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
             }
 
 
-
-
-        }catch (Exception e0){
+        } catch (Exception e0) {
             e0.printStackTrace();
             realm.close();
-        }finally {
-            if(!realm.isClosed()){
+        } finally {
+            if (!realm.isClosed()) {
                 realm.close();
             }
 
         }
 
-       return jsonSubmitReq;
+        return jsonSubmitReq;
     }
 
 
@@ -283,8 +287,7 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                 }*/
 
 
-
-                    realm.createOrUpdateObjectFromJson(RealmAnswers.class, jsonSubmitReq);
+                realm.createOrUpdateObjectFromJson(RealmAnswers.class, jsonSubmitReq);
 
 
             } catch (Exception e) {
@@ -315,17 +318,17 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                 dialog.dismiss();
 
 
-                Intent i=new Intent(CategoryExpandableListActivity.this, SearchCustomersActivity.class);
+                Intent i = new Intent(CategoryExpandableListActivity.this, SearchCustomersActivity.class);
 
-                if (btnApprove.getText().toString().equalsIgnoreCase("Approve")){
-                     i=new Intent(CategoryExpandableListActivity.this, WorkFlowsActivity.class);
+                if (btnApprove.getText().toString().equalsIgnoreCase("Approve")) {
+                    i = new Intent(CategoryExpandableListActivity.this, WorkFlowsActivity.class);
 
                 }
 
-                i.putExtra(AppConstants.STR_TITLE,title);
-                i.putExtra(AppConstants.SURVEYID,surveyId);
-                i.putExtra(AppConstants.CUSTOMERID,customerId);
-                i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.putExtra(AppConstants.STR_TITLE, title);
+                i.putExtra(AppConstants.SURVEYID, surveyId);
+                i.putExtra(AppConstants.CUSTOMERID, customerId);
+                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 finish();
                 if (Utility.validateString(isUpdateId)) {
@@ -371,26 +374,26 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
 
     private void setupDetail() {
         Realm realm = Realm.getDefaultInstance();
-try{
-    RealmCustomer realmCustomer=realm.where(RealmCustomer.class).equalTo(AppConstants.ID,customerId).findFirst();
+        try {
+            RealmCustomer realmCustomer = realm.where(RealmCustomer.class).equalTo(AppConstants.ID, customerId).findFirst();
 
-    if (Utility.validateString(realmCustomer.getName()))
-        textViewRetailersNameMap.setText(realmCustomer.getName());
+            if (Utility.validateString(realmCustomer.getName()))
+                textViewRetailersNameMap.setText(realmCustomer.getName());
 
-    textViewMobileNoMap.setText(realmCustomer.getContactNo()+" | "+
-            realmCustomer.getTerritory()+" | "+realmCustomer.getState()+"  \n"+
-            "Pincode - "+realmCustomer.getPincode());
+            textViewMobileNoMap.setText(realmCustomer.getContactNo() + " | " +
+                    realmCustomer.getTerritory() + " | " + realmCustomer.getState() + "  \n" +
+                    "Pincode - " + realmCustomer.getPincode());
 
 
-    }catch (Exception e0){
-        e0.printStackTrace();
-        realm.close();
-    }finally {
-        if(!realm.isClosed()){
+        } catch (Exception e0) {
+            e0.printStackTrace();
             realm.close();
-        }
+        } finally {
+            if (!realm.isClosed()) {
+                realm.close();
+            }
 
-    }
+        }
     }
 
 
@@ -403,14 +406,22 @@ try{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void initViews(){
+    private void initViews() {
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.drawable.circular);
+        circularProgressbar=findViewById(R.id.circularProgressbar);
+        circularProgressbar.setProgress(0);   // Main Progress
+        circularProgressbar.setSecondaryProgress(100); // Secondary Progress
+        circularProgressbar.setMax(100); // Maximum Progress
+        circularProgressbar.setProgressDrawable(drawable);
         expandableListView = (NonScrollExpandableListView) findViewById(R.id.expandableListView);
         textViewMobileNoMap = (TextView) findViewById(R.id.textViewMobileNoMap);
         textViewRetailersNameMap = (TextView) findViewById(R.id.textViewRetailersNameMap);
         btnReject = (Button) findViewById(R.id.btnReject);
         btnApprove = (Button) findViewById(R.id.btnApprove);
-      //  seekbar=(SeekBar)findViewById(R.id.seek_bar);
-         seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
+
+        //  seekbar=(SeekBar)findViewById(R.id.seek_bar);
+//        seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
 
         expandableListView.setGroupIndicator(null);
 
@@ -424,13 +435,13 @@ try{
                             int groupPosition, int childPosition,
                             long id) {
                         Utility.animateView(v);
-                        Intent i=new Intent(CategoryExpandableListActivity.this,QuestionaireActivity.class);
-                        i.putExtra(AppConstants.STR_TITLE,title);
-                        i.putExtra(AppConstants.SURVEYID,surveyId);
-                        i.putExtra(AppConstants.CUSTOMERID,customerId);
-                        i.putExtra(AppConstants.UPDATEID,updateId);
-                        Prefs.putStringPrefs(AppConstants.VISIBLITY,"");
-                        i.putExtra(AppConstants.GROUP_POSITION,groupPosition);
+                        Intent i = new Intent(CategoryExpandableListActivity.this, QuestionaireActivity.class);
+                        i.putExtra(AppConstants.STR_TITLE, title);
+                        i.putExtra(AppConstants.SURVEYID, surveyId);
+                        i.putExtra(AppConstants.CUSTOMERID, customerId);
+                        i.putExtra(AppConstants.UPDATEID, updateId);
+                        Prefs.putStringPrefs(AppConstants.VISIBLITY, "");
+                        i.putExtra(AppConstants.GROUP_POSITION, groupPosition);
                         startActivity(i);
 
                         return false;
@@ -439,118 +450,113 @@ try{
     }
 
 
-    private void prepareCategory(){
+    private void prepareCategory() {
 
-       int progressTotal=0;
-       int progressRequired=0;
+        int progressTotal = 0;
+        int progressRequired = 0;
 
         arraylistTitle = new ArrayList<>();
-        expandableListDetail=new HashMap<CategoryModal, List<Questions>>();
-        ArrayList<String> arrISView=new ArrayList<>();
+        expandableListDetail = new HashMap<CategoryModal, List<Questions>>();
+        ArrayList<String> arrISView = new ArrayList<>();
 
         Realm realm = Realm.getDefaultInstance();
-        RealmSurveys realmSurveys=realm.where(RealmSurveys.class).equalTo(AppConstants.ID,surveyId).findFirst();
+        RealmSurveys realmSurveys = realm.where(RealmSurveys.class).equalTo(AppConstants.ID, surveyId).findFirst();
 
         try {
             JSONArray jsonArray = new JSONArray(realmSurveys.getCategoryId());
-            for (int l=0;l<jsonArray.length();l++){
+            for (int l = 0; l < jsonArray.length(); l++) {
 
-              RealmAnswers realmAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,surveyId).equalTo(AppConstants.CUSTOMERID,customerId).findFirst();
+                RealmAnswers realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID, surveyId).equalTo(AppConstants.CUSTOMERID, customerId).findFirst();
 
-                if (realmAnswers!=null){
-                    updateId=realmAnswers.get_id();
-                   JSONArray array=new JSONArray(realmAnswers.getAnswers());
-                   // JSONArray array1=new JSONArray(array.toString());
-                 //   String json=array.get(0).toString();
-                  //  JSONArray array1=new JSONArray(json);
-                   if (array.length()>0){
-                       for (int i=0;i<array.length();i++){
+                if (realmAnswers != null) {
+                    updateId = realmAnswers.get_id();
+                    JSONArray array = new JSONArray(realmAnswers.getAnswers());
+                    // JSONArray array1=new JSONArray(array.toString());
+                    //   String json=array.get(0).toString();
+                    //  JSONArray array1=new JSONArray(json);
+                    if (array.length() > 0) {
+                        for (int i = 0; i < array.length(); i++) {
 
-                           JSONObject jsonObject=array.getJSONObject(i);
-                           String categoryId=jsonObject.optString(AppConstants.CATEGORYID);
-                           String isView=jsonObject.optString(AppConstants.ISVIEW);
-                           JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
-                           if (categoryId.equalsIgnoreCase(jsonArray.get(l).toString())){
-                               RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID,jsonArray.get(l).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
-                               if (realmCategoryDetails != null) {
-
-
-                                   CategoryModal categoryModal = new CategoryModal();
-                                   categoryModal.setId(realmCategoryDetails.getId());
-                                   categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
-                                   categoryModal.setStatus(isView);
-                                   if (isView.equalsIgnoreCase("1"))
-                                   arrISView.add(isView);
-                                   try {
-                                     //  RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID,surveyId).findAll();
-
-                                       //  if (realmQuestions != null && realmQuestions.size() > 0) {
-                                       //         String categoryId = realmCategoryDetails.get(k).getId();
-                                       ArrayList<Questions> questionsArrayList = new ArrayList<>();
-
-                                       for (int n=0;n<questions.length();n++){
-
-                                           JSONObject jsonObject1=questions.getJSONObject(n);
-
-                                           Questions questions1 =new Questions();
-                                           questions1.setQuestionId(jsonObject1.optString(AppConstants.QUESTIONID));
-                                           questions1.setTitle(jsonObject1.optString(AppConstants.TITLE));
-                                           questions1.setStatus(jsonObject1.optString(AppConstants.REQUIRED));
-                                           questions1.setAnswer(jsonObject1.optString(AppConstants.ANSWER));
-                                           questionsArrayList.add(questions1);
-
-                                       }
-                                       ArrayList<String> stringsRequired=new ArrayList<>();
-                                       ArrayList<String> stringsRequiredAnswers=new ArrayList<>();
-                                       ArrayList<String> doneQuestions=new ArrayList<>();
-                                       for (int p=0;p<questionsArrayList.size();p++){
-                                           if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
-
-                                               stringsRequired.add(questionsArrayList.get(p).getStatus());
-                                           }
-                                           if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
-
-                                               stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
-                                           }
-                                           if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
-
-                                               doneQuestions.add(questionsArrayList.get(p).getAnswer());
-                                           }
-
-                                       }
-                                       if (stringsRequired.size()==stringsRequiredAnswers.size()){
-                                           categoryModal.setCategoryAnswered("Yes");
-                                       }else {
-                                           categoryModal.setCategoryAnswered("No");
-                                       }
-                                       categoryModal.setQuestionCount(doneQuestions.size()+"/"+questionsArrayList.size());
-                                       categoryModal.setQuestions(questionsArrayList);
-
-                                       arraylistTitle.add(categoryModal);
-                                       progressRequired=progressRequired+stringsRequiredAnswers.size();
-                                       progressTotal=progressTotal+stringsRequired.size();
-
-                                       //   }
-
-                                   } catch (Exception e) {
-                                       e.printStackTrace();
-                                   }
+                            JSONObject jsonObject = array.getJSONObject(i);
+                            String categoryId = jsonObject.optString(AppConstants.CATEGORYID);
+                            String isView = jsonObject.optString(AppConstants.ISVIEW);
+                            JSONArray questions = jsonObject.getJSONArray(AppConstants.QUESTIONS);
+                            if (categoryId.equalsIgnoreCase(jsonArray.get(l).toString())) {
+                                RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID, jsonArray.get(l).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
+                                if (realmCategoryDetails != null) {
 
 
+                                    CategoryModal categoryModal = new CategoryModal();
+                                    categoryModal.setId(realmCategoryDetails.getId());
+                                    categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
+                                    categoryModal.setStatus(isView);
+                                    if (isView.equalsIgnoreCase("1"))
+                                        arrISView.add(isView);
+                                    try {
+                                        //  RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID,surveyId).findAll();
+
+                                        //  if (realmQuestions != null && realmQuestions.size() > 0) {
+                                        //         String categoryId = realmCategoryDetails.get(k).getId();
+                                        ArrayList<Questions> questionsArrayList = new ArrayList<>();
+
+                                        for (int n = 0; n < questions.length(); n++) {
+
+                                            JSONObject jsonObject1 = questions.getJSONObject(n);
+
+                                            Questions questions1 = new Questions();
+                                            questions1.setQuestionId(jsonObject1.optString(AppConstants.QUESTIONID));
+                                            questions1.setTitle(jsonObject1.optString(AppConstants.TITLE));
+                                            questions1.setStatus(jsonObject1.optString(AppConstants.REQUIRED));
+                                            questions1.setAnswer(jsonObject1.optString(AppConstants.ANSWER));
+                                            questionsArrayList.add(questions1);
+
+                                        }
+                                        ArrayList<String> stringsRequired = new ArrayList<>();
+                                        ArrayList<String> stringsRequiredAnswers = new ArrayList<>();
+                                        ArrayList<String> doneQuestions = new ArrayList<>();
+                                        for (int p = 0; p < questionsArrayList.size(); p++) {
+                                            if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+
+                                                stringsRequired.add(questionsArrayList.get(p).getStatus());
+                                            }
+                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+
+                                                stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                            }
+                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
+
+                                                doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                            }
+
+                                        }
+                                        if (stringsRequired.size() == stringsRequiredAnswers.size()) {
+                                            categoryModal.setCategoryAnswered("Yes");
+                                        } else {
+                                            categoryModal.setCategoryAnswered("No");
+                                        }
+                                        categoryModal.setQuestionCount(doneQuestions.size() + "/" + questionsArrayList.size());
+                                        categoryModal.setQuestions(questionsArrayList);
+
+                                        arraylistTitle.add(categoryModal);
+                                        pStatus = pStatus + stringsRequiredAnswers.size();
+                                        pStatus= pStatus + stringsRequired.size();
+
+                                        //   }
+
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
 
 
+                                } else {
+                                    showToastMessage(getResources().getString(R.string.no_data));
+                                }
 
+                            }
 
-
-                               }else{
-                                   showToastMessage(getResources().getString(R.string.no_data));
-                               }
-
-                           }
-
-                       }
-                   }
-                }else {
+                        }
+                    }
+                } else {
                     RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID, jsonArray.get(l).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
                     if (realmCategoryDetails != null) {
 
@@ -574,7 +580,7 @@ try{
                                 questions.setQuestionId(realmQuestions.get(i).getId());
                                 questions.setTitle((i + 1) + ". " + realmQuestions.get(i).getTitle());
                                 if (realmQuestions.get(i).getRequired().equalsIgnoreCase("true"))
-                                questions.setStatus("Yes");
+                                    questions.setStatus("Yes");
                                 else {
                                     questions.setStatus("No");
                                 }
@@ -582,10 +588,11 @@ try{
                                 questionsArrayList.add(questions);
 
                             }
-                            categoryModal.setQuestionCount(questionsArrayList.size()+"");
+                            categoryModal.setQuestionCount(questionsArrayList.size() + "");
                             categoryModal.setQuestions(questionsArrayList);
-                            progressRequired=0;
-                            progressTotal=100;
+                            pStatus=0;
+                            progressRequired = 0;
+                            progressTotal = 100;
                             arraylistTitle.add(categoryModal);
 
                             //   }
@@ -605,10 +612,10 @@ try{
 
             }
 
-            ArrayList<String> categoryAnswered=new ArrayList<>();
-            for (int m=0;m<arraylistTitle.size();m++) {
+            ArrayList<String> categoryAnswered = new ArrayList<>();
+            for (int m = 0; m < arraylistTitle.size(); m++) {
                 categoryAnswered.add(arraylistTitle.get(m).getCategoryAnswered());
-                ArrayList<Questions> productDetailsModelArrayList=new ArrayList<>();
+                ArrayList<Questions> productDetailsModelArrayList = new ArrayList<>();
                 for (int k = 0; k < arraylistTitle.get(m).getQuestions().size(); k++) {
                     productDetailsModelArrayList.add(arraylistTitle.get(m).getQuestions().get(k));
                 }
@@ -619,27 +626,54 @@ try{
             expandableListAdapter = new CustomExpandableListAdapter(CategoryExpandableListActivity.this, arraylistTitle, expandableListDetail);
             expandableListView.setAdapter(expandableListAdapter);
 
-            TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
-            seekBar.setValue(progressRequired);
-            seekBar.setMaxValue(progressTotal);
-            int percent=(progressRequired*100)/progressTotal;
-            textViewProgress.setText(percent+"%");
-            if (title.contains(AppConstants.WORKFLOWS)){
+            textViewProgress=  findViewById(R.id.progressBarinsideText);
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    // TODO Auto-generated method stub
+                    while (pStatus < 100) {
+                       pStatus=pStatus+1 ;
+
+                        handler.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                circularProgressbar.setProgress(pStatus);
+                                textViewProgress.setText(pStatus + "%");
+
+                            }
+                        });
+                        try {
+                            // Sleep for 200 milliseconds.
+                            // Just to display the progress slowly
+                            Thread.sleep(16); //thread will take approx 3 seconds to finish
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }).start();
+
+
+
+            if (title.contains(AppConstants.WORKFLOWS)) {
                 btnApprove.setText(getString(R.string.approve));
                 btnReject.setText(getString(R.string.reject));
-                if (arraylistTitle.size()!=arrISView.size()){
+                if (arraylistTitle.size() != arrISView.size()) {
                     btnApprove.setBackgroundResource(R.color.grey);
                     btnApprove.setEnabled(false);
                     btnReject.setBackgroundResource(R.color.red);
                     btnReject.setEnabled(true);
 
-                }else {
+                } else {
                     btnApprove.setBackgroundResource(R.color.green);
                     btnApprove.setEnabled(true);
                     btnReject.setBackgroundResource(R.color.red);
                     btnReject.setEnabled(true);
                 }
-            }else {
+            } else {
                 if (categoryAnswered.contains("No") || categoryAnswered.contains("")) {
                     btnApprove.setBackgroundResource(R.color.grey);
                     btnApprove.setEnabled(false);
@@ -655,12 +689,12 @@ try{
             }
 
 
-        }catch (Exception e0){
+        } catch (Exception e0) {
 
             e0.printStackTrace();
             realm.close();
-        }finally {
-            if(!realm.isClosed()){
+        } finally {
+            if (!realm.isClosed()) {
                 realm.close();
             }
 
@@ -668,6 +702,7 @@ try{
 
 
     }
+
     protected void showToastMessage(String strMsg) {
         Utility.showToastMessage(this, strMsg);
     }
@@ -695,16 +730,16 @@ try{
 
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
-        String url="";
+        String url = "";
         if (btnReject.getText().toString().equalsIgnoreCase("Reject")) {
-             url = UniverseAPI.WEB_SERVICE_CREATE_APPROVE_METHOD;
+            url = UniverseAPI.WEB_SERVICE_CREATE_APPROVE_METHOD;
             if (Utility.validateString(isUpdateId)) {
                 url = UniverseAPI.WEB_SERVICE_CREATE_APPROVE_METHOD;
             }
-        }else {
-            if (Utility.validateString(isUpdateId)){
+        } else {
+            if (Utility.validateString(isUpdateId)) {
                 url = UniverseAPI.WEB_SERVICE_CREATE_UPDATE_METHOD;
-            }else{
+            } else {
                 url = UniverseAPI.WEB_SERVICE_CREATE_ANSWER_METHOD;
             }
 
@@ -742,11 +777,11 @@ try{
                         if (Utility.validateString(responseData)) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-                            if (!Utility.validateString(updateId)){
+                            if (!Utility.validateString(updateId)) {
                                 Realm realm = Realm.getDefaultInstance();
                                 try {
                                     realm.beginTransaction();
-                                    RealmResults<RealmAnswers> realmDeleteInputForms = realm.where(RealmAnswers.class).equalTo(AppConstants.ISSYNC, false).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findAll();
+                                    RealmResults<RealmAnswers> realmDeleteInputForms = realm.where(RealmAnswers.class).equalTo(AppConstants.ISSYNC, false).equalTo(AppConstants.CUSTOMERID, customerId).equalTo(AppConstants.SURVEYID, surveyId).findAll();
                                     if (realmDeleteInputForms != null && realmDeleteInputForms.size() > 0) {
                                         realmDeleteInputForms.deleteAllFromRealm();
                                     }
@@ -787,7 +822,7 @@ try{
     }
 
 
-    public void showReasonDialog(){
+    public void showReasonDialog() {
         final EditText taskEditText = new EditText(this);
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.reason))
@@ -796,13 +831,13 @@ try{
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String reason = String.valueOf(taskEditText.getText());
-                        jsonSubmitReq = prepareJsonRequest("Reject",reason);
+                        jsonSubmitReq = prepareJsonRequest("Reject", reason);
 
 
-                        if (Utility.isConnected()){
-                            submitAnswers(updateId,true);
-                        }else {
-                            saveNCDResponseLocal(updateId,false);
+                        if (Utility.isConnected()) {
+                            submitAnswers(updateId, true);
+                        } else {
+                            saveNCDResponseLocal(updateId, false);
                         }
                     }
                 })

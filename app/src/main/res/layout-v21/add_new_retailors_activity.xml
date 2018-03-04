@@ -75,8 +75,8 @@
                         android:id="@+id/retailorState"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="@string/retailersState"
                         android:focusable="false"
+                        android:hint="@string/retailersState"
                         android:textColor="@color/textColorPrimary"
                         android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
@@ -129,6 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/pincode"
+                        android:inputType="number"
                         android:textColor="@color/textColorPrimary"
                         android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
@@ -154,10 +155,10 @@
                 <LinearLayout
                     android:id="@+id/linearLayout"
                     android:layout_width="wrap_content"
-                    android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/textInputLayoutRetailorMobileNumber"
-                    android:layout_marginTop="@dimen/margin_medium">
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:visibility="gone">
 
                     <CheckBox
                         android:id="@+id/checkboxRetailors"
@@ -205,6 +206,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/totalSales"
+                        android:inputType="number"
                         android:textColor="@color/textColorPrimary"
                         android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
@@ -242,6 +244,7 @@
                         android:textColor="@color/textColorPrimary"
                         android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
+
                 <RelativeLayout
                     android:id="@+id/relativeLayoutSubmit"
                     android:layout_width="match_parent"
@@ -249,7 +252,6 @@
                     android:layout_below="@+id/textInputLayoutRetailorFocusVillage">
 
                     <include layout="@layout/submit_button_layout" />
-
                 </RelativeLayout>
             </RelativeLayout>
 
