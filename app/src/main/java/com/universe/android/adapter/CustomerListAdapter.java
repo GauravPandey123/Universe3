@@ -42,7 +42,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
     public void onBindViewHolder(SurveyViewHolder holder, int position) {
         holder.textViewRetailersName.setTypeface(FontClass.openSansBold(mContext));
         holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
-        holder.textViewStatus.setTypeface(FontClass.openSansRegular(mContext));
+
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
         holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
 
@@ -92,7 +92,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
             super(itemView);
             textViewRetailersName = itemView.findViewById(R.id.textViewRetailersName);
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
-            textViewStatus = itemView.findViewById(R.id.textViewStatus);
+
             llStatus = itemView.findViewById(R.id.llStatus);
             tvStatus = itemView.findViewById(R.id.tvStatus);
             relativeLayout=itemView.findViewById(R.id.relativeLayout);

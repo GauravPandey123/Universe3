@@ -76,20 +76,24 @@
                         android:visibility="gone"
                         android:max="100"/>
 
-                    <me.tankery.lib.circularseekbar.CircularSeekBar
+
+                    <ru.bullyboo.view.CircleSeekBar
                         android:id="@+id/seek_bar"
                         android:layout_width="56dp"
                         android:layout_height="56dp"
+                        app:maxValue="100"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_horizontal"
-                        app:cs_negative_enabled="true"
-                        app:cs_circle_style="round"
-                        app:cs_circle_stroke_width="4dp"
-                        app:cs_pointer_stroke_width="4dp"
-                        app:cs_pointer_angle="44"/>
+                        app:backgroundCircleLineWidth="20dp"
+                        app:progressCircleLineWidth="20dp"
+                        app:showCounter="true"
+                        app:value="30"
+                        app:isClockwise="true">
 
+
+                    </ru.bullyboo.view.CircleSeekBar>
 
                 </RelativeLayout>
                 <TextView

@@ -702,6 +702,8 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void prepareQuestionList(boolean b, String search) {
+
+
         List<String> noDisplayKeys = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.question)));
         if (formId.equalsIgnoreCase(FormEnum.survey.toString())) {
             noDisplayKeys = new LinkedList<>(Arrays.asList(getResources().getStringArray(R.array.surveys)));
@@ -714,6 +716,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         }
         questionsMap = new LinkedHashMap<>();
         questionsMap = prepareFormQuestions(formId, noDisplayKeys,b,search);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -1490,6 +1493,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
             if (llFields!=null) {
 
                 llFields.removeAllViews();
+
                 if (!search.isEmpty())
                 llFields = (LinearLayout) view.findViewById(R.id.parent);
             }else {
@@ -1502,6 +1506,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
                     child = null;
                     final Questions question = entry.getValue();
+                    Log.v("QUESTIONCATEGORY","STARTING CALLING "+question.getTitle());
                     if (AppConstants.SECTION.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_section, null);
                     } else if (AppConstants.TEXTBOX.equals(question.getInputType())) {
@@ -1700,6 +1705,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 if (position==jsonArrayAnswers.length()-1){
                     Prefs.putStringPrefs(AppConstants.VISIBLITY,"1");
+                    position=0;
 
                 }
 
@@ -2650,9 +2656,12 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onDataPass(String data,int pos,String category) {
+
+
+
         position=pos;
        categoryId = category;
-       prepareQuestionList(true,"search");
+    //   prepareQuestionList(true,"search");
         if (Utility.validateString(data)){
             if (questionsMap != null && questionsMap.size() > 0) {
                 questionsMap = QuestionMapComparator.sortByValue(questionsMap);
@@ -2794,9 +2803,22 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    public void updateFragment() {
+    public void updateFragment(int pos,String category) {
 
-        System.out.println("ehfnf");
+        position=pos;
+
+        categoryId=category;
+
+        if (llFields!=null){
+            llFields.removeAllViews();
+        }
+        addAllQuestions();
+
+        prepareQuestionList(true, "");
+
+       // prepareQuestionList(true,"search");
+
     }
 }

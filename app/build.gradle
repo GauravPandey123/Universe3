@@ -6,7 +6,7 @@ android {
     buildToolsVersion '27.0.0'
     defaultConfig {
         applicationId "com.universe.android"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 27
 
         versionCode 1
@@ -64,7 +64,9 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:27.0.2'
     compile 'com.github.aakira:expandable-layout:1.6.0@aar'
     compile 'com.github.clans:fab:1.6.4'
-    compile 'me.tankery.lib:circularSeekBar:1.1.4'
+
+    compile 'ru.bullyboo.view:circleseekbar:1.0.3'
+
     compile 'com.flaviofaria:kenburnsview:1.0.7'
     compile('com.crashlytics.sdk.android:crashlytics:2.8.0@aar') {
         transitive = true;

@@ -152,7 +152,7 @@ public class SearchCustomersActivity extends BaseActivity {
 
                 if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
 
-                    intent = new Intent(mContext, MapsOneActivity.class);
+                    intent = new Intent(mContext, CategoryExpandableListActivity.class);
 
 
 
@@ -173,7 +173,7 @@ public class SearchCustomersActivity extends BaseActivity {
                 Intent intent=new Intent(mContext,WorkFlowsActivity.class);
 
                 if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
-                    intent = new Intent(mContext, MapsOneActivity.class);
+                    intent = new Intent(mContext, CategoryExpandableListActivity.class);
                 }
                 intent.putExtra(AppConstants.STR_TITLE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);

@@ -10,5 +10,5 @@ public interface IUpdateTask {
     /**
      * Update fragment.
      */
-    void updateFragment();
+    void updateFragment(int pos,String catgeoryId);
 }
