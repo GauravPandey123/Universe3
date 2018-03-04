@@ -36,7 +36,9 @@ import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatil
 import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatiler.AddNewReatilerResponse;
 import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatiler.AddNewReatilerService;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Log;
 import com.universe.android.utility.Prefs;
+import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
 
 import java.util.ArrayList;
@@ -64,6 +66,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     private ArrayList<StatusModel> statusModels;
     private ArrayList<StatusModel> multiselectSatuslist = new ArrayList<>();
     private String cropString, stateDataString, terroritryDataString, distributorString, villageSubmitString;
+    private String reatilersNameString, addressString, phoneString, totalSalesString, pincodeString;
     private RelativeLayout relativeLayoutSubmit;
 
 
@@ -120,7 +123,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         relativeLayoutSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                submitDetails();
             }
         });
 
@@ -141,44 +144,51 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
 
     }
 
-    public void submitNewReatilers()
-    {
+
+    //
+    public void submitDetails() {
+        if (!validateName()) {
+            return;
+        }
+        if (!validateAddress()) {
+            return;
+        }
+        if (!validateDistributoName()) {
+            return;
+        }
+        if (!validateFocusVillage()) {
+            return;
+        }
+        if (!validateTerroitryName()) {
+            return;
+        }
+        if (!validateTotalSales()) {
+            return;
+        }
+        if (!validatePhone()) {
+            return;
+        }
+        if (!validateCrop()) {
+            return;
+        }
+        if (!validateState()) {
+            return;
+        }
+        if (!validatePincode()) {
+            return;
+        }
+        reatilersNameString = retailorName.getText().toString();
+        addressString = retailorTerroitryAddress.getText().toString();
+        phoneString = retailorPhoneNumber.getText().toString();
+        pincodeString = editTextTerroitryPinCode.getText().toString();
+        totalSalesString = retailorTerroitryRetailorTotalSales.getText().toString();
+        if (!Utility.isConnected()) {
+            Utility.showToast(R.string.msg_disconnected);
+        } else {
+            addNewReatiler(reatilersNameString, phoneString, addressString, pincodeString, totalSalesString);
+        }
+
     }
-//
-//    public boolean submitDetails() {
-//        if (!validateName()) {
-//            return;
-//        }
-//        if (!validateAddress()) {
-//            return;
-//        }
-//        if (!validateDistributoName()) {
-//            return;
-//        }
-//        if (!validateFocusVillage()) {
-//            return;
-//        }
-//        if (!validateTerroitryName()) {
-//            return;
-//        }
-//        if (!validateTotalSales()) {
-//            return;
-//        }
-//        if (!validatePhone()) {
-//            return;
-//        }
-//        if (!validateCrop()) {
-//            return;
-//        }
-//        if (!validateState()) {
-//            return;
-//        }
-//        if (!validatePincode()) {
-//            return;
-//        }
-//
-//
-//    }
 
     private boolean validateName() {
         if (retailorName.getText().toString().trim().isEmpty()) {
@@ -389,10 +399,12 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         retailorTerroitryRetailorFocusVillage.setText(villageString);
     }
 
-    public void addNewReatiler(String reiltersName, String Address, String pinCode, String totalSales) {
+    public void addNewReatiler(String reiltersName, String phonee, String Address, String pinCode, String totalSales) {
         AddNewReatilerRequest addNewReatilerRequest = new AddNewReatilerRequest();
         addNewReatilerRequest.setRetailerName(reiltersName);
+        addNewReatilerRequest.setMobile(phonee);
         addNewReatilerRequest.setAddress(Address);
+
         addNewReatilerRequest.setPincode(pinCode);
         addNewReatilerRequest.setTotalSales(totalSales);
         addNewReatilerRequest.setState_code(Prefs.getIntegerPrefs(AppConstants.STATECODE));
@@ -411,11 +423,13 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
             @Override
             public void onSuccess(@NonNull AddNewReatilerResponse response) {
                 super.onSuccess(response);
+                Log.e("success","success");
             }
 
             @Override
             public void onFailure(APIException e) {
                 super.onFailure(e);
+                Log.e("failure","failure");
             }
         });
     }

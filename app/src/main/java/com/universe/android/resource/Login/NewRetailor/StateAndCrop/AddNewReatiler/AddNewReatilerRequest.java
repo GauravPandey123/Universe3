@@ -84,11 +84,23 @@ public class AddNewReatilerRequest extends BaseRequest {
     private int territory_code;
     private String distributer_code;
 
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    private String mobile;
+
     private String mobileNumber;
     private String pincode;
     private String cropId;
     private String village_code;
     private String totalSales;
+
 
     public String getAddress() {
         return Address;
