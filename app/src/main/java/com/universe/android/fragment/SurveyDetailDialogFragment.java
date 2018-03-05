@@ -29,8 +29,10 @@ import com.universe.android.model.StatusModel;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by gaurav.pandey on 27-02-2018.
@@ -83,9 +85,33 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 fromDateString = input_period_from.getText().toString();
                 toDateString = input_period_to.getText().toString();
                 statusString = input_period_status.getText().toString();
-                SetDataListListener setDataListListener = (SetDataListListener) getActivity();
-                setDataListListener.submitData(statusString, fromDateString, toDateString);
-                dismiss();
+
+                if (Utility.validateString(fromDateString) && !fromDateString.equals(AppConstants.DATE_FORMAT)) {
+                    if (Utility.validateString(toDateString) && !toDateString.equals(AppConstants.DATE_FORMAT)) {
+                        Date date = null;
+                        Date toDateTime=null;
+                        Date fromDateTime=null;
+                        try {
+                            date = AppConstants.format2.parse(fromDateString);
+
+                         fromDateTime = AppConstants.format3.parse(AppConstants.format3.format(date));
+
+                        date = AppConstants.format2.parse(toDateString);
+                         toDateTime = AppConstants.format3.parse(AppConstants.format3.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if (toDateTime.getTime() < fromDateTime.getTime()) {
+                            Utility.showToast(getString(R.string.please_select_valid_to_date));
+                        } else {
+                            SetDataListListener setDataListListener = (SetDataListListener) getActivity();
+                            setDataListListener.submitData(statusString, fromDateString, toDateString);
+                            dismiss();
+
+                            //  prepareList();
+                        }
+                    }
+                }
 
 
             }
@@ -302,12 +328,14 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-                        String erg = "";
+                       /* String erg = "";
                         erg = String.valueOf(dayOfMonth);
                         erg += "-" + String.valueOf(monthOfYear + 1);
                         erg += "-" + year;
-                        input_period_from.setText(erg);
-
+                        input_period_from.setText(erg);*/
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        input_period_from.setText(AppConstants.format2.format(newDate.getTime()));
                     }
 
                 }, y, m, d);
@@ -326,11 +354,14 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-                        String erg = "";
+                    /*    String erg = "";
                         erg = String.valueOf(dayOfMonth);
                         erg += "-" + String.valueOf(monthOfYear + 1);
                         erg += "-" + year;
-                        input_period_to.setText(erg);
+                        input_period_to.setText(erg);*/
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        input_period_to.setText(AppConstants.format2.format(newDate.getTime()));
                     }
 
                 }, y, m, d);

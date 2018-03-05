@@ -16,6 +16,7 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.os.Environment;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.Html;
@@ -44,12 +45,19 @@ import android.widget.Toast;
 import com.universe.android.R;
 import com.universe.android.UniverseApplication;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.ParseException;
@@ -282,7 +290,7 @@ public class Utility {
 
     public static String getCurrentDate() {
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat df = new SimpleDateFormat("dd MMM yyyy");
         formatedDate = df.format(c.getTime());
         return formatedDate;
     }
@@ -552,6 +560,95 @@ public class Utility {
         date = date.minusHours(7);
         DateTimeFormatter dtf = DateTimeFormat.forPattern(AppConstants.utc_format);
         return dtf.print(date);
+    }
+    public static boolean isExternalStorageReadOnly() {
+        String extStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(extStorageState)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isExternalStorageAvailable() {
+        String extStorageState = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(extStorageState)) {
+            return true;
+        }
+        return false;
+    }
+
+
+    public static CellStyle getHeaderCellStyle(HSSFWorkbook workbook) {
+        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        HSSFFont font = workbook.createFont();
+        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        cellStyle.setFont(font);
+        return cellStyle;
+    }
+
+
+    public static CellStyle getColumnHeaderCellStyle(HSSFWorkbook workbook) {
+        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setFillForegroundColor(HSSFColor.LIGHT_ORANGE.index);
+        cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        cellStyle.setWrapText(true);
+        HSSFFont font = workbook.createFont();
+        font.setBoldweight(Font.BOLDWEIGHT_BOLD);
+        cellStyle.setFont(font);
+
+        cellStyle = setAllBorderToCell(cellStyle);
+
+
+        return cellStyle;
+    }
+
+    private static CellStyle setAllBorderToCell(CellStyle cellStyle) {
+        if (cellStyle == null) cellStyle = new HSSFWorkbook().createCellStyle();
+
+        cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cellStyle.setBorderBottom(CellStyle.BORDER_MEDIUM);
+        cellStyle.setBorderLeft(CellStyle.BORDER_MEDIUM);
+        cellStyle.setBorderRight(CellStyle.BORDER_MEDIUM);
+        cellStyle.setBorderTop(CellStyle.BORDER_MEDIUM);
+
+        return cellStyle;
+    }
+
+    public static CellStyle getContentCellStyle(HSSFWorkbook workbook) {
+        CellStyle cellStyle = workbook.createCellStyle();
+        cellStyle.setAlignment(CellStyle.ALIGN_CENTER);
+        cellStyle.setFillForegroundColor(HSSFColor.WHITE.index);
+        cellStyle = setAllBorderToCell(cellStyle);
+        return cellStyle;
+    }
+
+    public static boolean writeExcelFile(HSSFWorkbook workbook, String fileName) {
+        File folder = new File(Environment.getExternalStorageDirectory().toString() + AppConstants.DIR_UNIVERSE);
+        String filePath = folder.toString();
+        //Save the path as a string value
+        if (!folder.exists()) {
+            folder.mkdir();
+        }
+        // Create a path where we will place our List of objects on external storage
+        File file = new File(filePath, fileName);
+        FileOutputStream os = null;
+
+        try {
+            os = new FileOutputStream(file);
+            workbook.write(os);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (null != os)
+                    os.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return false;
     }
 
 }

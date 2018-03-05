@@ -83,4 +83,17 @@
           <item>customer</item>
           <item>category</item>-->
     </string-array>
+
+
+    <string-array name="survey_report">
+        <item>S. No</item>
+        <item>Name</item>
+        <item>Territory</item>
+        <item>State</item>
+        <item>Pincode</item>
+        <item>Contact No</item>
+        <item>Date</item>
+        <item>Status</item>
+    </string-array>
 </resources>
+
