@@ -2,12 +2,15 @@ package com.universe.android.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +58,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
     private GoogleMap mMap;
     private TextView textViewHeader, textViewRetailersNameMap, textViewMobileNoMap, textViewStatusMap, textViewSetLocation;
-    private String title, surveyId, customerId;
+    private String title, surveyId, customerId,strCustomer;
     private ImageView imageViewLocation;
 
     private ImageView imageViewSearch, imageViewSearchBack;
@@ -63,6 +66,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     private CircleImageView circleImageViewMap;
     List<CategoryModal> arraylistTitle = new ArrayList<>();
     private CircleSeekBar seekBar;
+    ProgressBar mProgress;
 
 
     @Override
@@ -81,6 +85,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             title = intent.getExtras().getString(AppConstants.STR_TITLE);
             surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
             customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
+            strCustomer=intent.getExtras().getString(AppConstants.CUSTOMER);
         }
 
         initialization();
@@ -107,13 +112,24 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         imageViewLocation = findViewById(R.id.imageViewLocation);
 
         seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
-
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.drawable.circular_progress);
+        mProgress = (ProgressBar) findViewById(R.id.circularProgressbar);
+        mProgress.setProgress(0);   // Main Progress
+        mProgress.setSecondaryProgress(100); // Secondary Progress
+        mProgress.setMax(100); // Maximum Progress
+        mProgress.setProgressDrawable(drawable);
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewSetLocation.setTypeface(FontClass.openSansRegular(mContext));
 
+        if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)){
+            circleImageViewMap.setImageResource(R.drawable.ic_customer);
+        }else {
+            circleImageViewMap.setImageResource(R.drawable.ic_retailer);
+        }
         textViewHeader.setText(title);
     }
 
@@ -447,6 +463,8 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
             seekBar.setValue(progressRequired);
             seekBar.setMaxValue(progressTotal);
+            mProgress.setProgress(progressRequired);
+            mProgress.setMax(progressTotal);
             int percent=(progressRequired*100)/progressTotal;
             textViewProgress.setText(percent+"%");
 

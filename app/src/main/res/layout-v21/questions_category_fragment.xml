@@ -5,10 +5,10 @@
     android:orientation="vertical"
     style="@style/appFormLinear">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
 
 
@@ -18,11 +18,26 @@
             style="@style/appText"
             android:gravity="center"
             android:visibility="visible"/>
-
-        <ScrollView
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/view_padding"
+            android:layout_marginBottom="@dimen/view_row_margin"
+            android:background="@drawable/edt_bg"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:iconifiedByDefault="false"
+            android:imeActionLabel="Done"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:layout_below="@+id/include"
+            android:queryHint="@string/search_name" />
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp">
+            android:scrollbars="vertical">
 
             <LinearLayout
                 style="@style/appFormLinear"
@@ -123,7 +138,6 @@
                 <LinearLayout
                     android:id="@+id/parent"
                     style="@style/appLinear"
-                    android:layout_marginTop="@dimen/view_padding"
                     android:orientation="vertical"
                     android:padding="2dp">
 
@@ -132,6 +146,6 @@
 
                 <include layout="@layout/act_save_buttons"></include>
             </LinearLayout>
-        </ScrollView>
-</LinearLayout>
-    </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </LinearLayout>
+</RelativeLayout>

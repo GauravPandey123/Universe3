@@ -5,6 +5,8 @@ import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -18,6 +20,8 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 
@@ -51,6 +55,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -80,7 +85,12 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
     private int groupPosition=0;
     private CircleSeekBar seekBar;
     boolean isSync=false;
-    String searchText="";
+    String searchText="",strCustomer="";
+    ProgressBar mProgress;
+    private String strStatus="";
+    private LinearLayout llStatus;
+    private ImageView imageStatus;
+    private TextView textStatus;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -121,7 +131,6 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
             if(!realm.isClosed()){
                 realm.close();
             }
-
         }
     }
     private void setUpListeners() {
@@ -194,7 +203,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         public Fragment getItem(int position) {
 
 
-            return new QuestionsCategoryFragment().newInstance(surveyId,categoryModals.get(position).getId(),customerId,position,updateId);
+            return new QuestionsCategoryFragment().newInstance(surveyId,categoryModals.get(position).getId(),customerId,position,updateId,strCustomer);
 
         }
 
@@ -236,11 +245,22 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
         seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
+        llStatus = (LinearLayout) findViewById(R.id.llStatus);
+        imageStatus = (ImageView) findViewById(R.id.imageStatus);
+        textStatus = (TextView) findViewById(R.id.textStatus);
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.drawable.circular_progress);
+        mProgress = (ProgressBar) findViewById(R.id.circularProgressbar);
+        mProgress.setProgress(0);   // Main Progress
+        mProgress.setSecondaryProgress(100); // Secondary Progress
+        mProgress.setMax(100); // Maximum Progress
+        mProgress.setProgressDrawable(drawable);
         pagerSlidingTabStrip=findViewById(R.id.pagerSlidingStrip);
         textViewHeader.setTypeface(FontClass.openSemiBold(mContext));
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
+        CircleImageView circleImageView=(CircleImageView)findViewById(R.id.circularImageViewMap);
         Intent intent=getIntent();
         if (intent!=null){
             title= intent.getExtras().getString(AppConstants.STR_TITLE);
@@ -248,6 +268,16 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
             customerId= intent.getExtras().getString(AppConstants.CUSTOMERID);
             updateId=intent.getExtras().getString(AppConstants.UPDATEID);
             groupPosition=intent.getExtras().getInt(AppConstants.GROUP_POSITION);
+            strCustomer=intent.getExtras().getString(AppConstants.CUSTOMER);
+            if (strCustomer==null){
+                strCustomer="";
+            }
+        }
+
+        if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)){
+            circleImageView.setImageResource(R.drawable.ic_customer);
+        }else {
+            circleImageView.setImageResource(R.drawable.ic_retailer);
         }
 
         textViewHeader.setText(title);
@@ -423,6 +453,8 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
 
+                    jsonSubmitReq.put(AppConstants.CUSTOMER,strCustomer);
+
                 jsonSubmitReq.put(AppConstants.WORKFLOW, array);
                 jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());
             }
@@ -447,11 +479,15 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
     public void onBackPressed() {
        // super.onBackPressed();
 
-        if (Utility.isConnected()) {
-            jsonSubmitReq = prepareJsonRequest("Reject", "");
-            submitAnswers(updateId, true);
-        }else{
-            finish();
+        if (strStatus.equalsIgnoreCase("1") ||strStatus.equalsIgnoreCase("2") ||strStatus.equalsIgnoreCase("3")) {
+                finish();
+        }else {
+            if (Utility.isConnected()) {
+                jsonSubmitReq = prepareJsonRequest("Reject", "");
+                submitAnswers(updateId, true);
+            } else {
+                finish();
+            }
         }
     }
 
@@ -586,6 +622,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
                 RealmAnswers realmAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,surveyId).equalTo(AppConstants.CUSTOMERID,customerId).findFirst();
 
                 if (realmAnswers!=null){
+                    strStatus=realmAnswers.getCd_Status();
                     if (realmAnswers.isSync()) {
                       //  updateId = realmAnswers.get_id();
                     }
@@ -750,11 +787,61 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
             TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
             seekBar.setValue(progressRequired);
             seekBar.setMaxValue(progressTotal);
+            mProgress.setProgress(progressRequired);
+            mProgress.setMax(progressTotal);
             //seekbar.setProgress(progressRequired);
            // seekbar.setMax(progressTotal);
             int percent=(progressRequired*100)/progressTotal;
             textViewProgress.setText(percent+"%");
 
+
+            if (title.contains(AppConstants.WORKFLOWS)){
+                if (strStatus.equalsIgnoreCase("2") ||strStatus.equalsIgnoreCase("3")){
+
+                    textViewProgress.setVisibility(View.GONE);
+                    mProgress.setVisibility(View.GONE);
+                    llStatus.setVisibility(View.VISIBLE);
+
+                    if (strStatus.equalsIgnoreCase("1")){
+                        textStatus.setText("Submitted");
+                        imageStatus.setImageResource(R.drawable.ic_submitted);
+                    }else if (strStatus.equalsIgnoreCase("2")){
+                        textStatus.setText("Approved");
+                        imageStatus.setImageResource(R.drawable.ic_submitted);
+                    }else if (strStatus.equalsIgnoreCase("3")){
+                        textStatus.setText("Rejected");
+                        imageStatus.setImageResource(R.drawable.rejected);
+                    }
+                }else {
+
+                    textViewProgress.setVisibility(View.VISIBLE);
+                    mProgress.setVisibility(View.VISIBLE);
+                    llStatus.setVisibility(View.GONE);
+                }
+            }else {
+                if (strStatus.equalsIgnoreCase("1") || strStatus.equalsIgnoreCase("2") || strStatus.equalsIgnoreCase("3")) {
+
+                    textViewProgress.setVisibility(View.GONE);
+                    mProgress.setVisibility(View.GONE);
+                    llStatus.setVisibility(View.VISIBLE);
+
+                    if (strStatus.equalsIgnoreCase("1")) {
+                        textStatus.setText("Submitted");
+                        imageStatus.setImageResource(R.drawable.ic_submitted);
+                    } else if (strStatus.equalsIgnoreCase("2")) {
+                        textStatus.setText("Approved");
+                        imageStatus.setImageResource(R.drawable.ic_submitted);
+                    } else if (strStatus.equalsIgnoreCase("3")) {
+                        textStatus.setText("Rejected");
+                        imageStatus.setImageResource(R.drawable.rejected);
+                    }
+                } else {
+
+                    textViewProgress.setVisibility(View.VISIBLE);
+                    mProgress.setVisibility(View.VISIBLE);
+                    llStatus.setVisibility(View.GONE);
+                }
+            }
 
 
         }catch (Exception e0){

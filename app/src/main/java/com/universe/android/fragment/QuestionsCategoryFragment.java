@@ -3,6 +3,8 @@ package com.universe.android.fragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Point;
@@ -10,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
@@ -31,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,7 +117,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
     protected boolean isPopupVisible = false;
     protected boolean isSync;
     private ProgressDialog progressDialog;
-    private String surveyId,categoryId,customerId;
+    private String surveyId,categoryId,customerId,strCustomer;
     Button btnReject;
     Button btnApprove;
     JSONArray jsonArrayAnswers=new JSONArray();
@@ -124,9 +128,10 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
     public static PageChangeInterface pageChangeInterface;
    public boolean flag=false;
    public boolean showFields=true;
+   private NestedScrollView scrollview;
     String visiblity="";
 
-    public static QuestionsCategoryFragment newInstance(String type, String categoryId, String customerId, int position, String updateId) {
+    public static QuestionsCategoryFragment newInstance(String type, String categoryId, String customerId, int position, String updateId, String customer) {
         QuestionsCategoryFragment myFragment = new QuestionsCategoryFragment();
 
         Bundle args = new Bundle();
@@ -135,6 +140,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         args.putString(AppConstants.CUSTOMERID, customerId);
         args.putInt(AppConstants.POSITION, position);
         args.putString(AppConstants.UPDATEID,updateId);
+        args.putString(AppConstants.CUSTOMER,customer);
         myFragment.setArguments(args);
 
         return myFragment;
@@ -152,7 +158,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         setUpListeners();
 
         llFields = (LinearLayout) view.findViewById(R.id.parent);
-
+        scrollview=(NestedScrollView)view.findViewById(R.id.scrollview);
         llClient = (LinearLayout) view.findViewById(R.id.llClient);
         llSurvey = (LinearLayout) view.findViewById(R.id.llSurvey);
         llCategory = (LinearLayout) view.findViewById(R.id.llCategory);
@@ -216,6 +222,92 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
         });
 
+        final SearchView searchView=(SearchView)view.findViewById(R.id.searchView);
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        assert searchManager != null;
+        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getActivity().getComponentName());
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchableInfo);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public boolean onQueryTextSubmit(String data) {
+                    //     if (object instanceof Fragment) {
+                    //  QuestionsCategoryFragment f = new QuestionsCategoryFragment();
+                    // QuestionsCategoryFragment.pageChangeInterface.onDataPass(query,mViewPager.getCurrentItem(),categoryModals.get(mViewPager.getCurrentItem()).getId());
+                    //    }
+                    //  position=pos;
+                    // categoryId = category;
+
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String data) {
+
+                    //   QuestionsCategoryFragment.pageChangeInterface.onDataPass(newText ,positionValue,categoryModals.get(mViewPager.getCurrentItem()).getId());
+                    if (Utility.validateString(data)) {
+                        if (questionsMap != null && questionsMap.size() > 0) {
+                            questionsMap = QuestionMapComparator.sortByValue(questionsMap);
+                            for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
+                                Questions question = (Questions) entry.getValue();
+                                if (question.getTitle().contains(data)) {
+                                    if (llFields != null && llFields.getChildCount() > 0) {
+                                        View targetView = llFields.findViewWithTag(question);
+                                        if (targetView != null) {
+                                            targetView.setBackgroundResource(R.color.light_blue);
+                                            llFields.getParent().requestChildFocus(targetView, targetView);
+                                            scrollToView(scrollview,targetView);
+                                        }
+                                    }
+                                } else {
+                                    if (llFields != null && llFields.getChildCount() > 0) {
+                                        View targetView = llFields.findViewWithTag(question);
+                                        if (targetView != null) {
+                                            targetView.setBackgroundResource(R.color.white);
+                                            llFields.getParent().requestChildFocus(targetView, targetView);
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    } else {
+                        if (questionsMap != null && questionsMap.size() > 0) {
+                            questionsMap = QuestionMapComparator.sortByValue(questionsMap);
+                            for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
+                                Questions question = (Questions) entry.getValue();
+                                if (question.getTitle().contains(data)) {
+                                    if (llFields != null && llFields.getChildCount() > 0) {
+                                        View targetView = llFields.findViewWithTag(question);
+                                        if (targetView != null) {
+                                            targetView.setBackgroundResource(R.color.white);
+                                            llFields.getParent().requestChildFocus(targetView, targetView);
+                                        }
+
+                                    }
+                                } else {
+                                    if (llFields != null && llFields.getChildCount() > 0) {
+
+                                        View targetView = llFields.findViewWithTag(question);
+
+                                        if (targetView != null) {
+                                            targetView.setBackgroundResource(R.color.white);
+                                            llFields.getParent().requestChildFocus(targetView, targetView);
+                                        }
+
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+
+                    return false;
+                }
+            });
+        }
 
         return view;
     }
@@ -1468,6 +1560,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
                 jsonSubmitReq.put(AppConstants.WORKFLOW, jsonArrayWorkFLow);
                jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());
+               jsonSubmitReq.put(AppConstants.CUSTOMER,strCustomer);
 
                 if (Utility.validateString(formAnsId)) {
                     //  jsonSubmitReq.put(AppConstants.UPDATEDAT, Utility.get);
@@ -2721,7 +2814,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
     }
 
-    private void scrollToView(final ScrollView scrollViewParent, final View view) {
+    private void scrollToView(final NestedScrollView scrollViewParent, final View view) {
         // Get deepChild Offset
         Point childOffset = new Point();
         getDeepChildOffset(scrollViewParent, view.getParent(), view, childOffset);
@@ -2960,4 +3053,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
         return questionsMap;
     }
+
+
+
 }

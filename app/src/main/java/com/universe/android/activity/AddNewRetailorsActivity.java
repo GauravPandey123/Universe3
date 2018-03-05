@@ -1,6 +1,8 @@
 package com.universe.android.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,7 +26,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
+import com.universe.android.activity.admin.FormQuestionActivity;
 import com.universe.android.adapter.StatusAdapter;
+import com.universe.android.enums.FormEnum;
 import com.universe.android.fragment.CropFragment;
 import com.universe.android.fragment.DistributorFragment;
 import com.universe.android.fragment.StateAndCropFragment;
@@ -32,6 +36,15 @@ import com.universe.android.fragment.TerroryFragment;
 import com.universe.android.fragment.VillageFragement;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.StatusModel;
+import com.universe.android.okkhttp.APIClient;
+import com.universe.android.okkhttp.UniverseAPI;
+import com.universe.android.realmbean.RealmCategory;
+import com.universe.android.realmbean.RealmClient;
+import com.universe.android.realmbean.RealmController;
+import com.universe.android.realmbean.RealmCustomer;
+import com.universe.android.realmbean.RealmNewRetailers;
+import com.universe.android.realmbean.RealmQuestion;
+import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatiler.AddNewReatilerRequest;
 import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatiler.AddNewReatilerResponse;
 import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatiler.AddNewReatilerService;
@@ -41,9 +54,26 @@ import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.UUID;
 
 import in.editsoft.api.exception.APIException;
+import in.editsoft.api.util.App;
+import io.realm.Realm;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+
+import static com.universe.android.utility.AppConstants.Address;
+import static com.universe.android.utility.AppConstants.mobileNumber;
+import static com.universe.android.utility.AppConstants.totalSales;
 
 /**
  * Created by gaurav.pandey on 13-02-2018.
@@ -68,14 +98,24 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     private String cropString, stateDataString, terroritryDataString, distributorString, villageSubmitString;
     private String reatilersNameString, addressString, phoneString, totalSalesString, pincodeString;
     private RelativeLayout relativeLayoutSubmit;
-
-
+    private String surveyId, strTitle,strCustomer;
+    private JSONObject jsonSubmitReq = new JSONObject();
     FragmentManager fm = getSupportFragmentManager();
+    private String updateId="";
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_retailors_activity);
+        Intent intent = getIntent();
+        if (intent != null) {
+            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
+            strTitle = intent.getExtras().getString(AppConstants.TYPE);
+
+            strCustomer = intent.getExtras().getString(AppConstants.CUSTOMER);
+        }
+
+        strCustomer=Prefs.getStringPrefs(AppConstants.CUSTOMER);
         initialization();
         setUpElements();
         setUpListeners();
@@ -182,12 +222,47 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         phoneString = retailorPhoneNumber.getText().toString();
         pincodeString = editTextTerroitryPinCode.getText().toString();
         totalSalesString = retailorTerroitryRetailorTotalSales.getText().toString();
-        if (!Utility.isConnected()) {
-            Utility.showToast(R.string.msg_disconnected);
+        jsonSubmitReq= prepareJsonSubmit(reatilersNameString, phoneString, addressString, pincodeString, totalSalesString);
+
+        if (Utility.isConnected()) {
+
+            submitAnswers("",false);
         } else {
-            addNewReatiler(reatilersNameString, phoneString, addressString, pincodeString, totalSalesString);
+            Utility.showToast(getString(R.string.no_network));
+
         }
 
+
+    }
+
+    private JSONObject prepareJsonSubmit(String reatilersNameString, String phoneString, String addressString, String pincodeString, String totalSalesString) {
+         jsonSubmitReq=new JSONObject();
+
+
+        try {
+            jsonSubmitReq.put(AppConstants.retailerName,reatilersNameString);
+            jsonSubmitReq.put(AppConstants.state_code,Prefs.getIntegerPrefs(AppConstants.STATECODE));
+            jsonSubmitReq.put(AppConstants.territory_code,Prefs.getIntegerPrefs(AppConstants.TerroitryCode));
+            jsonSubmitReq.put(AppConstants.distributer_code,Prefs.getStringPrefs(AppConstants.Distributor_Id));
+            jsonSubmitReq.put(AppConstants.mobile,phoneString);
+            jsonSubmitReq.put(AppConstants.pincode,pincodeString);
+            jsonSubmitReq.put(AppConstants.cropId,Prefs.getStringPrefs(AppConstants.CROPID));
+            jsonSubmitReq.put(AppConstants.village_code,Prefs.getStringPrefs(AppConstants.VillageId));
+            jsonSubmitReq.put(AppConstants.Address,addressString);
+            jsonSubmitReq.put(AppConstants.totalSales,totalSalesString);
+            jsonSubmitReq.put(AppConstants.CUSTOMER,AppConstants.NEW);
+            jsonSubmitReq.put(AppConstants.CREATEDAT,Utility.getTodaysDate());
+
+            if (!Utility.isConnected()){
+                jsonSubmitReq.put(AppConstants.ISSYNC, false);
+            }
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonSubmitReq;
     }
 
     private boolean validateName() {
@@ -399,40 +474,6 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         retailorTerroitryRetailorFocusVillage.setText(villageString);
     }
 
-    public void addNewReatiler(String reiltersName, String phonee, String Address, String pinCode, String totalSales) {
-        AddNewReatilerRequest addNewReatilerRequest = new AddNewReatilerRequest();
-        addNewReatilerRequest.setRetailerName(reiltersName);
-        addNewReatilerRequest.setMobile(phonee);
-        addNewReatilerRequest.setAddress(Address);
-
-        addNewReatilerRequest.setPincode(pinCode);
-        addNewReatilerRequest.setTotalSales(totalSales);
-        addNewReatilerRequest.setState_code(Prefs.getIntegerPrefs(AppConstants.STATECODE));
-        addNewReatilerRequest.setTerritory_code(Prefs.getIntegerPrefs(AppConstants.TerroitryCode));
-        addNewReatilerRequest.setDistributer_code(Prefs.getStringPrefs(AppConstants.Distributor_Id));
-        addNewReatilerRequest.setVillage_code(Prefs.getStringPrefs(AppConstants.VillageId));
-        addNewReatilerRequest.setCropId(Prefs.getStringPrefs(AppConstants.CROPID));
-
-        AddNewReatilerService addNewReatilerService = new AddNewReatilerService();
-        addNewReatilerService.executeService(addNewReatilerRequest, new BaseApiCallback<AddNewReatilerResponse>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(@NonNull AddNewReatilerResponse response) {
-                super.onSuccess(response);
-                Log.e("success","success");
-            }
-
-            @Override
-            public void onFailure(APIException e) {
-                super.onFailure(e);
-                Log.e("failure","failure");
-            }
-        });
-    }
 
     public class MyTextWatcher implements TextWatcher {
         private View view;
@@ -487,5 +528,146 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         }
     }
 
+
+    private void goToActivity(String customerId){
+        Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
+        intent.putExtra(AppConstants.STR_TITLE,strTitle);
+        intent.putExtra(AppConstants.SURVEYID,surveyId);
+        intent.putExtra(AppConstants.CUSTOMER,strCustomer);
+        intent.putExtra(AppConstants.CUSTOMERID,customerId);
+        startActivity(intent);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+
+
+    private void submitAnswers( String isUpdateId, final boolean isBack) {
+         updateId=isUpdateId;
+        if (Utility.validateString(updateId)) {
+            try {
+                jsonSubmitReq.put(AppConstants.ID, isUpdateId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        if (jsonSubmitReq.has(AppConstants.ISSYNC)) {
+            jsonSubmitReq.remove(AppConstants.ISSYNC);
+        }
+        if (jsonSubmitReq.has(AppConstants.ISUPDATE)) {
+            jsonSubmitReq.remove(AppConstants.ISUPDATE);
+        }
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.submittingAnswers));
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
+        String url = UniverseAPI.WEB_SERVICE_ADD_NEWRETAILER_METHOD;
+        if (Utility.validateString(updateId)) {
+            url = UniverseAPI.WEB_SERVICE_UPDATE_SURVEY_METHOD;
+        }
+
+
+        /* else if (formId.equalsIgnoreCase(FormEnum.category.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_CATEGORY_METHOD;
+        } else if (formId.equalsIgnoreCase(FormEnum.customer.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_CUSTOMER_METHOD;
+        } else if (formId.equalsIgnoreCase(FormEnum.client.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_ClIENT_METHOD;
+        }*/
+
+
+        Request request = APIClient.getPostRequest(this, url, requestBody);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                if (progressDialog != null) progressDialog.dismiss();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (Utility.validateString(responseData)) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
+                            updateId=jsonResponse.optString(AppConstants.ID);
+                            new RealmController().saveFormNewRetailerSubmit(jsonResponse.toString(), "");
+                        }
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (progressDialog != null) progressDialog.dismiss();
+
+                                goToActivity(updateId);
+                            }
+                        });
+
+                    } else {
+                        if (progressDialog != null) progressDialog.dismiss();
+                    }
+
+                } catch (Exception e) {
+                    if (progressDialog != null) progressDialog.dismiss();
+                    e.printStackTrace();
+                } finally {
+                }
+
+            }
+        });
+
+    }
+
+
+    private void saveNCDResponseLocal(String isUpdate, boolean isBack) {
+        saveResponseLocal(jsonSubmitReq, isUpdate);
+
+
+        goToActivity(jsonSubmitReq.optString(AppConstants.ID));
+
+    }
+
+    protected void saveResponseLocal(JSONObject jsonSubmitReq, String updateId) {
+        if (jsonSubmitReq != null) {
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            try {
+                if (Utility.validateString(updateId)) {
+                    jsonSubmitReq.put(AppConstants.ID, updateId);
+                } else {
+                    if (jsonSubmitReq != null && !jsonSubmitReq.has(AppConstants.ID)) {
+                        UUID randomId = UUID.randomUUID();
+                        String id = String.valueOf(randomId);
+                        jsonSubmitReq.put(AppConstants.ID, id);
+                    }
+                }
+
+
+
+
+                    realm.createOrUpdateObjectFromJson(RealmNewRetailers.class, jsonSubmitReq);
+
+
+            } catch (Exception e) {
+                realm.cancelTransaction();
+                realm.close();
+            } finally {
+                realm.commitTransaction();
+                realm.close();
+            }
+        }
+    }
 
 }

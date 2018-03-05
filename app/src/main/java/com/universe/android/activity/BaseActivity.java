@@ -163,7 +163,7 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                shareFile(true, filename, subject, text);
+                shareFile(false, filename, subject, text);
 
                 progDailog.dismiss();
             }

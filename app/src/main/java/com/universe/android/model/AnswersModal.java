@@ -41,6 +41,7 @@ public class AnswersModal {
     private String customerId;
     private String workflow;
     private String contactNo;
+    private String customer;
 
 
     public String get_id() {
@@ -305,5 +306,13 @@ public class AnswersModal {
 
     public void setContactNo(String contactNo) {
         this.contactNo = contactNo;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
     }
 }

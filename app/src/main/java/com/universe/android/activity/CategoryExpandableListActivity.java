@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -18,6 +20,10 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -50,6 +56,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -74,7 +81,11 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
     Button btnReject;
     Button btnApprove;
     private CircleSeekBar seekBar;
-    private String updateId;
+    private String updateId,strCustomer="",strStatus="";
+    private ProgressBar mProgress;
+    private LinearLayout llStatus;
+    private ImageView imageStatus;
+    private TextView textStatus;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -91,6 +102,7 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
            title= intent.getExtras().getString(AppConstants.STR_TITLE);
             surveyId= intent.getExtras().getString(AppConstants.SURVEYID);
             customerId= intent.getExtras().getString(AppConstants.CUSTOMERID);
+            strCustomer=intent.getExtras().getString(AppConstants.CUSTOMER);
            // customerId="5a83ca4296318c134c534cb9";
         }
         TextView toolbarTtile=(TextView)findViewById(R.id.toolbarTtile);
@@ -164,6 +176,9 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
             if (realmCategoryAnswers!=null && realmCategoryAnswers.size()>0) {
                 if (realmCategoryAnswers.get(0).isSync()) {
                     updateId = realmCategoryAnswers.get(0).get_id();
+                }
+                if (Utility.validateString(realmCategoryAnswers.get(0).getCustomer())){
+                    strCustomer=realmCategoryAnswers.get(0).getCustomer();
                 }
                 array = new JSONArray(realmCategoryAnswers.get(0).getWorkflow());
                 jsonSubmitReq.put(AppConstants.ANSWERS, new JSONArray(realmCategoryAnswers.get(0).getAnswers()));
@@ -240,6 +255,9 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                 //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
+
+                jsonSubmitReq.put(AppConstants.CUSTOMER,strCustomer);
+
 
                 jsonSubmitReq.put(AppConstants.WORKFLOW, array);
                 jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());
@@ -372,6 +390,7 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
     private void setupDetail() {
         Realm realm = Realm.getDefaultInstance();
 try{
+
     RealmCustomer realmCustomer=realm.where(RealmCustomer.class).equalTo(AppConstants.ID,customerId).findFirst();
 
     if (Utility.validateString(realmCustomer.getName()))
@@ -409,9 +428,63 @@ try{
         textViewRetailersNameMap = (TextView) findViewById(R.id.textViewRetailersNameMap);
         btnReject = (Button) findViewById(R.id.btnReject);
         btnApprove = (Button) findViewById(R.id.btnApprove);
+        llStatus = (LinearLayout) findViewById(R.id.llStatus);
+        imageStatus = (ImageView) findViewById(R.id.imageStatus);
+        textStatus = (TextView) findViewById(R.id.textStatus);
+        RelativeLayout relativeLayout=(RelativeLayout)findViewById(R.id.rlImage);
       //  seekbar=(SeekBar)findViewById(R.id.seek_bar);
          seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
 
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.drawable.circular_progress);
+         mProgress = (ProgressBar) findViewById(R.id.circularProgressbar);
+        mProgress.setProgress(0);   // Main Progress
+        mProgress.setSecondaryProgress(100); // Secondary Progress
+        mProgress.setMax(100); // Maximum Progress
+        mProgress.setProgressDrawable(drawable);
+        CircleImageView circleImageView=(CircleImageView)findViewById(R.id.circularImageViewMap);
+        if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)){
+            circleImageView.setImageResource(R.drawable.ic_customer);
+        }else {
+            circleImageView.setImageResource(R.drawable.ic_retailer);
+        }
+
+        llStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               Intent intent = new Intent(CategoryExpandableListActivity.this, WorkFlowsActivity.class);
+
+
+
+
+                intent.putExtra(AppConstants.STR_TITLE,title);
+                intent.putExtra(AppConstants.SURVEYID,surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID,customerId);
+                intent.putExtra(AppConstants.CUSTOMER,strCustomer);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+        });
+
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (strStatus.equalsIgnoreCase("1") ||strStatus.equalsIgnoreCase("2") ||strStatus.equalsIgnoreCase("3")) {
+
+                }else {
+                    Intent intent = new Intent(CategoryExpandableListActivity.this, MapsOneActivity.class);
+                    intent.putExtra(AppConstants.STR_TITLE,title);
+                    intent.putExtra(AppConstants.SURVEYID,surveyId);
+                    intent.putExtra(AppConstants.CUSTOMERID,customerId);
+                    intent.putExtra(AppConstants.CUSTOMER,strCustomer);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                }
+
+            }
+        });
         expandableListView.setGroupIndicator(null);
 
 
@@ -431,6 +504,7 @@ try{
                         i.putExtra(AppConstants.UPDATEID,updateId);
                         Prefs.putStringPrefs(AppConstants.VISIBLITY,"");
                         i.putExtra(AppConstants.GROUP_POSITION,groupPosition);
+                        i.putExtra(AppConstants.STATUS,strStatus);
                         startActivity(i);
 
                         return false;
@@ -459,6 +533,7 @@ try{
 
                 if (realmAnswers!=null){
                     updateId=realmAnswers.get_id();
+                    strStatus=realmAnswers.getCd_Status();
                    JSONArray array=new JSONArray(realmAnswers.getAnswers());
                    // JSONArray array1=new JSONArray(array.toString());
                  //   String json=array.get(0).toString();
@@ -620,6 +695,8 @@ try{
             expandableListView.setAdapter(expandableListAdapter);
 
             TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
+            mProgress.setProgress(progressRequired);
+            mProgress.setMax(progressTotal);
             seekBar.setValue(progressRequired);
             seekBar.setMaxValue(progressTotal);
             int percent=(progressRequired*100)/progressTotal;
@@ -639,6 +716,28 @@ try{
                     btnReject.setBackgroundResource(R.color.red);
                     btnReject.setEnabled(true);
                 }
+
+                if (strStatus.equalsIgnoreCase("2") ||strStatus.equalsIgnoreCase("3")){
+                    btnApprove.setVisibility(View.GONE);
+                    btnReject.setVisibility(View.GONE);
+                    textViewProgress.setVisibility(View.GONE);
+                    mProgress.setVisibility(View.GONE);
+                    llStatus.setVisibility(View.VISIBLE);
+
+                     if (strStatus.equalsIgnoreCase("2")){
+                        textStatus.setText("Approved");
+                        imageStatus.setImageResource(R.drawable.ic_submitted);
+                    }else if (strStatus.equalsIgnoreCase("3")){
+                        textStatus.setText("Rejected");
+                        imageStatus.setImageResource(R.drawable.rejected);
+                    }
+                }else {
+                    btnApprove.setVisibility(View.VISIBLE);
+                    btnReject.setVisibility(View.VISIBLE);
+                    textViewProgress.setVisibility(View.VISIBLE);
+                    mProgress.setVisibility(View.VISIBLE);
+                    llStatus.setVisibility(View.GONE);
+                }
             }else {
                 if (categoryAnswered.contains("No") || categoryAnswered.contains("")) {
                     btnApprove.setBackgroundResource(R.color.grey);
@@ -651,6 +750,31 @@ try{
                     btnApprove.setEnabled(true);
                     btnReject.setBackgroundResource(R.color.green);
                     btnReject.setEnabled(true);
+                }
+
+                if (strStatus.equalsIgnoreCase("1") ||strStatus.equalsIgnoreCase("2") ||strStatus.equalsIgnoreCase("3")){
+                    btnApprove.setVisibility(View.GONE);
+                    btnReject.setVisibility(View.GONE);
+                    textViewProgress.setVisibility(View.GONE);
+                    mProgress.setVisibility(View.GONE);
+                    llStatus.setVisibility(View.VISIBLE);
+
+                    if (strStatus.equalsIgnoreCase("1")){
+                        textStatus.setText("Submitted");
+                        imageStatus.setImageResource(R.drawable.ic_submitted);
+                    }else if (strStatus.equalsIgnoreCase("2")){
+                        textStatus.setText("Approved");
+                        imageStatus.setImageResource(R.drawable.ic_submitted);
+                    }else if (strStatus.equalsIgnoreCase("3")){
+                        textStatus.setText("Rejected");
+                        imageStatus.setImageResource(R.drawable.rejected);
+                    }
+                }else {
+                    btnApprove.setVisibility(View.VISIBLE);
+                    btnReject.setVisibility(View.VISIBLE);
+                    textViewProgress.setVisibility(View.VISIBLE);
+                    mProgress.setVisibility(View.VISIBLE);
+                    llStatus.setVisibility(View.GONE);
                 }
             }
 

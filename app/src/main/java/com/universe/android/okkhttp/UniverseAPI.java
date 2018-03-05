@@ -30,6 +30,7 @@ public interface UniverseAPI {
     String WEB_SERVICE_LIST_CATEGORY_METHOD = WEB_SERVICE_BASE_URL + "categoryList";
     String WEB_SERVICE_LIST_QUESTION_METHOD = WEB_SERVICE_BASE_URL + "surveyQuestionList";
     String WEB_SERVICE_LIST_ANSWERS_METHOD = WEB_SERVICE_BASE_URL + "answersList";
+    String WEB_SERVICE_ADD_NEWRETAILER_METHOD = WEB_SERVICE_BASE_URL + "addRetailer";
 
     //newRetailers
 

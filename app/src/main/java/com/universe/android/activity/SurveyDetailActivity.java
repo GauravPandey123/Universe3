@@ -119,8 +119,8 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
             }
             long realmSubmitted = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
             long realmInprogress = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CD_STATUS, "5").equalTo(AppConstants.RM_STATUS, "4").equalTo(AppConstants.ZM_STATUS, "4").count();
-            long realmNewRetailer = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CUSTOMER, "new").equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
-            long realmCystal = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CUSTOMER, "crystal").equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
+            long realmNewRetailer = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CUSTOMER, AppConstants.NEW).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
+            long realmCystal = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CUSTOMER, AppConstants.CrystalCustomer).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
             int n = count;
             int v = (int) realmSubmitted;
             int percent = v * 100 / n;
@@ -148,8 +148,8 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
             }
             long realmSubmitted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
             long realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "5").equalTo(AppConstants.RM_STATUS, "4").equalTo(AppConstants.ZM_STATUS, "4").count();
-            long realmNewRetailer = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, "new").equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
-            long realmCystal = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, "crystal").equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
+            long realmNewRetailer = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.NEW).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
+            long realmCystal = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.CrystalCustomer).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
             int n = count;
             int v = (int) realmSubmitted;
             int percent = v * 100 / n;
@@ -400,9 +400,9 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
                 } else if (type.equalsIgnoreCase(getString(R.string.rejected))) {
                     realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "3").equalTo(AppConstants.RM_STATUS, "3").equalTo(AppConstants.ZM_STATUS, "4").findAll();
                 } else if (type.equalsIgnoreCase(getString(R.string.newretailor))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.NEW).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
                 } else if (type.equalsIgnoreCase(getString(R.string.crystalmembers))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.CrystalCustomer).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
                 }
             }
             if (designation.equalsIgnoreCase("rm")) {
@@ -439,6 +439,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
                     modal.setTerritory(realmCustomer.getTerritory());
                     modal.setPincode(realmCustomer.getPincode());
                     modal.setCustomerId(realmCustomer.getId());
+                    modal.setCustomer(realmCustomer.getCustomer());
                     modal.setContactNo(realmCustomer.getContactNo());
                     modal.setStatus(realmAnswers.get(i).getCd_Status());
                       modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getCreatedAt()));
@@ -478,9 +479,9 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
                 } else if (type.equalsIgnoreCase(getString(R.string.rejected))) {
                     realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "3").equalTo(AppConstants.RM_STATUS, "3").equalTo(AppConstants.ZM_STATUS, "4").findAll();
                 } else if (type.equalsIgnoreCase(getString(R.string.newretailor))) {
-                    realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.NEW).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
                 } else if (type.equalsIgnoreCase(getString(R.string.crystalmembers))) {
-                    realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.CrystalCustomer).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
                 } else if (type.equalsIgnoreCase(getString(R.string.inprogress)) && type.equalsIgnoreCase(getString(R.string.completed))) {
                     realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "5").equalTo(AppConstants.RM_STATUS, "4").equalTo(AppConstants.ZM_STATUS, "4").findAll();
                 }
@@ -523,6 +524,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
                     modal.setCreatedAt(realmCustomer.getCreatedAt());
                     modal.setUpdatedAt(realmCustomer.getUpdatedAt());
                     modal.setStatus(realmAnswers.get(i).getCd_Status());
+                    modal.setCustomer(realmCustomer.getCustomer());
                     modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getCreatedAt()));
                     stringArrayList.add(modal);
                 }

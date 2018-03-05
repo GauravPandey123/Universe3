@@ -18,8 +18,23 @@
             style="@style/appText"
             android:gravity="center"
             android:visibility="visible"/>
-
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/view_padding"
+        android:layout_marginBottom="@dimen/view_row_margin"
+        android:background="@drawable/edt_bg"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:iconifiedByDefault="false"
+        android:imeActionLabel="Done"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:layout_below="@+id/include"
+        android:queryHint="@string/search_name" />
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/scrollview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical">

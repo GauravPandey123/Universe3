@@ -166,7 +166,8 @@ public class WorkFlowsDetailActivity extends BaseActivity {
                     modal.setCustomerId(realmCustomer.getId());
                     modal.setContactNo(realmCustomer.getContactNo());
                     modal.setStatus(type);
-                  //  modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
+                    modal.setCustomer(realmCustomer.getCustomer());
+                   modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getCreatedAt()));
                     stringArrayList.add(modal);
                 }
             }else {
