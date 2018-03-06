@@ -393,12 +393,23 @@ try{
 
     RealmCustomer realmCustomer=realm.where(RealmCustomer.class).equalTo(AppConstants.ID,customerId).findFirst();
 
-    if (Utility.validateString(realmCustomer.getName()))
-        textViewRetailersNameMap.setText(realmCustomer.getName());
 
-    textViewMobileNoMap.setText(realmCustomer.getContactNo()+" | "+
-            realmCustomer.getTerritory()+" | "+realmCustomer.getState()+"  \n"+
-            "Pincode - "+realmCustomer.getPincode());
+    if (realmCustomer.getCustomer().equalsIgnoreCase(AppConstants.CrystalCustomer)){
+        if (Utility.validateString(realmCustomer.getName()))
+            textViewRetailersNameMap.setText(realmCustomer.getName());
+
+        textViewMobileNoMap.setText(realmCustomer.getContactNo()+" | "+
+                realmCustomer.getTerritory()+" | "+realmCustomer.getState()+"  \n"+
+                "Pincode - "+realmCustomer.getPincode());
+
+    }else{
+        if (Utility.validateString(realmCustomer.getRetailerName()))
+            textViewRetailersNameMap.setText(realmCustomer.getRetailerName());
+
+        textViewMobileNoMap.setText(realmCustomer.getContactNo()+" | "+
+                realmCustomer.getTerritory()+" | "+realmCustomer.getState()+"  \n"+
+                "Pincode - "+realmCustomer.getPincode());
+    }
 
 
     }catch (Exception e0){
@@ -521,6 +532,7 @@ try{
         arraylistTitle = new ArrayList<>();
         expandableListDetail=new HashMap<CategoryModal, List<Questions>>();
         ArrayList<String> arrISView=new ArrayList<>();
+        ArrayList<String> arrISViewByZM=new ArrayList<>();
 
         Realm realm = Realm.getDefaultInstance();
         RealmSurveys realmSurveys=realm.where(RealmSurveys.class).equalTo(AppConstants.ID,surveyId).findFirst();
@@ -544,6 +556,7 @@ try{
                            JSONObject jsonObject=array.getJSONObject(i);
                            String categoryId=jsonObject.optString(AppConstants.CATEGORYID);
                            String isView=jsonObject.optString(AppConstants.ISVIEW);
+                           String isViewByZM=jsonObject.optString(AppConstants.ISVIEWBYZM);
                            JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
                            if (categoryId.equalsIgnoreCase(jsonArray.get(l).toString())){
                                RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID,jsonArray.get(l).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
@@ -554,8 +567,12 @@ try{
                                    categoryModal.setId(realmCategoryDetails.getId());
                                    categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
                                    categoryModal.setStatus(isView);
+                                   categoryModal.setIsViewByZM(isViewByZM);
                                    if (isView.equalsIgnoreCase("1"))
                                    arrISView.add(isView);
+
+                                   if (isViewByZM.equalsIgnoreCase("1"))
+                                       arrISViewByZM.add(isViewByZM);
                                    try {
                                      //  RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID,surveyId).findAll();
 
@@ -583,11 +600,11 @@ try{
 
                                                stringsRequired.add(questionsArrayList.get(p).getStatus());
                                            }
-                                           if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")&& !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0")) {
+                                           if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
 
                                                stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
                                            }
-                                           if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0")) {
+                                           if (Utility.validateString(questionsArrayList.get(p).getAnswer()) ) {
 
                                                doneQuestions.add(questionsArrayList.get(p).getAnswer());
                                            }
@@ -634,6 +651,7 @@ try{
                         categoryModal.setId(realmCategoryDetails.getId());
                         categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
                         categoryModal.setStatus("");
+                        categoryModal.setIsViewByZM("");
                         categoryModal.setCategoryAnswered("");
                         try {
                             RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID, surveyId).findAll();
@@ -701,42 +719,62 @@ try{
             seekBar.setMaxValue(progressTotal);
             int percent=(progressRequired*100)/progressTotal;
             textViewProgress.setText(percent+"%");
+
             if (title.contains(AppConstants.WORKFLOWS)){
                 btnApprove.setText(getString(R.string.approve));
                 btnReject.setText(getString(R.string.reject));
-                if (arraylistTitle.size()!=arrISView.size()){
-                    btnApprove.setBackgroundResource(R.color.grey);
-                    btnApprove.setEnabled(false);
-                    btnReject.setBackgroundResource(R.color.red);
-                    btnReject.setEnabled(true);
+                textViewProgress.setVisibility(View.VISIBLE);
+                mProgress.setVisibility(View.VISIBLE);
+                llStatus.setVisibility(View.GONE);
+                String type=Prefs.getStringPrefs(AppConstants.TYPE);
+                if (type.equalsIgnoreCase("rm")) {
+                    if (arraylistTitle.size() != arrISView.size()) {
+                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setEnabled(false);
+                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setEnabled(true);
 
+                    } else {
+                        btnApprove.setBackgroundResource(R.color.green);
+                        btnApprove.setEnabled(true);
+                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setEnabled(true);
+                    }
                 }else {
-                    btnApprove.setBackgroundResource(R.color.green);
-                    btnApprove.setEnabled(true);
-                    btnReject.setBackgroundResource(R.color.red);
-                    btnReject.setEnabled(true);
+                    if (arraylistTitle.size() != arrISViewByZM.size()) {
+                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setEnabled(false);
+                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setEnabled(true);
+
+                    } else {
+                        btnApprove.setBackgroundResource(R.color.green);
+                        btnApprove.setEnabled(true);
+                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setEnabled(true);
+                    }
                 }
 
                 if (strStatus.equalsIgnoreCase("2") ||strStatus.equalsIgnoreCase("3")){
                     btnApprove.setVisibility(View.GONE);
                     btnReject.setVisibility(View.GONE);
-                    textViewProgress.setVisibility(View.GONE);
-                    mProgress.setVisibility(View.GONE);
-                    llStatus.setVisibility(View.VISIBLE);
+                   // textViewProgress.setVisibility(View.GONE);
+                   // mProgress.setVisibility(View.GONE);
+                  //  llStatus.setVisibility(View.VISIBLE);
 
                      if (strStatus.equalsIgnoreCase("2")){
-                        textStatus.setText("Approved");
-                        imageStatus.setImageResource(R.drawable.ic_submitted);
+                   //     textStatus.setText("Approved");
+                    //    imageStatus.setImageResource(R.drawable.ic_submitted);
                     }else if (strStatus.equalsIgnoreCase("3")){
-                        textStatus.setText("Rejected");
-                        imageStatus.setImageResource(R.drawable.rejected);
+                    //    textStatus.setText("Rejected");
+                    //    imageStatus.setImageResource(R.drawable.rejected);
                     }
                 }else {
                     btnApprove.setVisibility(View.VISIBLE);
                     btnReject.setVisibility(View.VISIBLE);
-                    textViewProgress.setVisibility(View.VISIBLE);
-                    mProgress.setVisibility(View.VISIBLE);
-                    llStatus.setVisibility(View.GONE);
+                  //  textViewProgress.setVisibility(View.VISIBLE);
+                  //  mProgress.setVisibility(View.VISIBLE);
+                  //  llStatus.setVisibility(View.GONE);
                 }
             }else {
                 if (categoryAnswered.contains("No") || categoryAnswered.contains("")) {

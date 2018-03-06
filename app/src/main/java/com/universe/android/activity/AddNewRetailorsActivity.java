@@ -110,7 +110,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         Intent intent = getIntent();
         if (intent != null) {
             surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
-            strTitle = intent.getExtras().getString(AppConstants.TYPE);
+            strTitle = intent.getExtras().getString(AppConstants.STR_TITLE);
 
             strCustomer = intent.getExtras().getString(AppConstants.CUSTOMER);
         }

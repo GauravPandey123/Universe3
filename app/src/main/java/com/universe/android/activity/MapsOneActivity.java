@@ -166,9 +166,22 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         try {
             RealmCustomer realmCustomer = realm.where(RealmCustomer.class).equalTo(AppConstants.ID, customerId).findFirst();
 
-            if (Utility.validateString(realmCustomer.getName()))
-                textViewRetailersNameMap.setText(realmCustomer.getName());
-            textViewMobileNoMap.setText(String.format("%s | %s | %s  \nPincode - %s", realmCustomer.getContactNo(), realmCustomer.getTerritory(), realmCustomer.getState(), realmCustomer.getPincode()));
+            if (realmCustomer.getCustomer().equalsIgnoreCase(AppConstants.CrystalCustomer)){
+                if (Utility.validateString(realmCustomer.getName()))
+                    textViewRetailersNameMap.setText(realmCustomer.getName());
+
+                textViewMobileNoMap.setText(realmCustomer.getContactNo()+" | "+
+                        realmCustomer.getTerritory()+" | "+realmCustomer.getState()+"  \n"+
+                        "Pincode - "+realmCustomer.getPincode());
+
+            }else{
+                if (Utility.validateString(realmCustomer.getRetailerName()))
+                    textViewRetailersNameMap.setText(realmCustomer.getRetailerName());
+
+                textViewMobileNoMap.setText(realmCustomer.getContactNo()+" | "+
+                        realmCustomer.getTerritory()+" | "+realmCustomer.getState()+"  \n"+
+                        "Pincode - "+realmCustomer.getPincode());
+            }
 
         } catch (Exception e0) {
             e0.printStackTrace();

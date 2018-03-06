@@ -130,6 +130,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
    public boolean showFields=true;
    private NestedScrollView scrollview;
     String visiblity="";
+    String strCD="",strRM="",strZm="";
 
     public static QuestionsCategoryFragment newInstance(String type, String categoryId, String customerId, int position, String updateId, String customer) {
         QuestionsCategoryFragment myFragment = new QuestionsCategoryFragment();
@@ -324,6 +325,9 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 RealmAnswers realmAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,surveyId).equalTo(AppConstants.CUSTOMERID,customerId).findFirst();
                 if (realmAnswers!=null){
+                    strCD=realmAnswers.getCd_Status();
+                    strRM=realmAnswers.getRm_STatus();
+                    strZm=realmAnswers.getZm_Status();
                     JSONArray array=new JSONArray(realmAnswers.getAnswers());
                     JSONArray workFlow=new JSONArray(realmAnswers.getWorkflow());
                     updateId=realmAnswers.get_id();
@@ -444,6 +448,8 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                     ArrayList<Questions> questionsArrayList = new ArrayList<>();
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put(AppConstants.ISVIEW, "0");
+                    jsonObject.put(AppConstants.ISVIEWBYZM, "0");
+
                     jsonObject.put(AppConstants.CATEGORYID, realmCategoryDetails.getId());
                     jsonArrayQuestions=new JSONArray();
                     for (int i = 0; i < realmQuestions.size(); i++) {
@@ -1527,10 +1533,15 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                 JSONObject updatePosition=new JSONObject();
-                if (designation.equalsIgnoreCase("rm") || designation.equalsIgnoreCase("zm")) {
+                if (designation.equalsIgnoreCase("rm")) {
                     updatePosition.put(AppConstants.ISVIEW, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYZM, "0");
+                }else if (designation.equalsIgnoreCase("zm")){
+                    updatePosition.put(AppConstants.ISVIEW, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYZM, "1");
                 }else{
                     updatePosition.put(AppConstants.ISVIEW, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYZM, "0");
                 }
                 updatePosition.put(AppConstants.CATEGORYID, categoryId);
                 updatePosition.put(AppConstants.QUESTIONS,jsonArrayQuestions);
@@ -1546,14 +1557,14 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 if (designation.equalsIgnoreCase("zm"))
                     jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
 
-                if (designation.equalsIgnoreCase("cd")) {
+                if (!Utility.validateString(strCD)) {
                     jsonSubmitReq.put(AppConstants.CD_STATUS, "5");
                     jsonSubmitReq.put(AppConstants.RM_STATUS, "4");
                     jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
                 }else {
-                    jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
-                    jsonSubmitReq.put(AppConstants.RM_STATUS, "0");
-                    jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                    jsonSubmitReq.put(AppConstants.CD_STATUS, strCD);
+                    jsonSubmitReq.put(AppConstants.RM_STATUS, strRM);
+                    jsonSubmitReq.put(AppConstants.ZM_STATUS, strZm);
                 }
               //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
@@ -2830,11 +2841,13 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         }
         getDeepChildOffset(mainParent, parentGroup.getParent(), parentGroup, accumulatedOffset);
     }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
         if (isVisibleToUser){
+
             flag=true;
         }
     }

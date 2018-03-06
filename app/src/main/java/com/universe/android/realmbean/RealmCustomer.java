@@ -58,11 +58,13 @@ public class RealmCustomer extends RealmObject {
     private String village_code;
     private String totalSales;
     private String Address;
+    private String major_crop;
     private String retailerName;
     private int state_code;
     private int territory_code;
     private String distributer_code;
     private String customer;
+
 
     public String getName() {
         return name;

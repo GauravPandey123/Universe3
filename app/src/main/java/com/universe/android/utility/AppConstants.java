@@ -81,6 +81,7 @@ public class AppConstants {
     public static final String location = "location";
     public static final String lat = "lat";
     public static final String lng = "lat";
+    public static final String NAME = "name";
 
     public static final String Login_Status = "login_status";
     public static final String AUTHORIZATION = "Authorization";
@@ -132,6 +133,7 @@ public class AppConstants {
     public static final String EXCEL_FILE_TYPE = "excelFile";
     public static final String DIR_UNIVERSE = "/Universe";
     public static final String NEW = "retailor";
+    public static final String ISVIEWBYZM ="isViewZM" ;
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";

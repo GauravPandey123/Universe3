@@ -116,12 +116,22 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         try{
             RealmCustomer realmCustomer=realm.where(RealmCustomer.class).equalTo(AppConstants.ID,customerId).findFirst();
 
-            if (Utility.validateString(realmCustomer.getName()))
-                textViewRetailersNameMap.setText(realmCustomer.getName());
+            if (realmCustomer.getCustomer().equalsIgnoreCase(AppConstants.CrystalCustomer)){
+                if (Utility.validateString(realmCustomer.getName()))
+                    textViewRetailersNameMap.setText(realmCustomer.getName());
 
-            textViewMobileNoMap.setText(realmCustomer.getContactNo()+" | "+
-                    realmCustomer.getTerritory()+" | "+realmCustomer.getState()+"  \n"+
-                    "Pincode - "+realmCustomer.getPincode());
+                textViewMobileNoMap.setText(realmCustomer.getContactNo()+" | "+
+                        realmCustomer.getTerritory()+" | "+realmCustomer.getState()+"  \n"+
+                        "Pincode - "+realmCustomer.getPincode());
+
+            }else{
+                if (Utility.validateString(realmCustomer.getRetailerName()))
+                    textViewRetailersNameMap.setText(realmCustomer.getRetailerName());
+
+                textViewMobileNoMap.setText(realmCustomer.getContactNo()+" | "+
+                        realmCustomer.getTerritory()+" | "+realmCustomer.getState()+"  \n"+
+                        "Pincode - "+realmCustomer.getPincode());
+            }
 
 
         }catch (Exception e0){
@@ -796,28 +806,35 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
 
 
             if (title.contains(AppConstants.WORKFLOWS)){
-                if (strStatus.equalsIgnoreCase("2") ||strStatus.equalsIgnoreCase("3")){
+                textViewProgress.setVisibility(View.VISIBLE);
+                mProgress.setVisibility(View.VISIBLE);
+                llStatus.setVisibility(View.GONE);
+              /*  String type=Prefs.getStringPrefs(AppConstants.TYPE);
+                if (type.equalsIgnoreCase("rm")){
+                    if (strStatus.equalsIgnoreCase("1") ||strStatus.equalsIgnoreCase("3")){
 
-                    textViewProgress.setVisibility(View.GONE);
-                    mProgress.setVisibility(View.GONE);
-                    llStatus.setVisibility(View.VISIBLE);
+                        textViewProgress.setVisibility(View.GONE);
+                        mProgress.setVisibility(View.GONE);
+                        llStatus.setVisibility(View.VISIBLE);
 
-                    if (strStatus.equalsIgnoreCase("1")){
-                        textStatus.setText("Submitted");
-                        imageStatus.setImageResource(R.drawable.ic_submitted);
-                    }else if (strStatus.equalsIgnoreCase("2")){
-                        textStatus.setText("Approved");
-                        imageStatus.setImageResource(R.drawable.ic_submitted);
-                    }else if (strStatus.equalsIgnoreCase("3")){
-                        textStatus.setText("Rejected");
-                        imageStatus.setImageResource(R.drawable.rejected);
+                        if (strStatus.equalsIgnoreCase("1")){
+                            textStatus.setText("Submitted");
+                            imageStatus.setImageResource(R.drawable.ic_submitted);
+                        }else if (strStatus.equalsIgnoreCase("2")){
+                            textStatus.setText("Approved");
+                            imageStatus.setImageResource(R.drawable.ic_submitted);
+                        }else if (strStatus.equalsIgnoreCase("3")){
+                            textStatus.setText("Rejected");
+                            imageStatus.setImageResource(R.drawable.rejected);
+                        }
+                    }else {
+
+
                     }
                 }else {
 
-                    textViewProgress.setVisibility(View.VISIBLE);
-                    mProgress.setVisibility(View.VISIBLE);
-                    llStatus.setVisibility(View.GONE);
-                }
+                }*/
+
             }else {
                 if (strStatus.equalsIgnoreCase("1") || strStatus.equalsIgnoreCase("2") || strStatus.equalsIgnoreCase("3")) {
 

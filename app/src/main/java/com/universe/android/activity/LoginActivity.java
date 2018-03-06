@@ -200,7 +200,7 @@ public class LoginActivity extends BaseActivity {
                             if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
                                 Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
                             else
-                                Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.name));
+                                Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.NAME));
                             new RealmController().saveUserDetail(jsonObject1.toString());
                             JSONArray mapping = jsonObject.getJSONArray("mapping");
                             Prefs.putStringPrefs(AppConstants.MAPPING, mapping.toString());
@@ -491,7 +491,7 @@ public class LoginActivity extends BaseActivity {
                             new RealmController().saveSurveyQuestions(array.toString());
                         }
 
-                        getAnswersResponse();
+                        getRetailerResponse();
                     } else {
                     }
 
@@ -545,6 +545,57 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    private void getRetailerResponse() {
+
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        String url = UniverseAPI.WEB_SERVICE_LIST_RETAILER_METHOD;
+
+
+        Request request = APIClient.getRequest(mContext, url);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (responseData != null) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
+                            new RealmController().saveCustomersResponse(array.toString());
+                        }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getAnswersResponse();
+                            }
+                        });
+
+
+                    } else {
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                }
+
+            }
+        });
+
+    }
 
 
     private void goToMain() {

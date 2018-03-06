@@ -79,6 +79,9 @@ public class SearchCustomersActivity extends BaseActivity {
 
             strCustomer = intent.getExtras().getString(AppConstants.CUSTOMER);
         }
+        if (strTitle==null){
+            strTitle=Prefs.getStringPrefs(AppConstants.STR_TITLE);
+        }
 
         strCustomer=Prefs.getStringPrefs(AppConstants.CUSTOMER);
 

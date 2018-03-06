@@ -100,7 +100,7 @@ public class WorkFlowsActivity extends BaseActivity {
                     JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAILS);
 
                     String id = jsonObject1.optString(AppConstants.ID);
-                    String name = jsonObject1.optString(AppConstants.EMPLOYEE_NAME);
+                    String name = jsonObject1.optString(AppConstants.NAME);
                     if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("rm")) {
 
 
@@ -151,7 +151,7 @@ public class WorkFlowsActivity extends BaseActivity {
 
 
                     String id = jsonObject1.optString(AppConstants.ID);
-                    String name = jsonObject1.optString(AppConstants.EMPLOYEE_NAME);
+                    String name = jsonObject1.optString(AppConstants.NAME);
                     if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("cd")) {
 
 
@@ -203,7 +203,7 @@ public class WorkFlowsActivity extends BaseActivity {
 
 
                     String id = jsonObject1.optString(AppConstants.ID);
-                    String name = jsonObject1.optString(AppConstants.EMPLOYEE_NAME);
+                    String name = jsonObject1.optString(AppConstants.NAME);
                     if (jsonObject.optString(AppConstants.TYPE).equalsIgnoreCase("cd")) {
 
 

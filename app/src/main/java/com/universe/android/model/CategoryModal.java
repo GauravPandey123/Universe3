@@ -11,6 +11,7 @@ public class CategoryModal {
     private String categoryName;
     private String categoryAnswered;
     private Date description;
+    private String isViewByZM;
 
     private String contactNo;
 
@@ -174,5 +175,13 @@ public class CategoryModal {
 
     public void setCategoryAnswered(String categoryAnswered) {
         this.categoryAnswered = categoryAnswered;
+    }
+
+    public String getIsViewByZM() {
+        return isViewByZM;
+    }
+
+    public void setIsViewByZM(String isViewByZM) {
+        this.isViewByZM = isViewByZM;
     }
 }

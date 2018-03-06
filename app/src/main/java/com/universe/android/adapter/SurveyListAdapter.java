@@ -74,6 +74,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
                     } else {
                         i = new Intent(mContext, SearchCustomersActivity.class);
                         Prefs.putStringPrefs(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
+                        Prefs.putStringPrefs(AppConstants.STR_TITLE, strType+" "+surveysModal.getTitle());
                         i.putExtra(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
                     }
                 }
