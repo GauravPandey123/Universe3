@@ -48,23 +48,24 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
         holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo() + " | " +
                 stringArrayList.get(position).getTerritory() + " | " + stringArrayList.get(position).getState() + "  " +
                 stringArrayList.get(position).getDate());
-        if (stringArrayList.get(position).getStatus().equalsIgnoreCase("0")) {
-            holder.imageViewStatus.setImageResource(R.drawable.pending);
-            holder.tvStatus.setText(R.string.pending);
-        } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
-            holder.imageViewStatus.setImageResource(R.drawable.ic_submitted);
-            holder.tvStatus.setText(R.string.submit);
-        } else if (stringArrayList.get((position)).getStatus().equalsIgnoreCase("2")) {
+        if (stringArrayList.get(position).getStatus() != null) {
+            if (stringArrayList.get(position).getStatus().equalsIgnoreCase("0")) {
+                holder.imageViewStatus.setImageResource(R.drawable.pending);
+                holder.tvStatus.setText(R.string.pending);
+            } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
+                holder.imageViewStatus.setImageResource(R.drawable.ic_submitted);
+                holder.tvStatus.setText(R.string.submit);
+            } else if (stringArrayList.get((position)).getStatus().equalsIgnoreCase("2")) {
 
-        } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("3")) {
+            } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("3")) {
 
-        } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("4")) {
+            } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("4")) {
 
-        } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
-            holder.imageViewStatus.setImageResource(R.drawable.pending);
-            holder.tvStatus.setText(R.string.inprogress);
+            } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
+                holder.imageViewStatus.setImageResource(R.drawable.pending);
+                holder.tvStatus.setText(R.string.inprogress);
+            }
         }
-
 
     }
 

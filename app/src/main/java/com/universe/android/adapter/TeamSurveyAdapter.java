@@ -47,16 +47,21 @@ public class TeamSurveyAdapter extends RecyclerView.Adapter<TeamSurveyAdapter.Te
         String totalString = "" + surveyDetailsBean.getTotalAssign();
         String completedString = "" + surveyDetailsBean.getSubmittedCount();
 
-        holder.itemTitle.setText("Target : " + String.valueOf(totalString));
+        holder.itemTitle.setText("Target: " + String.valueOf(totalString));
         holder.itemno.setText("Submitted : " + String.valueOf(completedString));
-//        int n = Integer.parseInt(totalString);
-//        int v = Integer.parseInt(completedString);
-//        percent = v * 100 / n;
-//        holder.itempercentage.setText(String.valueOf(percent).concat("%"));
+        int n = Integer.parseInt(totalString);
+        int v = Integer.parseInt(completedString);
+        try {
+            percent = v * 100 / n;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        holder.textViewteamInprogress.setText("In Progress : " + String.valueOf(surveyDetailsBean.getProgress()));
-        holder.textViewNewReatilors.setText("New Retailer : " + String.valueOf(surveyDetailsBean.getRetailorCount()));
-        holder.textViewCrystalMembers.setText("Crystal Customer : " + String.valueOf(surveyDetailsBean.getCrystalCustomer()));
+        holder.itempercentage.setText("Achievement: " + String.valueOf(percent).concat("%"));
+
+        holder.textViewteamInprogress.setText("In Progress: " + String.valueOf(surveyDetailsBean.getProgress()));
+        holder.textViewNewReatilors.setText("New Retailer: " + String.valueOf(surveyDetailsBean.getRetailorCount()));
+        holder.textViewCrystalMembers.setText("Crystal Customer: " + String.valueOf(surveyDetailsBean.getCrystalCustomer()));
         setUpListeners(holder, position);
 
     }

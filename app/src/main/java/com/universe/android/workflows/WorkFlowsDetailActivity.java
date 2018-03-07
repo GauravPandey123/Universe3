@@ -158,15 +158,23 @@ public class WorkFlowsDetailActivity extends BaseActivity {
                     modal.set_id(realmAnswers.get(i).get_id());
 
                     RealmCustomer realmCustomer=realm.where(RealmCustomer.class).equalTo(AppConstants.ID,realmAnswers.get(i).getCustomerId()).findFirst();
+                    if (realmCustomer.getCustomer().equalsIgnoreCase(AppConstants.CrystalCustomer)){
+                        modal.setTitle(realmCustomer.getName());
+                        modal.setState(realmCustomer.getState());
+                        modal.setContactNo(realmCustomer.getContactNo());
+                    }else{
+                        modal.setTitle(realmCustomer.getRetailerName());
+                        modal.setState(realmCustomer.getAddress());
+                        modal.setContactNo(realmCustomer.getMobile());
+                    }
 
-                    modal.setTitle(realmCustomer.getName());
-                    modal.setState(realmCustomer.getState());
+
                     modal.setTerritory(realmCustomer.getTerritory());
                     modal.setPincode(realmCustomer.getPincode());
                     modal.setCustomerId(realmCustomer.getId());
-                    modal.setContactNo(realmCustomer.getContactNo());
                     modal.setStatus(type);
-                  //  modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
+                    modal.setCustomer(realmCustomer.getCustomer());
+                   modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getCreatedAt()));
                     stringArrayList.add(modal);
                 }
             }else {

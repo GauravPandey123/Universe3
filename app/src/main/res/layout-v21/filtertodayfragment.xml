@@ -81,7 +81,6 @@
         android:layout_margin="@dimen/margin_medium"
         android:background="@color/textColorPrimary"
         android:padding="@dimen/margin_medium"
-        android:text="@string/status"
         android:textAllCaps="true"
         android:textColor="@android:color/white" />
 

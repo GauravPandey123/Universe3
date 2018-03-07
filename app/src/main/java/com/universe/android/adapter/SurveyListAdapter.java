@@ -12,11 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.universe.android.R;
+import com.universe.android.activity.AddNewRetailors;
 import com.universe.android.activity.CategoryExpandableListActivity;
 import com.universe.android.activity.SearchCustomersActivity;
 import com.universe.android.activity.SurveyDetailActivity;
 import com.universe.android.model.SurveysModal;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 import com.universe.android.workflows.WorkFlowsDetailActivity;
 
@@ -48,7 +50,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
     }
 
     @Override
-    public void onBindViewHolder(StatusViewHolder holder, int position) {
+    public void onBindViewHolder(StatusViewHolder holder, final int position) {
         final SurveysModal surveysModal = surveysModals.get(position);
         if (Utility.validateString(surveysModal.getTitle())){
             holder.tvTitle.setText(surveysModal.getTitle());
@@ -63,7 +65,20 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(mContext, SearchCustomersActivity.class);
+                Intent i=null;
+
+                String type=Prefs.getStringPrefs(AppConstants.TYPE);
+                if (type.equalsIgnoreCase("cd")) {
+                    if (position == 0) {
+                        i = new Intent(mContext, AddNewRetailors.class);
+                    } else {
+                        i = new Intent(mContext, SearchCustomersActivity.class);
+                        Prefs.putStringPrefs(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
+                        Prefs.putStringPrefs(AppConstants.STR_TITLE, strType+" "+surveysModal.getTitle());
+                        i.putExtra(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
+                    }
+                }
+
                 if (strType.equalsIgnoreCase(AppConstants.WORKFLOWS)){
                      i=new Intent(mContext, WorkFlowsDetailActivity.class);
                 }
@@ -74,6 +89,9 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
 
                 i.putExtra(AppConstants.TYPE,strType+" "+surveysModal.getTitle());
                 i.putExtra(AppConstants.SURVEYID,surveysModal.getId());
+                i.putExtra(AppConstants.STATUS,surveysModal.getStatus());
+                i.putExtra(AppConstants.EXPIRYDATE,surveysModal.getExpiryDate());
+
                 mContext.startActivity(i);
             }
         });

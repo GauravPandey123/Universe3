@@ -127,6 +127,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         String count = _listDataHeader.get(groupPosition).getQuestionCount();
         String categoryAnsweredd = _listDataHeader.get(groupPosition).getCategoryAnswered();
         String status = _listDataHeader.get(groupPosition).getStatus();
+        String isViewByZM = _listDataHeader.get(groupPosition).getIsViewByZM();
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -150,11 +151,22 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
         String designation= Prefs.getStringPrefs(AppConstants.TYPE);
 
-         if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("1") ){
-            imgStatus.setBackgroundResource(R.drawable.double_done);
-        }else if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("2") ){
-             imgStatus.setBackgroundResource(R.drawable.done);
-         }
+        if (designation.equalsIgnoreCase("cd")){
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("2") ){
+                imgStatus.setBackgroundResource(R.drawable.done);
+            }
+        }else if (designation.equalsIgnoreCase("rm")){
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("1") ){
+                imgStatus.setBackgroundResource(R.drawable.double_done);
+            }
+        }else {
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && isViewByZM.equalsIgnoreCase("1") ){
+                imgStatus.setBackgroundResource(R.drawable.double_done);
+            }
+        }
+
+
+
         tvCount.setText(count);
       //  lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);

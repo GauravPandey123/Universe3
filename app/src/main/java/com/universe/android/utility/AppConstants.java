@@ -81,6 +81,7 @@ public class AppConstants {
     public static final String location = "location";
     public static final String lat = "lat";
     public static final String lng = "lat";
+    public static final String NAME = "name";
 
     public static final String Login_Status = "login_status";
     public static final String AUTHORIZATION = "Authorization";
@@ -131,7 +132,8 @@ public class AppConstants {
     public static final String CUSTOMER = "customer";
     public static final String PNG_FILE_TYPE = "pngFile";
     public static final String EXCEL_FILE_TYPE = "excelFile";
-    public static final String DIR_UNIVERSE = "Universe";
+    public static final String DIR_UNIVERSE = "/Universe";
+    public static final String NEW = "new";
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";
@@ -178,5 +180,22 @@ public class AppConstants {
 
     public static String TeamSurveyId="TeamSurveyId";
     public static String employee_code="employee_code";
+
+
+    public static String retailerName="retailerName";
+    public static String state_code="state_code";
+    public static String territory_code="territory_code";
+    public static String distributer_code="distributer_code";
+    public static String mobile="mobile";
+    public static String mobileNumber="mobileNumber";
+    public static String pincode="pincode";
+    public static String cropId="cropId";
+    public static String village_code="village_code";
+    public static String Address="Address";
+    public static String totalSales="totalSales";
+
+
+    public static String CUSTOMERIMAGE="CUSTOMERIMAGE";
+    public static String LocationUpdate="LocationUpdate";
 }
 

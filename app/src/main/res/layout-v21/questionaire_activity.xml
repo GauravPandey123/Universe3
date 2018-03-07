@@ -93,6 +93,7 @@
                     android:imeActionLabel="Done"
                     android:imeOptions="actionDone"
                     android:inputType="text"
+                    android:visibility="gone"
                     android:layout_below="@+id/include"
                     android:queryHint="@string/search_name" />
                 <EditText

@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.AnswersModal;
+import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
 import java.util.ArrayList;
@@ -45,8 +47,14 @@ public class WorkFLowDetailAdapter extends RecyclerView.Adapter<WorkFLowDetailAd
 
             holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo()+" | "+
                     stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  "+
-                   "22-02-2018");
+                   stringArrayList.get(position).getDate());
 
+
+            if (stringArrayList.get(position).getCustomer().equalsIgnoreCase(AppConstants.CrystalCustomer)){
+                holder.imgCustomer.setImageResource(R.drawable.ic_customer);
+            }else{
+                holder.imgCustomer.setImageResource(R.drawable.ic_retailer);
+            }
 
     }
 
@@ -65,11 +73,13 @@ public class WorkFLowDetailAdapter extends RecyclerView.Adapter<WorkFLowDetailAd
 
     public class SurveyViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewRetailersName, textViewMobileNo, textViewStatus;
+        private ImageView imgCustomer;
 
         public SurveyViewHolder(View itemView) {
             super(itemView);
             textViewRetailersName = itemView.findViewById(R.id.textViewRetailersName);
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
+            imgCustomer=itemView.findViewById(R.id.imgCustomer);
 
            /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

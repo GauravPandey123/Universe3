@@ -122,19 +122,19 @@ public class SurveyDetailDialogFragment extends DialogFragment {
             }
         });
 
-        imageViewClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
+//        imageViewClose.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dismiss();
+//            }
+//        });
 
-        imageViewCloseStatus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dismiss();
-            }
-        });
+//        imageViewCloseStatus.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dismiss();
+//            }
+//        });
 
 
     }
@@ -286,6 +286,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
             Number number = new Number();
             number.setONEs(i + "");
             number.setTextONEs(ONEs[i]);
+
             this.numberArrayList.add(number);
         }
 

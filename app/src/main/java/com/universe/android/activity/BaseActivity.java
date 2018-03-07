@@ -84,7 +84,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-
     public int setLayoutId() {
         return R.layout.questoionaire_header;
     }
@@ -133,8 +132,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-
-
     public Uri getImageUri(Context inContext, Bitmap inImage) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
@@ -146,7 +143,6 @@ public class BaseActivity extends AppCompatActivity {
         Uri destination = Uri.fromFile(new File(mActivity.getCacheDir(), "cropped"));
         Crop.of(source, destination).asSquare().start(mActivity);
     }
-
 
 
     public void showImageOptions() {
@@ -199,7 +195,7 @@ public class BaseActivity extends AppCompatActivity {
             @Override
             public void run() {
 
-                shareFile(true, filename, subject, text);
+                shareFile(false, filename, subject, text);
 
                 progDailog.dismiss();
             }
@@ -305,12 +301,17 @@ public class BaseActivity extends AppCompatActivity {
             cell.setCellValue(answersModal.getDate());
             cell.setCellStyle(Utility.getContentCellStyle(workbook));
             cell = row.createCell(++idyc);
-            if (answersModal.getStatus().equalsIgnoreCase("0")) {
-                cell.setCellValue("Pending");
-            } else if (answersModal.getStatus().equalsIgnoreCase("1")) {
-                cell.setCellValue("Submitted");
-            } else if (answersModal.getStatus().equalsIgnoreCase("5")) {
-                cell.setCellValue("in Progress");
+            if (answersModal.getStatus() != null) {
+                if (answersModal.getStatus().equalsIgnoreCase("0")) {
+                    cell.setCellValue("Pending");
+                } else if (answersModal.getStatus().equalsIgnoreCase("1")) {
+                    cell.setCellValue("Submitted");
+                } else if (answersModal.getStatus().equalsIgnoreCase("5")) {
+                    cell.setCellValue("in Progress");
+                }
+            }else
+            {
+
             }
 
             cell.setCellStyle(Utility.getContentCellStyle(workbook));

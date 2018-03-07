@@ -100,6 +100,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
     private String mImageUrl;
     private boolean isUpdateImage = false;
     CustomerPictureResponse CustomerPictureResponse;
+    ImageView imageLoc;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -258,11 +259,10 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
         circleImageView = findViewById(R.id.circularImageViewMap);
-//        if (CustomerPictureResponse.getResponse().getImage() != null) {
-//            Glide.with(mContext)
-//                    .load(CustomerPictureResponse.getResponse().getImage())
-//                    .into(circleImageView);
-//        }
+        imageLoc = findViewById(R.id.imageLoc);
+        if (Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE) != null) {
+            Glide.with(mActivity).load(Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE)).into(circleImageView);
+        }
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -283,6 +283,15 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
             updateId = intent.getExtras().getString(AppConstants.UPDATEID);
             groupPosition = intent.getExtras().getInt(AppConstants.GROUP_POSITION);
         }
+
+        imageLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, MapsOneActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+        });
 
         textViewHeader.setText(title);
 
@@ -436,6 +445,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                 Glide.with(mContext)
                         .load(response.getResponse().getImage())
                         .into(circleImageView);
+                Prefs.putStringPrefs(AppConstants.CUSTOMERIMAGE, response.getResponse().getImage());
                 Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
             }
 

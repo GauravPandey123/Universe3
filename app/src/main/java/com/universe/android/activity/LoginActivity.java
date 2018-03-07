@@ -143,7 +143,7 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    public void submitLoginRequest(String email, String password) {
+    public void submitLoginRequest(String email, final String password) {
         showProgress(R.string.msg_load_default);
         final JSONObject jsonSubmitReq = new JSONObject();
         try {
@@ -152,7 +152,6 @@ public class LoginActivity extends BaseActivity {
             jsonSubmitReq.put(AppConstants.PASSWORD, "pass123456");
             jsonSubmitReq.put(AppConstants.LAT, "27");
             jsonSubmitReq.put(AppConstants.LNG, "22");
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -161,6 +160,17 @@ public class LoginActivity extends BaseActivity {
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
         String url = UniverseAPI.WEB_SERVICE_LOGIN_METHOD;
+
+
+
+        /* else if (formId.equalsIgnoreCase(FormEnum.category.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_CATEGORY_METHOD;
+        } else if (formId.equalsIgnoreCase(FormEnum.customer.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_CUSTOMER_METHOD;
+        } else if (formId.equalsIgnoreCase(FormEnum.client.toString())) {
+            url = UniverseAPI.WEB_SERVICE_CREATE_ClIENT_METHOD;
+        }*/
+
 
         Request request = APIClient.getPostRequest(this, url, requestBody);
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -184,7 +194,7 @@ public class LoginActivity extends BaseActivity {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             JSONObject jsonObject = jsonResponse.getJSONObject(AppConstants.RESPONSE);
                             if (jsonObject.has("report")) {
-                                JSONObject object = jsonObject.optJSONObject("report");
+                                JSONObject object = jsonObject.optJSONObject("type");
                                 jsonSubmitReq.put(AppConstants.TYPE, "report");
                                 Prefs.putStringPrefs(AppConstants.TYPE, object.optString(AppConstants.TYPE));
                             } else {
@@ -205,7 +215,31 @@ public class LoginActivity extends BaseActivity {
                                 else
                                     Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.name));
                                 new RealmController().saveUserDetail(jsonObject1.toString());
+                            } else {
+                                JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
+                                Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
+                                Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
+                                Prefs.putStringPrefs(AppConstants.picture, jsonObject1.optString("picture"));
+                                Prefs.putStringPrefs(AppConstants.employee_name, jsonObject1.optString("employee_name"));
+                                Prefs.putStringPrefs(AppConstants.email, jsonObject1.optString("email"));
+                                Prefs.putStringPrefs(AppConstants.phone, jsonObject1.optString("mobile"));
+                                Prefs.putStringPrefs(AppConstants.employee_code, jsonObject1.optString("employee_code"));
+                                Prefs.putStringPrefs(AppConstants.password, jsonObject1.optString("password"));
+                                if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
+                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
+                                else
+                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.name));
+                                if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
+                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
+                                else
+                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.NAME));
+                                new RealmController().saveUserDetail(jsonObject1.toString());
                             }
+                            Prefs.putStringPrefs(AppConstants.TYPE, jsonObject.optString(AppConstants.TYPE));
+
+
+                            JSONArray mapping = jsonObject.getJSONArray("mapping");
+                            Prefs.putStringPrefs(AppConstants.MAPPING, mapping.toString());
 
                             getSurveyResponse();
 
@@ -493,7 +527,7 @@ public class LoginActivity extends BaseActivity {
                             new RealmController().saveSurveyQuestions(array.toString());
                         }
 
-                        getAnswersResponse();
+                        getRetailerResponse();
                     } else {
                     }
 
@@ -537,6 +571,58 @@ public class LoginActivity extends BaseActivity {
                         goToMain();
                     } else {
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                }
+
+            }
+        });
+
+    }
+
+    private void getRetailerResponse() {
+
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        String url = UniverseAPI.WEB_SERVICE_LIST_RETAILER_METHOD;
+
+
+        Request request = APIClient.getRequest(mContext, url);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (responseData != null) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
+                            new RealmController().saveCustomersResponse(array.toString());
+                        }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getAnswersResponse();
+                            }
+                        });
+
+
+                    } else {
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {

@@ -22,6 +22,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -92,7 +93,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
     private CircleSeekBar seekBar;
     private String updateId;
     CircleImageView circleImageView;
-
+    private ImageView imageLoc;
     private String mImageUrl;
     private boolean isUpdateImage = false;
 
@@ -113,7 +114,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
             customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
             // customerId="5a83ca4296318c134c534cb9";
         }
-        TextView toolbarTtile = (TextView) findViewById(R.id.toolbarTtile);
+        TextView toolbarTtile = findViewById(R.id.toolbarTtile);
         toolbarTtile.setText(title);
         setupDetail();
 
@@ -159,14 +160,6 @@ public class CategoryExpandableListActivity extends BaseActivity {
                     saveNCDResponseLocal(updateId, true);
                 }
 
-
-           /* String updateId = "";
-            if (view.getTag() != null) {
-                if (view.getTag() instanceof String) {
-                    updateId = (String) view.getTag();
-                }
-            }
-            showReviewConfirmAlert(updateId, false);*/
             }
 
         });
@@ -425,6 +418,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
         textViewRetailersNameMap = (TextView) findViewById(R.id.textViewRetailersNameMap);
         btnReject = (Button) findViewById(R.id.btnReject);
         btnApprove = (Button) findViewById(R.id.btnApprove);
+        imageLoc = findViewById(R.id.imageLoc);
         circleImageView = findViewById(R.id.circularImageViewMap);
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -432,7 +426,27 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 showImageOptions();
             }
         });
+        if (Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE) != null) {
+            Glide.with(mActivity).load(Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE)).into(circleImageView);
+        }
 
+        if (Prefs.getBooleanPrefs(AppConstants.PROFILE_CHECK)) {
+            Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, false);
+            imageLoc.setImageResource(R.drawable.ic_location_on_black_24dp);
+
+        } else {
+
+        }
+
+        imageLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, MapsOneActivity.class);
+
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+        });
 
         expandableListView.setGroupIndicator(null);
 
@@ -836,6 +850,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 Glide.with(mContext)
                         .load(response.getResponse().getImage())
                         .into(circleImageView);
+                Prefs.putStringPrefs(AppConstants.CUSTOMERIMAGE, response.getResponse().getImage());
                 Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
             }
 

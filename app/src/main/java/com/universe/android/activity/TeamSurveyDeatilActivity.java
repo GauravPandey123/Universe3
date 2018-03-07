@@ -65,7 +65,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
     private RecyclerView reyclerViewCategory;
     private ImageView imageViewBack;
     private TextView textViewtargetCount, textViewCompletedCount, textViewAchievementPercentage, textViewInProgressCount, textViewNewRetailersCount, textViewCrystalMembersCount;
-
+    int percent;
     private ImageView imageViewCloseStatus;
     private ImageView imageviewfilter;
 
@@ -169,7 +169,11 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
                 String completedString = String.valueOf(responseBeans.getSubmitted());
                 int n = Integer.parseInt(totalString);
                 int v = Integer.parseInt(completedString);
-                int percent = v * 100 / n;
+                try {
+                    percent = v * 100 / n;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 textViewtargetCount.setText(totalString);
                 textViewCompletedCount.setText(completedString);
                 textViewInProgressCount.setText(String.valueOf(responseBeans.getInprogress()));
@@ -194,7 +198,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
     private void setFilter(String type, String id, String fromate, String toDate) {
         SurveyDeatailRequest teamSurveyFilterRequest = new SurveyDeatailRequest();
         teamSurveyFilterRequest.setSurveyId((Prefs.getStringPrefs(AppConstants.TeamSurveyId)));
-        teamSurveyFilterRequest.setEmployee_code("10000297");
+        teamSurveyFilterRequest.setEmployee_code(Prefs.getStringPrefs(AppConstants.employee_code));
         teamSurveyFilterRequest.setType("rsm");
         teamSurveyFilterRequest.setFilter("filter");
         teamSurveyFilterRequest.setEmployeeId(id);
@@ -216,13 +220,17 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
                 String completedString = String.valueOf(responseBeans.getSubmitted());
                 int n = Integer.parseInt(totalString);
                 int v = Integer.parseInt(completedString);
-//                int percent = v * 100 / n;
+                try {
+                    percent = v * 100 / n;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 textViewtargetCount.setText(totalString);
                 textViewCompletedCount.setText(completedString);
                 textViewInProgressCount.setText(String.valueOf(responseBeans.getInprogress()));
                 textViewNewRetailersCount.setText(String.valueOf(responseBeans.getNewRetailer()));
                 textViewCrystalMembersCount.setText(String.valueOf(responseBeans.getCrystalCustomer()));
-                //textViewAchievementPercentage.setText(String.valueOf(percent).concat("%"));
+                textViewAchievementPercentage.setText(String.valueOf(percent).concat("%"));
 
                 List<SurverDetailResponse.ResponseBean.CrystaDoctorBean> crystaDoctorBeans = responseBeans.getCrystaDoctor();
                 String value = new Gson().toJson(crystaDoctorBeans);

@@ -207,6 +207,8 @@
     <string name="error_file_downloading">Error File Downloading</string>
     <string name="sharetitle">Hello, \n \n Please find attachment of </string>
     <string name="thankyou">Thank You</string>
+    <string name="cystal_text">Select CrystalCustomer</string>
+    <string name="new_retailer_text">Select New Retailer or add new retailer</string>
     <string name="team">Team</string>
 
 </resources>

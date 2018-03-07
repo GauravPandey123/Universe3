@@ -9,20 +9,21 @@ import com.universe.android.web.BaseResponse;
 
 public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse> {
 
-    /**
-     * errorMsg :
-     * statusCode : 200
-     * response : {"__v":0,"updatedAt":"2018-02-21T05:46:36.462Z","createdAt":"2018-02-21T05:46:36.462Z","location":"Unnamed Road, Chikal Pat, Madhya Pradesh 461228, India","type":"shop","loc":[22,77],"long":"77","lat":"22","user":"1234567","_id":"5a8d07bcfa4c1512c856ca33"}
-     */
-
-    private String errorMsg;
-    private int statusCode;
-    private ResponseBean response;
 
     @Override
     public boolean isValid(String condition, boolean isStrict) {
         return true;
     }
+
+    /**
+     * errorMsg :
+     * statusCode : 200
+     * response : {"_id":"5a811ccfa6f7eb1200adcbd9","updatedAt":"2018-03-07T12:48:54.793Z","createdAt":"2018-02-12T04:49:19.490Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1520426934461.png","createdBy":"asdas","address":"asdsa","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Ganga Pesticides","__v":0,"state":"WB","territory":"Amtala","pinco de":"9999","customer":"CrystalCustomer","locationSet":"5a9fdda58ccccf04bcf7f1ac"}
+     */
+
+    private String errorMsg;
+    private int statusCode;
+    private ResponseBean response;
 
     public String getErrorMsg() {
         return errorMsg;
@@ -48,39 +49,58 @@ public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse>
         this.response = response;
     }
 
-
     public static class ResponseBean {
         /**
+         * _id : 5a811ccfa6f7eb1200adcbd9
+         * updatedAt : 2018-03-07T12:48:54.793Z
+         * createdAt : 2018-02-12T04:49:19.490Z
+         * isActive : 0
+         * status : 0
+         * clientId : asdasd
+         * surveyId : asdas
+         * image : https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1520426934461.png
+         * createdBy : asdas
+         * address : asdsa
+         * contactNo : 89999998765
+         * description : asd
+         * contactPerson : asdsa
+         * name : Ganga Pesticides
          * __v : 0
-         * updatedAt : 2018-02-21T05:46:36.462Z
-         * createdAt : 2018-02-21T05:46:36.462Z
-         * location : Unnamed Road, Chikal Pat, Madhya Pradesh 461228, India
-         * type : shop
-         * loc : [22,77]
-         * long : 77
-         * lat : 22
-         * user : 1234567
-         * _id : 5a8d07bcfa4c1512c856ca33
+         * state : WB
+         * territory : Amtala
+         * pinco de : 9999
+         * customer : CrystalCustomer
+         * locationSet : 5a9fdda58ccccf04bcf7f1ac
          */
 
-        private int __v;
+        private String _id;
         private String updatedAt;
         private String createdAt;
-        private String location;
-        private String type;
-        @SerializedName("long")
-        private String longX;
-        private String lat;
-        private String user;
-        private String _id;
+        private int isActive;
+        private String status;
+        private String clientId;
+        private String surveyId;
+        private String image;
+        private String createdBy;
+        private String address;
+        private long contactNo;
+        private String description;
+        private String contactPerson;
+        private String name;
+        private int __v;
+        private String state;
+        private String territory;
+        @SerializedName("pinco de")
+        private String _$PincoDe190; // FIXME check this code
+        private String customer;
+        private String locationSet;
 
-
-        public int get__v() {
-            return __v;
+        public String get_id() {
+            return _id;
         }
 
-        public void set__v(int __v) {
-            this.__v = __v;
+        public void set_id(String _id) {
+            this._id = _id;
         }
 
         public String getUpdatedAt() {
@@ -99,54 +119,140 @@ public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse>
             this.createdAt = createdAt;
         }
 
-        public String getLocation() {
-            return location;
+        public int getIsActive() {
+            return isActive;
         }
 
-        public void setLocation(String location) {
-            this.location = location;
+        public void setIsActive(int isActive) {
+            this.isActive = isActive;
         }
 
-        public String getType() {
-            return type;
+        public String getStatus() {
+            return status;
         }
 
-        public void setType(String type) {
-            this.type = type;
+        public void setStatus(String status) {
+            this.status = status;
         }
 
-        public String getLongX() {
-            return longX;
+        public String getClientId() {
+            return clientId;
         }
 
-        public void setLongX(String longX) {
-            this.longX = longX;
+        public void setClientId(String clientId) {
+            this.clientId = clientId;
         }
 
-        public String getLat() {
-            return lat;
+        public String getSurveyId() {
+            return surveyId;
         }
 
-        public void setLat(String lat) {
-            this.lat = lat;
+        public void setSurveyId(String surveyId) {
+            this.surveyId = surveyId;
         }
 
-        public String getUser() {
-            return user;
+        public String getImage() {
+            return image;
         }
 
-        public void setUser(String user) {
-            this.user = user;
+        public void setImage(String image) {
+            this.image = image;
         }
 
-        public String get_id() {
-            return _id;
+        public String getCreatedBy() {
+            return createdBy;
         }
 
-        public void set_id(String _id) {
-            this._id = _id;
+        public void setCreatedBy(String createdBy) {
+            this.createdBy = createdBy;
         }
 
+        public String getAddress() {
+            return address;
+        }
 
+        public void setAddress(String address) {
+            this.address = address;
+        }
+
+        public long getContactNo() {
+            return contactNo;
+        }
+
+        public void setContactNo(long contactNo) {
+            this.contactNo = contactNo;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getContactPerson() {
+            return contactPerson;
+        }
+
+        public void setContactPerson(String contactPerson) {
+            this.contactPerson = contactPerson;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int get__v() {
+            return __v;
+        }
+
+        public void set__v(int __v) {
+            this.__v = __v;
+        }
+
+        public String getState() {
+            return state;
+        }
+
+        public void setState(String state) {
+            this.state = state;
+        }
+
+        public String getTerritory() {
+            return territory;
+        }
+
+        public void setTerritory(String territory) {
+            this.territory = territory;
+        }
+
+        public String get_$PincoDe190() {
+            return _$PincoDe190;
+        }
+
+        public void set_$PincoDe190(String _$PincoDe190) {
+            this._$PincoDe190 = _$PincoDe190;
+        }
+
+        public String getCustomer() {
+            return customer;
+        }
+
+        public void setCustomer(String customer) {
+            this.customer = customer;
+        }
+
+        public String getLocationSet() {
+            return locationSet;
+        }
+
+        public void setLocationSet(String locationSet) {
+            this.locationSet = locationSet;
+        }
     }
 }
