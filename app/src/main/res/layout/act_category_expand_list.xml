@@ -12,12 +12,13 @@
         android:layout_height="56dp"
 
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:titleEnabled="false"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
 
 
             <android.support.v7.widget.Toolbar
@@ -41,11 +42,12 @@
             </android.support.v7.widget.Toolbar>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <FrameLayout
 
             android:id="@+id/frame"
@@ -53,39 +55,39 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/ll_button">
 
-   <android.support.v4.widget.NestedScrollView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
-
-
-        <LinearLayout
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:orientation="vertical"
-             android:layout_marginBottom="10dp">
-
-            <include layout="@layout/questoionaire_header"
-                android:visibility="visible"/>
-
-            <LinearLayout
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/backgroundgrey"
-                android:orientation="vertical"
-                android:padding="5dp"
-                android:visibility="visible">
+                android:layout_height="match_parent">
 
-                <com.universe.android.component.NonScrollExpandableListView
-                    android:id="@+id/expandableListView"
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_width="match_parent"/>
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical">
 
-</LinearLayout>
+                    <include
+                        layout="@layout/questoionaire_header"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/backgroundgrey"
+                        android:orientation="vertical"
+                        android:padding="5dp"
+                        android:visibility="visible">
+
+                        <com.universe.android.component.NonScrollExpandableListView
+                            android:id="@+id/expandableListView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                    </LinearLayout>
 
 
-
-         </LinearLayout>
-   </android.support.v4.widget.NestedScrollView>
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
         </FrameLayout>
 
 
@@ -101,9 +103,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="90dp" />
         </LinearLayout>
-        </RelativeLayout>
+    </RelativeLayout>
 
 
-
-    </android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout>
 

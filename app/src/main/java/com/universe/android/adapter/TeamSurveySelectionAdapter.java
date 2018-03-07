@@ -12,6 +12,8 @@ import com.universe.android.R;
 import com.universe.android.model.CrystalDoctorModel;
 import com.universe.android.model.CustomerModal;
 import com.universe.android.resource.Login.login.LoginResponse;
+import com.universe.android.resource.Login.surveyList.SurveyListResponse;
+import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
 import java.util.ArrayList;
@@ -23,9 +25,9 @@ import java.util.ArrayList;
 public class TeamSurveySelectionAdapter extends RecyclerView.Adapter<TeamSurveySelectionAdapter.TeamSurveyViewHolder> {
 
     private Context mContext;
-    private ArrayList<LoginResponse.ResponseBean.SurveyDetailsBean> mappingBeans;
+    private ArrayList<SurveyListResponse.ResponseBean> mappingBeans;
 
-    public TeamSurveySelectionAdapter(Context mContext, ArrayList<LoginResponse.ResponseBean.SurveyDetailsBean> mappingBeans) {
+    public TeamSurveySelectionAdapter(Context mContext, ArrayList<SurveyListResponse.ResponseBean> mappingBeans) {
         this.mContext = mContext;
         this.mappingBeans = mappingBeans;
     }
@@ -38,8 +40,13 @@ public class TeamSurveySelectionAdapter extends RecyclerView.Adapter<TeamSurveyS
 
     @Override
     public void onBindViewHolder(TeamSurveyViewHolder holder, int position) {
-        LoginResponse.ResponseBean.SurveyDetailsBean mappingBean = mappingBeans.get(position);
-        holder.tvTitle.setText(mappingBean.getDetails().getTitle());
+        SurveyListResponse.ResponseBean mappingBean = mappingBeans.get(position);
+        if (Utility.validateString(mappingBean.getSurveyDetails().getExpiryDate())){
+            holder.tvExpiryDate.setText(mappingBean.getSurveyDetails().getExpiryDate());
+        }
+//        holder.tvExpiryDate.setText("Ends On: " + dateFinal);
+
+        holder.tvTitle.setText(mappingBean.getSurveyDetails().getTitle());
         holder.tvPending.setText(String.valueOf(mappingBean.getPending()));
         setUpListners(holder, position);
     }

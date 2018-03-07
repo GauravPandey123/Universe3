@@ -75,8 +75,8 @@ public class SurveyListActivity extends BaseActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == ID_UPDATE_CAMP && resultCode == RESULT_OK) {
             prepareList();
         }

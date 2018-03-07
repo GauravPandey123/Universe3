@@ -17,6 +17,16 @@ public class CrystalReportRequest extends BaseRequest {
 
     private String surveyId;
 
+    public String getCdId() {
+        return cdId;
+    }
+
+    public void setCdId(String cdId) {
+        this.cdId = cdId;
+    }
+
+    private String cdId;
+
 
     @Override
     public boolean isValid(String Scenario) {

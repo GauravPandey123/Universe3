@@ -56,11 +56,11 @@ public class WorkFlowsActivity extends BaseActivity {
     private ArrayList<AnswersModal> stringArrayList;
     private LinearLayoutManager linearLayoutManager;
     private WorkFLowAdapter surveyDetailAdapter;
-    private String strType,surveyId,customerId;
-    private LinearLayout llPending,ll_inprogress,ll_completed,ll_rejected;
-    private TextView tvPending,tvInprogress,tvCompleted,tvRejected;
-    private ImageView imgCD,imgRM,imgZM;
-    private TextView textViewCd,textViewRM,textViewZM,textViewStatus;
+    private String strType, surveyId, customerId;
+    private LinearLayout llPending, ll_inprogress, ll_completed, ll_rejected;
+    private TextView tvPending, tvInprogress, tvCompleted, tvRejected;
+    private ImageView imgCD, imgRM, imgZM;
+    private TextView textViewCd, textViewRM, textViewZM, textViewStatus;
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -71,7 +71,7 @@ public class WorkFlowsActivity extends BaseActivity {
         initialization();
         setUpElements();
         setUpListeners();
-    prepareList("");
+        prepareList("");
 
     }
 
@@ -83,15 +83,15 @@ public class WorkFlowsActivity extends BaseActivity {
     }
 
     private void setCount() {
-        String userId=Prefs.getStringPrefs(AppConstants.UserId);
-        String type=Prefs.getStringPrefs(AppConstants.TYPE);
-        String userName=Prefs.getStringPrefs(AppConstants.USERNAME);
+        String userId = Prefs.getStringPrefs(AppConstants.UserId);
+        String type = Prefs.getStringPrefs(AppConstants.TYPE);
+        String userName = Prefs.getStringPrefs(AppConstants.USERNAME);
 
-        if (type.equalsIgnoreCase("cd")){
+        if (type.equalsIgnoreCase("cd")) {
 
             textViewCd.setText(AppConstants.ME);
 
-            String mapping= Prefs.getStringPrefs(AppConstants.MAPPING);
+            String mapping = Prefs.getStringPrefs(AppConstants.MAPPING);
             try {
                 JSONArray array = new JSONArray(mapping);
 
@@ -124,30 +124,28 @@ public class WorkFlowsActivity extends BaseActivity {
                         }
 
                     }
-                    }  }
-
-                 catch (JSONException e) {
-                    e.printStackTrace();
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        if (type.equalsIgnoreCase("rm")){
+        }
+        if (type.equalsIgnoreCase("rm")) {
 
             textViewRM.setText(AppConstants.ME);
 
 
-            String mapping= Prefs.getStringPrefs(AppConstants.MAPPING);
+            String mapping = Prefs.getStringPrefs(AppConstants.MAPPING);
             try {
                 JSONArray array = new JSONArray(mapping);
 
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject jsonObject = array.getJSONObject(i);
                     JSONObject jsonObject1;
-                    if (jsonObject.has(AppConstants.DETAILS)){
+                    if (jsonObject.has(AppConstants.DETAILS)) {
                         jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAILS);
-                    }else {
-                        jsonObject1=jsonObject;
+                    } else {
+                        jsonObject1 = jsonObject;
                     }
-
 
 
                     String id = jsonObject1.optString(AppConstants.ID);
@@ -175,30 +173,29 @@ public class WorkFlowsActivity extends BaseActivity {
                         }
 
                     }
-                }  }
-
-            catch (JSONException e) {
+                }
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
 
         }
 
-        if (type.equalsIgnoreCase("zm")){
+        if (type.equalsIgnoreCase("zm")) {
 
             textViewZM.setText(AppConstants.ME);
 
-            String mapping= Prefs.getStringPrefs(AppConstants.MAPPING);
+            String mapping = Prefs.getStringPrefs(AppConstants.MAPPING);
             try {
                 JSONArray array = new JSONArray(mapping);
 
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject jsonObject = array.getJSONObject(i);
                     JSONObject jsonObject1;
-                    if (jsonObject.has(AppConstants.DETAILS)){
+                    if (jsonObject.has(AppConstants.DETAILS)) {
                         jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAILS);
-                    }else {
-                        jsonObject1=jsonObject;
+                    } else {
+                        jsonObject1 = jsonObject;
                     }
 
 
@@ -227,9 +224,8 @@ public class WorkFlowsActivity extends BaseActivity {
                         }
 
                     }
-                }  }
-
-            catch (JSONException e) {
+                }
+            } catch (JSONException e) {
                 e.printStackTrace();
             }
 
@@ -240,58 +236,49 @@ public class WorkFlowsActivity extends BaseActivity {
 
         try {
 
-        RealmAnswers realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findFirst();
+            RealmAnswers realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, customerId).equalTo(AppConstants.SURVEYID, surveyId).findFirst();
 
-        if (realmAnswers!=null){
+            if (realmAnswers != null) {
 
-                if (realmAnswers.getCd_Status().equalsIgnoreCase("1")){
+                if (realmAnswers.getCd_Status().equalsIgnoreCase("1")) {
                     imgCD.setImageResource(R.drawable.green_circle);
-                }else  if (realmAnswers.getCd_Status().equalsIgnoreCase("5")){
+                } else if (realmAnswers.getCd_Status().equalsIgnoreCase("5")) {
                     imgCD.setImageResource(R.drawable.yellow_circle);
-                }else  if (realmAnswers.getCd_Status().equalsIgnoreCase("2")){
+                } else if (realmAnswers.getCd_Status().equalsIgnoreCase("2")) {
                     imgCD.setImageResource(R.drawable.green_circle);
-                }else  if (realmAnswers.getCd_Status().equalsIgnoreCase("3")){
+                } else if (realmAnswers.getCd_Status().equalsIgnoreCase("3")) {
                     imgCD.setImageResource(R.drawable.red_circle);
-                }else {
+                } else {
 
                 }
 
 
-
-
-                if (realmAnswers.getRm_STatus().equalsIgnoreCase("2")){
+                if (realmAnswers.getRm_STatus().equalsIgnoreCase("2")) {
 
                     imgRM.setImageResource(R.drawable.green_circle);
-                }else  if (realmAnswers.getRm_STatus().equalsIgnoreCase("3")){
+                } else if (realmAnswers.getRm_STatus().equalsIgnoreCase("3")) {
 
                     imgRM.setImageResource(R.drawable.red_circle);
 
-                }else  if (realmAnswers.getRm_STatus().equalsIgnoreCase("0")){
+                } else if (realmAnswers.getRm_STatus().equalsIgnoreCase("0")) {
 
                     imgRM.setImageResource(R.drawable.yellow_circle);
 
-                }else {
+                } else {
 
                 }
 
 
-
-
-                if (realmAnswers.getZm_Status().equalsIgnoreCase("2")){
+                if (realmAnswers.getZm_Status().equalsIgnoreCase("2")) {
                     imgZM.setImageResource(R.drawable.green_circle);
-                }else if (realmAnswers.getZm_Status().equalsIgnoreCase("3")){
+                } else if (realmAnswers.getZm_Status().equalsIgnoreCase("3")) {
                     imgZM.setImageResource(R.drawable.red_circle);
-                }else if (realmAnswers.getZm_Status().equalsIgnoreCase("0")){
+                } else if (realmAnswers.getZm_Status().equalsIgnoreCase("0")) {
                     imgZM.setImageResource(R.drawable.yellow_circle);
-                }else {
+                } else {
 
                 }
-
-
-        }
-
-
-
+            }
 
         } catch (Exception e) {
             realm.close();
@@ -310,20 +297,19 @@ public class WorkFlowsActivity extends BaseActivity {
         try {
 
 
-         RealmAnswers realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findFirst();
-
+            RealmAnswers realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, customerId).equalTo(AppConstants.SURVEYID, surveyId).findFirst();
 
 
             if (realmAnswers != null) {
-                JSONArray array=new JSONArray(realmAnswers.getWorkflow());
-             //   JSONArray array1=new JSONArray(array.get(0).toString());
+                JSONArray array = new JSONArray(realmAnswers.getWorkflow());
+                //   JSONArray array1=new JSONArray(array.get(0).toString());
                 for (int i = 0; i < array.length(); i++) {
-                    JSONObject jsonObject=array.getJSONObject(i);
+                    JSONObject jsonObject = array.getJSONObject(i);
                     AnswersModal modal = new AnswersModal();
-                    String userId=Prefs.getStringPrefs(AppConstants.UserId);
-                    if (userId.equalsIgnoreCase(jsonObject.optString(AppConstants.ID))){
+                    String userId = Prefs.getStringPrefs(AppConstants.UserId);
+                    if (userId.equalsIgnoreCase(jsonObject.optString(AppConstants.ID))) {
                         modal.setTitle(AppConstants.ME);
-                    }else{
+                    } else {
                         modal.setTitle(jsonObject.optString(AppConstants.USERNAME));
                     }
                     modal.setStatus(jsonObject.optString(AppConstants.STATUS));
@@ -332,14 +318,14 @@ public class WorkFlowsActivity extends BaseActivity {
                     Date date = format1.parse(jsonObject.optString(AppConstants.DATE));
                     System.out.println(format2.format(date));
                     modal.setDate(format2.format(date));
-                //    modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
+                    //    modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
                     stringArrayList.add(modal);
                 }
                 Collections.reverse(stringArrayList);
 
-                if (stringArrayList.size()>0)
-                textViewStatus.setText(stringArrayList.get(0).getStatus() +" "+stringArrayList.get(0).getDate());
-            }else {
+                if (stringArrayList.size() > 0)
+                    textViewStatus.setText(stringArrayList.get(0).getStatus() + " " + stringArrayList.get(0).getDate());
+            } else {
                 Utility.showToast(getString(R.string.no_data));
             }
         } catch (Exception e) {
@@ -355,8 +341,6 @@ public class WorkFlowsActivity extends BaseActivity {
     }
 
 
-
-
     private void setUpListeners() {
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -364,8 +348,6 @@ public class WorkFlowsActivity extends BaseActivity {
                 finish();
             }
         });
-
-
 
 
     }
@@ -391,9 +373,9 @@ public class WorkFlowsActivity extends BaseActivity {
         textViewMobileNo.setText(getResources().getString(R.string.workflow_mobile_no));
         imageViewBack = findViewById(R.id.imageviewback);
 
-         llPending = (LinearLayout) findViewById(R.id.ll_pending);
-         ll_inprogress = (LinearLayout) findViewById(R.id.ll_inprogress);
-         ll_completed = (LinearLayout) findViewById(R.id.ll_completed);
+        llPending = (LinearLayout) findViewById(R.id.ll_pending);
+        ll_inprogress = (LinearLayout) findViewById(R.id.ll_inprogress);
+        ll_completed = (LinearLayout) findViewById(R.id.ll_completed);
         imgCD = (ImageView) findViewById(R.id.imgCD);
         imgRM = (ImageView) findViewById(R.id.imgRM);
         imgZM = (ImageView) findViewById(R.id.imgZM);
@@ -403,8 +385,7 @@ public class WorkFlowsActivity extends BaseActivity {
         textViewZM = (TextView) findViewById(R.id.textViewZM);
 
 
-         textViewStatus=(TextView)findViewById(R.id.textViewStatus);
-
+        textViewStatus = (TextView) findViewById(R.id.textViewStatus);
 
 
         llPending.setOnClickListener(new View.OnClickListener() {
@@ -430,10 +411,6 @@ public class WorkFlowsActivity extends BaseActivity {
             }
         });
 
-       
-
-
-
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -442,11 +419,10 @@ public class WorkFlowsActivity extends BaseActivity {
             customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
         }
 
-        TextView tvHeaderName=(TextView)findViewById(R.id.tvHeaderName);
+        TextView tvHeaderName = (TextView) findViewById(R.id.tvHeaderName);
         tvHeaderName.setText(strType);
 
     }
-
 
 
     @Override

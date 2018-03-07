@@ -119,7 +119,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
     }
 
-    private void setUpListners() {
+    public void setUpListners() {
         textViewSetLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

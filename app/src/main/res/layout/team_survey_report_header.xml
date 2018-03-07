@@ -24,15 +24,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/textColorPrimaryDark"
-                    android:textSize="@dimen/text_size_large"
+                    android:textSize="@dimen/text_size_medium"
                     android:text="@string/crystaldoctors" />
+                <TextView
+                    android:id="@+id/textViewMobileNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/grey"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:textSize="@dimen/text_size_small"
+                    android:text="@string/phoneno"/>
                 <TextView
                     android:id="@+id/textViewAmtala"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/grey"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:textSize="@dimen/text_size_normal"
+                    android:textSize="@dimen/text_size_small"
                     android:text="@string/amtala"/>
 
                 <TextView
@@ -42,7 +50,7 @@
                     android:textColor="@color/grey"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginBottom="@dimen/margin_medium"
-                    android:textSize="@dimen/text_size_normal"
+                    android:textSize="@dimen/text_size_small"
                     android:text="@string/rmName"/>
             </LinearLayout>
 
@@ -71,6 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
+                    android:textSize="@dimen/text_size_small"
                     android:layout_gravity="center"
                     android:text="50%" />
 
@@ -79,12 +88,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
+                    android:textSize="@dimen/text_size_small"
                     android:text="Achievement" />
 
             </LinearLayout>
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="@dimen/margin_extra"
-                android:layout_height="@dimen/margin_extra"
+                android:id="@+id/circleCustomer"
+                android:layout_width="@dimen/margin_large"
+                android:layout_height="@dimen/margin_large"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"

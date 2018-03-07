@@ -53,8 +53,4 @@ public class OtpActivity extends BaseActivity {
 
     }
 
-    @Override
-    public int setLayoutId() {
-        return R.layout.otp_screen;
-    }
 }

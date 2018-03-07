@@ -39,6 +39,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_medium"
                     android:src="@drawable/ic_close_black_24dp" />
 
             </RelativeLayout>

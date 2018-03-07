@@ -25,7 +25,11 @@ import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.resource.Login.login.LoginRequest;
 import com.universe.android.resource.Login.login.LoginResponse;
 import com.universe.android.resource.Login.login.LoginService;
+import com.universe.android.resource.Login.surveyList.SurveyListResponse;
+import com.universe.android.resource.Login.surveyList.SurveyListService;
+import com.universe.android.resource.Login.surveyList.SurveyRequest;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
 
@@ -46,12 +50,12 @@ import io.realm.Sort;
 
 public class QuestionaireTeamSuverFragment extends BaseFragment {
     private View view;
-    private SwipeRefreshLayout swipeRefrehLayoutTeamSurveySelection;
+
     private RecyclerView recyclerViewTeamSurveySelection;
 
     private TeamSurveySelectionAdapter teamSurveySelectionAdapter;
     private LinearLayoutManager linearLayoutManager;
-    private ArrayList<LoginResponse.ResponseBean.SurveyDetailsBean> crystalDoctorModels;
+    private ArrayList<SurveyListResponse.ResponseBean> crystalDoctorModels;
 
 
     @Nullable
@@ -98,34 +102,28 @@ public class QuestionaireTeamSuverFragment extends BaseFragment {
     }
 
     private void initialization() {
-        swipeRefrehLayoutTeamSurveySelection = view.findViewById(R.id.swipeRefrehLayoutTeamSurveySelection);
         recyclerViewTeamSurveySelection = view.findViewById(R.id.recyclerViewTeamSurveySelection);
     }
 
     public void teamSurveyDetail() {
         ((BaseActivity) getActivity()).showProgress();
-        LoginRequest loginRequest = new LoginRequest();
-        loginRequest.setEmail("BHAJAN.LAL@CRYSTALCROP.COM");
-        loginRequest.setPassword("pass123456");
-        loginRequest.setLat("22");
-        loginRequest.setLng("77");
-        loginRequest.setType("report");
-        LoginService loginService = new LoginService();
-        loginService.executeService(loginRequest, new BaseApiCallback<LoginResponse>() {
+        SurveyRequest loginRequest = new SurveyRequest();
+        SurveyListService surveyListService = new SurveyListService();
+        surveyListService.executeService(loginRequest, new BaseApiCallback<SurveyListResponse>() {
             @Override
             public void onComplete() {
                 ((BaseActivity) getActivity()).dismissProgress();
             }
 
             @Override
-            public void onSuccess(@NonNull LoginResponse response) {
+            public void onSuccess(@NonNull SurveyListResponse response) {
                 super.onSuccess(response);
-                List<LoginResponse.ResponseBean.SurveyDetailsBean> responsed = response.getResponse().getSurveyDetails();
-                String value = new Gson().toJson(responsed);
-                LoginResponse.ResponseBean.SurveyDetailsBean[] surveyDetailsBeans = new Gson().fromJson(value, LoginResponse.ResponseBean.SurveyDetailsBean[].class);
+                List<SurveyListResponse.ResponseBean> responseBeans = response.getResponse();
+                String value = new Gson().toJson(responseBeans);
+                Prefs.putStringPrefs(AppConstants.TeamSurveyId,responseBeans.get(0).getSurveyDetails().get_id());
+                SurveyListResponse.ResponseBean[] surveyDetailsBeans = new Gson().fromJson(value, SurveyListResponse.ResponseBean[].class);
                 Collections.addAll(crystalDoctorModels, surveyDetailsBeans);
                 teamSurveySelectionAdapter.notifyDataSetChanged();
-
             }
 
             @Override

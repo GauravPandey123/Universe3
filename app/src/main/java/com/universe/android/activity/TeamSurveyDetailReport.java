@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -26,6 +27,7 @@ import com.universe.android.resource.Login.CrystalReport.CrystalReportResponse;
 import com.universe.android.resource.Login.CrystalReport.CrystalReportService;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Log;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
 
@@ -53,9 +55,17 @@ public class TeamSurveyDetailReport extends BaseActivity {
     private SurveyDetailAdapter surveyDetailAdapter;
     private TextView textViewCrystalDoctor, textViewAmtala, textViewPosition, textViewAchievementNumbers, textViewAchievement;
     private TeamSurveyDetailAdapter teamSurveyDetailAdapter;
-    private ArrayList<CrystalReportResponse.ResponseBean> responseBeanArrayList;
+    private ArrayList<CrystalReportResponse.ResponseBean.SubmittedBean.ListBean> responseBeanArrayList;
     Intent intent;
-    private int surveyId;
+    private String surveyId;
+    private ImageView imageViewPenindg, imageViewSubmitted, imageViewNewReatilers, imageViewCrystalCustomer;
+    private TextView tvPending, textViewPending, tvInprogress, textViewApproved, tvCompleted, textViewCompleted, tvRejected, textViewVerifier;
+    private LinearLayout ll_inprogress;
+    private LinearLayout ll_pending, ll_completed, ll_rejected;
+    private TextView textViewMobileNo;
+    private String cdId;
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +81,37 @@ public class TeamSurveyDetailReport extends BaseActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        ll_inprogress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.animateView(view);
+                setWebservice();
+            }
+        });
+
+        ll_pending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.animateView(view);
+                responseBeanArrayList.clear();
+            }
+        });
+
+        ll_completed.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.animateView(view);
+                responseBeanArrayList.clear();
+            }
+        });
+
+        ll_rejected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Utility.animateView(view);
+                responseBeanArrayList.clear();
             }
         });
 
@@ -92,23 +133,57 @@ public class TeamSurveyDetailReport extends BaseActivity {
         textViewCrystalDoctor = findViewById(R.id.textViewCraystalDoctor);
         textViewAmtala = findViewById(R.id.textViewAmtala);
         textViewPosition = findViewById(R.id.textViewPosition);
+        textViewMobileNo=findViewById(R.id.textViewMobileNo);
         textViewAchievementNumbers = findViewById(R.id.textViewAchievementNumbers);
         textViewAchievement = findViewById(R.id.textViewAchievement);
+        imageViewPenindg = findViewById(R.id.imagePending);
+        imageViewSubmitted = findViewById(R.id.imageViewSubmitted);
+        imageViewNewReatilers = findViewById(R.id.imageViewNewReatilers);
+        imageViewCrystalCustomer = findViewById(R.id.imageViewCrystalCustomer);
+        tvPending = findViewById(R.id.tvPending);
+        textViewPending = findViewById(R.id.textViewPending);
+        tvInprogress = findViewById(R.id.tvInprogress);
+        textViewApproved = findViewById(R.id.textViewApproved);
+        tvCompleted = findViewById(R.id.tvCompleted);
+        textViewCompleted = findViewById(R.id.textViewCompleted);
+        tvRejected = findViewById(R.id.tvRejected);
+        textViewVerifier = findViewById(R.id.textViewVerifier);
+        ll_inprogress = findViewById(R.id.ll_inprogress);
+        ll_pending = findViewById(R.id.ll_pending);
+        ll_rejected = findViewById(R.id.ll_rejected);
+        ll_completed = findViewById(R.id.ll_completed);
         relativeLayout.setVisibility(View.GONE);
-        surveyId=intent.getIntExtra(AppConstants.CDID,0);
-        textViewAchievementNumbers.setText("20".concat("%"));
+        imageViewPenindg.setImageResource(R.drawable.pending);
+//        imageViewSubmitted.setImageResource(R.drawable.ic_submitted);
+//        imageViewNewReatilers.setImageResource(R.drawable.ic_yellow_user);
+//        imageViewCrystalCustomer.setImageResource(R.drawable.ic_customer);
+        textViewPending.setText("In Progress");
+        textViewApproved.setText("Submitted");
+        tvCompleted.setText("0");
+        tvRejected.setText("0");
+        tvPending.setText("0");
+        textViewMobileNo.setText(Prefs.getStringPrefs(AppConstants.phone));
+
+        surveyId=intent.getExtras().getString(AppConstants.CDID);
+//        textViewAchievementNumbers.setText("20".concat("%"));
+        textViewCompleted.setText("New Retailers");
+        textViewVerifier.setText("       Crystal      Customers");
         textViewCrystalDoctor.setText(intent.getStringExtra(AppConstants.CrystaDoctorName));
         textViewCrystalDoctor.setTypeface(FontClass.openSansBold(mContext));
         textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
         textViewPosition.setTypeface(FontClass.openSansRegular(mContext));
         textViewAchievementNumbers.setTypeface(FontClass.openSansRegular(mContext));
         textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
+
+        textViewPosition.setText(Prefs.getStringPrefs(AppConstants.EMPLOYEE_NAME));
+        textViewAchievementNumbers.setText("10 %");
     }
 
 
     private void TeamReportService() {
         CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
-        crystalReportRequest.setSurveyId("5a8e81022741361f5827ae85");
+        crystalReportRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
+        crystalReportRequest.setCdId(surveyId);
         CrystalReportService crystalReportService = new CrystalReportService();
         crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
             @Override
@@ -116,13 +191,16 @@ public class TeamSurveyDetailReport extends BaseActivity {
                 Log.e(TAG, "complete");
 
             }
+
             @Override
             public void onSuccess(@NonNull CrystalReportResponse response) {
                 super.onSuccess(response);
                 Log.e(TAG, "Success");
-                List<CrystalReportResponse.ResponseBean> responseBeans = response.getResponse();
+                List<CrystalReportResponse.ResponseBean.SubmittedBean.ListBean> responseBeans = response.getResponse().getSubmitted().getList();
+                responseBeanArrayList.clear();
+                tvInprogress.setText(String.valueOf(response.getResponse().getSubmitted().getCount()));
                 String value = new Gson().toJson(responseBeans);
-                CrystalReportResponse.ResponseBean[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean[].class);
+                CrystalReportResponse.ResponseBean.SubmittedBean.ListBean[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean.SubmittedBean.ListBean[].class);
                 Collections.addAll(responseBeanArrayList, responseBeans1);
                 teamSurveyDetailAdapter.notifyDataSetChanged();
             }
@@ -140,12 +218,11 @@ public class TeamSurveyDetailReport extends BaseActivity {
         responseBeanArrayList = new ArrayList<>();
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerViewWorkFLowsDetail = findViewById(R.id.recylerViewSurveyDetail);
-//        surveyDetailAdapter = new SurveyDetailAdapter(mContext, stringArrayList);
         teamSurveyDetailAdapter = new TeamSurveyDetailAdapter(mContext, responseBeanArrayList);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
         recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
         recyclerViewWorkFLowsDetail.setAdapter(teamSurveyDetailAdapter);
-        setWebservice();
+
     }
 }

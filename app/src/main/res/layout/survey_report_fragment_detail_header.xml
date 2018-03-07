@@ -229,7 +229,6 @@
                         android:layout_width="@dimen/margin_large"
                         android:layout_height="@dimen/margin_large"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:src="@drawable/ic_progress" />
@@ -276,7 +275,6 @@
                         android:layout_width="@dimen/margin_large"
                         android:layout_height="@dimen/margin_large"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
@@ -320,7 +318,6 @@
                         android:layout_height="@dimen/margin_large"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"

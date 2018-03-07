@@ -19,6 +19,7 @@ public class LoginRequest extends BaseRequest {
     private String lat;
 
 
+
     public String getReport() {
         return report;
     }

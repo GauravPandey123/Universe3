@@ -29,8 +29,10 @@ import com.universe.android.model.StatusModel;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by gaurav.pandey on 27-02-2018.
@@ -42,11 +44,10 @@ public class SurveyDetailDialogFragment extends DialogFragment {
     private TextView textViewTodayFilter, textViewWeekFilter, textViewMonthFilter, textViewOthersFilter, textViewFilter;
     private TextView textViewPeriodFrom, textViewPeriodTo, textViewPeriodStatus, textViewReset, textViewApplyFilter;
     private TextView textViewChooseStatus;
-
+    DatePickerDialog dp;
     private Dialog dialogFilter, dialogStatus, dialogCalendra;
     private ImageView imageViewCancel;
-    ArrayList<StatusModel> statusList = new ArrayList<>();
-    ArrayList<StatusModel> multiselectSatuslist = new ArrayList<>();
+
     private LinearLayoutManager mLayoutManager;
     private StatusAdapter statusAdapter;
     private Calendar mcalendar;
@@ -83,11 +84,55 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 fromDateString = input_period_from.getText().toString();
                 toDateString = input_period_to.getText().toString();
                 statusString = input_period_status.getText().toString();
-                SetDataListListener setDataListListener = (SetDataListListener) getActivity();
-                setDataListListener.submitData(statusString, fromDateString, toDateString);
+
+                if (Utility.validateString(fromDateString) && !fromDateString.equals(AppConstants.DATE_FORMAT)) {
+                    if (Utility.validateString(toDateString) && !toDateString.equals(AppConstants.DATE_FORMAT)) {
+                        Date date = null;
+                        Date toDateTime = null;
+                        Date fromDateTime = null;
+                        try {
+                            date = AppConstants.format2.parse(fromDateString);
+
+                            fromDateTime = AppConstants.format3.parse(AppConstants.format3.format(date));
+
+                            date = AppConstants.format2.parse(toDateString);
+                            toDateTime = AppConstants.format3.parse(AppConstants.format3.format(date));
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        if (toDateTime.getTime() < fromDateTime.getTime()) {
+                            Utility.showToast(getString(R.string.please_select_valid_to_date));
+                        } else {
+                            SetDataListListener setDataListListener = (SetDataListListener) getActivity();
+                            setDataListListener.submitData(statusString, fromDateString, toDateString);
+                            dismiss();
+
+                            //  prepareList();
+                        }
+                    }
+                }
+
+
+            }
+        });
+        imageViewCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 dismiss();
+            }
+        });
 
+        imageViewClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
 
+        imageViewCloseStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
             }
         });
 
@@ -121,22 +166,20 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
                 textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
                 textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                input_period_from.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dateDialogfrom();
-                    }
-                });
-                input_period_to.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dateDialogto();
-                    }
-                });
+                Date date1 = new Date();
+                Date newDate = new Date(date1.getTime() - 604800000L); // 7 * 24 * 60 * 60 * 1000
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(newDate);
+                Date newDate1 = calendar.getTime();
+                String dateFinal = AppConstants.format2.format(newDate1);
+
+                input_period_from.setText(dateFinal);
+                input_period_to.setText(Utility.getCurrentDate());
             }
 
 
         });
+
 
         textViewMonthFilter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,18 +190,22 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
                 input_period_from.setText("");
                 input_period_to.setText("");
-                input_period_from.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dateDialogfrom();
-                    }
-                });
-                input_period_to.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dateDialogto();
-                    }
-                });
+                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+                input_period_from.setText("");
+                input_period_to.setText("");
+                String date;
+                Date date1 = new Date();
+                Date newDate = new Date(date1.getTime() - 2592000000L); // 7 * 24 * 60 * 60 * 1000
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(newDate);
+//                calendar.add(Calendar.DAY_OF_YEAR,-30);
+                Date newDate1 = calendar.getTime();
+                String dateFinal = AppConstants.format2.format(newDate1);
+                input_period_from.setText(dateFinal);
+                input_period_to.setText(Utility.getCurrentDate());
 
             }
         });
@@ -297,20 +344,23 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         int m = c.get(Calendar.MONTH);
         int d = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dp = new DatePickerDialog(getActivity(),
+        dp = new DatePickerDialog(getActivity(),
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-                        String erg = "";
+                       /* String erg = "";
                         erg = String.valueOf(dayOfMonth);
                         erg += "-" + String.valueOf(monthOfYear + 1);
                         erg += "-" + year;
-                        input_period_from.setText(erg);
-
+                        input_period_from.setText(erg);*/
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        input_period_from.setText(AppConstants.format2.format(newDate.getTime()));
                     }
 
                 }, y, m, d);
+        dp.getDatePicker().setMaxDate(System.currentTimeMillis());
         dp.setTitle("Calender");
         dp.show();
     }
@@ -321,19 +371,19 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         int m = c.get(Calendar.MONTH);
         int d = c.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dp = new DatePickerDialog(getActivity(),
+        dp = new DatePickerDialog(getActivity(),
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-                        String erg = "";
-                        erg = String.valueOf(dayOfMonth);
-                        erg += "-" + String.valueOf(monthOfYear + 1);
-                        erg += "-" + year;
-                        input_period_to.setText(erg);
+                        Calendar newDate = Calendar.getInstance();
+                        newDate.set(year, monthOfYear, dayOfMonth);
+                        dp.getDatePicker().setMaxDate(System.currentTimeMillis());
+                        input_period_to.setText(AppConstants.format2.format(newDate.getTime()));
                     }
 
                 }, y, m, d);
+        dp.getDatePicker().setMaxDate(System.currentTimeMillis());
         dp.setTitle("Calender");
         dp.show();
 

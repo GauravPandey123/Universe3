@@ -141,73 +141,15 @@ public class MainActivity extends BaseActivity {
                         startActivity(i);
                     }
                 }
-             /*   switch (position) {
-                    case 0:
-                        mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.profile);
-                        replaceFragment(new ProfileFragment(), mContainerId);
-                        break;
-
-                        if (type.equalsIgnoreCase("cd")){
-
-                        }
-                    case 1:
-                        mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.dashboard);
-                    case 2:
-                        mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.survey_report);
-                        replaceFragment(new SurveySelectionFragment().newInstance(AppConstants.SURVEYREPORT), mContainerId);
-                        break;
-
-                    case 3:
-                        mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(getString(R.string.sync_responses));
-                        replaceFragment(new SyncResponsesFragment(), mContainerId);
-                        break;
-
-                    case 4:
-                        mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.questionairemenu);
-                        replaceFragment(new SurveySelectionFragment().newInstance(getResources().getString(R.string.questionairemenu)), mContainerId);
-                        break;
-
-                    case 6:
-                        mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.admin);
-                        replaceFragment(new AdminFragment(), mContainerId);
-                        break;
-                    case 7:
-                        mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.work_flows);
-                        replaceFragment(new SurveySelectionFragment().newInstance(AppConstants.WORKFLOWS), mContainerId);
-                        break;
-
-                    case 8:
-                        mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.team_survey_report);
-                        replaceFragment(new QuestionaireTeamSuverFragment(), mContainerId);
-                        break;
-<<<<<<< HEAD
-=======
-                       // mContext.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
-
-                    case 12:
-                        mDrawerLayout.closeDrawers();
-                        new RealmController().clearRealm(MainActivity.this);
-                        Intent i=new Intent(MainActivity.this,LoginActivity.class);
-                        i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(i);
-                        break;
->>>>>>> d771e06f5802c60a97297089c0938f05deed160b
-
-                }*/
-
             }
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
+    }
 
     private void setUpElements() {
         mDrawerItemList = new ArrayList<DrawerItem>();
@@ -275,67 +217,6 @@ public class MainActivity extends BaseActivity {
             mDrawerItemList.add(item9);
 
         }
-       /* mDrawerItemList = new ArrayList<DrawerItem>();
-        DrawerItem item = new DrawerItem();
-        item.setIcon(R.drawable.ic_dashboard);
-        item.setTitle("DashBoard");
-        mDrawerItemList.add(item);
-
-        DrawerItem item2 = new DrawerItem();
-        item2.setIcon(R.drawable.survey_report);
-        item2.setTitle("Survey Report");
-        mDrawerItemList.add(item2);
-
-        DrawerItem item3 = new DrawerItem();
-        item3.setIcon(R.drawable.survey_report);
-        item3.setTitle("Sync Responses");
-        mDrawerItemList.add(item3);
-
-        DrawerItem item4 = new DrawerItem();
-        item4.setIcon(R.drawable.survey_report);
-        item4.setTitle("Questionaire");
-        mDrawerItemList.add(item4);
-
-        DrawerItem item5 = new DrawerItem();
-        item5.setIcon(R.drawable.ic_analytics);
-        item5.setTitle("Analytics");
-        mDrawerItemList.add(item5);
-
-        DrawerItem item10 = new DrawerItem();
-        item10.setIcon(R.drawable.survey_report);
-        item10.setTitle(getResources().getString(R.string.admin));
-        mDrawerItemList.add(item10);
-
-        DrawerItem item11 = new DrawerItem();
-        item11.setIcon(R.drawable.survey_report);
-        item11.setTitle(getResources().getString(R.string.work_flows));
-        mDrawerItemList.add(item11);
-
-        DrawerItem item12 = new DrawerItem();
-        item12.setIcon(R.drawable.survey_report);
-        item12.setTitle(getResources().getString(R.string.teamSurveyReport));
-        mDrawerItemList.add(item12);
-
-        DrawerItem item6 = new DrawerItem();
-        item6.setIcon(R.drawable.managementteams);
-        item6.setTitle("Manage Teams");
-        mDrawerItemList.add(item6);
-
-        DrawerItem item7 = new DrawerItem();
-        item7.setIcon(R.drawable.help);
-        item7.setTitle("Help");
-        mDrawerItemList.add(item7);
-
-        DrawerItem item8 = new DrawerItem();
-        item8.setIcon(R.drawable.survey_report);
-        item8.setTitle("Update Application");
-        mDrawerItemList.add(item8);
-
-        DrawerItem item9 = new DrawerItem();
-        item9.setIcon(R.drawable.ic_logout);
-        item9.setTitle("Logout");
-        mDrawerItemList.add(item9);*/
-
 
         mDrawerAdapter = new DrawerAdapter(mDrawerItemList, mContext);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -351,8 +232,6 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mContainerId = R.id.fragment_container;
         String type = Prefs.getStringPrefs(AppConstants.TYPE);
-
-
         if (type.equalsIgnoreCase("cd")) {
             addFragment(new SurveySelectionFragment().newInstance(getResources().getString(R.string.questionairemenu)), mContainerId);
         }  else if (type.equalsIgnoreCase("rm") || type.equalsIgnoreCase("zm")) {
@@ -376,7 +255,7 @@ public class MainActivity extends BaseActivity {
     }
     @SuppressLint("RestrictedApi")
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);

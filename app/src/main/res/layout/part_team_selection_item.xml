@@ -11,8 +11,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"
-            android:padding="@dimen/margin_small">
+            android:layout_height="?actionBarSize">
 
             <ImageView
                 android:id="@+id/imageViewTeamSelection"
@@ -23,7 +22,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_small"
-                android:src="@drawable/ic_completed" />
+                android:src="@drawable/ic_completed"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/textViewTeamSelection"
@@ -36,7 +36,7 @@
                 android:text="@string/status"
                 android:textAllCaps="true"
                 android:textColor="@color/textColorPrimaryDark"
-                android:textSize="@dimen/text_size_large" />
+                android:textSize="@dimen/text_size_medium" />
 
             <CheckBox
                 android:id="@+id/checkboxTeamSelection"

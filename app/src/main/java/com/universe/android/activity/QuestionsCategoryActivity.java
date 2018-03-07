@@ -43,7 +43,7 @@ public class QuestionsCategoryActivity extends BaseActivity {
         setUpListners();
     }
 
-    private void setUpListners() {
+    public void setUpListners() {
         imageViewSearchBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

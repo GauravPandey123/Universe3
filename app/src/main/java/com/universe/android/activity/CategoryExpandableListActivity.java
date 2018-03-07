@@ -7,11 +7,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +22,13 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
+import com.soundcloud.android.crop.Crop;
 import com.universe.android.R;
 import com.universe.android.adapter.CustomExpandableListAdapter;
 import com.universe.android.component.NonScrollExpandableListView;
@@ -39,21 +42,30 @@ import com.universe.android.realmbean.RealmController;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.realmbean.RealmQuestion;
 import com.universe.android.realmbean.RealmSurveys;
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureRequest;
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureResponse;
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureService;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
+import com.universe.android.web.BaseApiCallback;
+import com.universe.android.web.BaseRequest;
 import com.universe.android.workflows.WorkFlowsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import in.editsoft.api.exception.APIException;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -66,7 +78,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import ru.bullyboo.view.CircleSeekBar;
 
-public class CategoryExpandableListActivity extends AppCompatActivity {
+public class CategoryExpandableListActivity extends BaseActivity {
     private JSONObject jsonSubmitReq = new JSONObject();
     private Toolbar toolbar;
     List<CategoryModal> arraylistTitle = new ArrayList<>();
@@ -77,15 +89,16 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
     private TextView textViewRetailersNameMap, textViewMobileNoMap;
     Button btnReject;
     Button btnApprove;
-    ProgressBar circularProgressbar;
+    private CircleSeekBar seekBar;
     private String updateId;
-    int pStatus = 0;
-    private Handler handler = new Handler();
-    TextView textViewProgress;
+    CircleImageView circleImageView;
+
+    private String mImageUrl;
+    private boolean isUpdateImage = false;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_category_expand_list);
 
@@ -407,21 +420,19 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void initViews() {
-        Resources res = getResources();
-        Drawable drawable = res.getDrawable(R.drawable.circular);
-        circularProgressbar=findViewById(R.id.circularProgressbar);
-        circularProgressbar.setProgress(0);   // Main Progress
-        circularProgressbar.setSecondaryProgress(100); // Secondary Progress
-        circularProgressbar.setMax(100); // Maximum Progress
-        circularProgressbar.setProgressDrawable(drawable);
         expandableListView = (NonScrollExpandableListView) findViewById(R.id.expandableListView);
         textViewMobileNoMap = (TextView) findViewById(R.id.textViewMobileNoMap);
         textViewRetailersNameMap = (TextView) findViewById(R.id.textViewRetailersNameMap);
         btnReject = (Button) findViewById(R.id.btnReject);
         btnApprove = (Button) findViewById(R.id.btnApprove);
+        circleImageView = findViewById(R.id.circularImageViewMap);
+        circleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showImageOptions();
+            }
+        });
 
-        //  seekbar=(SeekBar)findViewById(R.id.seek_bar);
-//        seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
 
         expandableListView.setGroupIndicator(null);
 
@@ -451,7 +462,6 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
 
 
     private void prepareCategory() {
-
         int progressTotal = 0;
         int progressRequired = 0;
 
@@ -519,11 +529,11 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
 
                                                 stringsRequired.add(questionsArrayList.get(p).getStatus());
                                             }
-                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0")) {
 
                                                 stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
                                             }
-                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
+                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0")) {
 
                                                 doneQuestions.add(questionsArrayList.get(p).getAnswer());
                                             }
@@ -538,8 +548,8 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                                         categoryModal.setQuestions(questionsArrayList);
 
                                         arraylistTitle.add(categoryModal);
-                                        pStatus = pStatus + stringsRequiredAnswers.size();
-                                        pStatus= pStatus + stringsRequired.size();
+                                        progressRequired = progressRequired + stringsRequiredAnswers.size();
+                                        progressTotal = progressTotal + stringsRequired.size();
 
                                         //   }
 
@@ -590,7 +600,6 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
                             }
                             categoryModal.setQuestionCount(questionsArrayList.size() + "");
                             categoryModal.setQuestions(questionsArrayList);
-                            pStatus=0;
                             progressRequired = 0;
                             progressTotal = 100;
                             arraylistTitle.add(categoryModal);
@@ -626,38 +635,11 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
             expandableListAdapter = new CustomExpandableListAdapter(CategoryExpandableListActivity.this, arraylistTitle, expandableListDetail);
             expandableListView.setAdapter(expandableListAdapter);
 
-            textViewProgress=  findViewById(R.id.progressBarinsideText);
-            new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-                    while (pStatus < 100) {
-                       pStatus=pStatus+1 ;
-
-                        handler.post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                // TODO Auto-generated method stub
-                                circularProgressbar.setProgress(pStatus);
-                                textViewProgress.setText(pStatus + "%");
-
-                            }
-                        });
-                        try {
-                            // Sleep for 200 milliseconds.
-                            // Just to display the progress slowly
-                            Thread.sleep(16); //thread will take approx 3 seconds to finish
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }).start();
-
-
-
+            TextView textViewProgress = (TextView) findViewById(R.id.progressBarinsideText);
+            seekBar.setValue(progressRequired);
+            seekBar.setMaxValue(progressTotal);
+            int percent = (progressRequired * 100) / progressTotal;
+            textViewProgress.setText(percent + "%");
             if (title.contains(AppConstants.WORKFLOWS)) {
                 btnApprove.setText(getString(R.string.approve));
                 btnReject.setText(getString(R.string.reject));
@@ -821,6 +803,76 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
+        super.onActivityResult(requestCode, resultCode, result);
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bitmap photo = (Bitmap) result.getExtras().get("data");
+            Uri tempUri = getImageUri(mActivity, photo);
+            beginCrop(tempUri);
+        } else if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
+            beginCrop(result.getData());
+        } else if (requestCode == Crop.REQUEST_CROP) {
+            handleCrop(resultCode, result);
+        }
+    }
+
+    public void imageUpload(String path) {
+//        ((BaseActivity) getActivity()).showProgress();
+        CustomerPictureRequest profileRequest = new CustomerPictureRequest();
+        profileRequest.setCustomerId(customerId);
+        profileRequest.setIsPicture(1);
+        profileRequest.setPhoto(path);
+        CustomerPictureService profileService = new CustomerPictureService();
+        profileService.executeService(profileRequest, new BaseApiCallback<CustomerPictureResponse>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(@NonNull CustomerPictureResponse response) {
+                super.onSuccess(response);
+                Glide.with(mContext)
+                        .load(response.getResponse().getImage())
+                        .into(circleImageView);
+                Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+            }
+        });
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(mContext.getCacheDir(), "cropped"));
+        Crop.of(source, destination).asSquare().start(mActivity);
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            mImageUrl = Crop.getOutput(result).getPath();
+            if (Crop.getOutput(result).getPath() != null) {
+                File file = new File(Crop.getOutput(result).getPath());
+                Glide.with(mActivity)
+                        .load(file)
+                        .into(circleImageView);
+                isUpdateImage = true;
+                imageUpload(mImageUrl);
+            }
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(mActivity, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
 
     public void showReasonDialog() {
         final EditText taskEditText = new EditText(this);

@@ -1,5 +1,6 @@
 package com.universe.android.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,9 +19,9 @@ import java.util.ArrayList;
 
 public class TeamSurveyDetailAdapter extends RecyclerView.Adapter<TeamSurveyDetailAdapter.TeamSurveyViewHolder> {
     Context mContext;
-    private ArrayList<CrystalReportResponse.ResponseBean> responseBeanArrayList;
+    private ArrayList<CrystalReportResponse.ResponseBean.SubmittedBean.ListBean> responseBeanArrayList;
 
-    public TeamSurveyDetailAdapter(Context mContext, ArrayList<CrystalReportResponse.ResponseBean> responseBeans) {
+    public TeamSurveyDetailAdapter(Context mContext, ArrayList<CrystalReportResponse.ResponseBean.SubmittedBean.ListBean> responseBeans) {
         this.mContext = mContext;
         this.responseBeanArrayList = responseBeans;
     }
@@ -31,12 +32,12 @@ public class TeamSurveyDetailAdapter extends RecyclerView.Adapter<TeamSurveyDeta
         return new TeamSurveyViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(TeamSurveyViewHolder holder, int position) {
-        CrystalReportResponse.ResponseBean responseBean = responseBeanArrayList.get(position);
+        CrystalReportResponse.ResponseBean.SubmittedBean.ListBean responseBean = responseBeanArrayList.get(position);
         holder.textViewRetailersName.setText(responseBean.getCustomerId().getName());
-        holder.textViewMobileNo.setText(""+responseBean.getCustomerId().getContactNo()+"|"+responseBean.getCustomerId().getAddress()+
-        "|"+responseBean.getCustomerId().getState());
+        holder.textViewMobileNo.setText(""+responseBean.getCustomerId().getContactNo()+"|"+responseBean.getCustomerId().getAddress());
     }
 
     @Override

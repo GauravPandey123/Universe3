@@ -32,6 +32,7 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
         initialization();
         if (Build.VERSION.SDK_INT >= 23) {
             List<String> permissionList = new ArrayList<>();
@@ -91,8 +92,5 @@ public class SplashActivity extends BaseActivity {
         textViewUniverse.setTypeface(FontClass.openSansBold(mContext));
     }
 
-    @Override
-    public int setLayoutId() {
-        return R.layout.activity_splash;
-    }
+
 }

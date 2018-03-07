@@ -8,18 +8,16 @@ import java.util.List;
  * Created by gaurav.pandey on 22-02-2018.
  */
 
-public class CrystalReportResponse extends BaseResponse<CrystalReportResponse>
-{
-
+public class CrystalReportResponse extends BaseResponse<CrystalReportResponse> {
     /**
      * errorMsg :
      * statusCode : 200
-     * response : [{"_id":"5a843845bf23a007acc3cc59","updatedAt":"2018-02-14T13:23:17.634Z","createdAt":"2018-02-14T13:23:17.634Z","status":0,"assignBy":"arjun","customerId":{"_id":"5a83ca4296318c134c534cb9","updatedAt":"2018-02-14T05:34:21.018Z","createdAt":"2018-02-14T05:33:54.394Z","responses":"{\"contactPerson\":\"tes999\",\"name\":\"test\",\"status\":66,\"description\":\"jnjbb\",\"address\":\"ujuij\",\"surveyId\":\"5a83c9de96318c134c534cb7\",\"clientId\":\"5a83ca0a96318c134c534cb8\"}","isActive":0,"status":"0","clientId":"5a83ca0a96318c134c534cb8","surveyId":"5a83c9de96318c134c534cb7","image":"","createdBy":"5a799e932779e608b435a279","address":"Test","description":"Test","contactPerson":"tes999","name":"Test Agriculture","__v":0,"contactNo":89999998765,"state":"WB","territory":"Amtala","pincode":"9999"},"surveyId":"5a86d4a9b69a800980dadd82","__v":0,"assignTo":{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo","lat":"28.4975955","lng":"77.082881","loc":[28.4975955,77.082881],"__v":1,"createdAt":"2018-02-22T09:50:59.747Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T13:09:54.414Z","type":"cd"}},{"_id":"5a843e9631083111786e564a","updatedAt":"2018-02-14T13:23:17.634Z","createdAt":"2018-02-14T13:23:17.634Z","status":0,"assignBy":"arjun","customerId":{"_id":"5a83ca4296318c134c534cb9","updatedAt":"2018-02-14T05:34:21.018Z","createdAt":"2018-02-14T05:33:54.394Z","responses":"{\"contactPerson\":\"tes999\",\"name\":\"test\",\"status\":66,\"description\":\"jnjbb\",\"address\":\"ujuij\",\"surveyId\":\"5a83c9de96318c134c534cb7\",\"clientId\":\"5a83ca0a96318c134c534cb8\"}","isActive":0,"status":"0","clientId":"5a83ca0a96318c134c534cb8","surveyId":"5a83c9de96318c134c534cb7","image":"","createdBy":"5a799e932779e608b435a279","address":"Test","description":"Test","contactPerson":"tes999","name":"Test Agriculture","__v":0,"contactNo":89999998765,"state":"WB","territory":"Amtala","pincode":"9999"},"surveyId":"5a86d4a9b69a800980dadd82","__v":0,"assignTo":{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo","lat":"28.4975955","lng":"77.082881","loc":[28.4975955,77.082881],"__v":1,"createdAt":"2018-02-22T09:50:59.747Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T13:09:54.414Z","type":"cd"}},{"_id":"5a85781131083100501b4bbd","updatedAt":"2018-02-14T13:23:17.634Z","createdAt":"2018-02-14T13:23:17.634Z","status":0,"assignBy":"arjun","customerId":{"_id":"5a842759bf55e00cd4740d18","updatedAt":"2018-02-14T12:11:05.989Z","createdAt":"2018-02-14T12:11:05.989Z","responses":"{\"contactPerson\":\"uhugyygj\",\"name\":\"njhub\",\"status\":77,\"isActive\":1,\"description\":\"jnj\",\"address\":\"\",\"contactNo\":8675765565,\"clientId\":\"5a8426f1bf55e00cd4740d16\"}","isActive":0,"status":"0","clientId":"5a8426f1bf55e00cd4740d16","image":"","createdBy":"5a799e932779e608b435a279","address":"","contactNo":89999998765,"description":"jnj","contactPerson":"uhugyygj","name":"Gaurav Pandey","__v":0,"state":"WB","territory":"Amtala","pincode":"9999"},"surveyId":"5a86d4a9b69a800980dadd82","__v":0,"assignTo":{"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo","lat":"28.4975955","lng":"77.082881","loc":[28.4975955,77.082881],"__v":1,"createdAt":"2018-02-22T09:50:59.747Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T13:09:54.414Z","type":"cd"}}]
+     * response : {"submitted":{"count":2,"list":[{"_id":"5a9be11f8a7d5513989e275a","customerId":{"_id":"5a7da291f0249f1038c0b3f3","updatedAt":"2018-02-09T13:30:57.529Z","createdAt":"2018-02-09T13:30:57.529Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"","createdBy":"asdas","address":"udhyog vihar phase 4 gurgaon","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Chemical India","__v":0,"territory":"Amtala","pincode":9999}},{"_id":"5a9c1ffb8a7d5513989e2765","customerId":{"_id":"5a811ccfa6f7eb1200adcbd9","updatedAt":"2018-02-12T04:49:19.490Z","createdAt":"2018-02-12T04:49:19.490Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"","createdBy":"asdas","address":"asdsa","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Ganga Pesticides","__v":0,"territory":"Amtala","pincode":9999}}]},"Inprogress":{"count":0,"list":[]},"newRetailer":{"count":0,"list":[]},"crystalCustomer":{"count":0,"list":[]}}
      */
 
     private String errorMsg;
     private int statusCode;
-    private List<ResponseBean> response;
+    private ResponseBean response;
 
     @Override
     public boolean isValid(String condition, boolean isStrict) {
@@ -42,498 +40,363 @@ public class CrystalReportResponse extends BaseResponse<CrystalReportResponse>
         this.statusCode = statusCode;
     }
 
-    public List<ResponseBean> getResponse() {
+    public ResponseBean getResponse() {
         return response;
     }
 
-    public void setResponse(List<ResponseBean> response) {
+    public void setResponse(ResponseBean response) {
         this.response = response;
     }
 
+
     public static class ResponseBean {
         /**
-         * _id : 5a843845bf23a007acc3cc59
-         * updatedAt : 2018-02-14T13:23:17.634Z
-         * createdAt : 2018-02-14T13:23:17.634Z
-         * status : 0
-         * assignBy : arjun
-         * customerId : {"_id":"5a83ca4296318c134c534cb9","updatedAt":"2018-02-14T05:34:21.018Z","createdAt":"2018-02-14T05:33:54.394Z","responses":"{\"contactPerson\":\"tes999\",\"name\":\"test\",\"status\":66,\"description\":\"jnjbb\",\"address\":\"ujuij\",\"surveyId\":\"5a83c9de96318c134c534cb7\",\"clientId\":\"5a83ca0a96318c134c534cb8\"}","isActive":0,"status":"0","clientId":"5a83ca0a96318c134c534cb8","surveyId":"5a83c9de96318c134c534cb7","image":"","createdBy":"5a799e932779e608b435a279","address":"Test","description":"Test","contactPerson":"tes999","name":"Test Agriculture","__v":0,"contactNo":89999998765,"state":"WB","territory":"Amtala","pincode":"9999"}
-         * surveyId : 5a86d4a9b69a800980dadd82
-         * __v : 0
-         * assignTo : {"_id":"5a8e81022741361f5827ae85","cd_code":1000,"name":"Parth Rawal","email":"parth@e2eprojects.com","password":"pass","mkt_territory_code":9501,"mobile":"NULL","dob":"NULL","doj":"NULL","isActive":1,"accessToken":"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo","lat":"28.4975955","lng":"77.082881","loc":[28.4975955,77.082881],"__v":1,"createdAt":"2018-02-22T09:50:59.747Z","location":"582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India","updatedAt":"2018-02-22T13:09:54.414Z","type":"cd"}
+         * submitted : {"count":2,"list":[{"_id":"5a9be11f8a7d5513989e275a","customerId":{"_id":"5a7da291f0249f1038c0b3f3","updatedAt":"2018-02-09T13:30:57.529Z","createdAt":"2018-02-09T13:30:57.529Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"","createdBy":"asdas","address":"udhyog vihar phase 4 gurgaon","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Chemical India","__v":0,"territory":"Amtala","pincode":9999}},{"_id":"5a9c1ffb8a7d5513989e2765","customerId":{"_id":"5a811ccfa6f7eb1200adcbd9","updatedAt":"2018-02-12T04:49:19.490Z","createdAt":"2018-02-12T04:49:19.490Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"","createdBy":"asdas","address":"asdsa","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Ganga Pesticides","__v":0,"territory":"Amtala","pincode":9999}}]}
+         * Inprogress : {"count":0,"list":[]}
+         * newRetailer : {"count":0,"list":[]}
+         * crystalCustomer : {"count":0,"list":[]}
          */
 
-        private String _id;
-        private String updatedAt;
-        private String createdAt;
-        private int status;
-        private String assignBy;
-        private CustomerIdBean customerId;
-        private String surveyId;
-        private int __v;
-        private AssignToBean assignTo;
+        private SubmittedBean submitted;
+        private InprogressBean Inprogress;
+        private NewRetailerBean newRetailer;
+        private CrystalCustomerBean crystalCustomer;
 
-        public String get_id() {
-            return _id;
+        public SubmittedBean getSubmitted() {
+            return submitted;
         }
 
-        public void set_id(String _id) {
-            this._id = _id;
+        public void setSubmitted(SubmittedBean submitted) {
+            this.submitted = submitted;
         }
 
-        public String getUpdatedAt() {
-            return updatedAt;
+        public InprogressBean getInprogress() {
+            return Inprogress;
         }
 
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
+        public void setInprogress(InprogressBean Inprogress) {
+            this.Inprogress = Inprogress;
         }
 
-        public String getCreatedAt() {
-            return createdAt;
+        public NewRetailerBean getNewRetailer() {
+            return newRetailer;
         }
 
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
+        public void setNewRetailer(NewRetailerBean newRetailer) {
+            this.newRetailer = newRetailer;
         }
 
-        public int getStatus() {
-            return status;
+        public CrystalCustomerBean getCrystalCustomer() {
+            return crystalCustomer;
         }
 
-        public void setStatus(int status) {
-            this.status = status;
+        public void setCrystalCustomer(CrystalCustomerBean crystalCustomer) {
+            this.crystalCustomer = crystalCustomer;
         }
 
-        public String getAssignBy() {
-            return assignBy;
-        }
-
-        public void setAssignBy(String assignBy) {
-            this.assignBy = assignBy;
-        }
-
-        public CustomerIdBean getCustomerId() {
-            return customerId;
-        }
-
-        public void setCustomerId(CustomerIdBean customerId) {
-            this.customerId = customerId;
-        }
-
-        public String getSurveyId() {
-            return surveyId;
-        }
-
-        public void setSurveyId(String surveyId) {
-            this.surveyId = surveyId;
-        }
-
-        public int get__v() {
-            return __v;
-        }
-
-        public void set__v(int __v) {
-            this.__v = __v;
-        }
-
-        public AssignToBean getAssignTo() {
-            return assignTo;
-        }
-
-        public void setAssignTo(AssignToBean assignTo) {
-            this.assignTo = assignTo;
-        }
-
-        public static class CustomerIdBean {
+        public static class SubmittedBean {
             /**
-             * _id : 5a83ca4296318c134c534cb9
-             * updatedAt : 2018-02-14T05:34:21.018Z
-             * createdAt : 2018-02-14T05:33:54.394Z
-             * responses : {"contactPerson":"tes999","name":"test","status":66,"description":"jnjbb","address":"ujuij","surveyId":"5a83c9de96318c134c534cb7","clientId":"5a83ca0a96318c134c534cb8"}
-             * isActive : 0
-             * status : 0
-             * clientId : 5a83ca0a96318c134c534cb8
-             * surveyId : 5a83c9de96318c134c534cb7
-             * image :
-             * createdBy : 5a799e932779e608b435a279
-             * address : Test
-             * description : Test
-             * contactPerson : tes999
-             * name : Test Agriculture
-             * __v : 0
-             * contactNo : 89999998765
-             * state : WB
-             * territory : Amtala
-             * pincode : 9999
+             * count : 2
+             * list : [{"_id":"5a9be11f8a7d5513989e275a","customerId":{"_id":"5a7da291f0249f1038c0b3f3","updatedAt":"2018-02-09T13:30:57.529Z","createdAt":"2018-02-09T13:30:57.529Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"","createdBy":"asdas","address":"udhyog vihar phase 4 gurgaon","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Chemical India","__v":0,"territory":"Amtala","pincode":9999}},{"_id":"5a9c1ffb8a7d5513989e2765","customerId":{"_id":"5a811ccfa6f7eb1200adcbd9","updatedAt":"2018-02-12T04:49:19.490Z","createdAt":"2018-02-12T04:49:19.490Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"","createdBy":"asdas","address":"asdsa","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Ganga Pesticides","__v":0,"territory":"Amtala","pincode":9999}}]
              */
 
-            private String _id;
-            private String updatedAt;
-            private String createdAt;
-            private String responses;
-            private int isActive;
-            private String status;
-            private String clientId;
-            private String surveyId;
-            private String image;
-            private String createdBy;
-            private String address;
-            private String description;
-            private String contactPerson;
-            private String name;
-            private int __v;
-            private long contactNo;
-            private String state;
-            private String territory;
-            private String pincode;
+            private int count;
+            private List<ListBean> list;
 
-            public String get_id() {
-                return _id;
+            public int getCount() {
+                return count;
             }
 
-            public void set_id(String _id) {
-                this._id = _id;
+            public void setCount(int count) {
+                this.count = count;
             }
 
-            public String getUpdatedAt() {
-                return updatedAt;
+            public List<ListBean> getList() {
+                return list;
             }
 
-            public void setUpdatedAt(String updatedAt) {
-                this.updatedAt = updatedAt;
+            public void setList(List<ListBean> list) {
+                this.list = list;
             }
 
-            public String getCreatedAt() {
-                return createdAt;
-            }
+            public static class ListBean {
+                /**
+                 * _id : 5a9be11f8a7d5513989e275a
+                 * customerId : {"_id":"5a7da291f0249f1038c0b3f3","updatedAt":"2018-02-09T13:30:57.529Z","createdAt":"2018-02-09T13:30:57.529Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"","createdBy":"asdas","address":"udhyog vihar phase 4 gurgaon","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Chemical India","__v":0,"territory":"Amtala","pincode":9999}
+                 */
 
-            public void setCreatedAt(String createdAt) {
-                this.createdAt = createdAt;
-            }
+                private String _id;
+                private CustomerIdBean customerId;
 
-            public String getResponses() {
-                return responses;
-            }
+                public String get_id() {
+                    return _id;
+                }
 
-            public void setResponses(String responses) {
-                this.responses = responses;
-            }
+                public void set_id(String _id) {
+                    this._id = _id;
+                }
 
-            public int getIsActive() {
-                return isActive;
-            }
+                public CustomerIdBean getCustomerId() {
+                    return customerId;
+                }
 
-            public void setIsActive(int isActive) {
-                this.isActive = isActive;
-            }
+                public void setCustomerId(CustomerIdBean customerId) {
+                    this.customerId = customerId;
+                }
 
-            public String getStatus() {
-                return status;
-            }
+                public static class CustomerIdBean {
+                    /**
+                     * _id : 5a7da291f0249f1038c0b3f3
+                     * updatedAt : 2018-02-09T13:30:57.529Z
+                     * createdAt : 2018-02-09T13:30:57.529Z
+                     * isActive : 0
+                     * status : 0
+                     * clientId : asdasd
+                     * surveyId : asdas
+                     * image :
+                     * createdBy : asdas
+                     * address : udhyog vihar phase 4 gurgaon
+                     * contactNo : 89999998765
+                     * description : asd
+                     * contactPerson : asdsa
+                     * name : Chemical India
+                     * __v : 0
+                     * territory : Amtala
+                     * pincode : 9999
+                     */
 
-            public void setStatus(String status) {
-                this.status = status;
-            }
+                    private String _id;
+                    private String updatedAt;
+                    private String createdAt;
+                    private int isActive;
+                    private String status;
+                    private String clientId;
+                    private String surveyId;
+                    private String image;
+                    private String createdBy;
+                    private String address;
+                    private long contactNo;
+                    private String description;
+                    private String contactPerson;
+                    private String name;
+                    private int __v;
+                    private String territory;
+                    private int pincode;
 
-            public String getClientId() {
-                return clientId;
-            }
+                    public String get_id() {
+                        return _id;
+                    }
 
-            public void setClientId(String clientId) {
-                this.clientId = clientId;
-            }
+                    public void set_id(String _id) {
+                        this._id = _id;
+                    }
 
-            public String getSurveyId() {
-                return surveyId;
-            }
+                    public String getUpdatedAt() {
+                        return updatedAt;
+                    }
 
-            public void setSurveyId(String surveyId) {
-                this.surveyId = surveyId;
-            }
+                    public void setUpdatedAt(String updatedAt) {
+                        this.updatedAt = updatedAt;
+                    }
 
-            public String getImage() {
-                return image;
-            }
+                    public String getCreatedAt() {
+                        return createdAt;
+                    }
 
-            public void setImage(String image) {
-                this.image = image;
-            }
+                    public void setCreatedAt(String createdAt) {
+                        this.createdAt = createdAt;
+                    }
 
-            public String getCreatedBy() {
-                return createdBy;
-            }
+                    public int getIsActive() {
+                        return isActive;
+                    }
 
-            public void setCreatedBy(String createdBy) {
-                this.createdBy = createdBy;
-            }
+                    public void setIsActive(int isActive) {
+                        this.isActive = isActive;
+                    }
 
-            public String getAddress() {
-                return address;
-            }
+                    public String getStatus() {
+                        return status;
+                    }
 
-            public void setAddress(String address) {
-                this.address = address;
-            }
+                    public void setStatus(String status) {
+                        this.status = status;
+                    }
 
-            public String getDescription() {
-                return description;
-            }
+                    public String getClientId() {
+                        return clientId;
+                    }
 
-            public void setDescription(String description) {
-                this.description = description;
-            }
+                    public void setClientId(String clientId) {
+                        this.clientId = clientId;
+                    }
 
-            public String getContactPerson() {
-                return contactPerson;
-            }
+                    public String getSurveyId() {
+                        return surveyId;
+                    }
 
-            public void setContactPerson(String contactPerson) {
-                this.contactPerson = contactPerson;
-            }
+                    public void setSurveyId(String surveyId) {
+                        this.surveyId = surveyId;
+                    }
 
-            public String getName() {
-                return name;
-            }
+                    public String getImage() {
+                        return image;
+                    }
 
-            public void setName(String name) {
-                this.name = name;
-            }
+                    public void setImage(String image) {
+                        this.image = image;
+                    }
 
-            public int get__v() {
-                return __v;
-            }
+                    public String getCreatedBy() {
+                        return createdBy;
+                    }
 
-            public void set__v(int __v) {
-                this.__v = __v;
-            }
+                    public void setCreatedBy(String createdBy) {
+                        this.createdBy = createdBy;
+                    }
 
-            public long getContactNo() {
-                return contactNo;
-            }
+                    public String getAddress() {
+                        return address;
+                    }
 
-            public void setContactNo(long contactNo) {
-                this.contactNo = contactNo;
-            }
+                    public void setAddress(String address) {
+                        this.address = address;
+                    }
 
-            public String getState() {
-                return state;
-            }
+                    public long getContactNo() {
+                        return contactNo;
+                    }
 
-            public void setState(String state) {
-                this.state = state;
-            }
+                    public void setContactNo(long contactNo) {
+                        this.contactNo = contactNo;
+                    }
 
-            public String getTerritory() {
-                return territory;
-            }
+                    public String getDescription() {
+                        return description;
+                    }
 
-            public void setTerritory(String territory) {
-                this.territory = territory;
-            }
+                    public void setDescription(String description) {
+                        this.description = description;
+                    }
 
-            public String getPincode() {
-                return pincode;
-            }
+                    public String getContactPerson() {
+                        return contactPerson;
+                    }
 
-            public void setPincode(String pincode) {
-                this.pincode = pincode;
+                    public void setContactPerson(String contactPerson) {
+                        this.contactPerson = contactPerson;
+                    }
+
+                    public String getName() {
+                        return name;
+                    }
+
+                    public void setName(String name) {
+                        this.name = name;
+                    }
+
+                    public int get__v() {
+                        return __v;
+                    }
+
+                    public void set__v(int __v) {
+                        this.__v = __v;
+                    }
+
+                    public String getTerritory() {
+                        return territory;
+                    }
+
+                    public void setTerritory(String territory) {
+                        this.territory = territory;
+                    }
+
+                    public int getPincode() {
+                        return pincode;
+                    }
+
+                    public void setPincode(int pincode) {
+                        this.pincode = pincode;
+                    }
+                }
             }
         }
 
-        public static class AssignToBean {
+        public static class InprogressBean {
             /**
-             * _id : 5a8e81022741361f5827ae85
-             * cd_code : 1000
-             * name : Parth Rawal
-             * email : parth@e2eprojects.com
-             * password : pass
-             * mkt_territory_code : 9501
-             * mobile : NULL
-             * dob : NULL
-             * doj : NULL
-             * isActive : 1
-             * accessToken : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1YThlODEwMjI3NDEzNjFmNTgyN2FlODUiLCJkYXRlIjoxNTE5MzA0OTkzOTE4fQ.MOfrp4bRYHBy5NKOsdf2R5UO3epwuAkrccmm9czEPTo
-             * lat : 28.4975955
-             * lng : 77.082881
-             * loc : [28.4975955,77.082881]
-             * __v : 1
-             * createdAt : 2018-02-22T09:50:59.747Z
-             * location : 582, Jwala Mill Rd, Phase V, Udyog Vihar, Sector 19, Gurugram, Haryana 122008, India
-             * updatedAt : 2018-02-22T13:09:54.414Z
-             * type : cd
+             * count : 0
+             * list : []
              */
 
-            private String _id;
-            private int cd_code;
-            private String name;
-            private String email;
-            private String password;
-            private int mkt_territory_code;
-            private String mobile;
-            private String dob;
-            private String doj;
-            private int isActive;
-            private String accessToken;
-            private String lat;
-            private String lng;
-            private int __v;
-            private String createdAt;
-            private String location;
-            private String updatedAt;
-            private String type;
-            private List<Double> loc;
+            private int count;
+            private List<?> list;
 
-            public String get_id() {
-                return _id;
+            public int getCount() {
+                return count;
             }
 
-            public void set_id(String _id) {
-                this._id = _id;
+            public void setCount(int count) {
+                this.count = count;
             }
 
-            public int getCd_code() {
-                return cd_code;
+            public List<?> getList() {
+                return list;
             }
 
-            public void setCd_code(int cd_code) {
-                this.cd_code = cd_code;
+            public void setList(List<?> list) {
+                this.list = list;
+            }
+        }
+
+        public static class NewRetailerBean {
+            /**
+             * count : 0
+             * list : []
+             */
+
+            private int count;
+            private List<?> list;
+
+            public int getCount() {
+                return count;
             }
 
-            public String getName() {
-                return name;
+            public void setCount(int count) {
+                this.count = count;
             }
 
-            public void setName(String name) {
-                this.name = name;
+            public List<?> getList() {
+                return list;
             }
 
-            public String getEmail() {
-                return email;
+            public void setList(List<?> list) {
+                this.list = list;
+            }
+        }
+
+        public static class CrystalCustomerBean {
+            /**
+             * count : 0
+             * list : []
+             */
+
+            private int count;
+            private List<?> list;
+
+            public int getCount() {
+                return count;
             }
 
-            public void setEmail(String email) {
-                this.email = email;
+            public void setCount(int count) {
+                this.count = count;
             }
 
-            public String getPassword() {
-                return password;
+            public List<?> getList() {
+                return list;
             }
 
-            public void setPassword(String password) {
-                this.password = password;
-            }
-
-            public int getMkt_territory_code() {
-                return mkt_territory_code;
-            }
-
-            public void setMkt_territory_code(int mkt_territory_code) {
-                this.mkt_territory_code = mkt_territory_code;
-            }
-
-            public String getMobile() {
-                return mobile;
-            }
-
-            public void setMobile(String mobile) {
-                this.mobile = mobile;
-            }
-
-            public String getDob() {
-                return dob;
-            }
-
-            public void setDob(String dob) {
-                this.dob = dob;
-            }
-
-            public String getDoj() {
-                return doj;
-            }
-
-            public void setDoj(String doj) {
-                this.doj = doj;
-            }
-
-            public int getIsActive() {
-                return isActive;
-            }
-
-            public void setIsActive(int isActive) {
-                this.isActive = isActive;
-            }
-
-            public String getAccessToken() {
-                return accessToken;
-            }
-
-            public void setAccessToken(String accessToken) {
-                this.accessToken = accessToken;
-            }
-
-            public String getLat() {
-                return lat;
-            }
-
-            public void setLat(String lat) {
-                this.lat = lat;
-            }
-
-            public String getLng() {
-                return lng;
-            }
-
-            public void setLng(String lng) {
-                this.lng = lng;
-            }
-
-            public int get__v() {
-                return __v;
-            }
-
-            public void set__v(int __v) {
-                this.__v = __v;
-            }
-
-            public String getCreatedAt() {
-                return createdAt;
-            }
-
-            public void setCreatedAt(String createdAt) {
-                this.createdAt = createdAt;
-            }
-
-            public String getLocation() {
-                return location;
-            }
-
-            public void setLocation(String location) {
-                this.location = location;
-            }
-
-            public String getUpdatedAt() {
-                return updatedAt;
-            }
-
-            public void setUpdatedAt(String updatedAt) {
-                this.updatedAt = updatedAt;
-            }
-
-            public String getType() {
-                return type;
-            }
-
-            public void setType(String type) {
-                this.type = type;
-            }
-
-            public List<Double> getLoc() {
-                return loc;
-            }
-
-            public void setLoc(List<Double> loc) {
-                this.loc = loc;
+            public void setList(List<?> list) {
+                this.list = list;
             }
         }
     }

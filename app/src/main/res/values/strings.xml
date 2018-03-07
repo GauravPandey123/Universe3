@@ -200,5 +200,13 @@
     <string name="err_msg_pincode">Please Enter Pincode</string>
     <string name="err_msg_state">Please Enter State</string>
     <string name="state">Select State</string>
+    <string name="please_select_valid_to_date">Please Choose Valid toDate</string>
+    <string name="please_allow_the_permission_to_share_file">Please allow permission to download the report</string>
+    <string name="file_downloading">File Downloading</string>
+    <string name="select_app_to_share">Select app to share</string>
+    <string name="error_file_downloading">Error File Downloading</string>
+    <string name="sharetitle">Hello, \n \n Please find attachment of </string>
+    <string name="thankyou">Thank You</string>
+    <string name="team">Team</string>
 
 </resources>

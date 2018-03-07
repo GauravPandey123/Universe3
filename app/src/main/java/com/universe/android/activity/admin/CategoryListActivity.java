@@ -45,7 +45,7 @@ public class CategoryListActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_list_view);
-  //      setHeader();
+        //      setHeader();
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -54,7 +54,7 @@ public class CategoryListActivity extends BaseActivity {
         prepareList();
         ((TextView) findViewById(R.id.textViewHeader)).setText(getString(R.string.category));
 
-        ImageView imageBack=(ImageView)findViewById(R.id.imageviewbackSearch);
+        ImageView imageBack = (ImageView) findViewById(R.id.imageviewbackSearch);
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +68,7 @@ public class CategoryListActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent i = new Intent(CategoryListActivity.this, FormQuestionActivity.class);
                 i.putExtra(AppConstants.FORM_ID, formId);
-                i.putExtra(AppConstants.STR_TITLE,getString(R.string.category));
+                i.putExtra(AppConstants.STR_TITLE, getString(R.string.category));
                 startActivityForResult(i, ID_UPDATE_CAMP);
             }
         });
@@ -80,8 +80,8 @@ public class CategoryListActivity extends BaseActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         if (requestCode == ID_UPDATE_CAMP && resultCode == RESULT_OK) {
             prepareList();
         }

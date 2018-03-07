@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.bumptech.glide.Glide;
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.DrawerItem;
@@ -16,6 +17,8 @@ import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 
 import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by darshanz on 7/6/15.
@@ -44,7 +47,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_menu_item, parent, false);
         }
 
-
         return new DrawerViewHolder(view, viewType);
     }
 
@@ -52,17 +54,10 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
     @Override
     public void onBindViewHolder(DrawerViewHolder holder, int position) {
         if (position == 0) {
-            holder.textViewStatus.setTypeface(FontClass.openSansLight(mContext));
             holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
             holder.textViewName.setTypeface(FontClass.openSansBold(mContext));
-            if (Prefs.getStringPrefs(AppConstants.isActive).equals("1")) {
-                holder.textViewStatus.setText("ONLINE");
-            } else {
-                holder.textViewStatus.setText("OFFLINE");
-            }
-          //  if (Prefs.getLongPrefs(AppConstants.phone)!=0)
-          //  holder.textViewMobileNo.setText(""+Prefs.getLongPrefs(AppConstants.phone));
             holder.textViewName.setText(Prefs.getStringPrefs(AppConstants.name));
+            Glide.with(mContext).load(Prefs.getStringPrefs(AppConstants.picture)).into(holder.profile_image);
         } else {
             holder.title.setText(drawerMenuList.get(position - 1).getTitle());
             holder.icon.setImageResource(drawerMenuList.get(position - 1).getIcon());
@@ -88,6 +83,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
     class DrawerViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView textViewName, textViewMobileNo, textViewStatus;
+        CircleImageView profile_image;
         ImageView icon;
 
         public DrawerViewHolder(View itemView, int viewType) {
@@ -95,7 +91,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
             if (viewType == 0) {
                 textViewName = itemView.findViewById(R.id.textViewUserName);
                 textViewMobileNo = itemView.findViewById(R.id.textViewPhoneNo);
-                textViewStatus = itemView.findViewById(R.id.textViewOnline);
+                profile_image = itemView.findViewById(R.id.profile_image);
             } else {
                 title = itemView.findViewById(R.id.title);
                 icon = itemView.findViewById(R.id.icon);

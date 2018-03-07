@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.activity.TeamSurveyDetailReport;
+import com.universe.android.resource.Login.SurveyDetails.SurverDetailResponse;
 import com.universe.android.resource.Login.login.LoginResponse;
 import com.universe.android.utility.AppConstants;
 
@@ -23,11 +24,11 @@ import java.util.ArrayList;
 public class TeamSurveyAdapter extends RecyclerView.Adapter<TeamSurveyAdapter.TeamSurveyViewHolder> {
     private Context mContext;
     private int percent;
-    private ArrayList<LoginResponse.ResponseBean.SurveyDetailsBean> surveyDetailsBeans;
-    private LoginResponse.ResponseBean.SurveyDetailsBean surveyDetailsBean;
+    private ArrayList<SurverDetailResponse.ResponseBean.CrystaDoctorBean> surveyDetailsBeans;
+    private SurverDetailResponse.ResponseBean.CrystaDoctorBean surveyDetailsBean;
 
 
-    public TeamSurveyAdapter(Context mContext, ArrayList<LoginResponse.ResponseBean.SurveyDetailsBean> surveyDetailsBeans) {
+    public TeamSurveyAdapter(Context mContext, ArrayList<SurverDetailResponse.ResponseBean.CrystaDoctorBean> surveyDetailsBeans) {
         this.surveyDetailsBeans = surveyDetailsBeans;
         this.mContext = mContext;
 
@@ -42,20 +43,20 @@ public class TeamSurveyAdapter extends RecyclerView.Adapter<TeamSurveyAdapter.Te
     @Override
     public void onBindViewHolder(TeamSurveyViewHolder holder, int position) {
         surveyDetailsBean = surveyDetailsBeans.get(position);
-        holder.textViewHeader.setText(surveyDetailsBean.getDoctorAssign().get(position).getCrystalDoctorName());
-        String totalString = "" + surveyDetailsBean.getDoctorAssign().get(position).getTotal();
-        String completedString = "" + surveyDetailsBean.getDoctorAssign().get(position).getCompleted();
+        holder.textViewHeader.setText(surveyDetailsBean.getDetail().getName());
+        String totalString = "" + surveyDetailsBean.getTotalAssign();
+        String completedString = "" + surveyDetailsBean.getSubmittedCount();
 
-        holder.itemTitle.setText(String.valueOf(totalString));
-        holder.itemno.setText(String.valueOf(completedString));
-        int n = Integer.parseInt(totalString);
-        int v = Integer.parseInt(completedString);
-        percent = v * 100 / n;
-        holder.itempercentage.setText(String.valueOf(percent).concat("%"));
+        holder.itemTitle.setText("Target : " + String.valueOf(totalString));
+        holder.itemno.setText("Submitted : " + String.valueOf(completedString));
+//        int n = Integer.parseInt(totalString);
+//        int v = Integer.parseInt(completedString);
+//        percent = v * 100 / n;
+//        holder.itempercentage.setText(String.valueOf(percent).concat("%"));
 
-        holder.textViewteamInprogress.setText(String.valueOf(surveyDetailsBean.getInprogress()));
-        holder.textViewNewReatilors.setText(String.valueOf(surveyDetailsBean.getNewRetailer()));
-        holder.textViewCrystalMembers.setText(String.valueOf(surveyDetailsBean.getCrystalCustomer()));
+        holder.textViewteamInprogress.setText("In Progress : " + String.valueOf(surveyDetailsBean.getProgress()));
+        holder.textViewNewReatilors.setText("New Retailer : " + String.valueOf(surveyDetailsBean.getRetailorCount()));
+        holder.textViewCrystalMembers.setText("Crystal Customer : " + String.valueOf(surveyDetailsBean.getCrystalCustomer()));
         setUpListeners(holder, position);
 
     }
@@ -67,8 +68,8 @@ public class TeamSurveyAdapter extends RecyclerView.Adapter<TeamSurveyAdapter.Te
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, TeamSurveyDetailReport.class);
                 intent.putExtra(AppConstants.Percent, percent);
-                intent.putExtra(AppConstants.CrystaDoctorName, surveyDetailsBean.getDoctorAssign().get(position).getCrystalDoctorName());
-                intent.putExtra(AppConstants.CDID, surveyDetailsBean.getDoctorAssign().get(position).get_id());
+                intent.putExtra(AppConstants.CrystaDoctorName, surveyDetailsBean.getDetail().getName());
+                intent.putExtra(AppConstants.CDID, surveyDetailsBean.getDetail().get_id());
                 mContext.startActivity(intent);
 //                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }

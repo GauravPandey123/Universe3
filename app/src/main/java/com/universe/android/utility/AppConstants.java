@@ -96,6 +96,7 @@ public class AppConstants {
     public static final String CATEGORY = "category";
     public static final String LATTITUDE = "lattitude";
     public static final String LONGITUDE = "longitude";
+    public static final String PROFILE_CHECK = "ProfileCheck";
     //survey status
     public static final int PENDING = 0;
     public static final int INPROCESS = 1;
@@ -128,6 +129,9 @@ public class AppConstants {
     public static final String TYPE = "type";
     public static final String TODATE ="toDate" ;
     public static final String CUSTOMER = "customer";
+    public static final String PNG_FILE_TYPE = "pngFile";
+    public static final String EXCEL_FILE_TYPE = "excelFile";
+    public static final String DIR_UNIVERSE = "Universe";
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";
@@ -169,5 +173,10 @@ public class AppConstants {
 
 
     public static String VillageId="villageId";
+    public static String employee_name="employee_name";
+
+
+    public static String TeamSurveyId="TeamSurveyId";
+    public static String employee_code="employee_code";
 }
 

@@ -206,7 +206,7 @@ public class ProfileFragment extends BaseFragment {
                 Glide.with(mActivity)
                         .load(response.getResponse().getPicture())
                         .into(circleImageViewProfile);
-
+                Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
             }
 
             @Override
