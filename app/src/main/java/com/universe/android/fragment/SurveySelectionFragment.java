@@ -22,6 +22,7 @@ import com.universe.android.model.SurveysModal;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.workflows.WorkFlowsDetailActivity;
 
 import java.util.ArrayList;
@@ -89,17 +90,41 @@ public class SurveySelectionFragment extends BaseFragment {
                     modal.setId(realmSurveys.get(i).getId());
                     modal.setTitle(realmSurveys.get(i).getTitle());
                     int count=0;
-                    int total=5;
-                    RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
-                   for (int k=0;k<realmAnswers.size();k++){
-                       if (realmAnswers.get(k).getCd_Status()!=null) {
-                           if (realmAnswers.get(k).getCd_Status().equalsIgnoreCase("1") ||realmAnswers.get(k).getCd_Status().equalsIgnoreCase("2")||realmAnswers.get(k).getCd_Status().equalsIgnoreCase("3")) {
-                               total = total - 1;
+                    int total=0;
+
+                   String type= Prefs.getStringPrefs(AppConstants.TYPE);
+                   if (type.equalsIgnoreCase("cd")){
+                       total=realmSurveys.get(i).getTarget();
+                       RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
+                       for (int k=0;k<realmAnswers.size();k++){
+                           if (realmAnswers.get(k).getCd_Status()!=null) {
+                               if (realmAnswers.get(k).getCd_Status().equalsIgnoreCase("1") ||realmAnswers.get(k).getCd_Status().equalsIgnoreCase("2")) {
+                                   total = total - 1;
+                               }
+                           }
+                       }
+                   }else if (type.equalsIgnoreCase("rm")){
+                       RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
+                       for (int k=0;k<realmAnswers.size();k++){
+                           if (realmAnswers.get(k).getRm_STatus()!=null) {
+                               if (realmAnswers.get(k).getRm_STatus().equalsIgnoreCase("0") && realmAnswers.get(k).getCd_Status().equalsIgnoreCase("1") && realmAnswers.get(k).getZm_Status().equalsIgnoreCase("4")) {
+                                   total = total+1;
+                               }
+                           }
+                       }
+                   }else if (type.equalsIgnoreCase("zm")){
+                       RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
+                       for (int k=0;k<realmAnswers.size();k++){
+                           if (realmAnswers.get(k).getZm_Status()!=null) {
+                               if (realmAnswers.get(k).getZm_Status().equalsIgnoreCase("0") && realmAnswers.get(k).getCd_Status().equalsIgnoreCase("1") && realmAnswers.get(k).getRm_STatus().equalsIgnoreCase("2")) {
+                                   total = total+1;
+                               }
                            }
                        }
                    }
-
                     modal.setStatus(total+"");
+
+
                     modal.setExpiryDate(AppConstants.format2.format(realmSurveys.get(i).getExpiryDate()));
                     surveysModals.add(modal);
                 }

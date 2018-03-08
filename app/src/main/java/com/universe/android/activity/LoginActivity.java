@@ -143,9 +143,9 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    public void submitLoginRequest(String email, final String password) {
+    public void submitLoginRequest(String email, String password) {
         showProgress(R.string.msg_load_default);
-        final JSONObject jsonSubmitReq = new JSONObject();
+        JSONObject jsonSubmitReq = new JSONObject();
         try {
 
             jsonSubmitReq.put(AppConstants.EMAIL, email);
@@ -193,51 +193,15 @@ public class LoginActivity extends BaseActivity {
                         if (responseData != null) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             JSONObject jsonObject = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-                            if (jsonObject.has("report")) {
-                                JSONObject object = jsonObject.optJSONObject("type");
-                                jsonSubmitReq.put(AppConstants.TYPE, "report");
-                                Prefs.putStringPrefs(AppConstants.TYPE, object.optString(AppConstants.TYPE));
-                            } else {
-                                Prefs.putStringPrefs(AppConstants.TYPE, jsonObject.optString(AppConstants.TYPE));
-                            }
-                            if (jsonObject.has("loginDetails")) {
-                                JSONObject jsonObject2 = jsonObject.getJSONObject("loginDetails");
-                                JSONObject jsonObject1 = jsonObject2.getJSONObject(AppConstants.DETAIL);
-                                Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
-                                Prefs.putStringPrefs(AppConstants.picture, jsonObject1.optString("picture"));
-                                Prefs.putStringPrefs(AppConstants.employee_name, jsonObject1.optString("employee_name"));
-                                Prefs.putStringPrefs(AppConstants.email, jsonObject1.optString("email"));
-                                Prefs.putStringPrefs(AppConstants.phone, jsonObject1.optString("mobile"));
-                                Prefs.putStringPrefs(AppConstants.employee_code, jsonObject1.optString("employee_code"));
-                                Prefs.putStringPrefs(AppConstants.password, jsonObject1.optString("password"));
-                                if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
-                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
-                                else
-                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.name));
-                                new RealmController().saveUserDetail(jsonObject1.toString());
-                            } else {
-                                JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
-                                Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
-                                Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
-                                Prefs.putStringPrefs(AppConstants.picture, jsonObject1.optString("picture"));
-                                Prefs.putStringPrefs(AppConstants.employee_name, jsonObject1.optString("employee_name"));
-                                Prefs.putStringPrefs(AppConstants.email, jsonObject1.optString("email"));
-                                Prefs.putStringPrefs(AppConstants.phone, jsonObject1.optString("mobile"));
-                                Prefs.putStringPrefs(AppConstants.employee_code, jsonObject1.optString("employee_code"));
-                                Prefs.putStringPrefs(AppConstants.password, jsonObject1.optString("password"));
-                                if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
-                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
-                                else
-                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.name));
-                                if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
-                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
-                                else
-                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.NAME));
-                                new RealmController().saveUserDetail(jsonObject1.toString());
-                            }
                             Prefs.putStringPrefs(AppConstants.TYPE, jsonObject.optString(AppConstants.TYPE));
 
-
+                            JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
+                            Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
+                            if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
+                                Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
+                            else
+                                Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.NAME));
+                            new RealmController().saveUserDetail(jsonObject1.toString());
                             JSONArray mapping = jsonObject.getJSONArray("mapping");
                             Prefs.putStringPrefs(AppConstants.MAPPING, mapping.toString());
 

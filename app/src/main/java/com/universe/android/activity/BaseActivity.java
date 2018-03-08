@@ -69,10 +69,11 @@ public class BaseActivity extends AppCompatActivity {
     public boolean isReplaced = false;
     public int CAMERA_REQUEST = 2121;
     public int GALLERY_REQUEST = 2221;
-    protected Activity mActivity;
+
 
     private String mImageUrl;
     private boolean isUpdateImage = false;
+    protected Activity mActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
