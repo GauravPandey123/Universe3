@@ -95,5 +95,16 @@
         <item>Date</item>
         <item>Status</item>
     </string-array>
+
+    <string-array name="team_survey_report">
+        <item>S. No</item>
+        <item>Name</item>
+        <item>Targets</item>
+        <item>Submitted</item>
+        <item>Achievement</item>
+        <item>In Progress</item>
+        <item>New Retailer</item>
+        <item>Crystal Customers</item>
+    </string-array>
 </resources>
 
