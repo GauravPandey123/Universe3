@@ -3,6 +3,8 @@ package com.universe.android.resource.Login.LocationUpdate;
 import com.google.gson.annotations.SerializedName;
 import com.universe.android.web.BaseResponse;
 
+import java.util.List;
+
 /**
  * Created by gaurav.pandey on 20-02-2018.
  */
@@ -18,7 +20,7 @@ public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse>
     /**
      * errorMsg :
      * statusCode : 200
-     * response : {"_id":"5a811ccfa6f7eb1200adcbd9","updatedAt":"2018-03-07T12:48:54.793Z","createdAt":"2018-02-12T04:49:19.490Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1520426934461.png","createdBy":"asdas","address":"asdsa","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Ganga Pesticides","__v":0,"state":"WB","territory":"Amtala","pinco de":"9999","customer":"CrystalCustomer","locationSet":"5a9fdda58ccccf04bcf7f1ac"}
+     * response : {"location":{"__v":0,"updatedAt":"2018-03-07T13:13:06.244Z","createdAt":"2018-03-07T13:13:06.244Z","location":"TECHNICAL PARADISE, SECTOR 56, GURGOAN, Basai Rd, Jacobpura, Sector 12, Gurugram, Haryana 122006, India","customerId":"5a82dbb7f08a61114407e578","type":"customer","loc":[28.4595,77.0266],"long":"77.0266","lat":"28.4595","user":"5a8eb8b82741361f5827afb5","_id":"5a9fe562e7b8041074e104bf"},"locationSet":true}
      */
 
     private String errorMsg;
@@ -51,208 +53,144 @@ public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse>
 
     public static class ResponseBean {
         /**
-         * _id : 5a811ccfa6f7eb1200adcbd9
-         * updatedAt : 2018-03-07T12:48:54.793Z
-         * createdAt : 2018-02-12T04:49:19.490Z
-         * isActive : 0
-         * status : 0
-         * clientId : asdasd
-         * surveyId : asdas
-         * image : https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1520426934461.png
-         * createdBy : asdas
-         * address : asdsa
-         * contactNo : 89999998765
-         * description : asd
-         * contactPerson : asdsa
-         * name : Ganga Pesticides
-         * __v : 0
-         * state : WB
-         * territory : Amtala
-         * pinco de : 9999
-         * customer : CrystalCustomer
-         * locationSet : 5a9fdda58ccccf04bcf7f1ac
+         * location : {"__v":0,"updatedAt":"2018-03-07T13:13:06.244Z","createdAt":"2018-03-07T13:13:06.244Z","location":"TECHNICAL PARADISE, SECTOR 56, GURGOAN, Basai Rd, Jacobpura, Sector 12, Gurugram, Haryana 122006, India","customerId":"5a82dbb7f08a61114407e578","type":"customer","loc":[28.4595,77.0266],"long":"77.0266","lat":"28.4595","user":"5a8eb8b82741361f5827afb5","_id":"5a9fe562e7b8041074e104bf"}
+         * locationSet : true
          */
 
-        private String _id;
-        private String updatedAt;
-        private String createdAt;
-        private int isActive;
-        private String status;
-        private String clientId;
-        private String surveyId;
-        private String image;
-        private String createdBy;
-        private String address;
-        private long contactNo;
-        private String description;
-        private String contactPerson;
-        private String name;
-        private int __v;
-        private String state;
-        private String territory;
-        @SerializedName("pinco de")
-        private String _$PincoDe190; // FIXME check this code
-        private String customer;
-        private String locationSet;
+        private LocationBean location;
+        private boolean locationSet;
 
-        public String get_id() {
-            return _id;
+        public LocationBean getLocation() {
+            return location;
         }
 
-        public void set_id(String _id) {
-            this._id = _id;
+        public void setLocation(LocationBean location) {
+            this.location = location;
         }
 
-        public String getUpdatedAt() {
-            return updatedAt;
-        }
-
-        public void setUpdatedAt(String updatedAt) {
-            this.updatedAt = updatedAt;
-        }
-
-        public String getCreatedAt() {
-            return createdAt;
-        }
-
-        public void setCreatedAt(String createdAt) {
-            this.createdAt = createdAt;
-        }
-
-        public int getIsActive() {
-            return isActive;
-        }
-
-        public void setIsActive(int isActive) {
-            this.isActive = isActive;
-        }
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public String getClientId() {
-            return clientId;
-        }
-
-        public void setClientId(String clientId) {
-            this.clientId = clientId;
-        }
-
-        public String getSurveyId() {
-            return surveyId;
-        }
-
-        public void setSurveyId(String surveyId) {
-            this.surveyId = surveyId;
-        }
-
-        public String getImage() {
-            return image;
-        }
-
-        public void setImage(String image) {
-            this.image = image;
-        }
-
-        public String getCreatedBy() {
-            return createdBy;
-        }
-
-        public void setCreatedBy(String createdBy) {
-            this.createdBy = createdBy;
-        }
-
-        public String getAddress() {
-            return address;
-        }
-
-        public void setAddress(String address) {
-            this.address = address;
-        }
-
-        public long getContactNo() {
-            return contactNo;
-        }
-
-        public void setContactNo(long contactNo) {
-            this.contactNo = contactNo;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public void setDescription(String description) {
-            this.description = description;
-        }
-
-        public String getContactPerson() {
-            return contactPerson;
-        }
-
-        public void setContactPerson(String contactPerson) {
-            this.contactPerson = contactPerson;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int get__v() {
-            return __v;
-        }
-
-        public void set__v(int __v) {
-            this.__v = __v;
-        }
-
-        public String getState() {
-            return state;
-        }
-
-        public void setState(String state) {
-            this.state = state;
-        }
-
-        public String getTerritory() {
-            return territory;
-        }
-
-        public void setTerritory(String territory) {
-            this.territory = territory;
-        }
-
-        public String get_$PincoDe190() {
-            return _$PincoDe190;
-        }
-
-        public void set_$PincoDe190(String _$PincoDe190) {
-            this._$PincoDe190 = _$PincoDe190;
-        }
-
-        public String getCustomer() {
-            return customer;
-        }
-
-        public void setCustomer(String customer) {
-            this.customer = customer;
-        }
-
-        public String getLocationSet() {
+        public boolean isLocationSet() {
             return locationSet;
         }
 
-        public void setLocationSet(String locationSet) {
+        public void setLocationSet(boolean locationSet) {
             this.locationSet = locationSet;
+        }
+
+        public static class LocationBean {
+            /**
+             * __v : 0
+             * updatedAt : 2018-03-07T13:13:06.244Z
+             * createdAt : 2018-03-07T13:13:06.244Z
+             * location : TECHNICAL PARADISE, SECTOR 56, GURGOAN, Basai Rd, Jacobpura, Sector 12, Gurugram, Haryana 122006, India
+             * customerId : 5a82dbb7f08a61114407e578
+             * type : customer
+             * loc : [28.4595,77.0266]
+             * long : 77.0266
+             * lat : 28.4595
+             * user : 5a8eb8b82741361f5827afb5
+             * _id : 5a9fe562e7b8041074e104bf
+             */
+
+            private int __v;
+            private String updatedAt;
+            private String createdAt;
+            private String location;
+            private String customerId;
+            private String type;
+            @SerializedName("long")
+            private String longX;
+            private String lat;
+            private String user;
+            private String _id;
+            private List<Double> loc;
+
+            public int get__v() {
+                return __v;
+            }
+
+            public void set__v(int __v) {
+                this.__v = __v;
+            }
+
+            public String getUpdatedAt() {
+                return updatedAt;
+            }
+
+            public void setUpdatedAt(String updatedAt) {
+                this.updatedAt = updatedAt;
+            }
+
+            public String getCreatedAt() {
+                return createdAt;
+            }
+
+            public void setCreatedAt(String createdAt) {
+                this.createdAt = createdAt;
+            }
+
+            public String getLocation() {
+                return location;
+            }
+
+            public void setLocation(String location) {
+                this.location = location;
+            }
+
+            public String getCustomerId() {
+                return customerId;
+            }
+
+            public void setCustomerId(String customerId) {
+                this.customerId = customerId;
+            }
+
+            public String getType() {
+                return type;
+            }
+
+            public void setType(String type) {
+                this.type = type;
+            }
+
+            public String getLongX() {
+                return longX;
+            }
+
+            public void setLongX(String longX) {
+                this.longX = longX;
+            }
+
+            public String getLat() {
+                return lat;
+            }
+
+            public void setLat(String lat) {
+                this.lat = lat;
+            }
+
+            public String getUser() {
+                return user;
+            }
+
+            public void setUser(String user) {
+                this.user = user;
+            }
+
+            public String get_id() {
+                return _id;
+            }
+
+            public void set_id(String _id) {
+                this._id = _id;
+            }
+
+            public List<Double> getLoc() {
+                return loc;
+            }
+
+            public void setLoc(List<Double> loc) {
+                this.loc = loc;
+            }
         }
     }
 }

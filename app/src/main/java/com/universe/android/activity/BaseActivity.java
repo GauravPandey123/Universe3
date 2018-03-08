@@ -330,4 +330,98 @@ public class BaseActivity extends AppCompatActivity {
 
         return success;
     }
+
+
+    /**
+     * Create excel file of report
+     *
+     * @return isFileCreated
+     */
+    protected boolean createExcelFileReportAddTeamSurvey(List<String> headerList, List<AnswersModal> snapshotList, String title, String filename, String subject, String text) {
+        if (!Utility.isExternalStorageAvailable() || Utility.isExternalStorageReadOnly()) {
+            return false;
+        }
+        boolean success = false;
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = null;
+        if (title != null) {
+            sheet = workbook.createSheet(subject);
+        }
+        int idxr = 0;
+
+        Cell cell;
+        Row row = sheet.createRow(idxr);
+
+        cell = row.createCell(1);
+        cell.setCellValue(subject);
+        cell.setCellStyle(Utility.getHeaderCellStyle(workbook));
+
+        idxr = +2;
+
+        row = sheet.createRow(idxr);
+        // Generate column headings
+        for (int i = 0; i < headerList.size(); i++) {
+            cell = row.createCell(i);
+            cell.setCellValue(headerList.get(i));
+            cell.setCellStyle(Utility.getColumnHeaderCellStyle(workbook));
+            sheet.setColumnWidth(i, (10 * 900));
+
+        }
+        idxr = idxr + 1;
+        for (int j = 0; j < snapshotList.size(); j++) {
+            int idyc = 0;
+            row = sheet.createRow(idxr);
+            AnswersModal answersModal = snapshotList.get(j);
+            cell = row.createCell(idyc);
+            cell.setCellValue(answersModal.get_id());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getTitle());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getTerritory());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getState());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getPincode());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getContactNo());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getDate());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            if (answersModal.getStatus() != null) {
+                if (answersModal.getStatus().equalsIgnoreCase("0")) {
+                    cell.setCellValue("Pending");
+                } else if (answersModal.getStatus().equalsIgnoreCase("1")) {
+                    cell.setCellValue("Submitted");
+                } else if (answersModal.getStatus().equalsIgnoreCase("5")) {
+                    cell.setCellValue("in Progress");
+                }
+            }else
+            {
+
+            }
+
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+
+
+            idxr++;
+        }
+
+        success = Utility.writeExcelFile(workbook, filename);
+        if (!success) {
+            Utility.showToast(getString(R.string.error_file_downloading));
+        } else {
+            showProgressBar(filename, subject, text);
+        }
+
+
+        return success;
+    }
 }

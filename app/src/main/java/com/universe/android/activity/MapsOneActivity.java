@@ -136,9 +136,8 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             }
         });
         if (Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE) != null) {
-            Glide.with(mActivity).load(Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE)).into(circleImageView);}
-        else
-        {
+            Glide.with(mActivity).load(Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE)).into(circleImageView);
+        } else {
             circleImageView.setImageResource(R.drawable.ic_customer);
         }
         textViewHeader.setText(title);
@@ -243,6 +242,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             }
         });
     }
+
     private void setupDetail() {
         Realm realm = Realm.getDefaultInstance();
         try {
@@ -315,8 +315,8 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onSuccess(@NonNull UpDateLocationResponse response) {
                 super.onSuccess(response);
-//                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLat());
-//                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLongX());
+                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLat());
+                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLongX());
             }
 
             @Override
@@ -347,17 +347,15 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onSuccess(@NonNull UpDateLocationResponse response) {
                 super.onSuccess(response);
-//                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().get);
-//                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLongX());
-//                if(response.getResponse().getLocationSet().equalsIgnoreCase(""))
-//                {
+                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLat());
+                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLongX());
+//                if (!response.getResponse().isLocationSet()) {
+//                    imageLoc.setImageResource(R.drawable.ic_location_off_black_24dp);
+//                } else {
+//                    imageLoc.setImageResource(R.drawable.ic_location_on_black_24dp);
 //
 //                }
-//                else
-//                {
-//
-//                }
-                imageLoc.setImageResource(R.drawable.ic_location_on_black_24dp);
+
                 Prefs.putBooleanPrefs(AppConstants.LocationUpdate, true);
                 Intent intent = new Intent(mContext, QuestionsCategoryActivity.class);
                 startActivity(intent);

@@ -85,9 +85,9 @@ public class TeamSurveyDetailReport extends BaseActivity {
         setContentView(R.layout.team_survey_detail_report);
         initialization();
         setUpELements();
-        setUpTeamWebser();
-        setUpNewReatiler();
-        crystalElement();
+//        setUpTeamWebser();
+//        setUpNewReatiler();
+//        crystalElement();
         setUpListeners();
     }
 
@@ -205,6 +205,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
         CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
         crystalReportRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
         crystalReportRequest.setCdId(surveyId);
+        crystalReportRequest.setType(Prefs.getStringPrefs(AppConstants.TYPE));
         CrystalReportService crystalReportService = new CrystalReportService();
         crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
             @Override
@@ -240,6 +241,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
         CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
         crystalReportRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
         crystalReportRequest.setCdId(surveyId);
+        crystalReportRequest.setType(Prefs.getStringPrefs(AppConstants.TYPE));
         CrystalReportService crystalReportService = new CrystalReportService();
         crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
             @Override
@@ -275,6 +277,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
         CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
         crystalReportRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
         crystalReportRequest.setCdId(surveyId);
+        crystalReportRequest.setType(Prefs.getStringPrefs(AppConstants.TYPE));
         CrystalReportService crystalReportService = new CrystalReportService();
         crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
             @Override
@@ -311,6 +314,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
         CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
         crystalReportRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
         crystalReportRequest.setCdId(surveyId);
+        crystalReportRequest.setType(Prefs.getStringPrefs(AppConstants.TYPE));
         CrystalReportService crystalReportService = new CrystalReportService();
         crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
             @Override

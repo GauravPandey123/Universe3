@@ -27,6 +27,16 @@ public class CrystalReportRequest extends BaseRequest {
 
     private String cdId;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    private String type;
+
 
     @Override
     public boolean isValid(String Scenario) {
