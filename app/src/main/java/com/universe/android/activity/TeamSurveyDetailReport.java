@@ -197,7 +197,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
         textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
 
         textViewPosition.setText(Prefs.getStringPrefs(AppConstants.EMPLOYEE_NAME));
-        textViewAchievementNumbers.setText("10 %");
+        textViewAchievementNumbers.setText(String.format("%d%%", Prefs.getIntegerPrefs(AppConstants.Percent)));
     }
 
 

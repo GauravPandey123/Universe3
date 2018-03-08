@@ -16,7 +16,12 @@ import com.universe.android.resource.Login.surveyList.SurveyListResponse;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by gaurav.pandey on 20-02-2018.
@@ -41,14 +46,30 @@ public class TeamSurveySelectionAdapter extends RecyclerView.Adapter<TeamSurveyS
     @Override
     public void onBindViewHolder(TeamSurveyViewHolder holder, int position) {
         SurveyListResponse.ResponseBean mappingBean = mappingBeans.get(position);
-        if (Utility.validateString(mappingBean.getSurveyDetails().getExpiryDate())){
+        if (Utility.validateString(mappingBean.getSurveyDetails().getExpiryDate())) {
             holder.tvExpiryDate.setText(mappingBean.getSurveyDetails().getExpiryDate());
         }
-//        holder.tvExpiryDate.setText("Ends On: " + dateFinal);
+        String dateresult = mappingBean.getSurveyDetails().getExpiryDate();
+        if (dateresult != null) {
+            DateFormat writeFormat =  new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");;
+            DateFormat readFormat = new SimpleDateFormat(" dd-MMM-yyyy");
+            Date date = null;
+            try {
+                date = writeFormat.parse(dateresult);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            String formattedDate = "";
+            if (date != null) {
+                formattedDate = readFormat.format(date);
+            }
+            holder.tvExpiryDate.setText("End Date: " + formattedDate);
 
-        holder.tvTitle.setText(mappingBean.getSurveyDetails().getTitle());
-        holder.tvPending.setText(String.valueOf(mappingBean.getPending()));
-        setUpListners(holder, position);
+
+            holder.tvTitle.setText(mappingBean.getSurveyDetails().getTitle());
+            holder.tvPending.setText(String.valueOf(mappingBean.getPending()));
+            setUpListners(holder, position);
+        }
     }
 
     private void setUpListners(TeamSurveyViewHolder holder, int position) {

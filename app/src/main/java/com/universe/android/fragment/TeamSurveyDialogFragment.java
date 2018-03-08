@@ -332,17 +332,19 @@ public class TeamSurveyDialogFragment extends DialogFragment {
         textViewApplyFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                fromDateString = input_period_from.getText().toString();
                 toDateString = input_period_to.getText().toString();
+                id = loginDetailsBeanArrayList.get(0).getMember().get_id();
                 StringBuilder stringBuilder = new StringBuilder();
 
-                for (LoginResponse.ResponseBean.LoginDetailsBean number : loginDetailsBeanArrayList) {
-                    if (number.isSelected()) {
-                        if (stringBuilder.length() > 0)
-                            stringBuilder.append(", ");
-                        stringBuilder.append(number.getMember().get_id());
-                    }
-                    id=stringBuilder.toString();
-                }
+//                for (LoginResponse.ResponseBean.LoginDetailsBean number : loginDetailsBeanArrayList) {
+//                    if (number.isSelected()) {
+//                        if (stringBuilder.length() > 0)
+//                            stringBuilder.append(", ");
+//                        stringBuilder.append(number.getMember().get_id());
+//                    }
+//                    id = stringBuilder.toString();
+//                }
 
                 if (Utility.validateString(fromDateString) && !fromDateString.equals(AppConstants.DATE_FORMAT)) {
                     if (Utility.validateString(toDateString) && !toDateString.equals(AppConstants.DATE_FORMAT)) {
@@ -415,7 +417,7 @@ public class TeamSurveyDialogFragment extends DialogFragment {
 
 
     public interface TeamSurveyData {
-         void submitTeamSurveyData(String id,String fromDate,String toDate);
+        void submitTeamSurveyData(String id, String fromDate, String toDate);
     }
 
 }
