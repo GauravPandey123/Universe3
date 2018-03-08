@@ -150,7 +150,7 @@ public class WorkFlowsDetailActivity extends BaseActivity {
                     realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"3").findAll();
                 }
             }
-            
+
 
             if (realmAnswers != null && realmAnswers.size() > 0) {
                 for (int i = 0; i < realmAnswers.size(); i++) {
@@ -174,7 +174,7 @@ public class WorkFlowsDetailActivity extends BaseActivity {
                     modal.setCustomerId(realmCustomer.getId());
                     modal.setStatus(type);
                     modal.setCustomer(realmCustomer.getCustomer());
-                   modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getCreatedAt()));
+                    modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getCreatedAt()));
                     stringArrayList.add(modal);
                 }
             }else {
@@ -262,10 +262,10 @@ public class WorkFlowsDetailActivity extends BaseActivity {
         textViewMobileNo.setText(getResources().getString(R.string.workflow_mobile_no));
         imageViewBack = findViewById(R.id.imageviewback);
 
-         llPending = (LinearLayout) findViewById(R.id.ll_pending);
-         ll_inprogress = (LinearLayout) findViewById(R.id.ll_inprogress);
-         ll_completed = (LinearLayout) findViewById(R.id.ll_completed);
-         ll_rejected = (LinearLayout) findViewById(R.id.ll_rejected);
+        llPending = (LinearLayout) findViewById(R.id.ll_pending);
+        ll_inprogress = (LinearLayout) findViewById(R.id.ll_inprogress);
+        ll_completed = (LinearLayout) findViewById(R.id.ll_completed);
+        ll_rejected = (LinearLayout) findViewById(R.id.ll_rejected);
 
         tvPending = (TextView) findViewById(R.id.tvPending);
         tvInprogress = (TextView) findViewById(R.id.tvInprogress);

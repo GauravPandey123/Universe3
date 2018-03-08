@@ -98,6 +98,7 @@ public class AppConstants {
     public static final String LATTITUDE = "lattitude";
     public static final String LONGITUDE = "longitude";
     public static final String PROFILE_CHECK = "ProfileCheck";
+
     //survey status
     public static final int PENDING = 0;
     public static final int INPROCESS = 1;
@@ -114,10 +115,10 @@ public class AppConstants {
     public static final String USERNAME = "userName";
     public static final String STATUS = "status";
     public static final String QUESTIONS = "questions";
-    public static final java.lang.String QUESTIONID = "questionId";
-    public static final java.lang.String ANSWER = "answer";
-    public static final java.lang.String REQUIRED = "required";
-    public static final java.lang.String ISVIEW = "isView";
+    public static final String QUESTIONID = "questionId";
+    public static final String ANSWER = "answer";
+    public static final String REQUIRED = "required";
+    public static final String ISVIEW = "isView";
     public static final String WORKFLOW = "workflow";
     public static final String REPORT = "report";
 
@@ -133,7 +134,8 @@ public class AppConstants {
     public static final String PNG_FILE_TYPE = "pngFile";
     public static final String EXCEL_FILE_TYPE = "excelFile";
     public static final String DIR_UNIVERSE = "/Universe";
-    public static final String NEW = "new";
+    public static final String NEW = "retailer";
+    public static final String ISVIEWBYZM ="isViewZM" ;
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";
@@ -150,7 +152,7 @@ public class AppConstants {
     public static final String UPDATEID = "updateId";
     public static final String MAPPING = "mapping";
     public static final String DETAILS = "details";
-    public static final java.lang.String EMPLOYEE_NAME = "employee_name";
+    public static final String EMPLOYEE_NAME = "employee_name";
 
     public static final String customer = "customer";
     public static final String employee = "employee";
@@ -195,7 +197,5 @@ public class AppConstants {
     public static String totalSales="totalSales";
 
 
-    public static String CUSTOMERIMAGE="CUSTOMERIMAGE";
-    public static String LocationUpdate="LocationUpdate";
 }
 

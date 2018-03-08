@@ -7,12 +7,10 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,13 +21,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-import com.bumptech.glide.Glide;
-import com.soundcloud.android.crop.Crop;
 import com.universe.android.R;
 import com.universe.android.adapter.CustomExpandableListAdapter;
 import com.universe.android.component.NonScrollExpandableListView;
@@ -43,22 +41,15 @@ import com.universe.android.realmbean.RealmController;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.realmbean.RealmQuestion;
 import com.universe.android.realmbean.RealmSurveys;
-import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureRequest;
-import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureResponse;
-import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureService;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
-import com.universe.android.web.BaseApiCallback;
-import com.universe.android.web.BaseRequest;
 import com.universe.android.workflows.WorkFlowsActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,7 +57,6 @@ import java.util.List;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import in.editsoft.api.exception.APIException;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -79,27 +69,27 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import ru.bullyboo.view.CircleSeekBar;
 
-public class CategoryExpandableListActivity extends BaseActivity {
+public class CategoryExpandableListActivity extends AppCompatActivity {
     private JSONObject jsonSubmitReq = new JSONObject();
     private Toolbar toolbar;
     List<CategoryModal> arraylistTitle = new ArrayList<>();
     HashMap<CategoryModal, List<Questions>> expandableListDetail = new HashMap<CategoryModal, List<Questions>>();
     private NonScrollExpandableListView expandableListView;
     private CustomExpandableListAdapter expandableListAdapter;
-    private String title, surveyId, customerId;
-    private TextView textViewRetailersNameMap, textViewMobileNoMap;
+    private String title,surveyId,customerId;
+    private TextView textViewRetailersNameMap,textViewMobileNoMap;
     Button btnReject;
     Button btnApprove;
     private CircleSeekBar seekBar;
-    private String updateId;
-    CircleImageView circleImageView;
-    private ImageView imageLoc;
-    private String mImageUrl;
-    private boolean isUpdateImage = false;
+    private String updateId,strCustomer="",strStatus="";
+    private ProgressBar mProgress;
+    private LinearLayout llStatus;
+    private ImageView imageStatus;
+    private TextView textStatus;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_category_expand_list);
 
@@ -107,14 +97,15 @@ public class CategoryExpandableListActivity extends BaseActivity {
         initViews();
         setHeader();
 
-        Intent intent = getIntent();
-        if (intent != null) {
-            title = intent.getExtras().getString(AppConstants.STR_TITLE);
-            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
-            customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
+        Intent intent=getIntent();
+        if (intent!=null){
+            title= intent.getExtras().getString(AppConstants.STR_TITLE);
+            surveyId= intent.getExtras().getString(AppConstants.SURVEYID);
+            customerId= intent.getExtras().getString(AppConstants.CUSTOMERID);
+            strCustomer=intent.getExtras().getString(AppConstants.CUSTOMER);
             // customerId="5a83ca4296318c134c534cb9";
         }
-        TextView toolbarTtile = findViewById(R.id.toolbarTtile);
+        TextView toolbarTtile=(TextView)findViewById(R.id.toolbarTtile);
         toolbarTtile.setText(title);
         setupDetail();
 
@@ -127,7 +118,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 if (title.contains(AppConstants.WORKFLOWS)) {
                     showReasonDialog();
 
-                } else {
+                }else{
 
                     jsonSubmitReq = prepareJsonRequest("Reject", "");
 
@@ -154,40 +145,59 @@ public class CategoryExpandableListActivity extends BaseActivity {
             public void onClick(View v) {
                 Utility.animateView(v);
                 jsonSubmitReq = prepareJsonRequest("Approve", "");
-                if (Utility.isConnected()) {
-                    submitAnswers(updateId, true);
-                } else {
-                    saveNCDResponseLocal(updateId, true);
+                if (Utility.isConnected()){
+                    submitAnswers(updateId,true);
+                }else {
+                    saveNCDResponseLocal(updateId,true);
                 }
 
+
+           /* String updateId = "";
+            if (view.getTag() != null) {
+                if (view.getTag() instanceof String) {
+                    updateId = (String) view.getTag();
+                }
+            }
+            showReviewConfirmAlert(updateId, false);*/
             }
 
         });
     }
 
 
-    private JSONObject prepareJsonRequest(String type, String reason) {
-        jsonSubmitReq = new JSONObject();
-        JSONArray array = new JSONArray();
-        Realm realm = Realm.getDefaultInstance();
-        try {
-            RealmResults<RealmAnswers> realmCategoryAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, customerId).equalTo(AppConstants.SURVEYID, surveyId).findAll();
 
-            if (realmCategoryAnswers != null && realmCategoryAnswers.size() > 0) {
+    private JSONObject prepareJsonRequest(String type, String reason) {
+        jsonSubmitReq=new JSONObject();
+        JSONArray array=new JSONArray();
+        Realm realm = Realm.getDefaultInstance();
+        try{
+            RealmResults<RealmAnswers> realmCategoryAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findAll();
+
+            if (realmCategoryAnswers!=null && realmCategoryAnswers.size()>0) {
                 if (realmCategoryAnswers.get(0).isSync()) {
                     updateId = realmCategoryAnswers.get(0).get_id();
+                }
+                if (Utility.validateString(realmCategoryAnswers.get(0).getCustomer())){
+                    strCustomer=realmCategoryAnswers.get(0).getCustomer();
                 }
                 array = new JSONArray(realmCategoryAnswers.get(0).getWorkflow());
                 jsonSubmitReq.put(AppConstants.ANSWERS, new JSONArray(realmCategoryAnswers.get(0).getAnswers()));
                 if (Utility.validateString(updateId))
                     jsonSubmitReq.put(AppConstants.ID, realmCategoryAnswers.get(0).get_id());
-                String designation = Prefs.getStringPrefs(AppConstants.TYPE);
-                if (designation.equalsIgnoreCase("cd"))
+                String designation= Prefs.getStringPrefs(AppConstants.TYPE);
+                if (designation.equalsIgnoreCase("cd")) {
                     jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
-                if (designation.equalsIgnoreCase("rm"))
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, realmCategoryAnswers.get(0).getSubmitbyRM());
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, realmCategoryAnswers.get(0).getSubmitbyZM());
+                }   if (designation.equalsIgnoreCase("rm")) {
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, realmCategoryAnswers.get(0).getSubmitbyCD());
                     jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
-                if (designation.equalsIgnoreCase("zm"))
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, realmCategoryAnswers.get(0).getSubmitbyZM());
+                } if (designation.equalsIgnoreCase("zm")) {
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, realmCategoryAnswers.get(0).getSubmitbyCD());
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, realmCategoryAnswers.get(0).getSubmitbyRM());
                     jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
+                }
 
                 if (title.contains(AppConstants.WORKFLOWS)) {
 
@@ -214,7 +224,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                             jsonObject.put(AppConstants.STATUS, "Rejected");
                             array.put(jsonObject);
                         }
-                    } else {
+                    }else{
                         if (type.equalsIgnoreCase("Approve")) {
                             jsonSubmitReq.put(AppConstants.CD_STATUS, "2");
                             jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
@@ -253,16 +263,21 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
 
+                jsonSubmitReq.put(AppConstants.CUSTOMER,strCustomer);
+
+
                 jsonSubmitReq.put(AppConstants.WORKFLOW, array);
                 jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());
             }
 
 
-        } catch (Exception e0) {
+
+
+        }catch (Exception e0){
             e0.printStackTrace();
             realm.close();
-        } finally {
-            if (!realm.isClosed()) {
+        }finally {
+            if(!realm.isClosed()){
                 realm.close();
             }
 
@@ -291,6 +306,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 } else {
                     jsonSubmitReq.put(AppConstants.ISSYNC, false);
                 }*/
+
 
 
                 realm.createOrUpdateObjectFromJson(RealmAnswers.class, jsonSubmitReq);
@@ -324,17 +340,17 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 dialog.dismiss();
 
 
-                Intent i = new Intent(CategoryExpandableListActivity.this, SearchCustomersActivity.class);
+                Intent i=new Intent(CategoryExpandableListActivity.this, SearchCustomersActivity.class);
 
-                if (btnApprove.getText().toString().equalsIgnoreCase("Approve")) {
-                    i = new Intent(CategoryExpandableListActivity.this, WorkFlowsActivity.class);
+                if (btnApprove.getText().toString().equalsIgnoreCase("Approve")){
+                    i=new Intent(CategoryExpandableListActivity.this, WorkFlowsActivity.class);
 
                 }
 
-                i.putExtra(AppConstants.STR_TITLE, title);
-                i.putExtra(AppConstants.SURVEYID, surveyId);
-                i.putExtra(AppConstants.CUSTOMERID, customerId);
-                i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                i.putExtra(AppConstants.STR_TITLE,title);
+                i.putExtra(AppConstants.SURVEYID,surveyId);
+                i.putExtra(AppConstants.CUSTOMERID,customerId);
+                i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(i);
                 finish();
                 if (Utility.validateString(isUpdateId)) {
@@ -380,22 +396,34 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
     private void setupDetail() {
         Realm realm = Realm.getDefaultInstance();
-        try {
-            RealmCustomer realmCustomer = realm.where(RealmCustomer.class).equalTo(AppConstants.ID, customerId).findFirst();
+        try{
 
-            if (Utility.validateString(realmCustomer.getName()))
-                textViewRetailersNameMap.setText(realmCustomer.getName());
-
-            textViewMobileNoMap.setText(realmCustomer.getContactNo() + " | " +
-                    realmCustomer.getTerritory() + " | " + realmCustomer.getState() + "  \n" +
-                    "Pincode - " + realmCustomer.getPincode());
+            RealmCustomer realmCustomer=realm.where(RealmCustomer.class).equalTo(AppConstants.ID,customerId).findFirst();
 
 
-        } catch (Exception e0) {
+            if (realmCustomer.getCustomer().equalsIgnoreCase(AppConstants.CrystalCustomer)){
+                if (Utility.validateString(realmCustomer.getName()))
+                    textViewRetailersNameMap.setText(realmCustomer.getName());
+
+                textViewMobileNoMap.setText(realmCustomer.getContactNo()+" | "+
+                        realmCustomer.getTerritory()+" | "+realmCustomer.getState()+"  \n"+
+                        "Pincode - "+realmCustomer.getPincode());
+
+            }else{
+                if (Utility.validateString(realmCustomer.getRetailerName()))
+                    textViewRetailersNameMap.setText(realmCustomer.getRetailerName());
+
+                textViewMobileNoMap.setText(realmCustomer.getMobile()+" | "+
+                        realmCustomer.getTerritory_code()+" | "+realmCustomer.getState_code()+"  \n"+
+                        "Pincode - "+realmCustomer.getPincode());
+            }
+
+
+        }catch (Exception e0){
             e0.printStackTrace();
             realm.close();
-        } finally {
-            if (!realm.isClosed()) {
+        }finally {
+            if(!realm.isClosed()){
                 realm.close();
             }
 
@@ -412,42 +440,69 @@ public class CategoryExpandableListActivity extends BaseActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void initViews() {
+    private void initViews(){
         expandableListView = (NonScrollExpandableListView) findViewById(R.id.expandableListView);
         textViewMobileNoMap = (TextView) findViewById(R.id.textViewMobileNoMap);
         textViewRetailersNameMap = (TextView) findViewById(R.id.textViewRetailersNameMap);
         btnReject = (Button) findViewById(R.id.btnReject);
         btnApprove = (Button) findViewById(R.id.btnApprove);
-        imageLoc = findViewById(R.id.imageLoc);
-        circleImageView = findViewById(R.id.circularImageViewMap);
-        circleImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showImageOptions();
-            }
-        });
-        if (Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE) != null) {
-            Glide.with(mActivity).load(Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE)).into(circleImageView);
+        llStatus = (LinearLayout) findViewById(R.id.llStatus);
+        imageStatus = (ImageView) findViewById(R.id.imageStatus);
+        textStatus = (TextView) findViewById(R.id.textStatus);
+        RelativeLayout relativeLayout=(RelativeLayout)findViewById(R.id.rlImage);
+        //  seekbar=(SeekBar)findViewById(R.id.seek_bar);
+        seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
+
+        Resources res = getResources();
+        Drawable drawable = res.getDrawable(R.drawable.circular_progress);
+        mProgress = (ProgressBar) findViewById(R.id.circularProgressbar);
+        mProgress.setProgress(0);   // Main Progress
+        mProgress.setSecondaryProgress(100); // Secondary Progress
+        mProgress.setMax(100); // Maximum Progress
+        mProgress.setProgressDrawable(drawable);
+        CircleImageView circleImageView=(CircleImageView)findViewById(R.id.circularImageViewMap);
+        if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)){
+            circleImageView.setImageResource(R.drawable.ic_customer);
+        }else {
+            circleImageView.setImageResource(R.drawable.ic_retailer);
         }
 
-        if (Prefs.getBooleanPrefs(AppConstants.PROFILE_CHECK)) {
-            Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, false);
-            imageLoc.setImageResource(R.drawable.ic_location_on_black_24dp);
-
-        } else {
-
-        }
-
-        imageLoc.setOnClickListener(new View.OnClickListener() {
+        llStatus.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(mContext, MapsOneActivity.class);
+            public void onClick(View v) {
 
+                Intent intent = new Intent(CategoryExpandableListActivity.this, WorkFlowsActivity.class);
+
+
+
+
+                intent.putExtra(AppConstants.STR_TITLE,title);
+                intent.putExtra(AppConstants.SURVEYID,surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID,customerId);
+                intent.putExtra(AppConstants.CUSTOMER,strCustomer);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
         });
 
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (strStatus.equalsIgnoreCase("1") ||strStatus.equalsIgnoreCase("2") ||strStatus.equalsIgnoreCase("3")) {
+
+                }else {
+                    Intent intent = new Intent(CategoryExpandableListActivity.this, MapsOneActivity.class);
+                    intent.putExtra(AppConstants.STR_TITLE,title);
+                    intent.putExtra(AppConstants.SURVEYID,surveyId);
+                    intent.putExtra(AppConstants.CUSTOMERID,customerId);
+                    intent.putExtra(AppConstants.CUSTOMER,strCustomer);
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                }
+
+            }
+        });
         expandableListView.setGroupIndicator(null);
 
 
@@ -460,13 +515,14 @@ public class CategoryExpandableListActivity extends BaseActivity {
                             int groupPosition, int childPosition,
                             long id) {
                         Utility.animateView(v);
-                        Intent i = new Intent(CategoryExpandableListActivity.this, QuestionaireActivity.class);
-                        i.putExtra(AppConstants.STR_TITLE, title);
-                        i.putExtra(AppConstants.SURVEYID, surveyId);
-                        i.putExtra(AppConstants.CUSTOMERID, customerId);
-                        i.putExtra(AppConstants.UPDATEID, updateId);
-                        Prefs.putStringPrefs(AppConstants.VISIBLITY, "");
-                        i.putExtra(AppConstants.GROUP_POSITION, groupPosition);
+                        Intent i=new Intent(CategoryExpandableListActivity.this,QuestionaireActivity.class);
+                        i.putExtra(AppConstants.STR_TITLE,title);
+                        i.putExtra(AppConstants.SURVEYID,surveyId);
+                        i.putExtra(AppConstants.CUSTOMERID,customerId);
+                        i.putExtra(AppConstants.UPDATEID,updateId);
+                        Prefs.putStringPrefs(AppConstants.VISIBLITY,"");
+                        i.putExtra(AppConstants.GROUP_POSITION,groupPosition);
+                        i.putExtra(AppConstants.STATUS,strStatus);
                         startActivity(i);
 
                         return false;
@@ -475,38 +531,42 @@ public class CategoryExpandableListActivity extends BaseActivity {
     }
 
 
-    private void prepareCategory() {
-        int progressTotal = 0;
-        int progressRequired = 0;
+    private void prepareCategory(){
+
+        int progressTotal=0;
+        int progressRequired=0;
 
         arraylistTitle = new ArrayList<>();
-        expandableListDetail = new HashMap<CategoryModal, List<Questions>>();
-        ArrayList<String> arrISView = new ArrayList<>();
+        expandableListDetail=new HashMap<CategoryModal, List<Questions>>();
+        ArrayList<String> arrISView=new ArrayList<>();
+        ArrayList<String> arrISViewByZM=new ArrayList<>();
 
         Realm realm = Realm.getDefaultInstance();
-        RealmSurveys realmSurveys = realm.where(RealmSurveys.class).equalTo(AppConstants.ID, surveyId).findFirst();
+        RealmSurveys realmSurveys=realm.where(RealmSurveys.class).equalTo(AppConstants.ID,surveyId).findFirst();
 
         try {
             JSONArray jsonArray = new JSONArray(realmSurveys.getCategoryId());
-            for (int l = 0; l < jsonArray.length(); l++) {
+            for (int l=0;l<jsonArray.length();l++){
 
-                RealmAnswers realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID, surveyId).equalTo(AppConstants.CUSTOMERID, customerId).findFirst();
+                RealmAnswers realmAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,surveyId).equalTo(AppConstants.CUSTOMERID,customerId).findFirst();
 
-                if (realmAnswers != null) {
-                    updateId = realmAnswers.get_id();
-                    JSONArray array = new JSONArray(realmAnswers.getAnswers());
+                if (realmAnswers!=null){
+                    updateId=realmAnswers.get_id();
+                    strStatus=realmAnswers.getCd_Status();
+                    JSONArray array=new JSONArray(realmAnswers.getAnswers());
                     // JSONArray array1=new JSONArray(array.toString());
                     //   String json=array.get(0).toString();
                     //  JSONArray array1=new JSONArray(json);
-                    if (array.length() > 0) {
-                        for (int i = 0; i < array.length(); i++) {
+                    if (array.length()>0){
+                        for (int i=0;i<array.length();i++){
 
-                            JSONObject jsonObject = array.getJSONObject(i);
-                            String categoryId = jsonObject.optString(AppConstants.CATEGORYID);
-                            String isView = jsonObject.optString(AppConstants.ISVIEW);
-                            JSONArray questions = jsonObject.getJSONArray(AppConstants.QUESTIONS);
-                            if (categoryId.equalsIgnoreCase(jsonArray.get(l).toString())) {
-                                RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID, jsonArray.get(l).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
+                            JSONObject jsonObject=array.getJSONObject(i);
+                            String categoryId=jsonObject.optString(AppConstants.CATEGORYID);
+                            String isView=jsonObject.optString(AppConstants.ISVIEW);
+                            String isViewByZM=jsonObject.optString(AppConstants.ISVIEWBYZM);
+                            JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
+                            if (categoryId.equalsIgnoreCase(jsonArray.get(l).toString())){
+                                RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID,jsonArray.get(l).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
                                 if (realmCategoryDetails != null) {
 
 
@@ -514,8 +574,12 @@ public class CategoryExpandableListActivity extends BaseActivity {
                                     categoryModal.setId(realmCategoryDetails.getId());
                                     categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
                                     categoryModal.setStatus(isView);
+                                    categoryModal.setIsViewByZM(isViewByZM);
                                     if (isView.equalsIgnoreCase("1"))
                                         arrISView.add(isView);
+
+                                    if (isViewByZM.equalsIgnoreCase("1"))
+                                        arrISViewByZM.add(isViewByZM);
                                     try {
                                         //  RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID,surveyId).findAll();
 
@@ -523,11 +587,11 @@ public class CategoryExpandableListActivity extends BaseActivity {
                                         //         String categoryId = realmCategoryDetails.get(k).getId();
                                         ArrayList<Questions> questionsArrayList = new ArrayList<>();
 
-                                        for (int n = 0; n < questions.length(); n++) {
+                                        for (int n=0;n<questions.length();n++){
 
-                                            JSONObject jsonObject1 = questions.getJSONObject(n);
+                                            JSONObject jsonObject1=questions.getJSONObject(n);
 
-                                            Questions questions1 = new Questions();
+                                            Questions questions1 =new Questions();
                                             questions1.setQuestionId(jsonObject1.optString(AppConstants.QUESTIONID));
                                             questions1.setTitle(jsonObject1.optString(AppConstants.TITLE));
                                             questions1.setStatus(jsonObject1.optString(AppConstants.REQUIRED));
@@ -535,35 +599,35 @@ public class CategoryExpandableListActivity extends BaseActivity {
                                             questionsArrayList.add(questions1);
 
                                         }
-                                        ArrayList<String> stringsRequired = new ArrayList<>();
-                                        ArrayList<String> stringsRequiredAnswers = new ArrayList<>();
-                                        ArrayList<String> doneQuestions = new ArrayList<>();
-                                        for (int p = 0; p < questionsArrayList.size(); p++) {
+                                        ArrayList<String> stringsRequired=new ArrayList<>();
+                                        ArrayList<String> stringsRequiredAnswers=new ArrayList<>();
+                                        ArrayList<String> doneQuestions=new ArrayList<>();
+                                        for (int p=0;p<questionsArrayList.size();p++){
                                             if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
 
                                                 stringsRequired.add(questionsArrayList.get(p).getStatus());
                                             }
-                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0")) {
+                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
 
                                                 stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
                                             }
-                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0")) {
+                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer()) ) {
 
                                                 doneQuestions.add(questionsArrayList.get(p).getAnswer());
                                             }
 
                                         }
-                                        if (stringsRequired.size() == stringsRequiredAnswers.size()) {
+                                        if (stringsRequired.size()==stringsRequiredAnswers.size()){
                                             categoryModal.setCategoryAnswered("Yes");
-                                        } else {
+                                        }else {
                                             categoryModal.setCategoryAnswered("No");
                                         }
-                                        categoryModal.setQuestionCount(doneQuestions.size() + "/" + questionsArrayList.size());
+                                        categoryModal.setQuestionCount(doneQuestions.size()+"/"+questionsArrayList.size());
                                         categoryModal.setQuestions(questionsArrayList);
 
                                         arraylistTitle.add(categoryModal);
-                                        progressRequired = progressRequired + stringsRequiredAnswers.size();
-                                        progressTotal = progressTotal + stringsRequired.size();
+                                        progressRequired=progressRequired+stringsRequiredAnswers.size();
+                                        progressTotal=progressTotal+stringsRequired.size();
 
                                         //   }
 
@@ -572,7 +636,12 @@ public class CategoryExpandableListActivity extends BaseActivity {
                                     }
 
 
-                                } else {
+
+
+
+
+
+                                }else{
                                     showToastMessage(getResources().getString(R.string.no_data));
                                 }
 
@@ -580,7 +649,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
                         }
                     }
-                } else {
+                }else {
                     RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID, jsonArray.get(l).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
                     if (realmCategoryDetails != null) {
 
@@ -589,6 +658,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         categoryModal.setId(realmCategoryDetails.getId());
                         categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
                         categoryModal.setStatus("");
+                        categoryModal.setIsViewByZM("");
                         categoryModal.setCategoryAnswered("");
                         try {
                             RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID, surveyId).findAll();
@@ -612,10 +682,10 @@ public class CategoryExpandableListActivity extends BaseActivity {
                                 questionsArrayList.add(questions);
 
                             }
-                            categoryModal.setQuestionCount(questionsArrayList.size() + "");
+                            categoryModal.setQuestionCount(questionsArrayList.size()+"");
                             categoryModal.setQuestions(questionsArrayList);
-                            progressRequired = 0;
-                            progressTotal = 100;
+                            progressRequired=0;
+                            progressTotal=100;
                             arraylistTitle.add(categoryModal);
 
                             //   }
@@ -635,10 +705,10 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
             }
 
-            ArrayList<String> categoryAnswered = new ArrayList<>();
-            for (int m = 0; m < arraylistTitle.size(); m++) {
+            ArrayList<String> categoryAnswered=new ArrayList<>();
+            for (int m=0;m<arraylistTitle.size();m++) {
                 categoryAnswered.add(arraylistTitle.get(m).getCategoryAnswered());
-                ArrayList<Questions> productDetailsModelArrayList = new ArrayList<>();
+                ArrayList<Questions> productDetailsModelArrayList=new ArrayList<>();
                 for (int k = 0; k < arraylistTitle.get(m).getQuestions().size(); k++) {
                     productDetailsModelArrayList.add(arraylistTitle.get(m).getQuestions().get(k));
                 }
@@ -649,27 +719,71 @@ public class CategoryExpandableListActivity extends BaseActivity {
             expandableListAdapter = new CustomExpandableListAdapter(CategoryExpandableListActivity.this, arraylistTitle, expandableListDetail);
             expandableListView.setAdapter(expandableListAdapter);
 
-            TextView textViewProgress = (TextView) findViewById(R.id.progressBarinsideText);
+            TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
+            mProgress.setProgress(progressRequired);
+            mProgress.setMax(progressTotal);
             seekBar.setValue(progressRequired);
             seekBar.setMaxValue(progressTotal);
-            int percent = (progressRequired * 100) / progressTotal;
-            textViewProgress.setText(percent + "%");
-            if (title.contains(AppConstants.WORKFLOWS)) {
+            int percent=(progressRequired*100)/progressTotal;
+            textViewProgress.setText(percent+"%");
+
+            if (title.contains(AppConstants.WORKFLOWS)){
                 btnApprove.setText(getString(R.string.approve));
                 btnReject.setText(getString(R.string.reject));
-                if (arraylistTitle.size() != arrISView.size()) {
-                    btnApprove.setBackgroundResource(R.color.grey);
-                    btnApprove.setEnabled(false);
-                    btnReject.setBackgroundResource(R.color.red);
-                    btnReject.setEnabled(true);
+                textViewProgress.setVisibility(View.VISIBLE);
+                mProgress.setVisibility(View.VISIBLE);
+                llStatus.setVisibility(View.GONE);
+                String type=Prefs.getStringPrefs(AppConstants.TYPE);
+                if (type.equalsIgnoreCase("rm")) {
+                    if (arraylistTitle.size() != arrISView.size()) {
+                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setEnabled(false);
+                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setEnabled(true);
 
-                } else {
-                    btnApprove.setBackgroundResource(R.color.green);
-                    btnApprove.setEnabled(true);
-                    btnReject.setBackgroundResource(R.color.red);
-                    btnReject.setEnabled(true);
+                    } else {
+                        btnApprove.setBackgroundResource(R.color.green);
+                        btnApprove.setEnabled(true);
+                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setEnabled(true);
+                    }
+                }else {
+                    if (arraylistTitle.size() != arrISViewByZM.size()) {
+                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setEnabled(false);
+                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setEnabled(true);
+
+                    } else {
+                        btnApprove.setBackgroundResource(R.color.green);
+                        btnApprove.setEnabled(true);
+                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setEnabled(true);
+                    }
                 }
-            } else {
+
+                if (strStatus.equalsIgnoreCase("2") ||strStatus.equalsIgnoreCase("3")){
+                    btnApprove.setVisibility(View.GONE);
+                    btnReject.setVisibility(View.GONE);
+                    // textViewProgress.setVisibility(View.GONE);
+                    // mProgress.setVisibility(View.GONE);
+                    //  llStatus.setVisibility(View.VISIBLE);
+
+                    if (strStatus.equalsIgnoreCase("2")){
+                        //     textStatus.setText("Approved");
+                        //    imageStatus.setImageResource(R.drawable.ic_submitted);
+                    }else if (strStatus.equalsIgnoreCase("3")){
+                        //    textStatus.setText("Rejected");
+                        //    imageStatus.setImageResource(R.drawable.rejected);
+                    }
+                }else {
+                    btnApprove.setVisibility(View.VISIBLE);
+                    btnReject.setVisibility(View.VISIBLE);
+                    //  textViewProgress.setVisibility(View.VISIBLE);
+                    //  mProgress.setVisibility(View.VISIBLE);
+                    //  llStatus.setVisibility(View.GONE);
+                }
+            }else {
                 if (categoryAnswered.contains("No") || categoryAnswered.contains("")) {
                     btnApprove.setBackgroundResource(R.color.grey);
                     btnApprove.setEnabled(false);
@@ -682,15 +796,40 @@ public class CategoryExpandableListActivity extends BaseActivity {
                     btnReject.setBackgroundResource(R.color.green);
                     btnReject.setEnabled(true);
                 }
+
+                if (strStatus.equalsIgnoreCase("1") ||strStatus.equalsIgnoreCase("2")){
+                    btnApprove.setVisibility(View.GONE);
+                    btnReject.setVisibility(View.GONE);
+                    textViewProgress.setVisibility(View.GONE);
+                    mProgress.setVisibility(View.GONE);
+                    llStatus.setVisibility(View.VISIBLE);
+
+                    if (strStatus.equalsIgnoreCase("1")){
+                        textStatus.setText("Submitted");
+                        imageStatus.setImageResource(R.drawable.ic_submitted);
+                    }else if (strStatus.equalsIgnoreCase("2")){
+                        textStatus.setText("Approved");
+                        imageStatus.setImageResource(R.drawable.ic_submitted);
+                    }else if (strStatus.equalsIgnoreCase("3")){
+                        textStatus.setText("Rejected");
+                        imageStatus.setImageResource(R.drawable.rejected);
+                    }
+                }else {
+                    btnApprove.setVisibility(View.VISIBLE);
+                    btnReject.setVisibility(View.VISIBLE);
+                    textViewProgress.setVisibility(View.VISIBLE);
+                    mProgress.setVisibility(View.VISIBLE);
+                    llStatus.setVisibility(View.GONE);
+                }
             }
 
 
-        } catch (Exception e0) {
+        }catch (Exception e0){
 
             e0.printStackTrace();
             realm.close();
-        } finally {
-            if (!realm.isClosed()) {
+        }finally {
+            if(!realm.isClosed()){
                 realm.close();
             }
 
@@ -698,7 +837,6 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
 
     }
-
     protected void showToastMessage(String strMsg) {
         Utility.showToastMessage(this, strMsg);
     }
@@ -726,16 +864,16 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
-        String url = "";
+        String url="";
         if (btnReject.getText().toString().equalsIgnoreCase("Reject")) {
             url = UniverseAPI.WEB_SERVICE_CREATE_APPROVE_METHOD;
             if (Utility.validateString(isUpdateId)) {
                 url = UniverseAPI.WEB_SERVICE_CREATE_APPROVE_METHOD;
             }
-        } else {
-            if (Utility.validateString(isUpdateId)) {
+        }else {
+            if (Utility.validateString(isUpdateId)){
                 url = UniverseAPI.WEB_SERVICE_CREATE_UPDATE_METHOD;
-            } else {
+            }else{
                 url = UniverseAPI.WEB_SERVICE_CREATE_ANSWER_METHOD;
             }
 
@@ -773,11 +911,11 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         if (Utility.validateString(responseData)) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-                            if (!Utility.validateString(updateId)) {
+                            if (!Utility.validateString(updateId)){
                                 Realm realm = Realm.getDefaultInstance();
                                 try {
                                     realm.beginTransaction();
-                                    RealmResults<RealmAnswers> realmDeleteInputForms = realm.where(RealmAnswers.class).equalTo(AppConstants.ISSYNC, false).equalTo(AppConstants.CUSTOMERID, customerId).equalTo(AppConstants.SURVEYID, surveyId).findAll();
+                                    RealmResults<RealmAnswers> realmDeleteInputForms = realm.where(RealmAnswers.class).equalTo(AppConstants.ISSYNC, false).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findAll();
                                     if (realmDeleteInputForms != null && realmDeleteInputForms.size() > 0) {
                                         realmDeleteInputForms.deleteAllFromRealm();
                                     }
@@ -817,79 +955,8 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
-        super.onActivityResult(requestCode, resultCode, result);
-        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            Bitmap photo = (Bitmap) result.getExtras().get("data");
-            Uri tempUri = getImageUri(mActivity, photo);
-            beginCrop(tempUri);
-        } else if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
-            beginCrop(result.getData());
-        } else if (requestCode == Crop.REQUEST_CROP) {
-            handleCrop(resultCode, result);
-        }
-    }
 
-    public void imageUpload(String path) {
-//        ((BaseActivity) getActivity()).showProgress();
-        CustomerPictureRequest profileRequest = new CustomerPictureRequest();
-        profileRequest.setCustomerId(customerId);
-        profileRequest.setIsPicture(1);
-        profileRequest.setPhoto(path);
-        CustomerPictureService profileService = new CustomerPictureService();
-        profileService.executeService(profileRequest, new BaseApiCallback<CustomerPictureResponse>() {
-            @Override
-            public void onComplete() {
-
-            }
-
-            @Override
-            public void onSuccess(@NonNull CustomerPictureResponse response) {
-                super.onSuccess(response);
-                Glide.with(mContext)
-                        .load(response.getResponse().getImage())
-                        .into(circleImageView);
-                Prefs.putStringPrefs(AppConstants.CUSTOMERIMAGE, response.getResponse().getImage());
-                Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
-            }
-
-            @Override
-            public void onFailure(APIException e) {
-                super.onFailure(e);
-            }
-        });
-    }
-
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-
-    private void beginCrop(Uri source) {
-        Uri destination = Uri.fromFile(new File(mContext.getCacheDir(), "cropped"));
-        Crop.of(source, destination).asSquare().start(mActivity);
-    }
-
-    private void handleCrop(int resultCode, Intent result) {
-        if (resultCode == RESULT_OK) {
-            mImageUrl = Crop.getOutput(result).getPath();
-            if (Crop.getOutput(result).getPath() != null) {
-                File file = new File(Crop.getOutput(result).getPath());
-                Glide.with(mActivity)
-                        .load(file)
-                        .into(circleImageView);
-                isUpdateImage = true;
-                imageUpload(mImageUrl);
-            }
-        } else if (resultCode == Crop.RESULT_ERROR) {
-            Toast.makeText(mActivity, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void showReasonDialog() {
+    public void showReasonDialog(){
         final EditText taskEditText = new EditText(this);
         AlertDialog dialog = new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.reason))
@@ -898,13 +965,13 @@ public class CategoryExpandableListActivity extends BaseActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String reason = String.valueOf(taskEditText.getText());
-                        jsonSubmitReq = prepareJsonRequest("Reject", reason);
+                        jsonSubmitReq = prepareJsonRequest("Reject",reason);
 
 
-                        if (Utility.isConnected()) {
-                            submitAnswers(updateId, true);
-                        } else {
-                            saveNCDResponseLocal(updateId, false);
+                        if (Utility.isConnected()){
+                            submitAnswers(updateId,true);
+                        }else {
+                            saveNCDResponseLocal(updateId,false);
                         }
                     }
                 })

@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
 
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -15,8 +16,8 @@
             android:id="@+id/collapse_toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@color/light_grey_"
             android:fitsSystemWindows="true"
+            android:background="@color/light_grey_"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
@@ -51,6 +52,7 @@
                 </RelativeLayout>
 
 
+
             </RelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
@@ -61,10 +63,13 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
 
 
             <RelativeLayout
@@ -75,12 +80,10 @@
 
                 <include layout="@layout/questoionaire_header" />
             </RelativeLayout>
-
             <SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/include"
                 android:layout_margin="@dimen/view_padding"
                 android:layout_marginBottom="@dimen/view_row_margin"
                 android:background="@drawable/edt_bg"
@@ -90,17 +93,17 @@
                 android:imeActionLabel="Done"
                 android:imeOptions="actionDone"
                 android:inputType="text"
-                android:queryHint="@string/search_name"
-                android:visibility="gone" />
-
+                android:visibility="gone"
+                android:layout_below="@+id/include"
+                android:queryHint="@string/search_name" />
             <EditText
                 android:id="@+id/searchcustomers"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_below="@+id/includeCardView"
-                android:layout_centerVertical="true"
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="@dimen/margin_normal"
+                android:layout_centerVertical="true"
                 android:background="@color/white"
                 android:drawableRight="@drawable/ic_search"
                 android:gravity="start|center"
@@ -109,21 +112,32 @@
                 android:paddingLeft="@dimen/margin_normal"
                 android:paddingRight="@dimen/margin_normal"
                 android:singleLine="true"
-                android:textSize="@dimen/text_size_normal"
                 android:visibility="gone"
+                android:textSize="@dimen/text_size_normal"
                 app:layout_collapseMode="parallax" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-
-                <com.universe.android.helper.PagerSlidingTabStrip
+                <android.support.design.widget.TabLayout
                     android:id="@+id/pagerSlidingStrip"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
+                    app:tabMode="scrollable"
+                    app:tabIndicatorHeight="4dp"
+                    app:tabIndicatorColor="@color/app_theme_color"
+                    app:tabBackground="@color/white"
+                    app:tabTextColor="@color/app_theme_color"
+                    app:tabSelectedTextColor="@color/app_theme_color"
+                    app:tabGravity="fill"/>
+                <com.universe.android.helper.PagerSlidingTabStrip
+
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:visibility="gone"
                     android:layout_marginTop="4dp"
-                    android:background="@color/white" />
+                    />
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/questionaireViewPager"

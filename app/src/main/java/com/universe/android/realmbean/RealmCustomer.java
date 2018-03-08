@@ -367,4 +367,12 @@ public class RealmCustomer extends RealmObject {
     public void setCustomer(String customer) {
         this.customer = customer;
     }
+
+    public String getMajor_crop() {
+        return major_crop;
+    }
+
+    public void setMajor_crop(String major_crop) {
+        this.major_crop = major_crop;
+    }
 }

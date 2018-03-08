@@ -3,6 +3,8 @@ package com.universe.android.fragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Point;
@@ -10,6 +12,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.widget.NestedScrollView;
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
@@ -31,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -113,7 +117,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
     protected boolean isPopupVisible = false;
     protected boolean isSync;
     private ProgressDialog progressDialog;
-    private String surveyId,categoryId,customerId;
+    private String surveyId,categoryId,customerId,strCustomer;
     Button btnReject;
     Button btnApprove;
     JSONArray jsonArrayAnswers=new JSONArray();
@@ -122,11 +126,15 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
     private int position=0;
     private String updateId;
     public static PageChangeInterface pageChangeInterface;
-   public boolean flag=false;
-   public boolean showFields=true;
+    public boolean flag=false;
+    public boolean showFields=true;
+    private NestedScrollView scrollview;
     String visiblity="";
+    String strCD="",strRM="",strZm="";
+    private String strData="";
+    String strSubmitByCD="",strSubmitByRM="",strSubmitByZM="";
 
-    public static QuestionsCategoryFragment newInstance(String type, String categoryId, String customerId, int position, String updateId) {
+    public static QuestionsCategoryFragment newInstance(String type, String categoryId, String customerId, int position, String updateId, String customer) {
         QuestionsCategoryFragment myFragment = new QuestionsCategoryFragment();
 
         Bundle args = new Bundle();
@@ -135,6 +143,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         args.putString(AppConstants.CUSTOMERID, customerId);
         args.putInt(AppConstants.POSITION, position);
         args.putString(AppConstants.UPDATEID,updateId);
+        args.putString(AppConstants.CUSTOMER,customer);
         myFragment.setArguments(args);
 
         return myFragment;
@@ -152,7 +161,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         setUpListeners();
 
         llFields = (LinearLayout) view.findViewById(R.id.parent);
-
+        scrollview=(NestedScrollView)view.findViewById(R.id.scrollview);
         llClient = (LinearLayout) view.findViewById(R.id.llClient);
         llSurvey = (LinearLayout) view.findViewById(R.id.llSurvey);
         llCategory = (LinearLayout) view.findViewById(R.id.llCategory);
@@ -182,7 +191,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 } else {
                     saveNCDResponseLocal(updateId, false);
                 }
-               // saveNCDResponseLocal(updateId,false);
+                // saveNCDResponseLocal(updateId,false);
            /* String updateId = "";
             if (view.getTag() != null) {
                 if (view.getTag() instanceof String) {
@@ -204,7 +213,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                     saveNCDResponseLocal(updateId, false);
                 }
 
-            //    saveNCDResponseLocal("",false);
+                //    saveNCDResponseLocal("",false);
            /* String updateId = "";
             if (view.getTag() != null) {
                 if (view.getTag() instanceof String) {
@@ -215,6 +224,39 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
             }
 
         });
+
+        final SearchView searchView=(SearchView)view.findViewById(R.id.searchView);
+
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        assert searchManager != null;
+        SearchableInfo searchableInfo = searchManager.getSearchableInfo(getActivity().getComponentName());
+        if (searchView != null) {
+            searchView.setSearchableInfo(searchableInfo);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public boolean onQueryTextSubmit(String data) {
+                    //     if (object instanceof Fragment) {
+                    //  QuestionsCategoryFragment f = new QuestionsCategoryFragment();
+                    // QuestionsCategoryFragment.pageChangeInterface.onDataPass(query,mViewPager.getCurrentItem(),categoryModals.get(mViewPager.getCurrentItem()).getId());
+                    //    }
+                    //  position=pos;
+                    // categoryId = category;
+
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String data) {
+                    strData=data;
+                    //   QuestionsCategoryFragment.pageChangeInterface.onDataPass(newText ,positionValue,categoryModals.get(mViewPager.getCurrentItem()).getId());
+
+
+                    return false;
+                }
+            });
+        }
+
 
 
         return view;
@@ -232,13 +274,26 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 RealmAnswers realmAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,surveyId).equalTo(AppConstants.CUSTOMERID,customerId).findFirst();
                 if (realmAnswers!=null){
+                    if (Utility.validateString(realmAnswers.getCd_Status()))
+                        strCD=realmAnswers.getCd_Status();
+                    if (Utility.validateString(realmAnswers.getRm_STatus()))
+                        strRM=realmAnswers.getRm_STatus();
+                    if (Utility.validateString(realmAnswers.getZm_Status()))
+                        strZm=realmAnswers.getZm_Status();
+                    if (Utility.validateString(realmAnswers.getSubmitbyCD()))
+                        strSubmitByCD=realmAnswers.getSubmitbyCD();
+                    if (Utility.validateString(realmAnswers.getSubmitbyRM()))
+                        strSubmitByRM=realmAnswers.getSubmitbyRM();
+                    if (Utility.validateString(realmAnswers.getSubmitbyZM()))
+                        strSubmitByZM=realmAnswers.getSubmitbyZM();
+
                     JSONArray array=new JSONArray(realmAnswers.getAnswers());
                     JSONArray workFlow=new JSONArray(realmAnswers.getWorkflow());
                     updateId=realmAnswers.get_id();
                     isSync=realmAnswers.isSync();
-                //    String json=array.get(0).toString();
-                  //  JSONArray array1=new JSONArray(json);
-                  //  JSONArray arraywork=new JSONArray(workFlow.get(0).toString());
+                    //    String json=array.get(0).toString();
+                    //  JSONArray array1=new JSONArray(json);
+                    //  JSONArray arraywork=new JSONArray(workFlow.get(0).toString());
                     jsonArrayAnswers=array;
                     jsonArrayWorkFLow=workFlow;
                     if (array.length()>0){
@@ -256,69 +311,69 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                                     categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
                                     categoryModal.setStatus(isView);
                                     if (isView.equalsIgnoreCase("1"))
-                                       // arrISView.add(isView);
-                                    try {
-                                        //  RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID,surveyId).findAll();
+                                        // arrISView.add(isView);
+                                        try {
+                                            //  RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID,surveyId).findAll();
 
-                                        //  if (realmQuestions != null && realmQuestions.size() > 0) {
-                                        //         String categoryId = realmCategoryDetails.get(k).getId();
-                                        ArrayList<Questions> questionsArrayList = new ArrayList<>();
-                                        JSONObject jsonObject12 = new JSONObject();
-                                        jsonObject12.put(AppConstants.ISVIEW, "0");
-                                        jsonObject12.put(AppConstants.CATEGORYID, categoryId);
-                                        for (int n=0;n<questions.length();n++){
+                                            //  if (realmQuestions != null && realmQuestions.size() > 0) {
+                                            //         String categoryId = realmCategoryDetails.get(k).getId();
+                                            ArrayList<Questions> questionsArrayList = new ArrayList<>();
+                                            JSONObject jsonObject12 = new JSONObject();
+                                            jsonObject12.put(AppConstants.ISVIEW, "0");
+                                            jsonObject12.put(AppConstants.CATEGORYID, categoryId);
+                                            for (int n=0;n<questions.length();n++){
 
-                                            JSONObject jsonObject1=questions.getJSONObject(n);
+                                                JSONObject jsonObject1=questions.getJSONObject(n);
 
-                                            Questions questions1 =new Questions();
-                                            questions1.setQuestionId(jsonObject1.optString(AppConstants.QUESTIONID));
-                                            questions1.setTitle((n+1)+". "+jsonObject1.optString(AppConstants.TITLE));
-                                            questions1.setStatus(jsonObject1.optString(AppConstants.REQUIRED));
-                                            questions1.setAnswer(jsonObject1.optString(AppConstants.ANSWER));
-                                            questionsArrayList.add(questions1);
+                                                Questions questions1 =new Questions();
+                                                questions1.setQuestionId(jsonObject1.optString(AppConstants.QUESTIONID));
+                                                questions1.setTitle((n+1)+". "+jsonObject1.optString(AppConstants.TITLE));
+                                                questions1.setStatus(jsonObject1.optString(AppConstants.REQUIRED));
+                                                questions1.setAnswer(jsonObject1.optString(AppConstants.ANSWER));
+                                                questionsArrayList.add(questions1);
 
-                                            JSONObject ques = new JSONObject();
-                                            ques.put(AppConstants.TITLE, questions1.getTitle());
-                                            ques.put(AppConstants.ANSWER, questions1.getAnswer());
-                                            ques.put(AppConstants.QUESTIONID, questions1.getQuestionId());
-                                            if (questions1.isRequired())
-                                                ques.put(AppConstants.REQUIRED, "Yes");
-                                            else {
-                                                ques.put(AppConstants.REQUIRED, "No");
+                                                JSONObject ques = new JSONObject();
+                                                ques.put(AppConstants.TITLE, questions1.getTitle());
+                                                ques.put(AppConstants.ANSWER, questions1.getAnswer());
+                                                ques.put(AppConstants.QUESTIONID, questions1.getQuestionId());
+                                                if (questions1.isRequired())
+                                                    ques.put(AppConstants.REQUIRED, "Yes");
+                                                else {
+                                                    ques.put(AppConstants.REQUIRED, "No");
+                                                }
+                                                jsonArrayQuestions.put(ques);
+
                                             }
-                                            jsonArrayQuestions.put(ques);
 
-                                        }
+                                            // jsonObject.put(AppConstants.QUESTIONS, jsonArrayQuestions);
+                                            // jsonArrayAnswers.put(jsonObject);
+                                            ArrayList<String> stringsRequired=new ArrayList<>();
+                                            ArrayList<String> stringsRequiredAnswers=new ArrayList<>();
+                                            for (int p=0;p<questionsArrayList.size();p++){
+                                                if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
 
-                                       // jsonObject.put(AppConstants.QUESTIONS, jsonArrayQuestions);
-                                       // jsonArrayAnswers.put(jsonObject);
-                                        ArrayList<String> stringsRequired=new ArrayList<>();
-                                        ArrayList<String> stringsRequiredAnswers=new ArrayList<>();
-                                        for (int p=0;p<questionsArrayList.size();p++){
-                                            if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+                                                    stringsRequired.add(questionsArrayList.get(p).getStatus());
+                                                }
+                                                if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
 
-                                                stringsRequired.add(questionsArrayList.get(p).getStatus());
+                                                    stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                                }
                                             }
-                                            if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
-
-                                                stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                            if (stringsRequired.size()==stringsRequiredAnswers.size()){
+                                                categoryModal.setCategoryAnswered("Yes");
+                                            }else {
+                                                categoryModal.setCategoryAnswered("No");
                                             }
+                                            categoryModal.setQuestionCount(questionsArrayList.size()+"");
+                                            categoryModal.setQuestions(questionsArrayList);
+
+                                            //arraylistTitle.add(categoryModal);
+
+                                            //   }
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
                                         }
-                                        if (stringsRequired.size()==stringsRequiredAnswers.size()){
-                                            categoryModal.setCategoryAnswered("Yes");
-                                        }else {
-                                            categoryModal.setCategoryAnswered("No");
-                                        }
-                                        categoryModal.setQuestionCount(questionsArrayList.size()+"");
-                                        categoryModal.setQuestions(questionsArrayList);
-
-                                        //arraylistTitle.add(categoryModal);
-
-                                        //   }
-
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
 
 
 
@@ -335,72 +390,74 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         }
                     }
                 }else{
-                RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID, jsonArray.get(o).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
-                if (realmCategoryDetails != null) {
+                    RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID, jsonArray.get(o).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
+                    if (realmCategoryDetails != null) {
 
 
-                    CategoryModal categoryModal = new CategoryModal();
-                    categoryModal.setId(realmCategoryDetails.getId());
-                    categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
-                    categoryModal.setStatus("");
-                    categoryModal.setCategoryAnswered("");
+                        CategoryModal categoryModal = new CategoryModal();
+                        categoryModal.setId(realmCategoryDetails.getId());
+                        categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
+                        categoryModal.setStatus("");
+                        categoryModal.setCategoryAnswered("");
 
-                    RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID, surveyId).findAll();
+                        RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID, surveyId).findAll();
 
-                    //  if (realmQuestions != null && realmQuestions.size() > 0) {
-                    //         String categoryId = realmCategoryDetails.get(k).getId();
-                    ArrayList<Questions> questionsArrayList = new ArrayList<>();
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(AppConstants.ISVIEW, "0");
-                    jsonObject.put(AppConstants.CATEGORYID, realmCategoryDetails.getId());
-                    jsonArrayQuestions=new JSONArray();
-                    for (int i = 0; i < realmQuestions.size(); i++) {
+                        //  if (realmQuestions != null && realmQuestions.size() > 0) {
+                        //         String categoryId = realmCategoryDetails.get(k).getId();
+                        ArrayList<Questions> questionsArrayList = new ArrayList<>();
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put(AppConstants.ISVIEW, "0");
+                        jsonObject.put(AppConstants.ISVIEWBYZM, "0");
+
+                        jsonObject.put(AppConstants.CATEGORYID, realmCategoryDetails.getId());
+                        jsonArrayQuestions=new JSONArray();
+                        for (int i = 0; i < realmQuestions.size(); i++) {
 
 
-                        Questions questions = new Questions();
-                        questions.setQuestionId(realmQuestions.get(i).getId());
-                        questions.setTitle((i + 1) + ". " + realmQuestions.get(i).getTitle());
-                        if (realmQuestions.get(i).getRequired().equalsIgnoreCase("true"))
-                            questions.setStatus("Yes");
-                        else {
-                            questions.setStatus("No");
-                        }
-                        questions.setAnswer("");
-                        questionsArrayList.add(questions);
+                            Questions questions = new Questions();
+                            questions.setQuestionId(realmQuestions.get(i).getId());
+                            questions.setTitle((i + 1) + ". " + realmQuestions.get(i).getTitle());
+                            if (realmQuestions.get(i).getRequired().equalsIgnoreCase("true"))
+                                questions.setStatus("Yes");
+                            else {
+                                questions.setStatus("No");
+                            }
+                            questions.setAnswer("");
+                            questionsArrayList.add(questions);
 
-                        JSONObject ques = new JSONObject();
-                        ques.put(AppConstants.TITLE, questions.getTitle());
-                        ques.put(AppConstants.ANSWER, questions.getAnswer());
-                        ques.put(AppConstants.QUESTIONID, questions.getQuestionId());
-                        if (realmQuestions.get(i).getRequired().equalsIgnoreCase("true"))
-                            ques.put(AppConstants.REQUIRED, "Yes");
-                        else {
-                            ques.put(AppConstants.REQUIRED, "No");
-                        }
+                            JSONObject ques = new JSONObject();
+                            ques.put(AppConstants.TITLE, questions.getTitle());
+                            ques.put(AppConstants.ANSWER, questions.getAnswer());
+                            ques.put(AppConstants.QUESTIONID, questions.getQuestionId());
+                            if (realmQuestions.get(i).getRequired().equalsIgnoreCase("true"))
+                                ques.put(AppConstants.REQUIRED, "Yes");
+                            else {
+                                ques.put(AppConstants.REQUIRED, "No");
+                            }
                        /* if (questions.isRequired())
                             ques.put(AppConstants.REQUIRED, "Yes");
                         else {
                             ques.put(AppConstants.REQUIRED, "No");
                         }*/
-                        jsonArrayQuestions.put(ques);
+                            jsonArrayQuestions.put(ques);
 
+
+                        }
+                        jsonObject.put(AppConstants.QUESTIONS, jsonArrayQuestions);
+                        jsonArrayAnswers.put(o,jsonObject);
+                        categoryModal.setQuestionCount(questionsArrayList.size()+"");
+                        categoryModal.setQuestions(questionsArrayList);
 
                     }
-                    jsonObject.put(AppConstants.QUESTIONS, jsonArrayQuestions);
-                    jsonArrayAnswers.put(o,jsonObject);
-                    categoryModal.setQuestionCount(questionsArrayList.size()+"");
-                    categoryModal.setQuestions(questionsArrayList);
 
                 }
 
-                }
-
-                }
-        }catch (JSONException e) {
-                e.printStackTrace();
             }
-
+        }catch (JSONException e) {
+            e.printStackTrace();
         }
+
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -431,6 +488,68 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         mActivity = (BaseActivity) mContext;
         btnReject = (Button) view.findViewById(R.id.btnSave);
         btnApprove = (Button) view.findViewById(R.id.btnSaveNext);
+        TextView searchBtn=(TextView) view.findViewById(R.id.searchBtn);
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Utility.validateString(strData)) {
+                    if (questionsMap != null && questionsMap.size() > 0) {
+                        questionsMap = QuestionMapComparator.sortByValue(questionsMap);
+                        for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
+                            Questions question = (Questions) entry.getValue();
+                            if (question.getTitle().contains(strData)) {
+                                if (llFields != null && llFields.getChildCount() > 0) {
+                                    View targetView = llFields.findViewWithTag(question);
+                                    if (targetView != null) {
+                                        targetView.setBackgroundResource(R.color.light_blue);
+                                        llFields.getParent().requestChildFocus(targetView, targetView);
+                                        scrollToView(scrollview,targetView);
+                                    }
+                                }
+                            } else {
+                                if (llFields != null && llFields.getChildCount() > 0) {
+                                    View targetView = llFields.findViewWithTag(question);
+                                    if (targetView != null) {
+                                        targetView.setBackgroundResource(R.color.white);
+                                        llFields.getParent().requestChildFocus(targetView, targetView);
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                } else {
+                    if (questionsMap != null && questionsMap.size() > 0) {
+                        questionsMap = QuestionMapComparator.sortByValue(questionsMap);
+                        for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
+                            Questions question = (Questions) entry.getValue();
+                            if (question.getTitle().contains(strData)) {
+                                if (llFields != null && llFields.getChildCount() > 0) {
+                                    View targetView = llFields.findViewWithTag(question);
+                                    if (targetView != null) {
+                                        targetView.setBackgroundResource(R.color.white);
+                                        llFields.getParent().requestChildFocus(targetView, targetView);
+                                    }
+
+                                }
+                            } else {
+                                if (llFields != null && llFields.getChildCount() > 0) {
+
+                                    View targetView = llFields.findViewWithTag(question);
+
+                                    if (targetView != null) {
+                                        targetView.setBackgroundResource(R.color.white);
+                                        llFields.getParent().requestChildFocus(targetView, targetView);
+                                    }
+
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        });
 
     }
 
@@ -542,10 +661,10 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
             for (MultiSpinnerList sp : selectedItems) {
                 if (strBuilder.length() > 0) {
                     if (sp.isChecked())
-                    strBuilder.append(", ");
+                        strBuilder.append(", ");
                 }
                 if (sp.isChecked())
-                strBuilder.append(sp.getName());
+                    strBuilder.append(sp.getName());
 
                 if (textView.getId() == R.id.spnOptionValues) {
 
@@ -553,7 +672,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 }
             }
             if (strBuilder.toString().trim().endsWith(",")){
-            //    strBuilder.toString().trim().replace(",","").charAt(strBuilder.toString().length()-1);
+                //    strBuilder.toString().trim().replace(",","").charAt(strBuilder.toString().length()-1);
             }
             textView.setText(strBuilder.toString());
 
@@ -1053,16 +1172,16 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 for (RealmQuestion realmQuestion: realmFormQuestions){
                     Questions question = new RealmController().getSurveyQuestionVOFromJson(realmQuestion);
                     if (!jsonObject.equals("{}")) {
-                     //   if (jsonObject != null &&  Utility.validateString(jsonObject.optString(AppConstants.QUESTIONID))) {
+                        //   if (jsonObject != null &&  Utility.validateString(jsonObject.optString(AppConstants.QUESTIONID))) {
 
-                            question.setAnswer(jsonObject.optString(question.getQuestionId()));
-                      //  }
+                        question.setAnswer(jsonObject.optString(question.getQuestionId()));
+                        //  }
                     }
                     questionsMap.put(question.getTitle(), question);
                 }
             }
 
-         //   String formSchema = realmFormQuestions.get(0).getFormSchema();
+            //   String formSchema = realmFormQuestions.get(0).getFormSchema();
 
         } catch (Exception e) {
             realm.close();
@@ -1070,9 +1189,9 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         } finally {
             realm.close();
         }
-      //  if (showFields)
+        //  if (showFields)
         if (b)
-        addQuestionsForm(questionsMap,search);
+            addQuestionsForm(questionsMap,search);
         return questionsMap;
     }
 
@@ -1086,7 +1205,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
         jsonArrayQuestions=new JSONArray();
         try {
-          //  llFields = (LinearLayout) view.findViewById(R.id.parent);
+            llFields = (LinearLayout) view.findViewById(R.id.parent);
             if (llFields != null && llFields.getChildCount() > 0) {
                 if (questionsMap != null && questionsMap.size() > 0) {
                     questionsMap = QuestionMapComparator.sortByValue(questionsMap);
@@ -1095,6 +1214,9 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         JSONObject jsonObjectQ=new JSONObject();
                         if (question != null && (question.getInputType().equals(AppConstants.TEXTBOX) || (question.getInputType().equals(AppConstants.TEXTAREA)))) {
                             View childView = llFields.findViewWithTag(question);
+                            if (childView==null){
+                                jsonArrayQuestions=new JSONArray();
+                            }
                             if (childView != null && childView.getVisibility() == View.VISIBLE) {
                                 EditText edtChild = (EditText) childView.findViewById(R.id.edtChild);
                                 if (edtChild != null) {
@@ -1107,7 +1229,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                                                 jsonObjectQ.put(AppConstants.ANSWER,Long.parseLong(question.getAnswer()));
                                                 jsonObjectQ.put(AppConstants.QUESTIONID,question.getQuestionId());
                                                 if (question.isRequired())
-                                                jsonObjectQ.put(AppConstants.REQUIRED,"Yes");
+                                                    jsonObjectQ.put(AppConstants.REQUIRED,"Yes");
                                                 else {
                                                     jsonObjectQ.put(AppConstants.REQUIRED,"No");
                                                 }
@@ -1434,40 +1556,57 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 }
 
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
-                JSONObject updatePosition=new JSONObject();
-                if (designation.equalsIgnoreCase("rm") || designation.equalsIgnoreCase("zm")) {
-                    updatePosition.put(AppConstants.ISVIEW, "1");
-                }else{
-                    updatePosition.put(AppConstants.ISVIEW, "0");
+                if (jsonArrayQuestions.length()!=0) {
+                    JSONObject updatePosition = new JSONObject();
+                    if (designation.equalsIgnoreCase("rm")) {
+                        updatePosition.put(AppConstants.ISVIEW, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYZM, "0");
+                    } else if (designation.equalsIgnoreCase("zm")) {
+                        updatePosition.put(AppConstants.ISVIEW, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYZM, "1");
+                    } else {
+                        updatePosition.put(AppConstants.ISVIEW, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYZM, "0");
+                    }
+                    updatePosition.put(AppConstants.CATEGORYID, categoryId);
+                    updatePosition.put(AppConstants.QUESTIONS, jsonArrayQuestions);
+                    jsonArrayAnswers.put(position, updatePosition);
+                }else {
+                    addAllQuestions();
                 }
-                updatePosition.put(AppConstants.CATEGORYID, categoryId);
-                updatePosition.put(AppConstants.QUESTIONS,jsonArrayQuestions);
-                jsonArrayAnswers.put(position,updatePosition);
 
-                jsonSubmitReq.put(AppConstants.ANSWERS, jsonArrayAnswers);
-               // jsonSubmitReq.put(AppConstants.RESPONSES, jsonSubmitReq);
-
-                if (designation.equalsIgnoreCase("cd"))
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
-                if (designation.equalsIgnoreCase("rm"))
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
-                if (designation.equalsIgnoreCase("zm"))
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
-
+                if (jsonArrayAnswers.length()>0)
+                    jsonSubmitReq.put(AppConstants.ANSWERS, jsonArrayAnswers);
+                // jsonSubmitReq.put(AppConstants.RESPONSES, jsonSubmitReq);
                 if (designation.equalsIgnoreCase("cd")) {
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, strSubmitByRM);
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, strSubmitByZM);
+                }   if (designation.equalsIgnoreCase("rm")) {
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, strSubmitByCD);
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, strSubmitByZM);
+                } if (designation.equalsIgnoreCase("zm")) {
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, strSubmitByCD);
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, strSubmitByRM);
+                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
+                }
+
+                if (!Utility.validateString(strCD)) {
                     jsonSubmitReq.put(AppConstants.CD_STATUS, "5");
                     jsonSubmitReq.put(AppConstants.RM_STATUS, "4");
                     jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
                 }else {
-                    jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
-                    jsonSubmitReq.put(AppConstants.RM_STATUS, "0");
-                    jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                    jsonSubmitReq.put(AppConstants.CD_STATUS, strCD);
+                    jsonSubmitReq.put(AppConstants.RM_STATUS, strRM);
+                    jsonSubmitReq.put(AppConstants.ZM_STATUS, strZm);
                 }
-              //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
+                //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
                 jsonSubmitReq.put(AppConstants.WORKFLOW, jsonArrayWorkFLow);
-               jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());
+                jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());
+                jsonSubmitReq.put(AppConstants.CUSTOMER,strCustomer);
 
                 if (Utility.validateString(formAnsId)) {
                     //  jsonSubmitReq.put(AppConstants.UPDATEDAT, Utility.get);
@@ -1495,7 +1634,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 llFields.removeAllViews();
 
                 if (!search.isEmpty())
-                llFields = (LinearLayout) view.findViewById(R.id.parent);
+                    llFields = (LinearLayout) view.findViewById(R.id.parent);
             }else {
                 llFields = (LinearLayout) view.findViewById(R.id.parent);
             }
@@ -1512,6 +1651,14 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                     } else if (AppConstants.TEXTBOX.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_edit, null);
                         final EditText edtChild = (EditText) child.findViewById(R.id.edtChild);
+                        String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                        if (designation.equalsIgnoreCase("cd")) {
+                            if (strCD.equalsIgnoreCase("1")) {
+                                edtChild.setFocusable(false);
+                            } else {
+                                edtChild.setFocusable(true);
+                            }
+                        }
                         final Map<String, Questions> finalQuestionsMap = questionsMap;
                         final Map<String, Questions> finalQuestionsMap1 = questionsMap;
 
@@ -1534,7 +1681,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                                     q1.setAnswer(s.toString());
 
                                 }
-                               String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                                String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
                                 if (Utility.validateString(visiblity)) {
                                     jsonSubmitReq = prepareJsonRequest(finalQuestionsMap1);
                                     saveNCDResponseLocal(updateId, false);
@@ -1545,7 +1692,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         edtChild.setText(question.getAnswer());
                         if (AppConstants.STRING.equals(question.getType())) {
                             edtChild.setInputType(InputType.TYPE_CLASS_TEXT);
-                          //  Utility.setEditFilter(edtChild, question.getMaxLength(), AppConstants.STRING, false, question.isAlpha());
+                            //  Utility.setEditFilter(edtChild, question.getMaxLength(), AppConstants.STRING, false, question.isAlpha());
                         } else if (AppConstants.LONG.equals(question.getType())) {
                             edtChild.setInputType(InputType.TYPE_CLASS_NUMBER);
                             if ("0".equals(question.getAnswer())) {
@@ -1586,7 +1733,14 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                     } else if (AppConstants.TEXTAREA.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_textarea, null);
                         EditText edtChild = (EditText) child.findViewById(R.id.edtChild);
-
+                        String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                        if (designation.equalsIgnoreCase("cd")) {
+                            if (strCD.equalsIgnoreCase("1")) {
+                                edtChild.setFocusable(false);
+                            } else {
+                                edtChild.setFocusable(true);
+                            }
+                        }
                         final Map<String, Questions> finalQuestionsMap2 = questionsMap;
                         edtChild.addTextChangedListener(new TextWatcher() {
                             @Override
@@ -1657,7 +1811,16 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         tvFormDate.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                showDatePicker(tvFormDate.getText().toString(), tvFormDate);
+
+                                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                                if (designation.equalsIgnoreCase("cd")) {
+                                    if (strCD.equalsIgnoreCase("1")) {
+
+                                    } else {
+                                        showDatePicker(tvFormDate.getText().toString(), tvFormDate);
+                                    }
+                                }
+
                             }
                         });
                         setTodaysDate(tvFormDate);
@@ -1705,7 +1868,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 if (position==jsonArrayAnswers.length()-1){
                     Prefs.putStringPrefs(AppConstants.VISIBLITY,"1");
-               //     position=0;
+                    //     position=0;
 
                 }
 
@@ -1743,7 +1906,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                             if (Utility.validateString(question.getAnswer())) {
                                 if (question.getAnswer().equals((String) jsonArray.get(m))) {
                                     spinner.setChecked(true);
-                                 //   editForms.add(new EditForm(question.getAnswer(), question));
+                                    //   editForms.add(new EditForm(question.getAnswer(), question));
                                 }
                             }
                             spinner.setName((String) jsonArray.get(m));
@@ -1761,15 +1924,34 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         tvSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (view.getTag() != null) {
-                    if (isPopupVisible) return;
-                    isPopupVisible = true;
-                    List<SpinnerList> spnList = (List<SpinnerList>) view.getTag();
-                    if (spnList != null)
-                        showSelectionList(getActivity(), tvSelect, spnList, question.getPlaceholder());
-                } else {
-                    isPopupVisible = false;
+
+                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                if (designation.equalsIgnoreCase("cd")) {
+                    if (strCD.equalsIgnoreCase("1")) {
+
+                    } else {
+                        if (view.getTag() != null) {
+                            if (isPopupVisible) return;
+                            isPopupVisible = true;
+                            List<SpinnerList> spnList = (List<SpinnerList>) view.getTag();
+                            if (spnList != null)
+                                showSelectionList(getActivity(), tvSelect, spnList, question.getPlaceholder());
+                        } else {
+                            isPopupVisible = false;
+                        }
+                    }
+                }else {
+                    if (view.getTag() != null) {
+                        if (isPopupVisible) return;
+                        isPopupVisible = true;
+                        List<SpinnerList> spnList = (List<SpinnerList>) view.getTag();
+                        if (spnList != null)
+                            showSelectionList(getActivity(), tvSelect, spnList, question.getPlaceholder());
+                    } else {
+                        isPopupVisible = false;
+                    }
                 }
+
             }
         });
 
@@ -1787,7 +1969,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-            //    textChange(s.toString(), question);
+                //    textChange(s.toString(), question);
 
             }
         });
@@ -1904,7 +2086,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                                 for (int a = 0; a < ans.length(); a++) {
                                     if (ans.get(a).toString().equals((String) jsonArray.get(m))) {
                                         spinner.setChecked(true);
-                                     //   editForms.add(new EditForm(ans.get(a).toString(), question));
+                                        //   editForms.add(new EditForm(ans.get(a).toString(), question));
 
                                     }
                                 }
@@ -1927,20 +2109,44 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         tvSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (view.getTag() != null) {
-                    if (isPopupVisible) return;
-                    isPopupVisible = true;
-                    List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
-                    if (spnList == null || spnList.size() == 0) {
-                        showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+
+                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                if (designation.equalsIgnoreCase("cd")) {
+                    if (strCD.equalsIgnoreCase("1")) {
+
                     } else {
-                        showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+                        if (view.getTag() != null) {
+                            if (isPopupVisible) return;
+                            isPopupVisible = true;
+                            List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
+                            if (spnList == null || spnList.size() == 0) {
+                                showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                            } else {
+                                showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+                            }
+                            //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
+                        } else {
+                            showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                            isPopupVisible = false;
+                        }
                     }
-                    //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
-                } else {
-                    showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
-                    isPopupVisible = false;
+                }else {
+                    if (view.getTag() != null) {
+                        if (isPopupVisible) return;
+                        isPopupVisible = true;
+                        List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
+                        if (spnList == null || spnList.size() == 0) {
+                            showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                        } else {
+                            showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+                        }
+                        //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
+                    } else {
+                        showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                        isPopupVisible = false;
+                    }
                 }
+
             }
         });
         // tvSelect.addTextChangedListener(new ScreenFormQuestionTwoActivity.SelectTextWatcher(question));
@@ -2431,8 +2637,8 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 Utility.animateView(v);
                 dialog.dismiss();
-               // setResult(RESULT_OK);
-               // finish();
+                // setResult(RESULT_OK);
+                // finish();
 
             }
         });
@@ -2639,7 +2845,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
 
 
-                    realm.createOrUpdateObjectFromJson(RealmAnswers.class, jsonSubmitReq);
+                realm.createOrUpdateObjectFromJson(RealmAnswers.class, jsonSubmitReq);
 
 
             } catch (Exception e) {
@@ -2721,7 +2927,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
     }
 
-    private void scrollToView(final ScrollView scrollViewParent, final View view) {
+    private void scrollToView(final NestedScrollView scrollViewParent, final View view) {
         // Get deepChild Offset
         Point childOffset = new Point();
         getDeepChildOffset(scrollViewParent, view.getParent(), view, childOffset);
@@ -2737,11 +2943,13 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         }
         getDeepChildOffset(mainParent, parentGroup.getParent(), parentGroup, accumulatedOffset);
     }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
         if (isVisibleToUser){
+
             flag=true;
         }
     }
@@ -2750,6 +2958,8 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void updateFragment(int pos,String category,String data,String updateFragment) {
+
+
         position=pos;
         categoryId = category;
 
@@ -2960,4 +3170,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
         return questionsMap;
     }
+
+
+
 }

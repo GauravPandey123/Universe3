@@ -80,7 +80,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
                 }
 
                 if (strType.equalsIgnoreCase(AppConstants.WORKFLOWS)){
-                     i=new Intent(mContext, WorkFlowsDetailActivity.class);
+                    i=new Intent(mContext, WorkFlowsDetailActivity.class);
                 }
                 if(strType.equalsIgnoreCase(AppConstants.SURVEYREPORT))
                 {

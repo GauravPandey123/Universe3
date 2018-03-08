@@ -31,7 +31,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     // child data in format of header title, child title
 
     private HashMap<CategoryModal, List<Questions>> _listDataChild;
-    
+
 
     /**
      * Instantiates a new Custom expandable list adapter.
@@ -168,7 +168,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
 
         tvCount.setText(count);
-      //  lblListHeader.setTypeface(null, Typeface.BOLD);
+        //  lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
         if (isExpanded) {
             lblListHeader.setTypeface(null, Typeface.BOLD);
