@@ -71,6 +71,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     private CircleImageView circleImageView;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,14 +106,14 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
     private void initialization() {
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
-        circleImageViewMap = findViewById(R.id.circularImageViewMap);
+
         textViewHeader = findViewById(R.id.textViewHeader);
         textViewRetailersNameMap = findViewById(R.id.textViewRetailersNameMap);
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         textViewSetLocation = findViewById(R.id.textViewSetLocation);
         imageViewLocation = findViewById(R.id.imageViewLocation);
-
+        circleImageView=findViewById(R.id.circularImageViewMap) ;
         seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular_progress);
@@ -157,7 +158,6 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onClick(View view) {
                 updateLocationService(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
-                updateLocationServiceEmployee(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
             }
         });
 
@@ -264,6 +264,9 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLongX());
                 //  Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLat());
                 //   Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLongX());
+
+                updateLocationServiceEmployee(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
+
             }
 
             @Override
@@ -279,7 +282,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     public void updateLocationServiceEmployee(String lat, String lan) {
         showProgress();
         UpadteLocationRequest upadteLocationRequest = new UpadteLocationRequest();
-        upadteLocationRequest.setUserId("5a8eb8b82741361f5827afb5");
+        upadteLocationRequest.setUserId(Prefs.getStringPrefs(AppConstants.UserId));
         upadteLocationRequest.setLat(lat);
         upadteLocationRequest.setLng(lan);
         upadteLocationRequest.setType(AppConstants.employee);
@@ -308,7 +311,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
                 //  Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLat());
                 //  Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLongX());
-                Intent intent = new Intent(mContext, QuestionsCategoryActivity.class);
+                Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 Utility.showToast(R.string.location_updated);

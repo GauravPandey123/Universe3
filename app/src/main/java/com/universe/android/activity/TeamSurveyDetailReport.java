@@ -197,7 +197,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
         textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
 
         textViewPosition.setText(Prefs.getStringPrefs(AppConstants.EMPLOYEE_NAME));
-        textViewAchievementNumbers.setText("10 %");
+        textViewAchievementNumbers.setText(String.format("%d%%", Prefs.getIntegerPrefs(AppConstants.Percent)));
     }
 
 
@@ -255,7 +255,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
                 super.onSuccess(response);
                 Log.e(TAG, "Success");
                 List<CrystalReportResponse.ResponseBean.NewRetailerBean.ListBeanXX> responseBeans = response.getResponse().getNewRetailer().getList();
-                responseBeanArrayList.clear();
+                listBeanXXArrayList.clear();
                 tvPending.setText(String.valueOf(response.getResponse().getSubmitted().getCount()));
                 String value = new Gson().toJson(responseBeans);
                 CrystalReportResponse.ResponseBean.NewRetailerBean.ListBeanXX[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean.NewRetailerBean.ListBeanXX[].class);
@@ -291,7 +291,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
                 super.onSuccess(response);
                 Log.e(TAG, "Success");
                 List<CrystalReportResponse.ResponseBean.CrystalCustomerBean.ListBeanXXX> responseBeans = response.getResponse().getCrystalCustomer().getList();
-                responseBeanArrayList.clear();
+                listBeanXXXArrayList.clear();
                 tvRejected.setText(String.valueOf(response.getResponse().getSubmitted().getCount()));
                 String value = new Gson().toJson(responseBeans);
                 CrystalReportResponse.ResponseBean.CrystalCustomerBean.ListBeanXXX[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean.CrystalCustomerBean.ListBeanXXX[].class);

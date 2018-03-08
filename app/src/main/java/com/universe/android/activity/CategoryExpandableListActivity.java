@@ -105,6 +105,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
     private String mImageUrl;
     private boolean isUpdateImage = false;
     CircleImageView circleImageView;
+    private ImageView imageLoc;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -126,7 +127,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
         }
         TextView toolbarTtile=(TextView)findViewById(R.id.toolbarTtile);
         toolbarTtile.setText(title);
-        setupDetail();
+
 
 
         btnReject.setOnClickListener(new View.OnClickListener() {
@@ -428,6 +429,8 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         realmCustomer.getTerritory()+" | "+realmCustomer.getState()+"  \n"+
                         "Pincode - "+realmCustomer.getPincode());
 
+
+
             }else{
                 if (Utility.validateString(realmCustomer.getRetailerName()))
                     textViewRetailersNameMap.setText(realmCustomer.getRetailerName());
@@ -454,6 +457,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
     protected void onResume() {
 
         super.onResume();
+        setupDetail();
         prepareCategory();
 
     }
@@ -468,6 +472,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
         llStatus = (LinearLayout) findViewById(R.id.llStatus);
         imageStatus = (ImageView) findViewById(R.id.imageStatus);
         textStatus = (TextView) findViewById(R.id.textStatus);
+        imageLoc=findViewById(R.id.imageLoc);
         RelativeLayout relativeLayout=(RelativeLayout)findViewById(R.id.rlImage);
         //  seekbar=(SeekBar)findViewById(R.id.seek_bar);
         seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
