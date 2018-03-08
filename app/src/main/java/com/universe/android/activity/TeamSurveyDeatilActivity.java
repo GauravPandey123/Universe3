@@ -1,11 +1,14 @@
 package com.universe.android.activity;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +33,7 @@ import com.universe.android.fragment.SurveyDetailDialogFragment;
 import com.universe.android.fragment.TeamSurveyDialogFragment;
 import com.universe.android.helper.FontClass;
 import com.universe.android.helper.RecyclerTouchListener;
+import com.universe.android.model.AnswersModal;
 import com.universe.android.model.DataModel;
 import com.universe.android.model.StatusModel;
 import com.universe.android.resource.Login.SurveyDetails.SurverDetailResponse;
@@ -47,6 +51,7 @@ import com.universe.android.web.BaseApiCallback;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -60,7 +65,7 @@ import in.editsoft.api.util.App;
  */
 
 public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurveyDialogFragment.TeamSurveyData {
-
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1000;
     private CardView carView;
     private RecyclerView reyclerViewCategory;
     private ImageView imageViewBack;
@@ -77,6 +82,8 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
     String fromDateString, toDateString;
     Date fromDateTime = null;
     Date toDates = null;
+    private ArrayList<String> headerList=new ArrayList<>();
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,6 +91,34 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
         setContentView(R.layout.team_survey_activity);
         initialization();
         setUpElements();
+        prepareHeaderList();
+        FloatingActionButton actionButton=(FloatingActionButton)findViewById(R.id.actionButton);
+
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utility.animateView(v);
+                if (isStoragePermissionGranted()) {
+                    String title = ((TextView) findViewById(R.id.textViewSurveyDetailActivity)).getText().toString();
+                    createExcelFileTeamSurveyReport(headerList, surveyDetailsBeanArrayList, title.replace(" ", "_"), title.replace(" ", "_") + ".xls", title, getResources().getString(R.string.sharetitle) + " of " + title + "\n\n" + getResources().getString(R.string.thankyou));
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
+                    }
+                }
+            }
+        });
+    }
+
+    private void prepareHeaderList() {
+        headerList = new ArrayList<>();
+        // headerList.add("#");
+        List<String> tablesHeader = new ArrayList<>();
+        tablesHeader = Arrays.asList(getResources().getStringArray(R.array.team_survey_report));
+        for (int i = 0; i < tablesHeader.size(); i++) {
+            headerList.add(tablesHeader.get(i));
+        }
+
     }
 
     private void setUpElements() {

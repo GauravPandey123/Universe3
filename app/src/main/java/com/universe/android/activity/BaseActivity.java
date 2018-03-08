@@ -35,6 +35,7 @@ import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureS
 import com.universe.android.resource.Login.Profile.ImageUploadService;
 import com.universe.android.resource.Login.Profile.ProfileRequest;
 import com.universe.android.resource.Login.Profile.ProfileResponse;
+import com.universe.android.resource.Login.SurveyDetails.SurverDetailResponse;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
@@ -313,6 +314,100 @@ public class BaseActivity extends AppCompatActivity {
             {
 
             }
+
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+
+
+            idxr++;
+        }
+
+        success = Utility.writeExcelFile(workbook, filename);
+        if (!success) {
+            Utility.showToast(getString(R.string.error_file_downloading));
+        } else {
+            showProgressBar(filename, subject, text);
+        }
+
+
+        return success;
+    }
+
+
+    /**
+     * Create excel file of report
+     *
+     * @return isFileCreated
+     */
+    protected boolean createExcelFileTeamSurveyReport(List<String> headerList, List<SurverDetailResponse.ResponseBean.CrystaDoctorBean> snapshotList, String title, String filename, String subject, String text) {
+        if (!Utility.isExternalStorageAvailable() || Utility.isExternalStorageReadOnly()) {
+            return false;
+        }
+        boolean success = false;
+
+        HSSFWorkbook workbook = new HSSFWorkbook();
+        HSSFSheet sheet = null;
+        if (title != null) {
+            sheet = workbook.createSheet(subject);
+        }
+        int idxr = 0;
+
+        Cell cell;
+        Row row = sheet.createRow(idxr);
+
+        cell = row.createCell(1);
+        cell.setCellValue(subject);
+        cell.setCellStyle(Utility.getHeaderCellStyle(workbook));
+
+        idxr = +2;
+
+        row = sheet.createRow(idxr);
+        // Generate column headings
+        for (int i = 0; i < headerList.size(); i++) {
+            cell = row.createCell(i);
+            cell.setCellValue(headerList.get(i));
+            cell.setCellStyle(Utility.getColumnHeaderCellStyle(workbook));
+            sheet.setColumnWidth(i, (10 * 900));
+
+        }
+        idxr = idxr + 1;
+        for (int j = 0; j < snapshotList.size(); j++) {
+            int idyc = 0;
+            row = sheet.createRow(idxr);
+            SurverDetailResponse.ResponseBean.CrystaDoctorBean answersModal = snapshotList.get(j);
+            cell = row.createCell(idyc);
+            cell.setCellValue(answersModal.getDetail().get_id());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getDetail().getName());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getTotalAssign());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getSubmittedCount());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            String totalString = "" + answersModal.getTotalAssign();
+            String completedString = "" + answersModal.getSubmittedCount();
+            int n = Integer.parseInt(totalString);
+            int v = Integer.parseInt(completedString);
+            int percent=0;
+            try {
+                percent = v * 100 / n;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            cell.setCellValue(String.valueOf(percent).concat("%"));
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getProgress());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getRetailorCount());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getCrystalCustomer());
+
 
             cell.setCellStyle(Utility.getContentCellStyle(workbook));
 
