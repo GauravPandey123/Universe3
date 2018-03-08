@@ -8,9 +8,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -45,7 +49,19 @@ import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 import com.universe.android.workflows.WorkFlowsActivity;
+import android.widget.Toast;
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureRequest;
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureResponse;
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureService;
+import com.universe.android.web.BaseApiCallback;
+import com.universe.android.web.BaseRequest;
+import com.bumptech.glide.Glide;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import com.soundcloud.android.crop.Crop;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+import in.editsoft.api.exception.APIException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,7 +85,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import ru.bullyboo.view.CircleSeekBar;
 
-public class CategoryExpandableListActivity extends AppCompatActivity {
+public class CategoryExpandableListActivity extends BaseActivity {
     private JSONObject jsonSubmitReq = new JSONObject();
     private Toolbar toolbar;
     List<CategoryModal> arraylistTitle = new ArrayList<>();
@@ -86,10 +102,13 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
     private LinearLayout llStatus;
     private ImageView imageStatus;
     private TextView textStatus;
+    private String mImageUrl;
+    private boolean isUpdateImage = false;
+    CircleImageView circleImageView;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_category_expand_list);
 
@@ -460,7 +479,14 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
         mProgress.setSecondaryProgress(100); // Secondary Progress
         mProgress.setMax(100); // Maximum Progress
         mProgress.setProgressDrawable(drawable);
-        CircleImageView circleImageView=(CircleImageView)findViewById(R.id.circularImageViewMap);
+        circleImageView=(CircleImageView)findViewById(R.id.circularImageViewMap);
+        circleImageView = findViewById(R.id.circularImageViewMap);
+        circleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showImageOptions();
+            }
+        });
         if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)){
             circleImageView.setImageResource(R.drawable.ic_customer);
         }else {
@@ -953,6 +979,76 @@ public class CategoryExpandableListActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
+        super.onActivityResult(requestCode, resultCode, result);
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bitmap photo = (Bitmap) result.getExtras().get("data");
+            Uri tempUri = getImageUri(mActivity, photo);
+            beginCrop(tempUri);
+        } else if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
+            beginCrop(result.getData());
+        } else if (requestCode == Crop.REQUEST_CROP) {
+            handleCrop(resultCode, result);
+        }
+    }
+
+    public void imageUpload(String path) {
+//        ((BaseActivity) getActivity()).showProgress();
+        CustomerPictureRequest profileRequest = new CustomerPictureRequest();
+        profileRequest.setCustomerId(customerId);
+        profileRequest.setIsPicture(1);
+        profileRequest.setPhoto(path);
+        CustomerPictureService profileService = new CustomerPictureService();
+        profileService.executeService(profileRequest, new BaseApiCallback<CustomerPictureResponse>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(@NonNull CustomerPictureResponse response) {
+                super.onSuccess(response);
+                Glide.with(mContext)
+                        .load(response.getResponse().getImage())
+                        .into(circleImageView);
+                Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+            }
+        });
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(mContext.getCacheDir(), "cropped"));
+        Crop.of(source, destination).asSquare().start(mActivity);
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            mImageUrl = Crop.getOutput(result).getPath();
+            if (Crop.getOutput(result).getPath() != null) {
+                File file = new File(Crop.getOutput(result).getPath());
+                Glide.with(mActivity)
+                        .load(file)
+                        .into(circleImageView);
+                isUpdateImage = true;
+                imageUpload(mImageUrl);
+            }
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(mActivity, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 

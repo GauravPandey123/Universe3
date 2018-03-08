@@ -25,7 +25,27 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.soundcloud.android.crop.Crop;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.soundcloud.android.crop.Crop;
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureRequest;
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureResponse;
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureService;
+import com.universe.android.web.BaseApiCallback;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import de.hdodenhof.circleimageview.CircleImageView;
+import in.editsoft.api.exception.APIException;
 import com.universe.android.R;
 import com.universe.android.adapter.CustomExpandableListAdapter;
 import com.universe.android.fragment.QuestionsCategoryFragment;
@@ -92,7 +112,10 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
     private LinearLayout llStatus;
     private ImageView imageStatus;
     private TextView textStatus;
-
+    CircleImageView circleImageView;
+    private String mImageUrl;
+    private boolean isUpdateImage = false;
+     CustomerPictureResponse CustomerPictureResponse;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -287,6 +310,19 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
                 strCustomer="";
             }
         }
+        circleImageView = findViewById(R.id.circularImageViewMap);
+//        if (CustomerPictureResponse.getResponse().getImage() != null) {
+//            Glide.with(mContext)
+//                    .load(CustomerPictureResponse.getResponse().getImage())
+//                    .into(circleImageView);
+//        }
+        circleImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showImageOptions();
+            }
+        });
+
 
         if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)){
             circleImageView.setImageResource(R.drawable.ic_customer);
@@ -655,6 +691,76 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
             }
         });
 
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
+        super.onActivityResult(requestCode, resultCode, result);
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bitmap photo = (Bitmap) result.getExtras().get("data");
+            Uri tempUri = getImageUri(mActivity, photo);
+            beginCrop(tempUri);
+        } else if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
+            beginCrop(result.getData());
+        } else if (requestCode == Crop.REQUEST_CROP) {
+            handleCrop(resultCode, result);
+        }
+    }
+
+    public void imageUpload(String path) {
+//        ((BaseActivity) getActivity()).showProgress();
+        CustomerPictureRequest profileRequest = new CustomerPictureRequest();
+        profileRequest.setCustomerId(customerId);
+        profileRequest.setIsPicture(1);
+        profileRequest.setPhoto(path);
+        CustomerPictureService profileService = new CustomerPictureService();
+        profileService.executeService(profileRequest, new BaseApiCallback<CustomerPictureResponse>() {
+            @Override
+            public void onComplete() {
+
+            }
+
+            @Override
+            public void onSuccess(@NonNull CustomerPictureResponse response) {
+                super.onSuccess(response);
+                Glide.with(mContext)
+                        .load(response.getResponse().getImage())
+                        .into(circleImageView);
+                Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
+            }
+
+            @Override
+            public void onFailure(APIException e) {
+                super.onFailure(e);
+            }
+        });
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(mContext.getCacheDir(), "cropped"));
+        Crop.of(source, destination).asSquare().start(mActivity);
+    }
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            mImageUrl = Crop.getOutput(result).getPath();
+            if (Crop.getOutput(result).getPath() != null) {
+                File file = new File(Crop.getOutput(result).getPath());
+                Glide.with(mActivity)
+                        .load(file)
+                        .into(circleImageView);
+                isUpdateImage = true;
+                imageUpload(mImageUrl);
+            }
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(mActivity, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     protected void showToastMessage(String strMsg) {

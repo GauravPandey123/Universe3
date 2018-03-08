@@ -49,7 +49,7 @@
                             android:layout_marginLeft="22dp"
                             android:background="@drawable/textview_circle_border"
                             android:gravity="center"
-                            android:text="2"
+                            android:text="0"
                             android:textColor="@color/white"
                             android:textSize="10sp" />
 
@@ -63,7 +63,7 @@
                         android:layout_marginTop="8dp"
                         android:text="@string/_pending"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 
@@ -94,7 +94,7 @@
                             android:layout_marginLeft="22dp"
                             android:background="@drawable/textview_circle_border"
                             android:gravity="center"
-                            android:text="2"
+                            android:text="0"
                             android:textColor="@color/white"
                             android:textSize="10sp" />
 
@@ -108,7 +108,7 @@
                         android:layout_marginTop="8dp"
                         android:text="@string/in_progress"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 
@@ -140,7 +140,7 @@
                             android:layout_marginLeft="22dp"
                             android:background="@drawable/textview_circle_border"
                             android:gravity="center"
-                            android:text="2"
+                            android:text="0"
                             android:textColor="@color/white"
                             android:textSize="10sp" />
 
@@ -153,7 +153,7 @@
                         android:layout_marginTop="8dp"
                         android:text="@string/_completed"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="10sp" />
 
                 </LinearLayout>
 
@@ -184,7 +184,7 @@
                             android:layout_marginLeft="22dp"
                             android:background="@drawable/textview_circle_border"
                             android:gravity="center"
-                            android:text="2"
+                            android:text="0"
                             android:textColor="@color/white"
                             android:textSize="10sp" />
 
@@ -198,7 +198,7 @@
                         android:layout_marginTop="8dp"
                         android:text="@string/rejected"
                         android:textColor="@android:color/black"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="8sp" />
 
                 </LinearLayout>
 

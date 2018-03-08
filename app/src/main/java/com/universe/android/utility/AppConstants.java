@@ -197,5 +197,7 @@ public class AppConstants {
     public static String totalSales="totalSales";
 
 
+    public static String CUSTOMERIMAGE="CUSTOMERIMAGE";
+    public static String LocationUpdate="LocationUpdate";
 }
 

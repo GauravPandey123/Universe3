@@ -184,7 +184,6 @@ public class SearchCustomersActivity extends BaseActivity {
                 Intent intent = null;
 
 
-
                 intent = new Intent(mContext, CategoryExpandableListActivity.class);
 
 
@@ -280,7 +279,7 @@ public class SearchCustomersActivity extends BaseActivity {
                     } else {
                         modal.setStatus("");
                     }
-                    if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)){
+                    if (realmCustomers.get(i).getCustomer().equalsIgnoreCase(AppConstants.CrystalCustomer)){
                         modal.setTitle(realmCustomers.get(i).getName());
                         modal.setState(realmCustomers.get(i).getState());
                         modal.setContactNo(realmCustomers.get(i).getContactNo());
