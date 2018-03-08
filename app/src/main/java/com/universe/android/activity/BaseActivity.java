@@ -35,6 +35,7 @@ import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureS
 import com.universe.android.resource.Login.Profile.ImageUploadService;
 import com.universe.android.resource.Login.Profile.ProfileRequest;
 import com.universe.android.resource.Login.Profile.ProfileResponse;
+import com.universe.android.resource.Login.SurveyDetails.SurverDetailResponse;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
@@ -69,11 +70,10 @@ public class BaseActivity extends AppCompatActivity {
     public boolean isReplaced = false;
     public int CAMERA_REQUEST = 2121;
     public int GALLERY_REQUEST = 2221;
-
+    protected Activity mActivity;
 
     private String mImageUrl;
     private boolean isUpdateImage = false;
-    protected Activity mActivity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -338,7 +338,7 @@ public class BaseActivity extends AppCompatActivity {
      *
      * @return isFileCreated
      */
-    protected boolean createExcelFileReportAddTeamSurvey(List<String> headerList, List<AnswersModal> snapshotList, String title, String filename, String subject, String text) {
+    protected boolean createExcelFileTeamSurveyReport(List<String> headerList, List<SurverDetailResponse.ResponseBean.CrystaDoctorBean> snapshotList, String title, String filename, String subject, String text) {
         if (!Utility.isExternalStorageAvailable() || Utility.isExternalStorageReadOnly()) {
             return false;
         }
@@ -373,41 +373,41 @@ public class BaseActivity extends AppCompatActivity {
         for (int j = 0; j < snapshotList.size(); j++) {
             int idyc = 0;
             row = sheet.createRow(idxr);
-            AnswersModal answersModal = snapshotList.get(j);
+            SurverDetailResponse.ResponseBean.CrystaDoctorBean answersModal = snapshotList.get(j);
             cell = row.createCell(idyc);
-            cell.setCellValue(answersModal.get_id());
+            cell.setCellValue(answersModal.getDetail().get_id());
             cell.setCellStyle(Utility.getContentCellStyle(workbook));
             cell = row.createCell(++idyc);
-            cell.setCellValue(answersModal.getTitle());
+            cell.setCellValue(answersModal.getDetail().getName());
             cell.setCellStyle(Utility.getContentCellStyle(workbook));
             cell = row.createCell(++idyc);
-            cell.setCellValue(answersModal.getTerritory());
+            cell.setCellValue(answersModal.getTotalAssign());
             cell.setCellStyle(Utility.getContentCellStyle(workbook));
             cell = row.createCell(++idyc);
-            cell.setCellValue(answersModal.getState());
+            cell.setCellValue(answersModal.getSubmittedCount());
             cell.setCellStyle(Utility.getContentCellStyle(workbook));
             cell = row.createCell(++idyc);
-            cell.setCellValue(answersModal.getPincode());
-            cell.setCellStyle(Utility.getContentCellStyle(workbook));
-            cell = row.createCell(++idyc);
-            cell.setCellValue(answersModal.getContactNo());
-            cell.setCellStyle(Utility.getContentCellStyle(workbook));
-            cell = row.createCell(++idyc);
-            cell.setCellValue(answersModal.getDate());
-            cell.setCellStyle(Utility.getContentCellStyle(workbook));
-            cell = row.createCell(++idyc);
-            if (answersModal.getStatus() != null) {
-                if (answersModal.getStatus().equalsIgnoreCase("0")) {
-                    cell.setCellValue("Pending");
-                } else if (answersModal.getStatus().equalsIgnoreCase("1")) {
-                    cell.setCellValue("Submitted");
-                } else if (answersModal.getStatus().equalsIgnoreCase("5")) {
-                    cell.setCellValue("in Progress");
-                }
-            }else
-            {
-
+            String totalString = "" + answersModal.getTotalAssign();
+            String completedString = "" + answersModal.getSubmittedCount();
+            int n = Integer.parseInt(totalString);
+            int v = Integer.parseInt(completedString);
+            int percent=0;
+            try {
+                percent = v * 100 / n;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            cell.setCellValue(String.valueOf(percent).concat("%"));
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getProgress());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getRetailorCount());
+            cell.setCellStyle(Utility.getContentCellStyle(workbook));
+            cell = row.createCell(++idyc);
+            cell.setCellValue(answersModal.getCrystalCustomer());
+
 
             cell.setCellStyle(Utility.getContentCellStyle(workbook));
 

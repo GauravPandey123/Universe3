@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -48,13 +49,9 @@ import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -68,7 +65,7 @@ import in.editsoft.api.util.App;
  */
 
 public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurveyDialogFragment.TeamSurveyData {
-
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_STORAGE = 1000;
     private CardView carView;
     private RecyclerView reyclerViewCategory;
     private ImageView imageViewBack;
@@ -85,9 +82,8 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
     String fromDateString, toDateString;
     Date fromDateTime = null;
     Date toDates = null;
-    RelativeLayout relativeLayout;
-    private RelativeLayout linearLayoutSurvey;
-    private ArrayList<String> headerList = new ArrayList<>();
+    private ArrayList<String> headerList=new ArrayList<>();
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,6 +91,34 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
         setContentView(R.layout.team_survey_activity);
         initialization();
         setUpElements();
+        prepareHeaderList();
+        FloatingActionButton actionButton=(FloatingActionButton)findViewById(R.id.actionButton);
+
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utility.animateView(v);
+                if (isStoragePermissionGranted()) {
+                    String title = ((TextView) findViewById(R.id.textViewSurveyDetailActivity)).getText().toString();
+                    createExcelFileTeamSurveyReport(headerList, surveyDetailsBeanArrayList, title.replace(" ", "_"), title.replace(" ", "_") + ".xls", title, getResources().getString(R.string.sharetitle) + " of " + title + "\n\n" + getResources().getString(R.string.thankyou));
+                } else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
+                    }
+                }
+            }
+        });
+    }
+
+    private void prepareHeaderList() {
+        headerList = new ArrayList<>();
+        // headerList.add("#");
+        List<String> tablesHeader = new ArrayList<>();
+        tablesHeader = Arrays.asList(getResources().getStringArray(R.array.team_survey_report));
+        for (int i = 0; i < tablesHeader.size(); i++) {
+            headerList.add(tablesHeader.get(i));
+        }
+
     }
 
     private void setUpElements() {
@@ -116,23 +140,9 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
 
             }
         }));
-    }
 
-//        relativeLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Utility.animateView(view);
-//                if (isStoragePermissionGranted()) {
-//                    String title = ((TextView) findViewById(R.id.textViewSurveyDetailActivity)).getText().toString();
-//                    createExcelFileReport(headerList, surveyDetailsBeanArrayList, title.replace(" ", "_"), title.replace(" ", "_") + ".xls", title, getResources().getString(R.string.sharetitle) + " of " + title + "\n\n" + getResources().getString(R.string.thankyou));
-//                } else {
-//                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_STORAGE);
-//                    }
-//                }
-//            }
-//        });
-//    }
+
+    }
 
     private void initialization() {
         carView = findViewById(R.id.carView);
@@ -145,7 +155,6 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
         textViewInProgressCount = findViewById(R.id.textViewInProgressCount);
         textViewNewRetailersCount = findViewById(R.id.textViewNewRetailersCount);
         textViewCrystalMembersCount = findViewById(R.id.textViewCrystalMembersCount);
-        linearLayoutSurvey=findViewById(R.id.linearLayoutSurvey);
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -164,99 +173,6 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
 
     }
 
-
-//    /**
-//     * Create excel file of report
-//     *
-//     * @return isFileCreated
-//     */
-//    protected boolean createExcelFileReport(List<String> headerList, List<SurverDetailResponse.ResponseBean.CrystaDoctorBean> snapshotList, String title, String filename, String subject, String text) {
-//        if (!Utility.isExternalStorageAvailable() || Utility.isExternalStorageReadOnly()) {
-//            return false;
-//        }
-//        boolean success = false;
-//
-//        HSSFWorkbook workbook = new HSSFWorkbook();
-//        HSSFSheet sheet = null;
-//        if (title != null) {
-//            sheet = workbook.createSheet(subject);
-//        }
-//        int idxr = 0;
-//
-//        Cell cell;
-//        Row row = sheet.createRow(idxr);
-//
-//        cell = row.createCell(1);
-//        cell.setCellValue(subject);
-//        cell.setCellStyle(Utility.getHeaderCellStyle(workbook));
-//
-//        idxr = +2;
-//
-//        row = sheet.createRow(idxr);
-//        // Generate column headings
-//        for (int i = 0; i < headerList.size(); i++) {
-//            cell = row.createCell(i);
-//            cell.setCellValue(headerList.get(i));
-//            cell.setCellStyle(Utility.getColumnHeaderCellStyle(workbook));
-//            sheet.setColumnWidth(i, (10 * 900));
-//
-//        }
-//        idxr = idxr + 1;
-//        for (int j = 0; j < snapshotList.size(); j++) {
-//            int idyc = 0;
-//            row = sheet.createRow(idxr);
-//            AnswersModal answersModal = snapshotList.get(j);
-//            cell = row.createCell(idyc);
-//            cell.setCellValue(answersModal.get_id());
-//            cell.setCellStyle(Utility.getContentCellStyle(workbook));
-//            cell = row.createCell(++idyc);
-//            cell.setCellValue(answersModal.getTitle());
-//            cell.setCellStyle(Utility.getContentCellStyle(workbook));
-//            cell = row.createCell(++idyc);
-//            cell.setCellValue(answersModal.getTerritory());
-//            cell.setCellStyle(Utility.getContentCellStyle(workbook));
-//            cell = row.createCell(++idyc);
-//            cell.setCellValue(answersModal.getState());
-//            cell.setCellStyle(Utility.getContentCellStyle(workbook));
-//            cell = row.createCell(++idyc);
-//            cell.setCellValue(answersModal.getPincode());
-//            cell.setCellStyle(Utility.getContentCellStyle(workbook));
-//            cell = row.createCell(++idyc);
-//            cell.setCellValue(answersModal.getContactNo());
-//            cell.setCellStyle(Utility.getContentCellStyle(workbook));
-//            cell = row.createCell(++idyc);
-//            cell.setCellValue(answersModal.getDate());
-//            cell.setCellStyle(Utility.getContentCellStyle(workbook));
-//            cell = row.createCell(++idyc);
-//            if (answersModal.getStatus() != null) {
-//                if (answersModal.getStatus().equalsIgnoreCase("0")) {
-//                    cell.setCellValue("Pending");
-//                } else if (answersModal.getStatus().equalsIgnoreCase("1")) {
-//                    cell.setCellValue("Submitted");
-//                } else if (answersModal.getStatus().equalsIgnoreCase("5")) {
-//                    cell.setCellValue("in Progress");
-//                }
-//            }else
-//            {
-//
-//            }
-//
-//            cell.setCellStyle(Utility.getContentCellStyle(workbook));
-//
-//
-//            idxr++;
-//        }
-//
-//        success = Utility.writeExcelFile(workbook, filename);
-//        if (!success) {
-//            Utility.showToast(getString(R.string.error_file_downloading));
-//        } else {
-//            showProgressBar(filename, subject, text);
-//        }
-//
-//
-//        return success;
-//    }
 
     private void setWebService() {
         if (!Utility.isConnected()) {
