@@ -235,7 +235,7 @@ public class SearchCustomersActivity extends BaseActivity {
     private void initialization() {
         stringArrayList = new ArrayList<>();
         editTextSearchcustomers = findViewById(R.id.searchcustomers);
-        swipeRefreshLayoutSearch = findViewById(R.id.swiperefreshLayoutSearch);
+
         recyclerViewSearch = findViewById(R.id.recyclerviewsearch);
         imageViewback = findViewById(R.id.imageviewbacSearch);
         textViewSuverDetail = findViewById(R.id.textViewSuverDetail);

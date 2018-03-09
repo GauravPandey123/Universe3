@@ -53,7 +53,6 @@ import in.editsoft.api.exception.APIException;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-import ru.bullyboo.view.CircleSeekBar;
 
 public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, PlaceSelectionListener {
 
@@ -66,10 +65,9 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     private Activity activity;
     private CircleImageView circleImageViewMap;
     List<CategoryModal> arraylistTitle = new ArrayList<>();
-    private CircleSeekBar seekBar;
+
     ProgressBar mProgress;
     private CircleImageView circleImageView;
-
 
 
     @Override
@@ -113,8 +111,8 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         textViewSetLocation = findViewById(R.id.textViewSetLocation);
         imageViewLocation = findViewById(R.id.imageViewLocation);
-        circleImageView=findViewById(R.id.circularImageViewMap) ;
-        seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
+        circleImageView = findViewById(R.id.circularImageViewMap);
+
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular_progress);
         mProgress = (ProgressBar) findViewById(R.id.circularProgressbar);
@@ -158,6 +156,8 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onClick(View view) {
                 updateLocationService(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
+                updateLocationServiceEmployee(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
+
             }
         });
 
@@ -265,7 +265,6 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 //  Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLat());
                 //   Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLongX());
 
-                updateLocationServiceEmployee(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
 
             }
 
@@ -300,18 +299,19 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
                 Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLat());
                 Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLongX());
-//                if (!response.getResponse().isLocationSet()) {
-//                    imageLoc.setImageResource(R.drawable.ic_location_off_black_24dp);
-//                } else {
-//                    imageLoc.setImageResource(R.drawable.ic_location_on_black_24dp);
-//
-//                }
+
+                imageViewLocation.setImageResource(R.drawable.ic_location_on_black_24dp);
+
 
                 Prefs.putBooleanPrefs(AppConstants.LocationUpdate, true);
 
                 //  Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLat());
                 //  Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLongX());
                 Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
+                intent.putExtra(AppConstants.STR_TITLE, title);
+                intent.putExtra(AppConstants.SURVEYID, surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID, customerId);
+                intent.putExtra(AppConstants.CUSTOMER, strCustomer);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 Utility.showToast(R.string.location_updated);
@@ -500,8 +500,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
 
             TextView textViewProgress = (TextView) findViewById(R.id.progressBarinsideText);
-            seekBar.setValue(progressRequired);
-            seekBar.setMaxValue(progressTotal);
+
             mProgress.setProgress(progressRequired);
             mProgress.setMax(progressTotal);
             int percent = (progressRequired * 100) / progressTotal;

@@ -125,24 +125,7 @@
                             android:progressDrawable="@drawable/circular_progress"
                             android:secondaryProgress="100"
                             />
-                        <ru.bullyboo.view.CircleSeekBar
-                            android:id="@+id/seek_bar"
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            app:maxValue="100"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:layout_gravity="center_horizontal"
-                            app:backgroundCircleLineWidth="20dp"
-                            app:progressCircleLineWidth="20dp"
-                            app:showCounter="true"
-                            app:value="30"
-                            android:visibility="gone"
-                            app:isClockwise="true">
 
-
-                        </ru.bullyboo.view.CircleSeekBar>
 
 
 

@@ -13,37 +13,23 @@
     <dimen name="text_size_medium">14sp</dimen>
     <dimen name="text_size_normal">16sp</dimen>
     <dimen name="text_size_large">18sp</dimen>
-    <dimen name="margin_extra">56dp</dimen>
     <dimen name="margin_extra_large">72dp</dimen>
-    <dimen name="card_padding">30dp</dimen>
-    <dimen name="day_text_wh">30dp</dimen>
-    <dimen name="title_options">48dp</dimen>
-
 
 
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="nav_header_height">56dp</dimen>
-    <dimen name="top_margin">100dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="app_text_size">50dp</dimen>
     <dimen name="view_main_padding">5dp</dimen>
     <dimen name="view_padding">5dp</dimen>
     <dimen name="view_corner">6dp</dimen>
     <dimen name="view_row_margin">10dp</dimen>
     <dimen name="view_small_padding">3dp</dimen>
     <dimen name="view_margin">5dp</dimen>
-    <dimen name="bottom_margin">45dp</dimen>
-    <dimen name="view_tiny_margin">2dp</dimen>
     <dimen name="view_bottom_margin">10dp</dimen>
-    <dimen name="hd_row_h">25dp</dimen>
-    <dimen name="dt_row_h">22dp</dimen>
     <dimen name="view_field_bottom_margin">8dp</dimen>
 
     <dimen name="appBigText">17dp</dimen>
     <dimen name="appSmallText">15dp</dimen>
     <dimen name="appTinyText">13dp</dimen>
-    <dimen name="btnLargeWidth">250dp</dimen>
     <dimen name="btnNormalWidth">120dp</dimen>
     <dimen name="btnSmallWidth">80dp</dimen>
 
@@ -51,8 +37,6 @@
     <dimen name="btnNormalHeight">35dp</dimen>
     <dimen name="btnSmallHeight">30dp</dimen>
 
-    <dimen name="pieChartHeight">250dp</dimen>
-    <dimen name="barChartHeight">250dp</dimen>
     <dimen name="txtProgressSize">12dp</dimen>
 
 </resources>

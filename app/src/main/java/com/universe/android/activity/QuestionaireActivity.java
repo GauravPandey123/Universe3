@@ -86,7 +86,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import ru.bullyboo.view.CircleSeekBar;
+
 
 public class QuestionaireActivity extends BaseActivity  implements PageChangeInterface{
     private ViewPager mViewPager;
@@ -104,7 +104,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
     List<CategoryModal> arraylistTitle = new ArrayList<>();
     HashMap<CategoryModal, List<Questions>> expandableListDetail = new HashMap<CategoryModal, List<Questions>>();
     private int groupPosition=0;
-    private CircleSeekBar seekBar;
+
     boolean isSync=false;
     String searchText="",strCustomer="";
     ProgressBar mProgress;
@@ -281,7 +281,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
-        seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
+
         llStatus = (LinearLayout) findViewById(R.id.llStatus);
         imageStatus = (ImageView) findViewById(R.id.imageStatus);
         textStatus = (TextView) findViewById(R.id.textStatus);
@@ -951,8 +951,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
 
 
             TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
-            seekBar.setValue(progressRequired);
-            seekBar.setMaxValue(progressTotal);
+
             mProgress.setProgress(progressRequired);
             mProgress.setMax(progressTotal);
             //seekbar.setProgress(progressRequired);

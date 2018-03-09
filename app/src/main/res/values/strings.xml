@@ -3,7 +3,6 @@
     <string name="msg_load_default">Loading</string>
     <string name="login">Login</string>
     <string name="forgotpassword">Forgot Password</string>
-    <string name="signup">SignUp</string>
     <string name="phoneno">Enter The Phone Number</string>
     <string name="today">For The Period Today</string>
     <string name="target">Target</string>
@@ -20,7 +19,6 @@
     <string name="suverydetail">Survey Detail Report</string>
     <!--Navigation Drawer Menu -->
     <string name="username">UserName</string>
-    <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="filter">Filter</string>
 
@@ -73,28 +71,18 @@
 
     <string name="search">Search Customers</string>
     <string name="customersearch">Search Customers</string>
-    <string name="select_customers">Select Customers</string>
     <string name="category1">Category1</string>
-    <string name="questions1">Question1 -  What is lorem spum ?</string>
-    <string name="questionairecategory">Questionaire Category</string>
     <string name="select_status">Choose Status</string>
-    <string name="choose_date">SelectDate</string>
-    <string name="designation">Designation</string>
     <string name="profile">Profile</string>
     <string name="email">Email</string>
     <string name="submit">Submit</string>
-    <string name="emailphone">Email/Phone</string>
     <string name="oldPassword">OldPassword</string>
     <string name="newpassword">Enter New Password</string>
-    <string name="confirmPassword">Confirm Password</string>
     <string name="reenterPassword">Confirm Your Password</string>
     <string name="mobile">Phone Number</string>
     <string name="role">Role</string>
     <string name="ldb">L.O.B</string>
     <string name="territory">Territory</string>
-    <string name="getotp">Get OTp</string>
-    <string name="otp">Enter The Otp</string>
-    <string name="hint_search">Search Questions</string>
     <string name="allow_permission">Please allow permission to use the app</string>
     <string name="msg_enter_email">Please enter email</string>
     <string name="msg_email_error">Invalid email</string>
@@ -106,19 +94,9 @@
     <string name="dialog_image_title">Select From</string>
     <string name="dialog_image_camera">Camera</string>
     <string name="dialog_image_gallery">Gallery</string>
-    <string name="category2">Category2</string>
-    <string name="category3">Category3</string>
-    <string name="category4">Category4</string>
-    <string name="loading_survey">Loading Survey…</string>
-    <string name="loading_client">Loading Client…</string>
-    <string name="loading_customer">Loading Customer…</string>
-    <string name="loading_category">Loading Category…</string>
-    <string name="loading_question">Loading Questions…</string>
     <string name="submittingAnswers">Submitting...</string>
-    <string name="syncing_data">Syncing Data</string>
     <string name="no_network">No Network Available</string>
     <string name="last_sync_date">Last Sync Date</string>
-    <string name="no_data_to_sync">No offline Data Available for Sync</string>
     <string name="settings">Sync Reponses</string>
     <string name="sync_data_to_server">Sync Data to Server</string>
     <string name="no_network_error">No Netwotk Error</string>
@@ -126,12 +104,9 @@
     <string name="sync_responses">Sync Responses</string>
     <string name="work_flows">Workflows</string>
     <string name="_pending">Pending</string>
-    <string name="approved">Approved</string>
     <string name="_completed">Completed</string>
-    <string name="verifier">Verified</string>
     <string name="teamSurvey">Team Survey Detail</string>
     <string name="teamSurveyReport">Team Survey Report</string>
-    <string name="hintTeam">Team</string>
 
     <string name="select_survey">Select Survey</string>
     <string name="select_client">Select Client</string>
@@ -144,15 +119,12 @@
     <string name="select_category">Select Category</string>
 
     <string name="team_survey_detail">Team Survey Detail Report</string>
-    <string name="team_survey_report">Team Survey Report</string>
     <string name="crystaldoctors">Crystal Doctor 1</string>
     <string name="amtala">Amtala</string>
     <string name="rmName">rmnamer</string>
     <string name="totalNumber">10</string>
-    <string name="search_location">Search Location</string>
     <string name="searchQuestions">Search Questions</string>
     <string name="setLocation">Set Location</string>
-    <string name="retailersName">RetailersName</string>
     <string name="address">Address</string>
     <string name="discontinue">Discontinue</string>
     <string name="distributorName">Distributor Name(Crystal Primary Customer)</string>
@@ -166,13 +138,8 @@
     <string name="err_msg_totalSales">Enter Total Sales</string>
     <string name="err_msg_focusVillage">Enter the Village Name</string>
     <string name="err_msg_phone">Please Enter The Phone Number</string>
-    <string name="select_territory">Select Territory</string>
     <string name="majorCrop">Major Crop</string>
     <string name="err_msg_majorCrop">Enter The Major Crop</string>
-    <string name="add_details">Add Details</string>
-    <string name="companyName">Company Name</string>
-    <string name="brandaname">Brand Name</string>
-    <string name="selectbrands">Select Brands(removable only)</string>
     <string name="select_options">Select Options</string>
     <string name="option">Option values</string>
     <string name="todo">TODO</string>
@@ -185,16 +152,8 @@
     <string name="verifierr">Verifier</string>
 
     <string name="location_updated">LocationUpdated</string>
-    <string name="message">Please specify reason for reject</string>
     <string name="reason">Reason</string>
 
-    <string-array name="filterItem">
-        <item>@string/category1</item>
-        <item>@string/category2</item>
-        <item>@string/category3</item>
-        <item>@string/category4</item>
-    </string-array>
-    <string name="title_activity_maps">Map</string>
     <string name="pincode">PinCode</string>
     <string name="retailersState">State</string>
     <string name="err_msg_pincode">Please Enter Pincode</string>
@@ -210,15 +169,7 @@
     <string name="cystal_text">Select CrystalCustomer</string>
     <string name="new_retailer_text">Select New Retailer or add new retailer</string>
     <string name="team">Team</string>
-    <string-array name="team_survey_report">
-        <item>S. No</item>
-        <item>Name</item>
-        <item>Targets</item>
-        <item>Submitted</item>
-        <item>Achievement</item>
-        <item>In Progress</item>
-        <item>New Retailer</item>
-        <item>Crystal Customers</item>
-    </string-array>
+    <string name="open">open</string>
+
 
 </resources>

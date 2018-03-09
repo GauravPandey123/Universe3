@@ -83,7 +83,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import ru.bullyboo.view.CircleSeekBar;
 
 public class CategoryExpandableListActivity extends BaseActivity {
     private JSONObject jsonSubmitReq = new JSONObject();
@@ -96,7 +95,6 @@ public class CategoryExpandableListActivity extends BaseActivity {
     private TextView textViewRetailersNameMap,textViewMobileNoMap;
     Button btnReject;
     Button btnApprove;
-    private CircleSeekBar seekBar;
     private String updateId,strCustomer="",strStatus="";
     private ProgressBar mProgress;
     private LinearLayout llStatus;
@@ -475,7 +473,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
         imageLoc=findViewById(R.id.imageLoc);
         RelativeLayout relativeLayout=(RelativeLayout)findViewById(R.id.rlImage);
         //  seekbar=(SeekBar)findViewById(R.id.seek_bar);
-        seekBar = (CircleSeekBar) findViewById(R.id.seek_bar);
+
 
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular_progress);
@@ -753,8 +751,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
             TextView textViewProgress=(TextView)findViewById(R.id.progressBarinsideText);
             mProgress.setProgress(progressRequired);
             mProgress.setMax(progressTotal);
-            seekBar.setValue(progressRequired);
-            seekBar.setMaxValue(progressTotal);
+
             int percent=(progressRequired*100)/progressTotal;
             textViewProgress.setText(percent+"%");
 
