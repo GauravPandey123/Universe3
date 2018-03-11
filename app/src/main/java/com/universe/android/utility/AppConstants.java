@@ -199,5 +199,6 @@ public class AppConstants {
 
     public static String CUSTOMERIMAGE="CUSTOMERIMAGE";
     public static String LocationUpdate="LocationUpdate";
+    public static String FilterData="FilterData";
 }
 

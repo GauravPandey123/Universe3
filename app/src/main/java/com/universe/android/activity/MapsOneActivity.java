@@ -300,7 +300,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLat());
                 Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLongX());
 
-                imageViewLocation.setImageResource(R.drawable.ic_location_on_black_24dp);
+
 
 
                 Prefs.putBooleanPrefs(AppConstants.LocationUpdate, true);

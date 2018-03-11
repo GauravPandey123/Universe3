@@ -256,7 +256,6 @@ public class RealmController {
     }
     public void saveUserDetail(String responseData) {
 
-
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         try {

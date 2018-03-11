@@ -19,6 +19,7 @@ import com.universe.android.utility.Prefs;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import in.editsoft.api.util.App;
 
 /**
  * Created by darshanz on 7/6/15.
@@ -56,8 +57,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
         if (position == 0) {
             holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
             holder.textViewName.setTypeface(FontClass.openSansBold(mContext));
-            holder.textViewName.setText(Prefs.getStringPrefs(AppConstants.name));
+            holder.textViewName.setText(Prefs.getStringPrefs(AppConstants.employee_name));
             Glide.with(mContext).load(Prefs.getStringPrefs(AppConstants.picture)).into(holder.profile_image);
+            holder.textViewMobileNo.setText(Prefs.getStringPrefs(AppConstants.phone));
         } else {
             holder.title.setText(drawerMenuList.get(position - 1).getTitle());
             holder.icon.setImageResource(drawerMenuList.get(position - 1).getIcon());

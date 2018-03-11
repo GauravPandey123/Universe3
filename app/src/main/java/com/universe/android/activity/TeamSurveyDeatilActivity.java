@@ -60,7 +60,8 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
     String fromDateString, toDateString;
     Date fromDateTime = null;
     Date toDates = null;
-    private ArrayList<String> headerList=new ArrayList<>();
+    private ArrayList<String> headerList = new ArrayList<>();
+    private ArrayList<String> stringArrayListChecked;
 
 
     @Override
@@ -70,7 +71,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
         initialization();
         setUpElements();
         prepareHeaderList();
-        FloatingActionButton actionButton=(FloatingActionButton)findViewById(R.id.actionButton);
+        FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.actionButton);
 
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,7 +165,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
         showProgress();
         SurveyDeatailRequest surveyDeatailRequest = new SurveyDeatailRequest();
         surveyDeatailRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
-        surveyDeatailRequest.setEmployee_code("10000297");
+        surveyDeatailRequest.setEmployee_code(Prefs.getStringPrefs(AppConstants.employee_code));
         surveyDeatailRequest.setType("rsm");
         SurveyDetailService surveyDetailService = new SurveyDetailService();
         surveyDetailService.executeService(surveyDeatailRequest, new BaseApiCallback<SurverDetailResponse>() {
@@ -248,7 +249,13 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
                 List<SurverDetailResponse.ResponseBean.CrystaDoctorBean> crystaDoctorBeans = responseBeans.getCrystaDoctor();
                 String value = new Gson().toJson(crystaDoctorBeans);
                 SurverDetailResponse.ResponseBean.CrystaDoctorBean[] surveyDetailsBeans = new Gson().fromJson(value, SurverDetailResponse.ResponseBean.CrystaDoctorBean[].class);
+                if (surveyDetailsBeanArrayList.size() < 1) {
+                    reyclerViewCategory.setVisibility(View.GONE);
+                    return;
+                }
+                reyclerViewCategory.setVisibility(View.VISIBLE);
                 Collections.addAll(surveyDetailsBeanArrayList, surveyDetailsBeans);
+
                 teamSurveyAdapter.notifyDataSetChanged();
             }
 

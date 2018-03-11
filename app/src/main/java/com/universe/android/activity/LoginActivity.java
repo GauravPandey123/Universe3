@@ -296,7 +296,6 @@ public class LoginActivity extends BaseActivity {
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         String url = UniverseAPI.WEB_SERVICE_LIST_ADMIN_SURVEY_METHOD;
 
-
         Request request = APIClient.getRequest(mContext, url);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
