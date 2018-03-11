@@ -1,5 +1,6 @@
 package com.universe.android.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.universe.android.helper.FontClass;
 import com.universe.android.model.DrawerItem;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
+import com.universe.android.utility.Utility;
 
 import java.util.ArrayList;
 
@@ -57,8 +59,12 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
         if (position == 0) {
             holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
             holder.textViewName.setTypeface(FontClass.openSansBold(mContext));
-            holder.textViewName.setText(Prefs.getStringPrefs(AppConstants.employee_name));
-            Glide.with(mContext).load(Prefs.getStringPrefs(AppConstants.picture)).into(holder.profile_image);
+            holder.textViewName.setText(Prefs.getStringPrefs(AppConstants.USERNAME));
+            if (Utility.validateString(Prefs.getStringPrefs(AppConstants.picture)))
+            Glide.with(((Activity)mContext)).load(Prefs.getStringPrefs(AppConstants.picture)).into(holder.profile_image);
+            else {
+                holder.profile_image.setImageResource(R.drawable.ic_grey_user);
+            }
             holder.textViewMobileNo.setText(Prefs.getStringPrefs(AppConstants.phone));
         } else {
             holder.title.setText(drawerMenuList.get(position - 1).getTitle());

@@ -94,6 +94,7 @@ public class ProfileFragment extends BaseFragment {
         textViewTLerritor.setTypeface(FontClass.openSansRegular(getActivity()));
         editTextPhoneProfile.setTypeface(FontClass.openSansLight(getActivity()));
         editTextRolesProfile.setTypeface(FontClass.openSansLight(getActivity()));
+        editTextRolesProfile.setText(Prefs.getStringPrefs(AppConstants.TYPE));
         editTextLob.setTypeface(FontClass.openSansLight(getActivity()));
         editTextTerritory.setTypeface(FontClass.openSansLight(getActivity()));
         if (!Utility.isConnected()) {
@@ -167,12 +168,12 @@ public class ProfileFragment extends BaseFragment {
                     textViewUserNameProfile.setText(profileResponse.getName());
                     editTextPhoneProfile.setText("" + profileResponse.getPhone());
                     textViewEmailProfile.setText(profileResponse.getEmail());
-                    editTextRolesProfile.setText("" + profileResponse.getDesignation());
+               //     editTextRolesProfile.setText("" + profileResponse.getDesignation());
                     editTextLob.setText("" + profileResponse.getLOB());
                     editTextTerritory.setText("" + profileResponse.getTerritory());
-                    Glide.with(mActivity)
-                            .load(profileResponse.getPicture())
-                            .into(circleImageViewProfile);
+                    Prefs.putStringPrefs(AppConstants.picture,profileResponse.getPicture());
+
+                    Glide.with(mActivity).load(profileResponse.getPicture()).into(circleImageViewProfile);
                 } else {
                     Utility.showToast(response.getErrorMsg());
                 }
