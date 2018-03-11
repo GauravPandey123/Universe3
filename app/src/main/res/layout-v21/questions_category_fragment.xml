@@ -58,6 +58,17 @@
                 android:textSize="14sp" />
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textStyle="bold"
+            android:textColor="@color/app_theme_color"
+            android:padding="16dp"
+            android:layout_margin="8dp"
+            android:text="view"/>
+
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollview"
             android:layout_width="match_parent"
@@ -124,7 +135,6 @@
                         android:text="@string/select_category" />
 
                 </LinearLayout>
-
                 <LinearLayout
                     android:id="@+id/llOptionValues"
                     style="@style/appFieldLinearLayout"
@@ -161,7 +171,6 @@
                         android:text="@string/select_category" />
 
                 </LinearLayout>
-
                 <LinearLayout
                     android:id="@+id/parent"
                     style="@style/appLinear"

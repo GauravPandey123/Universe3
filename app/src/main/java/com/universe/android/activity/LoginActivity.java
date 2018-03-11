@@ -222,7 +222,7 @@ public class LoginActivity extends BaseActivity {
                                 Prefs.putStringPrefs(AppConstants.picture, jsonObject1.optString("picture"));
                                 Prefs.putStringPrefs(AppConstants.employee_name, jsonObject1.optString("employee_name"));
                                 Prefs.putStringPrefs(AppConstants.email, jsonObject1.optString("email"));
-                                Prefs.putStringPrefs(AppConstants.phone, jsonObject1.optString("mobile"));
+                                Prefs.putStringPrefs(AppConstants.phone, jsonObject1.optString(AppConstants.phone));
                                 Prefs.putStringPrefs(AppConstants.employee_code, jsonObject1.optString("employee_code"));
                                 Prefs.putStringPrefs(AppConstants.password, jsonObject1.optString("password"));
                                 Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));

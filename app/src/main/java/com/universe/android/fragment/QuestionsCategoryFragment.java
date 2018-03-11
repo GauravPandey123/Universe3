@@ -257,6 +257,25 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
             });
         }
 
+        final TextView view1=(TextView)view.findViewById(R.id.view);
+        String type=Prefs.getStringPrefs(AppConstants.TYPE);
+        if (type.equalsIgnoreCase("cd")){
+            view1.setVisibility(View.GONE);
+        }else {
+            view1.setVisibility(View.VISIBLE);
+        }
+
+        view1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                if (Utility.validateString(visiblity)) {
+                    jsonSubmitReq = prepareJsonRequest(questionsMap);
+                    saveNCDResponseLocal(updateId, false);
+                    view1.setText("viewed");
+                }
+            }
+        });
 
 
         return view;
@@ -1338,8 +1357,8 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                                     if (result != null && result.size() > 0) {
                                         JSONArray jsonCheckArray = new JSONArray();
                                         for (MultiSpinnerList s : result) {
-                                            question.setAnswer(s.getId());
-                                            jsonCheckArray.put(s.getId());
+                                            question.setAnswer(s.getName());
+                                            jsonCheckArray.put(s.getName());
                                         }
                                         question.setAnswer(jsonCheckArray.toString());
                                     }
@@ -2578,13 +2597,18 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         final RadioButton rdbtn = new RadioButton(getActivity());
         rdbtn.setPadding(2, 2, 2, 2);
         rdbtn.setId(index);
-        questions.setAnswer(strVal);
+      //  questions.setAnswer(strVal);
 
-        if (Utility.validateString(questions.getAnswer()) && questions.getAnswer().equals(strVal)) {
-
+        if (Utility.validateString(questions.getAnswer()) && questions.getAnswer().equalsIgnoreCase("Yes")){
             rdbtn.setChecked(true);
-        } else {
+        }else{
             rdbtn.setChecked(false);
+        }
+        if (Utility.validateString(questions.getAnswer()) && questions.getAnswer().equalsIgnoreCase(strVal)) {
+
+
+        } else {
+
           /*  if (questions.getQuestionId().equalsIgnoreCase(AppConstants.ISACTIVE)){
               int isActive= Integer.parseInt(questions.getAnswer());
                 if (isActive==1  && strVal.equalsIgnoreCase("Yes")) {

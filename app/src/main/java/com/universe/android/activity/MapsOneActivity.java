@@ -74,8 +74,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.autocomplete_fragment);
@@ -308,10 +307,11 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 //  Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLat());
                 //  Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLongX());
                 Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
-                intent.putExtra(AppConstants.STR_TITLE, title);
-                intent.putExtra(AppConstants.SURVEYID, surveyId);
-                intent.putExtra(AppConstants.CUSTOMERID, customerId);
-                intent.putExtra(AppConstants.CUSTOMER, strCustomer);
+                intent.putExtra(AppConstants.STR_TITLE,title);
+                intent.putExtra(AppConstants.SURVEYID,surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID,customerId);
+                intent.putExtra(AppConstants.CUSTOMER,strCustomer);
+
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 Utility.showToast(R.string.location_updated);
