@@ -22,8 +22,9 @@
             android:id="@+id/textViewSuverDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_small"
+            android:layout_toRightOf="@+id/imageviewbacSearch"
             android:text="@string/customersearch"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
@@ -37,6 +38,7 @@
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/include"
         android:layout_margin="@dimen/view_padding"
         android:layout_marginBottom="@dimen/view_row_margin"
         android:background="@drawable/edt_bg"
@@ -44,24 +46,26 @@
         android:focusableInTouchMode="false"
         android:iconifiedByDefault="false"
         android:imeActionLabel="Done"
+        android:queryBackground="@android:color/transparent"
+        android:backgroundTint="@null"
         android:imeOptions="actionDone"
         android:inputType="text"
-        android:layout_below="@+id/include"
         android:queryHint="@string/search_name" />
+
     <EditText
         android:id="@+id/searchcustomers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/include"
         android:layout_gravity="center_vertical"
         android:layout_marginTop="@dimen/margin_normal"
         android:drawableRight="@drawable/ic_search"
         android:hint="@string/search"
-        android:layout_below="@+id/include"
         android:paddingLeft="@dimen/margin_normal"
         android:paddingRight="@dimen/margin_normal"
         android:singleLine="true"
-        android:visibility="gone"
-        android:textSize="@dimen/text_size_normal" />
+        android:textSize="@dimen/text_size_normal"
+        android:visibility="gone" />
 
     <View
         android:id="@+id/border"
@@ -69,23 +73,23 @@
         android:layout_height="1dp"
         android:layout_below="@+id/searchView"
         android:layout_marginTop="4dp"
-        android:background="@color/divider_color" />
+        android:background="@color/divider_color"
+        android:visibility="gone" />
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerviewsearch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/border"/>
+        android:layout_below="@+id/border" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/actionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_margin="12dp"
-        android:src="@drawable/fab_add"
- />
+        android:src="@drawable/fab_add" />
 </RelativeLayout>

@@ -49,6 +49,7 @@
         android:iconifiedByDefault="false"
         android:imeActionLabel="Done"
         android:imeOptions="actionDone"
+
         android:inputType="text"
         android:queryHint="@string/search" />
 

@@ -36,9 +36,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     /**
      * Instantiates a new Custom expandable list adapter.
      *
-     * @param context                    the context
-     * @param listDataHeader             the list data header
-     * @param listChildData              the list child data
+     * @param context        the context
+     * @param listDataHeader the list data header
+     * @param listChildData  the list child data
      */
     public CustomExpandableListAdapter(Context context, List<CategoryModal> listDataHeader,
                                        HashMap<CategoryModal, List<Questions>> listChildData) {
@@ -63,10 +63,9 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
 
-        final String productName =  _listDataChild.get(_listDataHeader.get(groupPosition)).get(childPosition).getTitle();
-        final String required =  _listDataChild.get(_listDataHeader.get(groupPosition)).get(childPosition).getStatus();
-        final String answer =  _listDataChild.get(_listDataHeader.get(groupPosition)).get(childPosition).getAnswer();
-
+        final String productName = _listDataChild.get(_listDataHeader.get(groupPosition)).get(childPosition).getTitle();
+        final String required = _listDataChild.get(_listDataHeader.get(groupPosition)).get(childPosition).getStatus();
+        final String answer = _listDataChild.get(_listDataHeader.get(groupPosition)).get(childPosition).getAnswer();
 
 
         if (convertView == null) {
@@ -82,15 +81,15 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         ImageView imgRequired = (ImageView) convertView
                 .findViewById(R.id.imgRequired);
 
-        if (Utility.validateString(answer)){
+        if (Utility.validateString(answer)) {
             imgStatus.setBackgroundResource(R.drawable.done);
-        }else {
+        } else {
             imgStatus.setBackgroundResource(R.drawable.wrong);
         }
-        if (required.equalsIgnoreCase("Yes")){
+        if (required.equalsIgnoreCase("Yes")) {
             imgRequired.setBackgroundResource(R.drawable.required);
             imgRequired.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             imgRequired.setVisibility(View.GONE);
         }
         tvQuestionName.setText(productName);
@@ -143,44 +142,43 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.imgStatus);
 
 
-        if (categoryAnsweredd.equalsIgnoreCase("Yes")){
+        if (categoryAnsweredd.equalsIgnoreCase("Yes")) {
             imgStatus.setBackgroundResource(R.drawable.done);
-        }else {
+        } else {
             imgStatus.setBackgroundResource(R.drawable.wrong);
         }
 
-        String designation= Prefs.getStringPrefs(AppConstants.TYPE);
+        String designation = Prefs.getStringPrefs(AppConstants.TYPE);
 
-        if (designation.equalsIgnoreCase("cd")){
-            if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("2") ){
+        if (designation.equalsIgnoreCase("cd")) {
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("2")) {
                 imgStatus.setBackgroundResource(R.drawable.done);
             }
-        }else if (designation.equalsIgnoreCase("rm")){
-            if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("1") ){
+        } else if (designation.equalsIgnoreCase("rm")) {
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("1")) {
                 imgStatus.setBackgroundResource(R.drawable.double_done);
             }
-        }else {
-            if (categoryAnsweredd.equalsIgnoreCase("Yes") && isViewByZM.equalsIgnoreCase("1") ){
+        } else {
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && isViewByZM.equalsIgnoreCase("1")) {
                 imgStatus.setBackgroundResource(R.drawable.double_done);
             }
         }
-
 
 
         tvCount.setText(count);
         //  lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
         if (isExpanded) {
-            lblListHeader.setTypeface(null, Typeface.BOLD);
-            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-                    R.drawable.arrow_up, 0);
+            lblListHeader.setTypeface(null, Typeface.NORMAL);
+            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(R.drawable.arrow_up, 0,
+                    0, 0);
         } else {
             // If group is not expanded then change the text back into normal
             // and change the icon
 
             lblListHeader.setTypeface(null, Typeface.NORMAL);
-            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(0, 0,
-                    R.drawable.arrow_down, 0);
+            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(R.drawable.arrow_down, 0,
+                    0, 0);
         }
         return convertView;
     }
@@ -194,11 +192,6 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;
     }
-
-
-
-
-
 
 
 }

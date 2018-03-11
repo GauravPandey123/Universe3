@@ -7,6 +7,7 @@
         android:id="@+id/cdSurvey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_small"
         android:layout_below="@+id/retailerSelection">
 
         <RelativeLayout
@@ -24,7 +25,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"
                     android:text="@string/disributors"
-                    android:textAllCaps="true"
                     android:textColor="@color/textColorPrimaryDark"
                     android:textSize="@dimen/text_size_normal" />
 
@@ -97,8 +97,8 @@
                     android:layout_marginRight="@dimen/margin_medium"
                     android:background="@drawable/shape_rect_grey"
                     android:paddingBottom="@dimen/margin_medium"
-                    android:paddingLeft="@dimen/margin_large"
-                    android:paddingRight="@dimen/margin_large"
+                    android:paddingLeft="@dimen/margin_xnormal"
+                    android:paddingRight="@dimen/margin_xnormal"
                     android:paddingTop="@dimen/margin_medium"
                     android:text="@string/select"
                     android:textAllCaps="true"

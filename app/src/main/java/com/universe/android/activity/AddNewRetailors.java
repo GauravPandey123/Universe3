@@ -62,7 +62,7 @@ public class AddNewRetailors extends BaseActivity {
                 textViewReatilers.setText(realmSurveys.getTitle());
 
             if (Utility.validateString(strExpiryDate))
-                textViewReatilersDate.setText(strExpiryDate);
+                textViewReatilersDate.setText("Ends On: "+strExpiryDate);
 
             if (Utility.validateString(strStatus))
                 retailerPending.setText(strStatus);

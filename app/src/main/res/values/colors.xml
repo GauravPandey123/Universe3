@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="app_theme_color">#3F51B5</color>
+    <color name="app_theme_color">#4C98CF</color>
     <color name="light_blue">#ADD8E6</color>
     <color name="survey_background_color">#f2f2f2</color>
     <color name="textColorPrimary">#464646</color>
@@ -20,5 +20,6 @@
     <color name="list_item_selected_state">#F4F6F6</color>
     <color name="list_item_normal_state">#FFFFFF</color>
     <color name="green">#00ff7f</color>
+    <color name="buttoncolor">#40C8C2</color>
 
 </resources>
