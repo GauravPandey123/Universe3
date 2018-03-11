@@ -403,7 +403,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
                     categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
                     categoryModal.setStatus(realmCategoryDetails.getStatus());
                     try {
-                        RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID,surveyId).findAll();
+                        RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findAll();
 
                         //  if (realmQuestions != null && realmQuestions.size() > 0) {
                         //         String categoryId = realmCategoryDetails.get(k).getId();
@@ -894,7 +894,7 @@ public class QuestionaireActivity extends BaseActivity  implements PageChangeInt
                         categoryModal.setStatus("");
                         categoryModal.setCategoryAnswered("");
                         try {
-                            RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID, surveyId).findAll();
+                            RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId())/*.equalTo(AppConstants.SURVEYID, surveyId)*/.findAll();
 
                             //  if (realmQuestions != null && realmQuestions.size() > 0) {
                             //         String categoryId = realmCategoryDetails.get(k).getId();

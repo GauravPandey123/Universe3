@@ -107,8 +107,8 @@ public class MultiEdittextListItemDialog extends Dialog {
                 List<MultiSpinnerList> selectItems = new ArrayList<MultiSpinnerList>();
                 List<String> selectText = new ArrayList<String>();
                 Collection<MultiSpinnerList> result = Collections2.filter(questions, new FilterPredicate().filterMultiSpnListEdittext);
-                if (result != null && result.size() > 0) {
-                    for (MultiSpinnerList s : result) {
+                if (questions != null && questions.size() > 0) {
+                    for (MultiSpinnerList s : questions) {
                         if (!s.getName().isEmpty()) {
                             if (!selectText.contains(s.getName()))
                                 selectText.add(s.getName());
@@ -120,14 +120,19 @@ public class MultiEdittextListItemDialog extends Dialog {
                         MultiSpinnerList multiSpinnerList = new MultiSpinnerList();
                         multiSpinnerList.setName(selectText.get(k));
                         multiSpinnerList.setId((k + 1) + "");
+                        multiSpinnerList.setChecked(true);
                         selectItems.add(multiSpinnerList);
                     }
                 } else {
                     selectItems = null;
                 }
-                if (selectItems.size() != questions.size()) {
-                    Utility.showToast("Please fill all options");
-                } else {
+                if (selectItems!=null) {
+                    if (selectItems.size() != questions.size()) {
+                        Utility.showToast("Please fill all options");
+                    } else {
+                        dtp.OnDoneButton(MultiEdittextListItemDialog.this, selectItems);
+                    }
+                }else {
                     dtp.OnDoneButton(MultiEdittextListItemDialog.this, selectItems);
                 }
 

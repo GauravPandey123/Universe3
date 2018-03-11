@@ -690,7 +690,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         categoryModal.setIsViewByZM("");
                         categoryModal.setCategoryAnswered("");
                         try {
-                            RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID, surveyId).findAll();
+                            RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId())/*.equalTo(AppConstants.SURVEYID, surveyId)*/.findAll();
 
                             //  if (realmQuestions != null && realmQuestions.size() > 0) {
                             //         String categoryId = realmCategoryDetails.get(k).getId();

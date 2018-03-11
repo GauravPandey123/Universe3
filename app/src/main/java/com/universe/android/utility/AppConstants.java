@@ -136,6 +136,7 @@ public class AppConstants {
     public static final String DIR_UNIVERSE = "/Universe";
     public static final String NEW = "retailer";
     public static final String ISVIEWBYZM ="isViewZM" ;
+    public static final String MULTIEDITTEXT = "multiedittext";
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";
