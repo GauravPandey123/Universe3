@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.universe.android.R;
 import com.universe.android.adapter.StatusAdapter;
@@ -30,9 +31,11 @@ import com.universe.android.resource.Login.login.LoginRequest;
 import com.universe.android.resource.Login.login.LoginResponse;
 import com.universe.android.resource.Login.login.LoginService;
 import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
 
+import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -297,13 +300,15 @@ public class TeamSurveyDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (LoginResponse.ResponseBean.LoginDetailsBean number : loginDetailsBeanArrayList) {
-                    if (number.isSelected()) {
-                        if (stringBuilder.length() > 0)
-                            stringBuilder.append(", ");
-                        stringBuilder.append(number.getMember().getName());
-
+                    for (String fata : getSaveList()) {
+                        if (number.getMember().get_id().equals(fata)) {
+                            if (stringBuilder.length() > 0)
+                                stringBuilder.append(", ");
+                            stringBuilder.append(number.getMember().getName());
+                        }
                     }
                 }
+
                 input_period_status.setText(stringBuilder.toString());
 
                 dialogStatus.dismiss();
@@ -334,17 +339,14 @@ public class TeamSurveyDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 fromDateString = input_period_from.getText().toString();
                 toDateString = input_period_to.getText().toString();
-                id = loginDetailsBeanArrayList.get(0).getMember().get_id();
+                // id = loginDetailsBeanArrayList.get(0).getMember().get_id();
                 StringBuilder stringBuilder = new StringBuilder();
-
-//                for (LoginResponse.ResponseBean.LoginDetailsBean number : loginDetailsBeanArrayList) {
-//                    if (number.isSelected()) {
-//                        if (stringBuilder.length() > 0)
-//                            stringBuilder.append(", ");
-//                        stringBuilder.append(number.getMember().get_id());
-//                    }
-//                    id = stringBuilder.toString();
-//                }
+                for (String number : getSaveList()) {
+                    if (stringBuilder.length() > 0)
+                        stringBuilder.append(", ");
+                    stringBuilder.append(number);
+                    id = getSaveList().toString();
+                }
 
                 if (Utility.validateString(fromDateString) && !fromDateString.equals(AppConstants.DATE_FORMAT)) {
                     if (Utility.validateString(toDateString) && !toDateString.equals(AppConstants.DATE_FORMAT)) {
@@ -404,7 +406,14 @@ public class TeamSurveyDialogFragment extends DialogFragment {
                 List<LoginResponse.ResponseBean.LoginDetailsBean> crystaDoctorBeans = response.getResponse().getLoginDetails();
                 String value = new Gson().toJson(crystaDoctorBeans);
                 LoginResponse.ResponseBean.LoginDetailsBean[] surveyDetailsBeans = new Gson().fromJson(value, LoginResponse.ResponseBean.LoginDetailsBean[].class);
-                Collections.addAll(loginDetailsBeanArrayList, surveyDetailsBeans);
+                loginDetailsBeanArrayList.clear();
+                for (LoginResponse.ResponseBean.LoginDetailsBean loginDetailsBean : surveyDetailsBeans) {
+
+                    loginDetailsBeanArrayList.add(loginDetailsBean);
+                }
+
+//                Collections.addAll(loginDetailsBeanArrayList, surveyDetailsBeans);
+
                 teamSelectionAdapter.notifyDataSetChanged();
             }
 
@@ -419,5 +428,60 @@ public class TeamSurveyDialogFragment extends DialogFragment {
     public interface TeamSurveyData {
         void submitTeamSurveyData(String id, String fromDate, String toDate);
     }
+
+
+    public void storeData(String data) {
+        ArrayList<String> arrayList;
+        Gson gson = new Gson();
+        String json = Prefs.getStringPrefs(AppConstants.FilterData);
+        if (!json.equals("")) {
+            Type type = new TypeToken<ArrayList<String>>() {
+            }.getType();
+            arrayList = gson.fromJson(json, type);
+            arrayList.add(data);
+            String json1 = gson.toJson(arrayList);
+            Prefs.putStringPrefs(AppConstants.FilterData, json1);
+
+        } else {
+            arrayList = new ArrayList<>();
+            arrayList.add(data);
+            String json1 = gson.toJson(arrayList);
+            Prefs.putStringPrefs(AppConstants.FilterData, json1);
+        }
+
+
+    }
+
+    public void removeData(String data) {
+        ArrayList<String> arrayList;
+        Gson gson = new Gson();
+        String json = Prefs.getStringPrefs(AppConstants.FilterData);
+        if (!json.equals("")) {
+            Type type = new TypeToken<ArrayList<String>>() {
+            }.getType();
+            arrayList = gson.fromJson(json, type);
+            arrayList.remove(data);
+            String json1 = gson.toJson(arrayList);
+            Prefs.putStringPrefs(AppConstants.FilterData, json1);
+        }
+
+
+    }
+
+    public ArrayList<String> getSaveList() {
+        ArrayList<String> arrayList;
+        Gson gson = new Gson();
+        String json = Prefs.getStringPrefs(AppConstants.FilterData);
+        if (!json.equals("")) {
+            Type type = new TypeToken<ArrayList<String>>() {
+            }.getType();
+            arrayList = gson.fromJson(json, type);
+
+        } else {
+            arrayList = new ArrayList<>();
+        }
+        return arrayList;
+    }
+
 
 }

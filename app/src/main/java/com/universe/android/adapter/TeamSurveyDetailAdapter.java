@@ -36,9 +36,11 @@ public class TeamSurveyDetailAdapter extends RecyclerView.Adapter<TeamSurveyDeta
     @Override
     public void onBindViewHolder(TeamSurveyViewHolder holder, int position) {
         CrystalReportResponse.ResponseBean.SubmittedBean.ListBean responseBean = responseBeanArrayList.get(position);
-        holder.textViewRetailersName.setText(responseBean.getCustomerId().getName());
-        holder.textViewMobileNo.setText(""+responseBean.getCustomerId().getContactNo()+"\n"+"|"+responseBean.getCustomerId().getAddress());
-    }
+        if(responseBean.getCustomerId()!=null) {
+            holder.textViewRetailersName.setText(responseBean.getCustomerId().getName());
+            holder.textViewMobileNo.setText("" + responseBean.getCustomerId().getContactNo() + "\n" + "|" + responseBean.getCustomerId().getAddress());
+
+        }}
 
     @Override
     public int getItemCount() {

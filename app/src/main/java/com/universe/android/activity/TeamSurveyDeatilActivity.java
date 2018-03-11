@@ -1,49 +1,28 @@
 package com.universe.android.activity;
 
 import android.Manifest;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.universe.android.R;
-import com.universe.android.adapter.CrystalDoctorAdapter;
-import com.universe.android.adapter.StatusAdapter;
 
 import com.universe.android.adapter.TeamSurveyAdapter;
-import com.universe.android.fragment.SurveyDetailDialogFragment;
 import com.universe.android.fragment.TeamSurveyDialogFragment;
-import com.universe.android.helper.FontClass;
 import com.universe.android.helper.RecyclerTouchListener;
-import com.universe.android.model.AnswersModal;
-import com.universe.android.model.DataModel;
-import com.universe.android.model.StatusModel;
 import com.universe.android.resource.Login.SurveyDetails.SurverDetailResponse;
 import com.universe.android.resource.Login.SurveyDetails.SurveyDeatailRequest;
 import com.universe.android.resource.Login.SurveyDetails.SurveyDetailService;
-import com.universe.android.resource.Login.TeamSurveyFIlter.TeamSurveyFilterRequest;
-import com.universe.android.resource.Login.login.LoginRequest;
-import com.universe.android.resource.Login.login.LoginResponse;
-import com.universe.android.resource.Login.login.LoginService;
-import com.universe.android.resource.Login.survey.SurveyResponse;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
@@ -58,7 +37,6 @@ import java.util.Date;
 import java.util.List;
 
 import in.editsoft.api.exception.APIException;
-import in.editsoft.api.util.App;
 
 /**
  * Created by gaurav.pandey on 12-02-2018.
@@ -82,7 +60,8 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
     String fromDateString, toDateString;
     Date fromDateTime = null;
     Date toDates = null;
-    private ArrayList<String> headerList=new ArrayList<>();
+    private ArrayList<String> headerList = new ArrayList<>();
+    private ArrayList<String> stringArrayListChecked;
 
 
     @Override
@@ -92,7 +71,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
         initialization();
         setUpElements();
         prepareHeaderList();
-        FloatingActionButton actionButton=(FloatingActionButton)findViewById(R.id.actionButton);
+        FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.actionButton);
 
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,7 +165,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
         showProgress();
         SurveyDeatailRequest surveyDeatailRequest = new SurveyDeatailRequest();
         surveyDeatailRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
-        surveyDeatailRequest.setEmployee_code("10000297");
+        surveyDeatailRequest.setEmployee_code(Prefs.getStringPrefs(AppConstants.employee_code));
         surveyDeatailRequest.setType("rsm");
         SurveyDetailService surveyDetailService = new SurveyDetailService();
         surveyDetailService.executeService(surveyDeatailRequest, new BaseApiCallback<SurverDetailResponse>() {
@@ -270,7 +249,13 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
                 List<SurverDetailResponse.ResponseBean.CrystaDoctorBean> crystaDoctorBeans = responseBeans.getCrystaDoctor();
                 String value = new Gson().toJson(crystaDoctorBeans);
                 SurverDetailResponse.ResponseBean.CrystaDoctorBean[] surveyDetailsBeans = new Gson().fromJson(value, SurverDetailResponse.ResponseBean.CrystaDoctorBean[].class);
+                if (surveyDetailsBeanArrayList.size() < 1) {
+                    reyclerViewCategory.setVisibility(View.GONE);
+                    return;
+                }
+                reyclerViewCategory.setVisibility(View.VISIBLE);
                 Collections.addAll(surveyDetailsBeanArrayList, surveyDetailsBeans);
+
                 teamSurveyAdapter.notifyDataSetChanged();
             }
 

@@ -17,9 +17,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.universe.android.R;
-import com.universe.android.adapter.CrystalCutomerAdapter;
-import com.universe.android.adapter.InProgressTeamSurveyAdapter;
-import com.universe.android.adapter.NewReatilerAdapter;
+//import com.universe.android.adapter.CrystalCutomerAdapter;
+//import com.universe.android.adapter.InProgressTeamSurveyAdapter;
+//import com.universe.android.adapter.NewReatilerAdapter;
 import com.universe.android.adapter.SurveyDetailAdapter;
 import com.universe.android.adapter.TeamSurveyDetailAdapter;
 import com.universe.android.helper.FontClass;
@@ -60,13 +60,13 @@ public class TeamSurveyDetailReport extends BaseActivity {
     private SurveyDetailAdapter surveyDetailAdapter;
     private TextView textViewCrystalDoctor, textViewAmtala, textViewPosition, textViewAchievementNumbers, textViewAchievement;
     private TeamSurveyDetailAdapter teamSurveyDetailAdapter;
-    private InProgressTeamSurveyAdapter inProgressTeamSurveyAdapter;
-    private NewReatilerAdapter newReatilerAdapter;
-    private CrystalCutomerAdapter crystalCutomerAdapter;
+   // private InProgressTeamSurveyAdapter inProgressTeamSurveyAdapter;
+    //private NewReatilerAdapter newReatilerAdapter;
+//    private CrystalCutomerAdapter crystalCutomerAdapter;
     private ArrayList<CrystalReportResponse.ResponseBean.SubmittedBean.ListBean> responseBeanArrayList;
-    private ArrayList<CrystalReportResponse.ResponseBean.InprogressBean.ListBeanX> inprogressArraylist;
-    private ArrayList<CrystalReportResponse.ResponseBean.NewRetailerBean.ListBeanXX> listBeanXXArrayList;
-    private ArrayList<CrystalReportResponse.ResponseBean.CrystalCustomerBean.ListBeanXXX> listBeanXXXArrayList;
+//    private ArrayList<CrystalReportResponse.ResponseBean.InprogressBean.ListBeanX> inprogressArraylist;
+//    private ArrayList<CrystalReportResponse.ResponseBean.NewRetailerBean.ListBeanXX> listBeanXXArrayList;
+//    private ArrayList<CrystalReportResponse.ResponseBean.CrystalCustomerBean.ListBeanXXX> listBeanXXXArrayList;
 
     Intent intent;
     private String surveyId;
@@ -84,7 +84,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.team_survey_detail_report);
         initialization();
-        setUpELements();
+        setUpTeamWebser();
 //        setUpTeamWebser();
 //        setUpNewReatiler();
 //        crystalElement();
@@ -103,7 +103,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Utility.animateView(view);
-                setWebservice();
+               // setWebservice();
             }
         });
         ll_inprogress.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +119,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Utility.animateView(view);
-                setUpNewReatiler();
+               // setUpNewReatiler();
 
             }
         });
@@ -128,7 +128,7 @@ public class TeamSurveyDetailReport extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Utility.animateView(view);
-                crystalElement();
+              //  crystalElement();
 
             }
         });
@@ -136,13 +136,13 @@ public class TeamSurveyDetailReport extends BaseActivity {
     }
 
 
-    public void setWebservice() {
-        if (!Utility.isConnected()) {
-            Utility.showToast(R.string.msg_disconnected);
-        } else {
-            InProgressWebservice();
-        }
-    }
+//    public void setWebservice() {
+//        if (!Utility.isConnected()) {
+//            Utility.showToast(R.string.msg_disconnected);
+//        } else {
+//            InProgressWebservice();
+//        }
+//    }
 
     private void initialization() {
         intent = getIntent();
@@ -220,83 +220,10 @@ public class TeamSurveyDetailReport extends BaseActivity {
                 Log.e(TAG, "Success");
                 List<CrystalReportResponse.ResponseBean.SubmittedBean.ListBean> responseBeans = response.getResponse().getSubmitted().getList();
                 responseBeanArrayList.clear();
-                tvPending.setText(String.valueOf(response.getResponse().getSubmitted().getCount()));
+                tvInprogress.setText(String.valueOf(response.getResponse().getSubmitted().getCount()));
                 String value = new Gson().toJson(responseBeans);
                 CrystalReportResponse.ResponseBean.SubmittedBean.ListBean[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean.SubmittedBean.ListBean[].class);
                 Collections.addAll(responseBeanArrayList, responseBeans1);
-                teamSurveyDetailAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(APIException e) {
-                super.onFailure(e);
-                Log.e(TAG, "Failure");
-            }
-        });
-    }
-
-
-    private void NewReatilerService() {
-        CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
-        crystalReportRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
-        crystalReportRequest.setCdId(surveyId);
-        crystalReportRequest.setType(Prefs.getStringPrefs(AppConstants.TYPE));
-        CrystalReportService crystalReportService = new CrystalReportService();
-        crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
-            @Override
-            public void onComplete() {
-                Log.e(TAG, "complete");
-
-            }
-
-            @Override
-            public void onSuccess(@NonNull CrystalReportResponse response) {
-                super.onSuccess(response);
-                Log.e(TAG, "Success");
-                List<CrystalReportResponse.ResponseBean.NewRetailerBean.ListBeanXX> responseBeans = response.getResponse().getNewRetailer().getList();
-                listBeanXXArrayList.clear();
-                tvPending.setText(String.valueOf(response.getResponse().getSubmitted().getCount()));
-                String value = new Gson().toJson(responseBeans);
-                CrystalReportResponse.ResponseBean.NewRetailerBean.ListBeanXX[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean.NewRetailerBean.ListBeanXX[].class);
-                Collections.addAll(listBeanXXArrayList, responseBeans1);
-                teamSurveyDetailAdapter.notifyDataSetChanged();
-
-
-            }
-
-            @Override
-            public void onFailure(APIException e) {
-                super.onFailure(e);
-                Log.e(TAG, "Failure");
-            }
-        });
-    }
-
-    private void CrystalsWebService() {
-        CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
-        crystalReportRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
-        crystalReportRequest.setCdId(surveyId);
-        crystalReportRequest.setType(Prefs.getStringPrefs(AppConstants.TYPE));
-        CrystalReportService crystalReportService = new CrystalReportService();
-        crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
-            @Override
-            public void onComplete() {
-                Log.e(TAG, "complete");
-
-            }
-
-            @Override
-            public void onSuccess(@NonNull CrystalReportResponse response) {
-                super.onSuccess(response);
-                Log.e(TAG, "Success");
-                List<CrystalReportResponse.ResponseBean.CrystalCustomerBean.ListBeanXXX> responseBeans = response.getResponse().getCrystalCustomer().getList();
-                listBeanXXXArrayList.clear();
-                tvRejected.setText(String.valueOf(response.getResponse().getSubmitted().getCount()));
-                String value = new Gson().toJson(responseBeans);
-                CrystalReportResponse.ResponseBean.CrystalCustomerBean.ListBeanXXX[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean.CrystalCustomerBean.ListBeanXXX[].class);
-                Collections.addAll(listBeanXXXArrayList, responseBeans1);
-                teamSurveyDetailAdapter.notifyDataSetChanged();
 
 
             }
@@ -310,58 +237,131 @@ public class TeamSurveyDetailReport extends BaseActivity {
     }
 
 
-    private void InProgressWebservice() {
-        CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
-        crystalReportRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
-        crystalReportRequest.setCdId(surveyId);
-        crystalReportRequest.setType(Prefs.getStringPrefs(AppConstants.TYPE));
-        CrystalReportService crystalReportService = new CrystalReportService();
-        crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
-            @Override
-            public void onComplete() {
-                Log.e(TAG, "complete");
+//    private void NewReatilerService() {
+//        CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
+//        crystalReportRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
+//        crystalReportRequest.setCdId(surveyId);
+//        crystalReportRequest.setType(Prefs.getStringPrefs(AppConstants.TYPE));
+//        CrystalReportService crystalReportService = new CrystalReportService();
+//        crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
+//            @Override
+//            public void onComplete() {
+//                Log.e(TAG, "complete");
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(@NonNull CrystalReportResponse response) {
+//                super.onSuccess(response);
+//                Log.e(TAG, "Success");
+//                List<CrystalReportResponse.ResponseBean.NewRetailerBean.ListBeanXX> responseBeans = response.getResponse().getNewRetailer().getList();
+//                listBeanXXArrayList.clear();
+//                tvPending.setText(String.valueOf(response.getResponse().getSubmitted().getCount()));
+//                String value = new Gson().toJson(responseBeans);
+//                CrystalReportResponse.ResponseBean.NewRetailerBean.ListBeanXX[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean.NewRetailerBean.ListBeanXX[].class);
+//                Collections.addAll(listBeanXXArrayList, responseBeans1);
+//                teamSurveyDetailAdapter.notifyDataSetChanged();
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(APIException e) {
+//                super.onFailure(e);
+//                Log.e(TAG, "Failure");
+//            }
+//        });
+//    }
+//
+//    private void CrystalsWebService() {
+//        CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
+//        crystalReportRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
+//        crystalReportRequest.setCdId("5a86d4a9b69a800980dadd82");
+//        crystalReportRequest.setType(Prefs.getStringPrefs(AppConstants.TYPE));
+//        CrystalReportService crystalReportService = new CrystalReportService();
+//        crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
+//            @Override
+//            public void onComplete() {
+//                Log.e(TAG, "complete");
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(@NonNull CrystalReportResponse response) {
+//                super.onSuccess(response);
+//                Log.e(TAG, "Success");
+//                List<CrystalReportResponse.ResponseBean.CrystalCustomerBean.ListBeanXXX> responseBeans = response.getResponse().getCrystalCustomer().getList();
+//                listBeanXXXArrayList.clear();
+//                tvRejected.setText(String.valueOf(response.getResponse().getSubmitted().getCount()));
+//                String value = new Gson().toJson(responseBeans);
+//                CrystalReportResponse.ResponseBean.CrystalCustomerBean.ListBeanXXX[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean.CrystalCustomerBean.ListBeanXXX[].class);
+//                Collections.addAll(listBeanXXXArrayList, responseBeans1);
+//                teamSurveyDetailAdapter.notifyDataSetChanged();
+//
+//
+//            }
+//
+//            @Override
+//            public void onFailure(APIException e) {
+//                super.onFailure(e);
+//                Log.e(TAG, "Failure");
+//            }
+//        });
+//    }
+//
+//
+//    private void InProgressWebservice() {
+//        CrystalReportRequest crystalReportRequest = new CrystalReportRequest();
+//        crystalReportRequest.setSurveyId(Prefs.getStringPrefs(AppConstants.TeamSurveyId));
+//        crystalReportRequest.setCdId(surveyId);
+//        crystalReportRequest.setType(Prefs.getStringPrefs(AppConstants.TYPE));
+//        CrystalReportService crystalReportService = new CrystalReportService();
+//        crystalReportService.executeService(crystalReportRequest, new BaseApiCallback<CrystalReportResponse>() {
+//            @Override
+//            public void onComplete() {
+//                Log.e(TAG, "complete");
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(@NonNull CrystalReportResponse response) {
+//                super.onSuccess(response);
+//                Log.e(TAG, "Success");
+//                List<CrystalReportResponse.ResponseBean.InprogressBean.ListBeanX> responseBeans = response.getResponse().getInprogress().getList();
+//                inprogressArraylist.clear();
+//                tvCompleted.setText(String.valueOf(response.getResponse().getSubmitted().getCount()));
+//                String value = new Gson().toJson(responseBeans);
+//                CrystalReportResponse.ResponseBean.InprogressBean.ListBeanX[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean.InprogressBean.ListBeanX[].class);
+//                Collections.addAll(inprogressArraylist, responseBeans1);
+//                inProgressTeamSurveyAdapter.notifyDataSetChanged();
+//
+//            }
+//
+//            @Override
+//            public void onFailure(APIException e) {
+//                super.onFailure(e);
+//                Log.e(TAG, "Failure");
+//            }
+//        });
+//    }
 
-            }
 
-            @Override
-            public void onSuccess(@NonNull CrystalReportResponse response) {
-                super.onSuccess(response);
-                Log.e(TAG, "Success");
-                List<CrystalReportResponse.ResponseBean.InprogressBean.ListBeanX> responseBeans = response.getResponse().getInprogress().getList();
-                inprogressArraylist.clear();
-                tvCompleted.setText(String.valueOf(response.getResponse().getSubmitted().getCount()));
-                String value = new Gson().toJson(responseBeans);
-                CrystalReportResponse.ResponseBean.InprogressBean.ListBeanX[] responseBeans1 = new Gson().fromJson(value, CrystalReportResponse.ResponseBean.InprogressBean.ListBeanX[].class);
-                Collections.addAll(inprogressArraylist, responseBeans1);
-                inProgressTeamSurveyAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onFailure(APIException e) {
-                super.onFailure(e);
-                Log.e(TAG, "Failure");
-            }
-        });
-    }
-
-
-    private void setUpNewReatiler() {
-        listBeanXXArrayList = new ArrayList<>();
-        newReatilerAdapter = new NewReatilerAdapter(mContext, listBeanXXArrayList);
-        teamSurveyDetailAdapter.notifyDataSetChanged();
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
-        recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewWorkFLowsDetail.setAdapter(newReatilerAdapter);
-        NewReatilerService();
-
-    }
+//    private void setUpNewReatiler() {
+//        listBeanXXArrayList = new ArrayList<>();
+//        newReatilerAdapter = new NewReatilerAdapter(mContext, listBeanXXArrayList);
+//
+//        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
+//        recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
+//        recyclerViewWorkFLowsDetail.setAdapter(newReatilerAdapter);
+//        NewReatilerService();
+//
+//    }
 
     private void setUpTeamWebser() {
         responseBeanArrayList = new ArrayList<>();
         teamSurveyDetailAdapter = new TeamSurveyDetailAdapter(mContext, responseBeanArrayList);
-        teamSurveyDetailAdapter.notifyDataSetChanged();
+
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
         recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
@@ -370,25 +370,25 @@ public class TeamSurveyDetailReport extends BaseActivity {
 
     }
 
-    private void setUpELements() {
-        inprogressArraylist = new ArrayList<>();
-        inProgressTeamSurveyAdapter = new InProgressTeamSurveyAdapter(mContext, inprogressArraylist);
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
-        recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewWorkFLowsDetail.setAdapter(inProgressTeamSurveyAdapter);
-
-        InProgressWebservice();
-    }
-
-    private void crystalElement() {
-        listBeanXXXArrayList = new ArrayList<>();
-        crystalCutomerAdapter = new CrystalCutomerAdapter(mContext, listBeanXXXArrayList);
-        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
-        recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
-        recyclerViewWorkFLowsDetail.setAdapter(crystalCutomerAdapter);
-
-        CrystalsWebService();
-    }
+//    private void setUpELements() {
+//        inprogressArraylist = new ArrayList<>();
+//        inProgressTeamSurveyAdapter = new InProgressTeamSurveyAdapter(mContext, inprogressArraylist);
+//        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
+//        recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
+//        recyclerViewWorkFLowsDetail.setAdapter(inProgressTeamSurveyAdapter);
+//
+//        InProgressWebservice();
+//    }
+//
+//    private void crystalElement() {
+//        listBeanXXXArrayList = new ArrayList<>();
+//        crystalCutomerAdapter = new CrystalCutomerAdapter(mContext, listBeanXXXArrayList);
+//        linearLayoutManager = new LinearLayoutManager(getApplicationContext());
+//        recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
+//        recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
+//        recyclerViewWorkFLowsDetail.setAdapter(crystalCutomerAdapter);
+//
+//        CrystalsWebService();
+//    }
 }

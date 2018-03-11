@@ -70,7 +70,6 @@ public class TeamSurveyAdapter extends RecyclerView.Adapter<TeamSurveyAdapter.Te
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, TeamSurveyDetailReport.class);
-
                     intent.putExtra(AppConstants.CrystaDoctorName, surveyDetailsBean.getDetail().getName());
                     intent.putExtra(AppConstants.CDID, surveyDetailsBean.getDetail().get_id());
                     mContext.startActivity(intent);

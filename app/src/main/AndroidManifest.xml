@@ -45,12 +45,6 @@
         <activity
             android:name=".activity.SurveyDetailActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".activity.FIlterActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity
-            android:name=".fragment.QuestinaireFragment"
-            android:windowSoftInputMode="stateAlwaysHidden" />
         <!-- <activity android:name=".activity.TeamSurveyDetailReport" /> -->
         <activity android:name=".activity.AddNewRetailors" />
         <!-- <activity android:name=".activity.AddNewRetailorsActivity" /> -->
@@ -63,7 +57,6 @@
         <activity
             android:name="com.soundcloud.android.crop.CropImageActivity"
             android:theme="@style/CustomTheme" />
-        <activity android:name=".activity.QuestionaireSearchActivity" />
         <activity
             android:name=".activity.admin.FormQuestionActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
@@ -91,10 +84,6 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
         <activity android:name=".activity.SearchCustomersActivity" />
         <activity android:name=".activity.QuestionaireActivity" />
-        <activity android:name=".activity.QuestionsCategoryActivity" />
-        <activity
-            android:name=".activity.OtpActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".activity.ForgotPasswordActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />

@@ -18,8 +18,6 @@ import android.widget.TextView;
 import com.universe.android.R;
 import com.universe.android.activity.BaseActivity;
 import com.universe.android.activity.CategoryExpandableListActivity;
-import com.universe.android.activity.QuestionsCategoryActivity;
-import com.universe.android.adapter.SurveyDetailAdapter;
 import com.universe.android.adapter.WorkFLowDetailAdapter;
 import com.universe.android.helper.RecyclerTouchListener;
 import com.universe.android.model.AnswersModal;
@@ -33,7 +31,6 @@ import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
 /**
  * Created by gaurav.pandey on 24-01-2018.

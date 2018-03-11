@@ -55,6 +55,7 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:text="Online/Offline"
+                android:visibility="gone"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/text_size_medium" />
 
