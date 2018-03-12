@@ -23,6 +23,7 @@ public class RealmSurveys extends RealmObject {
     private boolean isSync=true;
     private boolean isUpdate=true;
     private String categoryId;
+    private String workFLow;
 
     public int getTarget() {
         return target;
@@ -165,5 +166,13 @@ public class RealmSurveys extends RealmObject {
 
     public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public String getWorkFLow() {
+        return workFLow;
+    }
+
+    public void setWorkFLow(String workFLow) {
+        this.workFLow = workFLow;
     }
 }
