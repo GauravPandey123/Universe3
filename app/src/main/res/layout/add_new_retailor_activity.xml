@@ -21,10 +21,11 @@
             android:id="@+id/textViewHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_toEndOf="@+id/imageviewbackSearch"
+            android:layout_toRightOf="@+id/imageviewbackSearch"
             android:text="@string/questionairemenu"
-            android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -46,17 +47,32 @@
             android:textColor="@color/textColorPrimaryDark"
             android:textSize="@dimen/text_size_normal" />
 
-        <TextView
-            android:id="@+id/retailerPending"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/textViewReatilers"
-            android:layout_marginEnd="18dp"
-            android:layout_marginRight="18dp"
             android:layout_toLeftOf="@+id/imageView"
             android:layout_toStartOf="@+id/imageView"
-            android:text="@string/pending"
-            android:textColor="@color/textColorPrimary" />
+            android:layout_marginRight="@dimen/margin_medium"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/retailerPending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:text="@string/pending"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/text_size_small" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:text="Pending"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:textColor="@color/textColorPrimary" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textViewReatilersDate"
@@ -77,7 +93,7 @@
             android:layout_alignParentRight="true"
             android:layout_margin="@dimen/margin_min"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_receipt" />
+            android:src="@drawable/picture1" />
     </RelativeLayout>
 
 
@@ -137,11 +153,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/margin_min"
                         android:layout_marginRight="@dimen/margin_xxlarge"
-                        android:visibility="visible"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:text="@string/cystal_text"
                         android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/text_size_small" />
+                        android:textSize="@dimen/text_size_small"
+                        android:visibility="visible" />
                 </LinearLayout>
 
                 <View
@@ -174,10 +190,10 @@
                         android:id="@+id/textViewCrystalSelect"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/colorPrimary"
-                        android:gravity="center"
                         android:layout_marginBottom="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_small"
+                        android:background="@color/buttoncolor"
+                        android:gravity="center"
                         android:padding="@dimen/margin_medium"
                         android:text="@string/select"
                         android:textColor="@android:color/white" />
@@ -222,9 +238,10 @@
                     android:layout_marginBottom="@dimen/margin_min"
                     android:layout_marginRight="@dimen/margin_xxlarge"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:visibility="visible"
                     android:text="@string/new_retailer_text"
-                    android:textColor="@color/textColorPrimary"/>                    android:textSize="@dimen/text_size_small" />
+                    android:textColor="@color/textColorPrimary"
+                    android:visibility="visible" />
+                android:textSize="@dimen/text_size_small" />
             </LinearLayout>
 
 
@@ -244,16 +261,16 @@
                     android:layout_width="@dimen/margin_xxlarge"
                     android:layout_height="@dimen/margin_xxlarge"
                     android:contentDescription="@string/todo"
-                    android:src="@drawable/ic_customer" />
+                    android:src="@drawable/ic_crystal_cutomer" />
 
                 <TextView
                     android:id="@+id/textViewReatlorsSelect"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
                     android:layout_marginBottom="@dimen/margin_small"
                     android:layout_marginTop="@dimen/margin_small"
+                    android:background="@color/buttoncolor"
+                    android:gravity="center"
                     android:padding="@dimen/margin_medium"
                     android:text="@string/select"
                     android:textColor="@android:color/white" />

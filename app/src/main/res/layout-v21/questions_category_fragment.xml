@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/appFormLinear"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    style="@style/appFormLinear">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,50 +11,51 @@
         android:orientation="vertical">
 
 
-
-
         <TextView
             android:id="@+id/tvName"
             style="@style/appText"
             android:gravity="center"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="56dp">
 
 
-
             <SearchView
                 android:id="@+id/searchView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_margin="@dimen/view_padding"
                 android:layout_marginBottom="@dimen/view_row_margin"
+                android:layout_toLeftOf="@+id/searchBtn"
                 android:background="@drawable/edt_bg"
+                android:backgroundTint="@null"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:iconifiedByDefault="false"
                 android:imeActionLabel="Done"
                 android:imeOptions="actionDone"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
                 android:inputType="text"
-                android:layout_toLeftOf="@+id/searchBtn"
+                android:queryBackground="@android:color/transparent"
                 android:queryHint="@string/search_name" />
 
             <TextView
                 android:id="@+id/searchBtn"
                 android:layout_width="wrap_content"
-                android:textSize="14sp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@color/buttoncolor"
                 android:gravity="center"
-                android:padding="18dp"
-                android:background="@color/app_theme_color"
+                android:padding="13dp"
+                android:layout_margin="@dimen/margin_small"
+                android:text="Go"
                 android:textColor="@color/white"
-                android:text="Go"/>
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <TextView
@@ -67,6 +68,7 @@
             android:padding="16dp"
             android:layout_margin="8dp"
             android:text="view"/>
+
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollview"
             android:layout_width="match_parent"

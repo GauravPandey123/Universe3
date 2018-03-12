@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_min"
-        app:cardBackgroundColor="@color/survey_background_color"
         app:cardCornerRadius="@dimen/margin_min">
 
         <RelativeLayout
@@ -111,7 +110,6 @@
                             android:max="100"/>
 
                         <ProgressBar
-
                             android:id="@+id/circularProgressbar"
                             style="?android:attr/progressBarStyleHorizontal"
                             android:layout_width="100dp"
@@ -123,8 +121,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:progressDrawable="@drawable/circular_progress"
-                            android:secondaryProgress="100"
-                            />
+                            android:secondaryProgress="100" />
 
 
 

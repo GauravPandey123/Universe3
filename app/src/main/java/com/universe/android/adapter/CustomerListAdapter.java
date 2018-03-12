@@ -44,28 +44,35 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
 
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
-        holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
+            holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
+        holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo() + " | " +
+                stringArrayList.get(position).getTerritory() + " | " + stringArrayList.get(position).getState());
+        holder.textViewDate.setVisibility(View.GONE);
 
-            holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo()+" | "+
-                    stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  \n"+
-                    stringArrayList.get(position).getDate());
 
-           if (Utility.validateString(stringArrayList.get(position).getStatus())) {
-                if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
-                    holder.llStatus.setVisibility(View.VISIBLE);
-                    holder.tvStatus.setText("Submitted");
-                } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("2")) {
-                    holder.llStatus.setVisibility(View.VISIBLE);
-                    holder.tvStatus.setText("Approved");
-                } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("3")) {
-                    holder.llStatus.setVisibility(View.VISIBLE);
-                    holder.tvStatus.setText("Rejected");
-                } else {
-                    holder.llStatus.setVisibility(View.GONE);
-                }
-            }else{
+        if (Utility.validateString(stringArrayList.get(position).getStatus())) {
+            if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
+                holder.llStatus.setVisibility(View.VISIBLE);
+                holder.textViewDate.setText("|" + stringArrayList.get(position).getDate());
+                holder.textViewDate.setVisibility(View.VISIBLE);
+                holder.tvStatus.setText("Submitted");
+            } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("2")) {
+                holder.llStatus.setVisibility(View.VISIBLE);
+                holder.textViewDate.setVisibility(View.GONE);
+                holder.tvStatus.setText("Approved");
+
+            } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("3")) {
+                holder.llStatus.setVisibility(View.VISIBLE);
+                holder.textViewDate.setVisibility(View.GONE);
+                holder.tvStatus.setText("Rejected");
+
+
+            } else {
                 holder.llStatus.setVisibility(View.GONE);
             }
+        } else {
+            holder.llStatus.setVisibility(View.GONE);
+        }
 
 
     }
@@ -84,18 +91,19 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
     }
 
     public class SurveyViewHolder extends RecyclerView.ViewHolder {
-        private TextView textViewRetailersName, textViewMobileNo, textViewStatus,tvStatus;
+        private TextView textViewRetailersName, textViewMobileNo, textViewStatus, tvStatus;
         private LinearLayout llStatus;
         private RelativeLayout relativeLayout;
+        private TextView textViewDate;
 
         public SurveyViewHolder(View itemView) {
             super(itemView);
             textViewRetailersName = itemView.findViewById(R.id.textViewRetailersName);
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
-
             llStatus = itemView.findViewById(R.id.llStatus);
             tvStatus = itemView.findViewById(R.id.tvStatus);
-            relativeLayout=itemView.findViewById(R.id.relativeLayout);
+            relativeLayout = itemView.findViewById(R.id.relativeLayout);
+            textViewDate = itemView.findViewById(R.id.textViewDate);
            /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

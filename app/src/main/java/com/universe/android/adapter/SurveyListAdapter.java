@@ -56,7 +56,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
             holder.tvTitle.setText(surveysModal.getTitle());
         }
         if (Utility.validateString(surveysModal.getExpiryDate())){
-            holder.tvExpiryDate.setText(surveysModal.getExpiryDate());
+            holder.tvExpiryDate.setText("Ends On: "+surveysModal.getExpiryDate());
         }
         if (Utility.validateString(surveysModal.getStatus())){
             holder.tvPending.setText(surveysModal.getStatus());
