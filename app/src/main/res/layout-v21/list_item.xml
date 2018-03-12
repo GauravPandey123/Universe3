@@ -2,10 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/relativeLayoutHeader"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#f2f2f2">
 
     <include
         android:id="@+id/include"
+
         layout="@layout/crystal_doctor_header" />
 
     <RelativeLayout
@@ -34,6 +36,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/totalNumber"
+                android:textAllCaps="true"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/text_size_small" />
 
@@ -51,6 +54,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="2"
+                android:textAllCaps="true"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/text_size_small" />
 
@@ -68,6 +72,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/totalNumber"
+                android:textAllCaps="true"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/text_size_small" />
         </LinearLayout>
@@ -98,6 +103,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/totalNumber"
+                android:textAllCaps="true"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/text_size_small" />
 
@@ -115,6 +121,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="2"
+                android:textAllCaps="true"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/text_size_small" />
 
@@ -132,6 +139,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/totalNumber"
+                android:textAllCaps="true"
                 android:textColor="@color/textColorPrimary"
                 android:textSize="@dimen/text_size_small" />
         </LinearLayout>

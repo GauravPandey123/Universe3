@@ -1,6 +1,7 @@
 package com.universe.android.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -62,6 +63,8 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
     Date toDates = null;
     private ArrayList<String> headerList = new ArrayList<>();
     private ArrayList<String> stringArrayListChecked;
+    String surveyName;
+    TextView title,textViewToday;
 
 
     @Override
@@ -71,7 +74,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
         initialization();
         setUpElements();
         prepareHeaderList();
-        FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.actionButton);
+        ImageView actionButton = findViewById(R.id.actionButton);
 
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +114,11 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
         reyclerViewCategory.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), reyclerViewCategory, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-
+                Intent intent = new Intent(mContext, TeamSurveyDetailReport.class);
+                intent.putExtra(AppConstants.CrystaDoctorName, surveyDetailsBeanArrayList.get(position).getDetail().getName());
+                intent.putExtra(AppConstants.CDID, surveyDetailsBeanArrayList.get(position).getDetail().get_id());
+                intent.putExtra(AppConstants.TeamSurveyname,surveyName);
+                mContext.startActivity(intent);
             }
 
             @Override
@@ -124,8 +131,11 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
     }
 
     private void initialization() {
+        Intent intent = getIntent();
         carView = findViewById(R.id.carView);
+        surveyName = intent.getStringExtra(AppConstants.TeamSurveyname);
         reyclerViewCategory = findViewById(R.id.reyclerViewCategory);
+        textViewToday=findViewById(R.id.textViewToday);
         imageViewBack = findViewById(R.id.imageviewback);
         imageviewfilter = findViewById(R.id.imageviewfilter);
         textViewtargetCount = findViewById(R.id.textViewtargetCount);
@@ -134,6 +144,8 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
         textViewInProgressCount = findViewById(R.id.textViewInProgressCount);
         textViewNewRetailersCount = findViewById(R.id.textViewNewRetailersCount);
         textViewCrystalMembersCount = findViewById(R.id.textViewCrystalMembersCount);
+        title=findViewById(R.id.textViewSurveyDetailActivity);
+        title.setText(surveyName+"\n"+"Team Survey Report");
         imageViewBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -209,7 +221,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
 
     }
 
-    private void setFilter(String type, String id, String fromate, String toDate) {
+    private void setFilter(String type, String id, final String fromate, final String toDate) {
         SurveyDeatailRequest teamSurveyFilterRequest = new SurveyDeatailRequest();
         teamSurveyFilterRequest.setSurveyId((Prefs.getStringPrefs(AppConstants.TeamSurveyId)));
         teamSurveyFilterRequest.setEmployee_code(Prefs.getStringPrefs(AppConstants.employee_code));
@@ -245,7 +257,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
                 textViewNewRetailersCount.setText(String.valueOf(responseBeans.getNewRetailer()));
                 textViewCrystalMembersCount.setText(String.valueOf(responseBeans.getCrystalCustomer()));
                 textViewAchievementPercentage.setText(String.valueOf(percent).concat("%"));
-
+                textViewToday.setText("For The Perioed"+fromate+toDate);
                 List<SurverDetailResponse.ResponseBean.CrystaDoctorBean> crystaDoctorBeans = responseBeans.getCrystaDoctor();
                 String value = new Gson().toJson(crystaDoctorBeans);
                 SurverDetailResponse.ResponseBean.CrystaDoctorBean[] surveyDetailsBeans = new Gson().fromJson(value, SurverDetailResponse.ResponseBean.CrystaDoctorBean[].class);

@@ -73,6 +73,7 @@ public class QuestionaireTeamSuverFragment extends BaseFragment {
             @Override
             public void onClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), TeamSurveyDeatilActivity.class);
+                intent.putExtra(AppConstants.TeamSurveyname,crystalDoctorModels.get(position).getSurveyDetails().getTitle());
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }

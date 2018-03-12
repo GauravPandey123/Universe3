@@ -18,10 +18,11 @@
             android:src="@drawable/ic_arrow_back_black_24dp" />
 
         <TextView
+            android:id="@+id/textViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageviewback"
             android:text="@string/team_survey_detail"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
