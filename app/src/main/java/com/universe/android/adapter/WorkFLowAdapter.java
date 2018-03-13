@@ -38,15 +38,26 @@ public class WorkFLowAdapter extends RecyclerView.Adapter<WorkFLowAdapter.Survey
 
     @Override
     public void onBindViewHolder(SurveyViewHolder holder, int position) {
+
+        if (position==0){
+            holder.view1.setVisibility(View.GONE);
+        }else{
+            holder.view1.setVisibility(View.VISIBLE);
+        }
+        if (position==stringArrayList.size()-1){
+            holder.view2.setVisibility(View.GONE);
+        }else{
+            holder.view2.setVisibility(View.VISIBLE);
+        }
         holder.textViewRetailersName.setTypeface(FontClass.openSansBold(mContext));
         holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
 
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
         holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
 
-            holder.textViewMobileNo.setText(stringArrayList.get(position).getStatus()+
+            holder.textViewMobileNo.setText(stringArrayList.get(position).getDate()+
                   "  \n"+
-                   stringArrayList.get(position).getDate());
+                   stringArrayList.get(position).getStatus());
             holder.imgCustomer.setVisibility(View.GONE);
 
     }
@@ -67,11 +78,14 @@ public class WorkFLowAdapter extends RecyclerView.Adapter<WorkFLowAdapter.Survey
     public class SurveyViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewRetailersName, textViewMobileNo, textViewStatus;
         private ImageView imgCustomer;
+        private View view1,view2;
         public SurveyViewHolder(View itemView) {
             super(itemView);
             textViewRetailersName = itemView.findViewById(R.id.textViewRetailersName);
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
             imgCustomer=itemView.findViewById(R.id.imgCustomer);
+            view1=itemView.findViewById(R.id.view1);
+            view2=itemView.findViewById(R.id.view2);
 
            /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

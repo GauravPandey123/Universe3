@@ -82,12 +82,11 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
                 if (strType.equalsIgnoreCase(AppConstants.WORKFLOWS)){
                     i=new Intent(mContext, WorkFlowsDetailActivity.class);
                 }
-                if(strType.equalsIgnoreCase(AppConstants.SURVEYREPORT))
-                {
+                if(strType.equalsIgnoreCase(AppConstants.SURVEYREPORT)) {
                     i=new Intent(mContext, SurveyDetailActivity.class);
                 }
 
-                i.putExtra(AppConstants.TYPE,strType+" "+surveysModal.getTitle());
+                i.putExtra(AppConstants.TYPE,surveysModal.getTitle()+" "+strType);
                 i.putExtra(AppConstants.SURVEYID,surveysModal.getId());
                 i.putExtra(AppConstants.STATUS,surveysModal.getStatus());
                 i.putExtra(AppConstants.EXPIRYDATE,surveysModal.getExpiryDate());

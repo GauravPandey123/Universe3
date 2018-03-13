@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
@@ -39,6 +40,7 @@ public class WorkFLowDetailAdapter extends RecyclerView.Adapter<WorkFLowDetailAd
 
     @Override
     public void onBindViewHolder(SurveyViewHolder holder, int position) {
+        holder.llViews.setVisibility(View.GONE);
         holder.textViewRetailersName.setTypeface(FontClass.openSansBold(mContext));
         holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
 
@@ -74,12 +76,14 @@ public class WorkFLowDetailAdapter extends RecyclerView.Adapter<WorkFLowDetailAd
     public class SurveyViewHolder extends RecyclerView.ViewHolder {
         private TextView textViewRetailersName, textViewMobileNo, textViewStatus;
         private ImageView imgCustomer;
+        private RelativeLayout llViews;
 
         public SurveyViewHolder(View itemView) {
             super(itemView);
             textViewRetailersName = itemView.findViewById(R.id.textViewRetailersName);
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
             imgCustomer=itemView.findViewById(R.id.imgCustomer);
+            llViews=itemView.findViewById(R.id.llViews);
 
            /* itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
