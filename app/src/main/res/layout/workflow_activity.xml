@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/survey_background_color">
 
     <RelativeLayout
         android:id="@+id/include"
@@ -21,10 +22,11 @@
             android:id="@+id/tvHeaderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/imageviewback"
             android:text="@string/work_flows"
-            android:textAllCaps="true"
+            android:textAllCaps="false"
+            android:gravity="start"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -37,31 +39,60 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/include"
+        android:background="@color/survey_background_color"
         android:layout_margin="@dimen/margin_small"
         android:orientation="vertical">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recylerViewRoles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <include layout="@layout/work_flows_status" />
+        </android.support.v7.widget.RecyclerView>
+
+
+
+        <TextView
+            android:id="@+id/textViewStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="8dp"
+            android:text="Approved on 23 feb 2018"
+            android:layout_margin="6dp"
+            android:padding="12dp"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_medium" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/survey_background_color"
+            />
+        <include layout="@layout/work_flows_status"
+            android:visibility="gone"/>
         <include layout="@layout/part_workflows_detail"
             android:visibility="gone"/>
     </LinearLayout>
 
 
-   <!-- <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+    <!-- <android.support.v4.widget.SwipeRefreshLayout
+         android:id="@+id/swipeRefreshLayout"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:layout_below="@+id/linaerLyout"
+         android:layout_margin="@dimen/margin_min">-->
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recylerViewSurveyDetail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/linaerLyout"
-        android:layout_margin="@dimen/margin_min">-->
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linaerLyout">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recylerViewSurveyDetail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linaerLyout">
-
-        </android.support.v7.widget.RecyclerView>
-<!--
-    </android.support.v4.widget.SwipeRefreshLayout>-->
+    </android.support.v7.widget.RecyclerView>
+    <!--
+        </android.support.v4.widget.SwipeRefreshLayout>-->
 
 
 </RelativeLayout>

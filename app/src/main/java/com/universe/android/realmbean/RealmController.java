@@ -316,6 +316,7 @@ public class RealmController {
         } finally {
             if (realm.isInTransaction())
                 realm.commitTransaction();
+            if (!realm.isClosed())
             realm.close();
         }
 

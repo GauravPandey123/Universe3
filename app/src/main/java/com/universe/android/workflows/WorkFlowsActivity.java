@@ -20,12 +20,16 @@ import com.universe.android.activity.BaseActivity;
 import com.universe.android.activity.CategoryExpandableListActivity;
 import com.universe.android.adapter.WorkFLowAdapter;
 import com.universe.android.adapter.WorkFLowDetailAdapter;
+import com.universe.android.adapter.WorkFLowUserAdapter;
 import com.universe.android.helper.RecyclerTouchListener;
 import com.universe.android.model.AnswersModal;
+import com.universe.android.model.UserModel;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCustomer;
+import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
+import com.universe.android.utility.SpacesItemDecoration;
 import com.universe.android.utility.Utility;
 
 import org.json.JSONArray;
@@ -47,20 +51,22 @@ import io.realm.RealmResults;
 
 public class WorkFlowsActivity extends BaseActivity {
     //decalre the Views here
-    private RecyclerView recyclerViewWorkFLowsDetail;
+    private RecyclerView recyclerViewWorkFLowsDetail,recylerViewRoles;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recylerViewStatus;
     private SwipeRefreshLayout swipeRefreshLayoutStatus;
     private ImageView imageViewBack;
-
+    private ArrayList<UserModel> stringArrayListRoles;
     private ArrayList<AnswersModal> stringArrayList;
-    private LinearLayoutManager linearLayoutManager;
+    private LinearLayoutManager linearLayoutManager,linearLayoutManagerRoles;
     private WorkFLowAdapter surveyDetailAdapter;
+    private WorkFLowUserAdapter workFLowUserAdapter;
     private String strType,surveyId,customerId;
     private LinearLayout llPending,ll_inprogress,ll_completed,ll_rejected;
     private TextView tvPending,tvInprogress,tvCompleted,tvRejected;
     private ImageView imgCD,imgRM,imgZM;
     private TextView textViewCd,textViewRM,textViewZM,textViewStatus;
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -72,13 +78,13 @@ public class WorkFlowsActivity extends BaseActivity {
         setUpElements();
         setUpListeners();
         prepareList("");
-
+        prepareListUsers();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setCount();
+      //  setCount();
 
     }
 
@@ -354,6 +360,73 @@ public class WorkFlowsActivity extends BaseActivity {
         }
     }
 
+    private void prepareListUsers() {
+        if (stringArrayListRoles == null) stringArrayListRoles = new ArrayList<>();
+        stringArrayListRoles.clear();
+        Realm realm = Realm.getDefaultInstance();
+
+        try {
+
+
+            RealmSurveys realmSurveys = realm.where(RealmSurveys.class).equalTo(AppConstants.ID,surveyId).findFirst();
+
+
+
+            if (realmSurveys != null) {
+               /* JSONArray array=new JSONArray(realmSurveys.getWorkFLow());
+                for (int i = 0; i < array.length(); i++) {
+                    JSONObject jsonObject=array.getJSONObject(i);
+                    UserModel modal = new UserModel();
+                    String userId=Prefs.getStringPrefs(AppConstants.UserId);
+                    modal.setUserName(jsonObject.optString(AppConstants.USERNAME));
+                    modal.setUserStatus(jsonObject.optString(AppConstants.STATUS));
+                    SimpleDateFormat format1 = new SimpleDateFormat(AppConstants.utc_format1);
+                    SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
+                    Date date = format1.parse(jsonObject.optString(AppConstants.DATE));
+                    System.out.println(format2.format(date));
+                    modal.setUserDateStatus(AppConstants.format10.format(date));
+                    //    modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
+                    stringArrayListRoles.add(modal);
+                }*/
+
+
+                    UserModel modal = new UserModel();
+                    modal.setUserName(Prefs.getStringPrefs(AppConstants.NAME));
+                    modal.setUserStatus("1");
+
+                    modal.setUserDateStatus("Submited on 12-03-2018 by "+Prefs.getStringPrefs(AppConstants.NAME));
+                    stringArrayListRoles.add(modal);
+                 modal = new UserModel();
+                modal.setUserName("Bhajan");
+                modal.setUserStatus("1");
+                modal.setUserDateStatus("Pending by Bhajan");
+
+                modal = new UserModel();
+                modal.setUserName("Abhishek");
+                modal.setUserStatus("1");
+                modal.setUserDateStatus("Pending by Abhishek");
+                stringArrayListRoles.add(modal);
+                modal = new UserModel();
+                modal.setUserName("Gaurav");
+                modal.setUserStatus("1");
+                modal.setUserDateStatus("Pending by Gaurav");
+                stringArrayListRoles.add(modal);
+
+            }else {
+                Utility.showToast(getString(R.string.no_data));
+            }
+        } catch (Exception e) {
+            realm.close();
+            e.printStackTrace();
+        } finally {
+            realm.close();
+        }
+
+        if (workFLowUserAdapter != null) {
+            workFLowUserAdapter.notifyDataSetChanged();
+        }
+    }
+
 
 
 
@@ -375,8 +448,16 @@ public class WorkFlowsActivity extends BaseActivity {
         surveyDetailAdapter = new WorkFLowAdapter(mContext, stringArrayList);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
-        recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
+    //    recyclerViewWorkFLowsDetail.addItemDecoration(new SpacesItemDecoration(10));
         recyclerViewWorkFLowsDetail.setAdapter(surveyDetailAdapter);
+
+
+
+        workFLowUserAdapter = new WorkFLowUserAdapter(mContext, stringArrayListRoles);
+        recylerViewRoles.addItemDecoration(new SpacesItemDecoration(10));
+        recylerViewRoles.setAdapter(workFLowUserAdapter);
+        recylerViewRoles.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
 
 
     }
@@ -385,8 +466,10 @@ public class WorkFlowsActivity extends BaseActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void initialization() {
         stringArrayList = new ArrayList<>();
+        stringArrayListRoles = new ArrayList<>();
 
         recyclerViewWorkFLowsDetail = findViewById(R.id.recylerViewSurveyDetail);
+        recylerViewRoles = findViewById(R.id.recylerViewRoles);
         TextView textViewMobileNo = (TextView) findViewById(R.id.textViewMobileNo);
         textViewMobileNo.setText(getResources().getString(R.string.workflow_mobile_no));
         imageViewBack = findViewById(R.id.imageviewback);
