@@ -172,9 +172,6 @@ public class TeamSurveyDetailReport extends BaseActivity {
 
     }
 
-
-
-
     private void initialization() {
         intent = getIntent();
         relativeLayout = findViewById(R.id.include);
