@@ -94,7 +94,7 @@ public class ProfileResponse extends BaseResponse<ProfileResponse> {
         private String accessToken;
         private int isVerified;
         private List<String> LOB;
-        private List<Integer> loc;
+
 
         public String get_id() {
             return _id;
@@ -248,12 +248,6 @@ public class ProfileResponse extends BaseResponse<ProfileResponse> {
             this.LOB = LOB;
         }
 
-        public List<Integer> getLoc() {
-            return loc;
-        }
 
-        public void setLoc(List<Integer> loc) {
-            this.loc = loc;
-        }
     }
 }

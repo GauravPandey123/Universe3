@@ -147,30 +147,17 @@ public class LoginActivity extends BaseActivity {
         showProgress(R.string.msg_load_default);
         final JSONObject jsonSubmitReq = new JSONObject();
         try {
-
-            jsonSubmitReq.put(AppConstants.EMAIL, email);
-            jsonSubmitReq.put(AppConstants.PASSWORD, "pass123456");
-            jsonSubmitReq.put(AppConstants.LAT, "27");
-            jsonSubmitReq.put(AppConstants.LNG, "22");
+            jsonSubmitReq.put(AppConstants.EMAIL, email.toLowerCase());
+            jsonSubmitReq.put(AppConstants.PASSWORD, password);
+            jsonSubmitReq.put(AppConstants.LAT, latitude);
+            jsonSubmitReq.put(AppConstants.LNG, longitude);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
         String url = UniverseAPI.WEB_SERVICE_LOGIN_METHOD;
-
-
-
-        /* else if (formId.equalsIgnoreCase(FormEnum.category.toString())) {
-            url = UniverseAPI.WEB_SERVICE_CREATE_CATEGORY_METHOD;
-        } else if (formId.equalsIgnoreCase(FormEnum.customer.toString())) {
-            url = UniverseAPI.WEB_SERVICE_CREATE_CUSTOMER_METHOD;
-        } else if (formId.equalsIgnoreCase(FormEnum.client.toString())) {
-            url = UniverseAPI.WEB_SERVICE_CREATE_ClIENT_METHOD;
-        }*/
-
 
         Request request = APIClient.getPostRequest(this, url, requestBody);
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -180,6 +167,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void run() {
                         Utility.showToast(e.getMessage());
+                        dismissProgress();
                     }
                 });
             }
@@ -187,63 +175,39 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-
                     if (response != null && response.isSuccessful()) {
-
-
                         String responseData = response.body().string();
                         if (responseData != null) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             JSONObject jsonObject = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-                            if (jsonObject.has("report")) {
-                                JSONObject object = jsonObject.optJSONObject("report");
-                                jsonSubmitReq.put(AppConstants.TYPE, "report");
-                                Prefs.putStringPrefs(AppConstants.TYPE, object.optString(AppConstants.TYPE));
-                            } else {
-                                Prefs.putStringPrefs(AppConstants.TYPE, jsonObject.optString(AppConstants.TYPE));
-                            }
-                            if (jsonObject.has("loginDetails")) {
-                                JSONObject jsonObject2 = jsonObject.getJSONObject("loginDetails");
-                                JSONObject jsonObject1 = jsonObject2.getJSONObject(AppConstants.DETAIL);
-                                Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
-                                Prefs.putStringPrefs(AppConstants.picture, jsonObject1.optString("picture"));
-                                Prefs.putStringPrefs(AppConstants.employee_name, jsonObject1.optString("employee_name"));
-                                Prefs.putStringPrefs(AppConstants.email, jsonObject1.optString("email"));
-                                Prefs.putStringPrefs(AppConstants.phone, jsonObject1.optString("mobile"));
-                                Prefs.putStringPrefs(AppConstants.employee_code, jsonObject1.optString("employee_code"));
-                                Prefs.putStringPrefs(AppConstants.password, jsonObject1.optString("password"));
-                                if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
-                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
-                                else
-                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.NAME));
-                                new RealmController().saveUserDetail(jsonObject1.toString());
-                            }else{
-                                JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
-                                Prefs.putStringPrefs(AppConstants.picture, jsonObject1.optString("picture"));
-                                Prefs.putStringPrefs(AppConstants.employee_name, jsonObject1.optString("employee_name"));
-                                Prefs.putStringPrefs(AppConstants.email, jsonObject1.optString("email"));
-                                Prefs.putStringPrefs(AppConstants.phone, jsonObject1.optString(AppConstants.phone));
-                                Prefs.putStringPrefs(AppConstants.employee_code, jsonObject1.optString("employee_code"));
-                                Prefs.putStringPrefs(AppConstants.password, jsonObject1.optString("password"));
-                                Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
-                                if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
-                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
-                                else
-                                    Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.NAME));
-                                new RealmController().saveUserDetail(jsonObject1.toString());
-                                JSONArray mapping = jsonObject.getJSONArray("mapping");
-                                Prefs.putStringPrefs(AppConstants.MAPPING, mapping.toString());
-                            }
-
-                            getSurveyResponse();
+                            Prefs.putStringPrefs(AppConstants.TYPE, jsonObject.optString("type"));
+                            Prefs.putStringPrefs(AppConstants.ROLE, jsonObject.optString("role"));
+                            JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
+                            Prefs.putStringPrefs(AppConstants.employee_name, jsonObject1.optString("name"));
+                            Prefs.putStringPrefs(AppConstants.picture, jsonObject1.optString("picture"));
+                            Prefs.putStringPrefs(AppConstants.email, jsonObject1.optString("email").toLowerCase());
+                            Prefs.putStringPrefs(AppConstants.phone, jsonObject1.optString(AppConstants.phone));
+                            Prefs.putStringPrefs(AppConstants.employee_code, jsonObject1.optString("employee_code"));
+                            Prefs.putStringPrefs(AppConstants.password, jsonObject1.optString("password"));
+                            Prefs.putStringPrefs(AppConstants.accessToken, jsonObject1.optString("accessToken"));
+                            Prefs.putStringPrefs(AppConstants.lat, jsonObject1.optString("lat"));
+                            Prefs.putStringPrefs(AppConstants.lng, jsonObject1.optString("lng"));
+                            Prefs.putStringPrefs(AppConstants.location, jsonObject1.optString("location"));
+                            Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
+                            jsonObject.put(AppConstants.ID,"00");
+                            new RealmController().saveUserDetail(jsonObject.toString());
 
                         }
 
+                        getSurveyResponse();
 
-
+                    } else {
+                        dismissProgress();
                     }
-                } catch (JSONException e) {
+
+                } catch (Exception e) {
                     e.printStackTrace();
+                    Utility.showToast(e.getMessage());
                 }
             }
         });
@@ -291,11 +255,8 @@ public class LoginActivity extends BaseActivity {
 
 
     private void getSurveyResponse() {
-
-
         OkHttpClient okHttpClient = APIClient.getHttpClient();
         String url = UniverseAPI.WEB_SERVICE_LIST_ADMIN_SURVEY_METHOD;
-
         Request request = APIClient.getRequest(mContext, url);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override

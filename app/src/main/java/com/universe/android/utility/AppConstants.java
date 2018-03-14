@@ -137,6 +137,7 @@ public class AppConstants {
     public static final String NEW = "retailer";
     public static final String ISVIEWBYZM ="isViewZM" ;
     public static final String MULTIEDITTEXT = "multiedittext";
+    public static final String ROLE = "role";
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";
@@ -202,5 +203,8 @@ public class AppConstants {
     public static String LocationUpdate="LocationUpdate";
     public static String FilterData="FilterData";
     public static String TeamSurveyname="TeamSurveyname";
+    public static String accessToken="accessToken";
+    public static String requester="requester";
+    public static String lob_name="lob_name";
 }
 

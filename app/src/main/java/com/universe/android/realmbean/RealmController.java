@@ -3,6 +3,7 @@ package com.universe.android.realmbean;
 import android.content.Context;
 
 import com.universe.android.enums.FormEnum;
+import com.universe.android.model.LoginModel;
 import com.universe.android.model.Questions;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
@@ -356,6 +357,7 @@ public class RealmController {
             }
         }
     }
+
 
     public void saveCustomersResponse(String responseData) {
         if (responseData != null) {

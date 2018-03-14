@@ -2,6 +2,7 @@ package com.universe.android.fragment;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +30,8 @@ import com.universe.android.R;
 import com.universe.android.activity.BaseActivity;
 import com.universe.android.helper.FontClass;
 import com.universe.android.helper.HashTagHelper;
+import com.universe.android.realmbean.RealmCustomer;
+import com.universe.android.realmbean.RealmUser;
 import com.universe.android.resource.Login.Profile.ImageUploadService;
 import com.universe.android.resource.Login.Profile.ProfileRequest;
 import com.universe.android.resource.Login.Profile.ProfileResponse;
@@ -38,12 +41,16 @@ import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.editsoft.api.exception.APIException;
+import io.realm.Realm;
 import retrofit2.http.Multipart;
 
 import static android.app.Activity.RESULT_OK;
@@ -74,6 +81,7 @@ public class ProfileFragment extends BaseFragment {
         initialization();
         setUpElements();
         clickListeners();
+        setupDetail();
         return view;
     }
 
@@ -97,12 +105,16 @@ public class ProfileFragment extends BaseFragment {
         editTextRolesProfile.setText(Prefs.getStringPrefs(AppConstants.TYPE));
         editTextLob.setTypeface(FontClass.openSansLight(getActivity()));
         editTextTerritory.setTypeface(FontClass.openSansLight(getActivity()));
-        if (!Utility.isConnected()) {
-            Utility.showToast(R.string.msg_disconnected);
-        } else {
-            profileWebservice();
-
+        textViewUserNameProfile.setText(Prefs.getStringPrefs(AppConstants.employee_name));
+        editTextPhoneProfile.setText(Prefs.getStringPrefs(AppConstants.phone));
+        textViewEmailProfile.setText(Prefs.getStringPrefs(AppConstants.email));
+        if (Utility.validateString(Prefs.getStringPrefs(AppConstants.picture)))
+            Glide.with(((Activity) mContext)).load(Prefs.getStringPrefs(AppConstants.picture)).into(circleImageViewProfile);
+        else {
+            circleImageViewProfile.setImageResource(R.drawable.ic_grey_user);
         }
+
+
     }
 
     private void showImageOptions() {
@@ -146,45 +158,43 @@ public class ProfileFragment extends BaseFragment {
 
     }
 
-    public void profileWebservice() {
-        mActivity.showProgress();
-        ProfileRequest profileRequest = new ProfileRequest();
-        profileRequest.addHeader(AppConstants.TOKEN_KEY, Prefs.getStringPrefs(AppConstants.TOKEN_ID));
-        profileRequest.setUserId(Prefs.getStringPrefs(AppConstants.UserId));
-//        profileRequest.setIsPicture(Integer.valueOf(mImageId));
-        ProfileService profileService = new ProfileService();
-        profileService.executeService(profileRequest, new BaseApiCallback<ProfileResponse>() {
-            @Override
-            public void onComplete() {
-                mActivity.dismissProgress();
-            }
+    private void setupDetail() {
+        Realm realm = Realm.getDefaultInstance();
+        try {
 
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onSuccess(@NonNull ProfileResponse response) {
-                super.onSuccess(response);
-                if (response.getStatusCode() == AppConstants.SUCCESS) {
-                    ProfileResponse.ResponseBean profileResponse = response.getResponse();
-                    textViewUserNameProfile.setText(profileResponse.getName());
-                    editTextPhoneProfile.setText("" + profileResponse.getPhone());
-                    textViewEmailProfile.setText(profileResponse.getEmail());
-               //     editTextRolesProfile.setText("" + profileResponse.getDesignation());
-                    editTextLob.setText("" + profileResponse.getLOB());
-                    editTextTerritory.setText("" + profileResponse.getTerritory());
-                    Prefs.putStringPrefs(AppConstants.picture,profileResponse.getPicture());
-
-                    Glide.with(mActivity).load(profileResponse.getPicture()).into(circleImageViewProfile);
-                } else {
-                    Utility.showToast(response.getErrorMsg());
+            RealmUser realmUser = realm.where(RealmUser.class).findFirst();
+            if (realmUser != null) {
+                JSONArray jsonArray = new JSONArray(realmUser.getLob());
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject c = jsonArray.getJSONObject(i);
+                    stringBuilder.append(c.optString("lob_name"));
+                    if (i != jsonArray.length() - 1)
+                        stringBuilder.append(", ");
                 }
+                editTextLob.setText(stringBuilder.toString());
+
+                JSONArray jsonArray1 = new JSONArray(realmUser.getTerritory());
+                StringBuilder stringBuilder1 = new StringBuilder();
+                for (int i = 0; i < jsonArray1.length(); i++) {
+                    JSONObject c = jsonArray1.getJSONObject(i);
+                    stringBuilder1.append(c.optString("territory_name"));
+                    if (i != jsonArray1.length() - 1)
+                        stringBuilder1.append(", ");
+                }
+                editTextTerritory.setText(stringBuilder1.toString());
+
             }
 
-            @Override
-            public void onFailure(APIException e) {
-                super.onFailure(e);
-                Utility.showToast(e.getData());
+        } catch (Exception e0) {
+            e0.printStackTrace();
+            realm.close();
+        } finally {
+            if (!realm.isClosed()) {
+                realm.close();
             }
-        });
+
+        }
     }
 
     public void imageUpload(String path) {
@@ -207,6 +217,7 @@ public class ProfileFragment extends BaseFragment {
                 Glide.with(mActivity)
                         .load(response.getResponse().getPicture())
                         .into(circleImageViewProfile);
+                Prefs.putStringPrefs(AppConstants.picture,response.getResponse().getPicture());
                 Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
             }
 

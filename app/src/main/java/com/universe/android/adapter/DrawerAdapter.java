@@ -59,7 +59,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.DrawerView
         if (position == 0) {
             holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
             holder.textViewName.setTypeface(FontClass.openSansBold(mContext));
-            holder.textViewName.setText(Prefs.getStringPrefs(AppConstants.USERNAME));
+            holder.textViewName.setText(Prefs.getStringPrefs(AppConstants.employee_name));
             if (Utility.validateString(Prefs.getStringPrefs(AppConstants.picture)))
             Glide.with(((Activity)mContext)).load(Prefs.getStringPrefs(AppConstants.picture)).into(holder.profile_image);
             else {
