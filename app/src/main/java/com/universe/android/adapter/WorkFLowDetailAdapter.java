@@ -34,7 +34,7 @@ public class WorkFLowDetailAdapter extends RecyclerView.Adapter<WorkFLowDetailAd
 
     @Override
     public SurveyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.workflow_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.workflow_detail_item, parent, false);
         return new SurveyViewHolder(view);
     }
 
@@ -48,7 +48,7 @@ public class WorkFLowDetailAdapter extends RecyclerView.Adapter<WorkFLowDetailAd
         holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
 
             holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo()+" | "+
-                    stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  "+
+                    stringArrayList.get(position).getTerritory()+" | "+stringArrayList.get(position).getState()+"  \n"+
                    stringArrayList.get(position).getDate());
 
 

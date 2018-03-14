@@ -189,10 +189,8 @@ public class LoginActivity extends BaseActivity {
                 try {
 
                     if (response != null && response.isSuccessful()) {
-
-
                         String responseData = response.body().string();
-                        if (responseData != null) {
+                        if(responseData != null) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             JSONObject jsonObject = jsonResponse.getJSONObject(AppConstants.RESPONSE);
                             if (jsonObject.has("report")) {
@@ -202,7 +200,7 @@ public class LoginActivity extends BaseActivity {
                             } else {
                                 Prefs.putStringPrefs(AppConstants.TYPE, jsonObject.optString(AppConstants.TYPE));
                             }
-                            if (jsonObject.has("loginDetails")) {
+                            if(jsonObject.has("loginDetails")) {
                                 JSONObject jsonObject2 = jsonObject.getJSONObject("loginDetails");
                                 JSONObject jsonObject1 = jsonObject2.getJSONObject(AppConstants.DETAIL);
                                 Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
@@ -212,7 +210,7 @@ public class LoginActivity extends BaseActivity {
                                 Prefs.putStringPrefs(AppConstants.phone, jsonObject1.optString("mobile"));
                                 Prefs.putStringPrefs(AppConstants.employee_code, jsonObject1.optString("employee_code"));
                                 Prefs.putStringPrefs(AppConstants.password, jsonObject1.optString("password"));
-                                if (jsonObject1.has(AppConstants.EMPLOYEE_NAME))
+                                if(jsonObject1.has(AppConstants.EMPLOYEE_NAME))
                                     Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.EMPLOYEE_NAME));
                                 else
                                     Prefs.putStringPrefs(AppConstants.USERNAME, jsonObject1.optString(AppConstants.NAME));
