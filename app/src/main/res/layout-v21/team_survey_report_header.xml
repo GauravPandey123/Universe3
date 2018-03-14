@@ -72,7 +72,7 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginLeft="@dimen/margin_small"
-                    android:src="@drawable/ic_achievement" />
+                    android:src="@drawable/ic_achevement" />
 
                 <TextView
                     android:id="@+id/textViewAchievementNumbers"
@@ -87,7 +87,7 @@
                     android:id="@+id/textViewAchievement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:textSize="@dimen/text_size_small"
                     android:text="Achievement" />
 

@@ -33,7 +33,7 @@
                 android:id="@+id/textInputLayoutEmailLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/EditTextHint"
+                style="@style/TextLabel"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium">
 
@@ -53,7 +53,7 @@
                 android:id="@+id/textInputLayoutPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/EditTextHint"
+                style="@style/TextLabel"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium">
                 <EditText
@@ -83,6 +83,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="horizontal">
 
                 <TextView

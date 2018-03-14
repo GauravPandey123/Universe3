@@ -6,53 +6,15 @@ import io.realm.annotations.PrimaryKey;
 
 
 public class RealmUser extends RealmObject {
-    private String status;
-
-    private int designationLevel;
-
-    private String reportingManager;
-
-    private String designation;
-
-    private String state;
-
-    private String block;
-
-    private String lockingPeriod;
-
-    private String userType;
-
-    private String country;
-
-    private String username;
-
-    private String village;
-
-    private String createdBy;
-
-    private String address;
-
-    private String createdAt;
 
     @PrimaryKey
     private String _id;
-    private String cd_code;
-    private String name;
-    private String employee_name;
-    private String employee_code;
-    private String email;
-    private String password;
-    private String mkt_territory_code;
-    private String mobile;
-    private String dob;
-    private String doj;
-    private String isActive;
-    private String accessToken;
-    private String lat;
-    private String lng;
-    private String type;
-    private String location;
 
+    private String response;
+    private String type;
+    private String role;
+    private String deatil;
+    private String lob;
 
     public String get_id() {
         return _id;
@@ -62,100 +24,12 @@ public class RealmUser extends RealmObject {
         this._id = _id;
     }
 
-    public String getCd_code() {
-        return cd_code;
+    public String getResponse() {
+        return response;
     }
 
-    public void setCd_code(String cd_code) {
-        this.cd_code = cd_code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getMkt_territory_code() {
-        return mkt_territory_code;
-    }
-
-    public void setMkt_territory_code(String mkt_territory_code) {
-        this.mkt_territory_code = mkt_territory_code;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getDob() {
-        return dob;
-    }
-
-    public void setDob(String dob) {
-        this.dob = dob;
-    }
-
-    public String getDoj() {
-        return doj;
-    }
-
-    public void setDoj(String doj) {
-        this.doj = doj;
-    }
-
-    public String getIsActive() {
-        return isActive;
-    }
-
-    public void setIsActive(String isActive) {
-        this.isActive = isActive;
-    }
-
-    public String getAccessToken() {
-        return accessToken;
-    }
-
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
-    }
-
-    public String getLat() {
-        return lat;
-    }
-
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
-
-    public String getLng() {
-        return lng;
-    }
-
-    public void setLng(String lng) {
-        this.lng = lng;
+    public void setResponse(String response) {
+        this.response = response;
     }
 
     public String getType() {
@@ -166,27 +40,39 @@ public class RealmUser extends RealmObject {
         this.type = type;
     }
 
-    public String getLocation() {
-        return location;
+    public String getRole() {
+        return role;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public String getEmployee_name() {
-        return employee_name;
+    public String getDeatil() {
+        return deatil;
     }
 
-    public void setEmployee_name(String employee_name) {
-        this.employee_name = employee_name;
+    public void setDeatil(String deatil) {
+        this.deatil = deatil;
     }
 
-    public String getEmployee_code() {
-        return employee_code;
+    public String getLob() {
+        return lob;
     }
 
-    public void setEmployee_code(String employee_code) {
-        this.employee_code = employee_code;
+    public void setLob(String lob) {
+        this.lob = lob;
     }
+
+    public String getTerritory() {
+        return territory;
+    }
+
+    public void setTerritory(String territory) {
+        this.territory = territory;
+    }
+
+    private String territory;
+
+
 }

@@ -135,7 +135,7 @@
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:src="@drawable/ic_completed" />
+                        android:src="@drawable/ic_submitted" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -179,7 +179,7 @@
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:src="@drawable/ic_achievement" />
+                        android:src="@drawable/ic_achevement" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -231,7 +231,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:src="@drawable/ic_progress" />
+                        android:src="@drawable/ic_inprogress" />
 
 
                 </RelativeLayout>
@@ -321,7 +321,7 @@
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:layout_marginTop="@dimen/margin_medium"
-                        android:src="@drawable/ic_customer" />
+                        android:src="@drawable/ic_crystal_cutomer" />
                 </RelativeLayout>
 
             </LinearLayout>

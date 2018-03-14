@@ -44,9 +44,7 @@ public class MainActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initialization();
-        setUpElements();
-        setUpListeners();
+
     }
 
     private void setUpListeners() {
@@ -65,80 +63,80 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        final String type=Prefs.getStringPrefs(AppConstants.TYPE);
+        final String type = Prefs.getStringPrefs(AppConstants.ROLE);
 
         mDrawerAdapter.setOnItemClickLister(new DrawerAdapter.OnItemSelecteListener() {
             @Override
             public void onItemSelected(View v, int position) {
 
-                if (position==0){
+                if (position == 0) {
                     mDrawerLayout.closeDrawers();
                     mToolbar.setTitle(R.string.profile);
                     replaceFragment(new ProfileFragment(), mContainerId);
                 }
 
-                if (type.equalsIgnoreCase("cd")){
-                    if (position==1){
+                if (type.equalsIgnoreCase(AppConstants.requester)) {
+                    if (position == 1) {
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(R.string.questionairemenu);
                         replaceFragment(new SurveySelectionFragment().newInstance(getResources().getString(R.string.questionairemenu)), mContainerId);
 
-                    }else if (position==2){
+                    } else if (position == 2) {
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(R.string.survey_report);
                         replaceFragment(new SurveySelectionFragment().newInstance(AppConstants.SURVEYREPORT), mContainerId);
 
-                    }else if (position==3){
+                    } else if (position == 3) {
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(getString(R.string.sync_responses));
                         replaceFragment(new SyncResponsesFragment(), mContainerId);
 
-                    }else if (position==4){
+                    } else if (position == 4) {
                         mDrawerLayout.closeDrawers();
                         new RealmController().clearRealm(MainActivity.this);
-                        Intent i=new Intent(MainActivity.this,LoginActivity.class);
-                        i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                     }
-                }else if (type.equalsIgnoreCase("rm") || type.equalsIgnoreCase("zm")){
-
-                    if (position==1){
-
-                            mDrawerLayout.closeDrawers();
-                            mToolbar.setTitle(R.string.work_flows);
-                            replaceFragment(new SurveySelectionFragment().newInstance(AppConstants.WORKFLOWS), mContainerId);
-
-                    }else if (position==2){
-                        mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(R.string.teamSurveyReport);
-                        replaceFragment(new QuestionaireTeamSuverFragment(), mContainerId);
-                    }else if (position==3){
-                        mDrawerLayout.closeDrawers();
-                        mToolbar.setTitle(getString(R.string.sync_responses));
-                        replaceFragment(new SyncResponsesFragment(), mContainerId);
-
-                    }else if (position==4){
-                        mDrawerLayout.closeDrawers();
-                        new RealmController().clearRealm(MainActivity.this);
-                        Intent i=new Intent(MainActivity.this,LoginActivity.class);
-                        i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(i);
-                    }
-                }else if (type.equalsIgnoreCase("admin")){
-                    if (position==1){
+                } else if (type.equalsIgnoreCase("admin")) {
+                    if (position == 1) {
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(R.string.admin);
                         replaceFragment(new AdminFragment(), mContainerId);
-                    }else if (position==2){
+                    } else if (position == 2) {
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(getString(R.string.sync_responses));
                         replaceFragment(new SyncResponsesFragment(), mContainerId);
 
-                    }else if (position==3){
+                    } else if (position == 3) {
                         mDrawerLayout.closeDrawers();
                         new RealmController().clearRealm(MainActivity.this);
-                        Intent i=new Intent(MainActivity.this,LoginActivity.class);
-                        i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(i);
+                    }
+                } else {
+
+                    if (position == 1) {
+
+                        mDrawerLayout.closeDrawers();
+                        mToolbar.setTitle(R.string.work_flows);
+                        replaceFragment(new SurveySelectionFragment().newInstance(AppConstants.WORKFLOWS), mContainerId);
+
+                    } else if (position == 2) {
+                        mDrawerLayout.closeDrawers();
+                        mToolbar.setTitle(R.string.teamSurveyReport);
+                        replaceFragment(new QuestionaireTeamSuverFragment(), mContainerId);
+                    } else if (position == 3) {
+                        mDrawerLayout.closeDrawers();
+                        mToolbar.setTitle(getString(R.string.sync_responses));
+                        replaceFragment(new SyncResponsesFragment(), mContainerId);
+
+                    } else if (position == 4) {
+                        mDrawerLayout.closeDrawers();
+                        new RealmController().clearRealm(MainActivity.this);
+                        Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                     }
                 }
@@ -150,14 +148,16 @@ public class MainActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
+        initialization();
+        setUpElements();
+        setUpListeners();
     }
 
     private void setUpElements() {
         mDrawerItemList = new ArrayList<DrawerItem>();
         //Dummy Data
-        String type=Prefs.getStringPrefs(AppConstants.TYPE);
-        if (type.equalsIgnoreCase("cd")){
-
+        String type = Prefs.getStringPrefs(AppConstants.TYPE);
+        if (type.equalsIgnoreCase(AppConstants.requester)) {
             DrawerItem item4 = new DrawerItem();
             item4.setIcon(R.drawable.survey_report);
             item4.setTitle("Questionaire");
@@ -179,16 +179,12 @@ public class MainActivity extends BaseActivity {
             item9.setIcon(R.drawable.ic_logout);
             item9.setTitle("Logout");
             mDrawerItemList.add(item9);
-        } else if (type.equalsIgnoreCase("rm") || type.equalsIgnoreCase("zm")) {
-            DrawerItem item11 = new DrawerItem();
-            item11.setIcon(R.drawable.survey_report);
-            item11.setTitle(getResources().getString(R.string.work_flows));
-            mDrawerItemList.add(item11);
+        } else if (type.equalsIgnoreCase("admin")) {
 
-            DrawerItem item12 = new DrawerItem();
-            item12.setIcon(R.drawable.survey_report);
-            item12.setTitle(getResources().getString(R.string.teamSurveyReport));
-            mDrawerItemList.add(item12);
+            DrawerItem item10 = new DrawerItem();
+            item10.setIcon(R.drawable.survey_report);
+            item10.setTitle(getResources().getString(R.string.admin));
+            mDrawerItemList.add(item10);
 
             DrawerItem item3 = new DrawerItem();
             item3.setIcon(R.drawable.survey_report);
@@ -200,12 +196,16 @@ public class MainActivity extends BaseActivity {
             item9.setTitle("Logout");
             mDrawerItemList.add(item9);
 
-        }else if (type.equalsIgnoreCase("admin")) {
+        } else {
+            DrawerItem item11 = new DrawerItem();
+            item11.setIcon(R.drawable.survey_report);
+            item11.setTitle(getResources().getString(R.string.work_flows));
+            mDrawerItemList.add(item11);
 
-            DrawerItem item10 = new DrawerItem();
-            item10.setIcon(R.drawable.survey_report);
-            item10.setTitle(getResources().getString(R.string.admin));
-            mDrawerItemList.add(item10);
+            DrawerItem item12 = new DrawerItem();
+            item12.setIcon(R.drawable.survey_report);
+            item12.setTitle(getResources().getString(R.string.teamSurveyReport));
+            mDrawerItemList.add(item12);
 
             DrawerItem item3 = new DrawerItem();
             item3.setIcon(R.drawable.survey_report);
@@ -233,13 +233,14 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mContainerId = R.id.fragment_container;
         String type = Prefs.getStringPrefs(AppConstants.TYPE);
-        if (type.equalsIgnoreCase("cd")) {
+        if (type.equalsIgnoreCase(AppConstants.requester)) {
             addFragment(new SurveySelectionFragment().newInstance(getResources().getString(R.string.questionairemenu)), mContainerId);
-        }  else if (type.equalsIgnoreCase("rm") || type.equalsIgnoreCase("zm")) {
-            addFragment(new SurveySelectionFragment().newInstance(AppConstants.WORKFLOWS), mContainerId);
-         }else if (type.equalsIgnoreCase("admin")){
+        } else if (type.equalsIgnoreCase("admin")) {
             addFragment(new AdminFragment(), mContainerId);
+        } else {
+            addFragment(new SurveySelectionFragment().newInstance(AppConstants.WORKFLOWS), mContainerId);
         }
+
 
         mDrawerLayout.closeDrawers();
 
@@ -260,6 +261,7 @@ public class MainActivity extends BaseActivity {
             super.onBackPressed();
         }
     }
+
     @SuppressLint("RestrictedApi")
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
