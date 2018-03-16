@@ -11,6 +11,7 @@
         android:background="@color/textColorPrimary"
         android:padding="@dimen/margin_medium"
         android:text="@string/periodfrom"
+        android:visibility="gone"
         android:textAllCaps="true"
         android:textColor="@android:color/white" />
 
@@ -30,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/margin_min"
-            android:drawableRight="@drawable/ic_calendar"
+            android:drawableRight="@drawable/ic_cal"
             android:focusable="false"
             android:hint="@string/periodfrom"
             android:inputType="textEmailAddress"
@@ -47,6 +48,7 @@
         android:background="@color/textColorPrimary"
         android:padding="@dimen/margin_medium"
         android:text="@string/periodto"
+        android:visibility="gone"
         android:textAllCaps="true"
         android:textColor="@android:color/white" />
 
@@ -66,7 +68,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/margin_min"
             android:focusable="false"
-            android:drawableRight="@drawable/ic_calendar_to"
+            android:drawableRight="@drawable/ic_cal"
             android:hint="@string/periodto"
             android:inputType="textEmailAddress"
             android:textSize="@dimen/text_size_medium" />
@@ -81,6 +83,7 @@
         android:layout_margin="@dimen/margin_medium"
         android:background="@color/textColorPrimary"
         android:padding="@dimen/margin_medium"
+        android:visibility="gone"
         android:textAllCaps="true"
         android:textColor="@android:color/white" />
 
@@ -99,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/margin_min"
-            android:drawableRight="@drawable/ic_status"
+            android:drawableRight="@drawable/ic_team"
             android:focusable="false"
             android:inputType="textEmailAddress"
             android:textSize="@dimen/text_size_medium" />
@@ -123,7 +126,7 @@
             android:gravity="center"
             android:padding="@dimen/margin_medium"
             android:textColor="@android:color/white"
-            android:background="@color/colorAccent"
+            android:background="@color/buttoncolor1"
             android:textAllCaps="true"
             android:layout_margin="@dimen/margin_medium"
             android:textSize="@dimen/text_size_normal"
@@ -139,7 +142,7 @@
             android:layout_margin="@dimen/margin_medium"
             android:textColor="@android:color/white"
             android:padding="@dimen/margin_medium"
-            android:background="@color/colorPrimary"
+            android:background="@color/buttoncolor"
             android:textSize="@dimen/text_size_normal"
             android:text="@string/apply_filter" />
 

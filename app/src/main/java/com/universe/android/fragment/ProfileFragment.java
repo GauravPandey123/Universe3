@@ -102,7 +102,7 @@ public class ProfileFragment extends BaseFragment {
         textViewTLerritor.setTypeface(FontClass.openSansRegular(getActivity()));
         editTextPhoneProfile.setTypeface(FontClass.openSansLight(getActivity()));
         editTextRolesProfile.setTypeface(FontClass.openSansLight(getActivity()));
-        editTextRolesProfile.setText(Prefs.getStringPrefs(AppConstants.TYPE));
+        editTextRolesProfile.setText(new StringBuilder().append(Prefs.getStringPrefs(AppConstants.ROLE).substring(0, 1).toUpperCase()).append(Prefs.getStringPrefs(AppConstants.TYPE).substring(1).toLowerCase()).toString());
         editTextLob.setTypeface(FontClass.openSansLight(getActivity()));
         editTextTerritory.setTypeface(FontClass.openSansLight(getActivity()));
         textViewUserNameProfile.setText(Prefs.getStringPrefs(AppConstants.employee_name));
@@ -172,7 +172,8 @@ public class ProfileFragment extends BaseFragment {
                     if (i != jsonArray.length() - 1)
                         stringBuilder.append(", ");
                 }
-                editTextLob.setText(stringBuilder.toString());
+                editTextLob.setText(new StringBuilder().append(stringBuilder.toString().substring(0, 1).toUpperCase()).append(stringBuilder.toString().substring(1).toLowerCase()).toString());
+                ;
 
                 JSONArray jsonArray1 = new JSONArray(realmUser.getTerritory());
                 StringBuilder stringBuilder1 = new StringBuilder();
@@ -182,7 +183,7 @@ public class ProfileFragment extends BaseFragment {
                     if (i != jsonArray1.length() - 1)
                         stringBuilder1.append(", ");
                 }
-                editTextTerritory.setText(stringBuilder1.toString());
+                editTextTerritory.setText(new StringBuilder().append(stringBuilder1.toString().substring(0, 1).toUpperCase()).append(stringBuilder1.toString().substring(1).toLowerCase()).toString());
 
             }
 
@@ -217,7 +218,7 @@ public class ProfileFragment extends BaseFragment {
                 Glide.with(mActivity)
                         .load(response.getResponse().getPicture())
                         .into(circleImageViewProfile);
-                Prefs.putStringPrefs(AppConstants.picture,response.getResponse().getPicture());
+                Prefs.putStringPrefs(AppConstants.picture, response.getResponse().getPicture());
                 Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
             }
 

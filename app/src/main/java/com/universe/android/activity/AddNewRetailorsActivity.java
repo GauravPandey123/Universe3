@@ -102,20 +102,21 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     private JSONObject jsonSubmitReq = new JSONObject();
     FragmentManager fm = getSupportFragmentManager();
     private String updateId="";
+    private String villageIdString;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_retailors_activity);
         Intent intent = getIntent();
-        if (intent != null) {
-            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
-            strTitle = intent.getExtras().getString(AppConstants.STR_TITLE);
-
-            strCustomer = intent.getExtras().getString(AppConstants.CUSTOMER);
-        }
-
-        strCustomer=Prefs.getStringPrefs(AppConstants.CUSTOMER);
+//        if (intent != null) {
+//            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
+//            strTitle = intent.getExtras().getString(AppConstants.STR_TITLE);
+//
+//            strCustomer = intent.getExtras().getString(AppConstants.CUSTOMER);
+//        }
+//
+//        strCustomer=Prefs.getStringPrefs(AppConstants.CUSTOMER);
         initialization();
         setUpElements();
         setUpListeners();
@@ -242,7 +243,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         try {
             jsonSubmitReq.put(AppConstants.retailerName,reatilersNameString);
             jsonSubmitReq.put(AppConstants.state_code,Prefs.getIntegerPrefs(AppConstants.STATECODE));
-            jsonSubmitReq.put(AppConstants.territory_code,Prefs.getIntegerPrefs(AppConstants.TerroitryCode));
+            jsonSubmitReq.put(AppConstants.territory_code,villageIdString);
             jsonSubmitReq.put(AppConstants.distributer_code,Prefs.getStringPrefs(AppConstants.Distributor_Id));
             jsonSubmitReq.put(AppConstants.mobile,phoneString);
             jsonSubmitReq.put(AppConstants.pincode,pincodeString);
@@ -468,10 +469,13 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
 
     }
 
+
+
     @Override
-    public void showVillage(String villageString) {
+    public void showVillage(String villageString, String villageId) {
         villageSubmitString = villageString;
         retailorTerroitryRetailorFocusVillage.setText(villageString);
+        villageIdString=villageId;
     }
 
 

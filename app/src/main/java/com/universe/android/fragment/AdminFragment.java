@@ -19,6 +19,7 @@ import com.universe.android.activity.admin.ClientListActivity;
 import com.universe.android.activity.admin.CustomerListActivity;
 import com.universe.android.activity.admin.QuestionListActivity;
 import com.universe.android.activity.admin.SurveyListActivity;
+import com.universe.android.helper.FontClass;
 import com.universe.android.model.DrawerItem;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.SpacesItemDecoration;
@@ -50,7 +51,8 @@ public class AdminFragment extends BaseFragment {
 
 
     private void initialization(View view) {
-        tvMaster =(TextView) view.findViewById(R.id.tvMaster);
+        tvMaster = view.findViewById(R.id.tvMaster);
+        tvMaster.setTypeface(FontClass.openSansRegular(mContext));
         getHomeData();
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -130,6 +132,7 @@ public class AdminFragment extends BaseFragment {
                     holder.icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_question));
                 }
                 holder.tvTitle.setText(drawerItem.getTitle());
+                holder.tvTitle.setTypeface(FontClass.openSansRegular(mActivity));
 
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override

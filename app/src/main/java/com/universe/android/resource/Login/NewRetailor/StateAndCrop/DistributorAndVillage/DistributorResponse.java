@@ -121,7 +121,15 @@ public class DistributorResponse extends BaseResponse<DistributorResponse> {
              * village_id : 274
              * village_name : Aranpur
              */
+            public boolean isSelected() {
+                return isSelected;
+            }
 
+            public void setSelected(boolean selected) {
+                isSelected = selected;
+            }
+
+            private boolean isSelected;
             private String _id;
             private int village_id;
             private String village_name;

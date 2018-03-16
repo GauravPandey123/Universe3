@@ -168,16 +168,17 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         tvCount.setText(count);
         //  lblListHeader.setTypeface(null, Typeface.BOLD);
         lblListHeader.setText(headerTitle);
+        lblListHeader.setEms(5);
         if (isExpanded) {
             lblListHeader.setTypeface(null, Typeface.NORMAL);
-            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(R.drawable.arrow_up, 0,
+            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(R.drawable.arrow_up  , 0,
                     0, 0);
         } else {
             // If group is not expanded then change the text back into normal
             // and change the icon
 
             lblListHeader.setTypeface(null, Typeface.NORMAL);
-            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(R.drawable.arrow_down, 0,
+            lblListHeader.setCompoundDrawablesWithIntrinsicBounds(R.drawable.arrow_down , 0,
                     0, 0);
         }
         return convertView;

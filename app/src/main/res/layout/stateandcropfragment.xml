@@ -38,5 +38,24 @@
             android:layout_height="match_parent">
         </android.support.v7.widget.RecyclerView>
 
+    <RelativeLayout
+        android:id="@+id/realtiveLayoutSubmitVillage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/margin_medium"
+        android:layout_alignParentBottom="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
+            android:paddingLeft="@dimen/margin_xxlarge"
+            android:paddingRight="@dimen/margin_xxlarge"
+            android:textColor="@color/white"
+            android:background="@color/buttoncolor"/>
+    </RelativeLayout>
+
 
 </RelativeLayout>

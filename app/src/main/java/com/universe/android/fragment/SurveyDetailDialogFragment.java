@@ -145,10 +145,14 @@ public class SurveyDetailDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 input_period_from.setText("");
                 input_period_to.setText("");
-                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
+                textViewTodayFilter.setTextColor(getResources().getColor(R.color.white));
+                textViewWeekFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewMonthFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewOthersFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
 
                 input_period_from.setText(Utility.getCurrentDate());
                 input_period_to.setText(Utility.getCurrentDate());
@@ -162,10 +166,14 @@ public class SurveyDetailDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 input_period_from.setText("");
                 input_period_to.setText("");
-                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
+                textViewTodayFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewWeekFilter.setTextColor(getResources().getColor(R.color.white));
+                textViewMonthFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewOthersFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
                 Date date1 = new Date();
                 Date newDate = new Date(date1.getTime() - 604800000L); // 7 * 24 * 60 * 60 * 1000
                 Calendar calendar = Calendar.getInstance();
@@ -180,20 +188,17 @@ public class SurveyDetailDialogFragment extends DialogFragment {
 
         });
 
-
         textViewMonthFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                input_period_from.setText("");
-                input_period_to.setText("");
-                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
+                textViewTodayFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewMonthFilter.setTextColor(getResources().getColor(R.color.white));
+                textViewWeekFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewOthersFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
                 input_period_from.setText("");
                 input_period_to.setText("");
                 String date;
@@ -201,7 +206,6 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 Date newDate = new Date(date1.getTime() - 2592000000L); // 7 * 24 * 60 * 60 * 1000
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(newDate);
-//                calendar.add(Calendar.DAY_OF_YEAR,-30);
                 Date newDate1 = calendar.getTime();
                 String dateFinal = AppConstants.format2.format(newDate1);
                 input_period_from.setText(dateFinal);
@@ -215,10 +219,14 @@ public class SurveyDetailDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 input_period_from.setText("");
                 input_period_to.setText("");
-                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
+                textViewTodayFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewWeekFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewMonthFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewOthersFilter.setTextColor(getResources().getColor(R.color.white));
+                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
                 input_period_from.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -240,8 +248,8 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 statusDialog();
             }
         });
-
     }
+
 
     public void statusDialog() {
         dialogStatus = new Dialog(getActivity());
@@ -329,10 +337,14 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         input_period_to.setTypeface(FontClass.openSansLight(getActivity()));
         input_period_status.setTypeface(FontClass.openSansLight(getActivity()));
 
-        textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-        textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-        textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+        textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
+        textViewTodayFilter.setTextColor(getResources().getColor(R.color.white));
+        textViewWeekFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+        textViewMonthFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+        textViewOthersFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+        textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+        textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+        textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
         input_period_from.setText(Utility.getCurrentDate());
         input_period_to.setText(Utility.getCurrentDate());
 

@@ -216,5 +216,6 @@ public class AppConstants {
     public static String approval5_status="approval5_status";
     public static String approval6_status="approval6_status";
 
+    public static String VillageData="villageData";
 }
 

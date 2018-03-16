@@ -60,10 +60,11 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     private TextView textViewHeader, textViewRetailersNameMap, textViewMobileNoMap, textViewStatusMap, textViewSetLocation;
     private String title, surveyId, customerId, strCustomer;
     private ImageView imageViewLocation;
-
+    private double lat, lng;
     private ImageView imageViewSearch, imageViewSearchBack;
     private Activity activity;
     private CircleImageView circleImageViewMap;
+    private ImageView imageLoc;
     List<CategoryModal> arraylistTitle = new ArrayList<>();
 
     ProgressBar mProgress;
@@ -81,12 +82,12 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         autocompleteFragment.setOnPlaceSelectedListener(this);
 
         Intent intent = getIntent();
-        if (intent != null) {
-            title = intent.getExtras().getString(AppConstants.STR_TITLE);
-            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
-            customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
-            strCustomer = intent.getExtras().getString(AppConstants.CUSTOMER);
-        }
+//        if (intent != null) {
+//            title = intent.getExtras().getString(AppConstants.STR_TITLE);
+//            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
+//            customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
+//            strCustomer = intent.getExtras().getString(AppConstants.CUSTOMER);
+//        }
 
         initialization();
         setUpElements();
@@ -103,7 +104,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
     private void initialization() {
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
-
+        imageLoc =findViewById(R.id.imageLoc);
         textViewHeader = findViewById(R.id.textViewHeader);
         textViewRetailersNameMap = findViewById(R.id.textViewRetailersNameMap);
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
@@ -111,10 +112,11 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         textViewSetLocation = findViewById(R.id.textViewSetLocation);
         imageViewLocation = findViewById(R.id.imageViewLocation);
         circleImageView = findViewById(R.id.circularImageViewMap);
-
+        lat = Double.parseDouble(Prefs.getStringPrefs(AppConstants.lat));
+        lng = Double.parseDouble(Prefs.getStringPrefs(AppConstants.lng));
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular_progress);
-        mProgress = (ProgressBar) findViewById(R.id.circularProgressbar);
+        mProgress = findViewById(R.id.circularProgressbar);
         mProgress.setProgress(0);   // Main Progress
         mProgress.setSecondaryProgress(100); // Secondary Progress
         mProgress.setMax(100); // Maximum Progress
@@ -169,7 +171,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         imageViewLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateMap(new LatLng(28.4595, 77.0266), "");
+                updateMap(new LatLng(lat, lng), "");
             }
         });
     }
@@ -183,17 +185,13 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 if (Utility.validateString(realmCustomer.getName()))
                     textViewRetailersNameMap.setText(realmCustomer.getName());
 
-                textViewMobileNoMap.setText(realmCustomer.getContactNo() + " | " +
-                        realmCustomer.getTerritory() + " | " + realmCustomer.getState() + "  \n" +
-                        "Pincode - " + realmCustomer.getPincode());
+                textViewMobileNoMap.setText(new StringBuilder().append(realmCustomer.getContactNo()).append(" | ").append(realmCustomer.getTerritory()).append(" | ").append(realmCustomer.getState()).append("  \n").append("Pincode - ").append(realmCustomer.getPincode()).toString());
 
             } else {
                 if (Utility.validateString(realmCustomer.getRetailerName()))
                     textViewRetailersNameMap.setText(realmCustomer.getRetailerName());
 
-                textViewMobileNoMap.setText(realmCustomer.getMobile() + " | " +
-                        realmCustomer.getTerritory_code() + " | " + realmCustomer.getState_code() + "  \n" +
-                        "Pincode - " + realmCustomer.getPincode());
+                textViewMobileNoMap.setText(new StringBuilder().append(realmCustomer.getMobile()).append(" | ").append(realmCustomer.getTerritory_code()).append(" | ").append(realmCustomer.getState_code()).append("  \n").append("Pincode - ").append(realmCustomer.getPincode()).toString());
             }
 
         } catch (Exception e0) {
@@ -211,7 +209,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
-        updateMap(new LatLng(28.4595, 77.0266), "");
+        updateMap(new LatLng(lat, lng), "");
     }
 
     @Override
@@ -244,11 +242,11 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     public void updateLocationService(String lat, String lan) {
         showProgress();
         UpadteLocationRequest upadteLocationRequest = new UpadteLocationRequest();
-        upadteLocationRequest.setUserId("5a8eb8b82741361f5827afb5");
+        upadteLocationRequest.setUserId(AppConstants.UserId);
         upadteLocationRequest.setLat(lat);
         upadteLocationRequest.setLng(lan);
         upadteLocationRequest.setType(AppConstants.customer);
-        upadteLocationRequest.setCustomerId(customerId);
+        upadteLocationRequest.setCustomerId("5a811ccfa6f7eb1200adcbd9");
         UpdateLocationService updateLocationService = new UpdateLocationService();
         updateLocationService.executeService(upadteLocationRequest, new BaseApiCallback<UpDateLocationResponse>() {
             @Override
@@ -259,12 +257,8 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onSuccess(@NonNull UpDateLocationResponse response) {
                 super.onSuccess(response);
-                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLat());
-                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLongX());
-                //  Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLat());
-                //   Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLongX());
-
-
+                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLocationSet().getLat());
+                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLocationSet().getLongX());
             }
 
             @Override
@@ -284,7 +278,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         upadteLocationRequest.setLat(lat);
         upadteLocationRequest.setLng(lan);
         upadteLocationRequest.setType(AppConstants.employee);
-        upadteLocationRequest.setCustomerId(customerId);
+        upadteLocationRequest.setCustomerId("5a811ccfa6f7eb1200adcbd9");
         UpdateLocationService updateLocationService = new UpdateLocationService();
         updateLocationService.executeService(upadteLocationRequest, new BaseApiCallback<UpDateLocationResponse>() {
             @Override
@@ -295,25 +289,25 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onSuccess(@NonNull UpDateLocationResponse response) {
                 super.onSuccess(response);
+                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLocationSet().getLat());
+                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLocationSet().getLongX());
+                Prefs.putBooleanPrefs(AppConstants.LocationUpdate, response.getResponse().isLocationSet());
 
-                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLat());
-                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLongX());
+                if (response.getResponse().isLocationSet()) {
+                    imageLoc.setImageResource(R.drawable.ic_location_set);
+                } else {
+                    imageLoc.setImageResource(R.drawable.red_loc);
+                }
 
 
+//                Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
+//                intent.putExtra(AppConstants.STR_TITLE, title);
+//                intent.putExtra(AppConstants.SURVEYID, surveyId);
+//                intent.putExtra(AppConstants.CUSTOMERID, customerId);
+//                intent.putExtra(AppConstants.CUSTOMER, strCustomer);
 
-
-                Prefs.putBooleanPrefs(AppConstants.LocationUpdate, true);
-
-                //  Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLat());
-                //  Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLongX());
-                Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
-                intent.putExtra(AppConstants.STR_TITLE,title);
-                intent.putExtra(AppConstants.SURVEYID,surveyId);
-                intent.putExtra(AppConstants.CUSTOMERID,customerId);
-                intent.putExtra(AppConstants.CUSTOMER,strCustomer);
-
-                startActivity(intent);
-                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 Utility.showToast(R.string.location_updated);
             }
 
