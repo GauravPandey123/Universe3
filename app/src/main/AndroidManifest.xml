@@ -94,8 +94,8 @@
         <activity android:name=".workflows.WorkFlowsActivity" />
         <activity android:name=".activity.TeamSurveyDeatilActivity" />
         <activity android:name=".activity.TeamSurveyDetailReport" />
-        <activity android:name=".activity.AddNewRetailorsActivity" />
-        <activity android:name=".activity.MapsOneActivity" />
+        <!--<activity android:name=".activity.AddNewRetailorsActivity" />-->
+        <!--<activity android:name=".activity.MapsOneActivity" />-->
 
 
         <!--

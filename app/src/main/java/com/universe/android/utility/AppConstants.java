@@ -206,5 +206,6 @@ public class AppConstants {
     public static String accessToken="accessToken";
     public static String requester="requester";
     public static String lob_name="lob_name";
+    public static String VillageData="villageData";
 }
 

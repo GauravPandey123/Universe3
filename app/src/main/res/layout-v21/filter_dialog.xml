@@ -17,19 +17,19 @@
             <RelativeLayout
                 android:id="@+id/relativeLayoutFilter"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/holo_blue_dark">
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/textViewFilter"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/margin_large"
                     android:layout_margin="@dimen/margin_small"
                     android:gravity="center_vertical"
                     android:padding="@dimen/margin_small"
                     android:text="@string/filter"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:layout_centerInParent="true"
+                    android:textColor="@android:color/black"
                     android:textSize="@dimen/text_size_normal" />
 
                 <ImageView
@@ -39,6 +39,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_medium"
                     android:src="@drawable/ic_close_black_24dp" />
 
             </RelativeLayout>
@@ -46,10 +47,10 @@
             <LinearLayout
                 android:id="@+id/linearLayoutFilter"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_large"
+                android:layout_height="40dp"
                 android:layout_below="@+id/relativeLayoutFilter"
                 android:layout_margin="@dimen/margin_medium"
-                android:background="@drawable/rectangular_shape"
+                android:background="#F2f2f2"
                 android:orientation="horizontal"
                 tools:ignore="UselessParent">
 
@@ -59,12 +60,13 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_min"
                     android:layout_weight="1"
-                    android:background="@color/colorPrimary"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:background="@color/buttoncolor"
                     android:gravity="center"
                     android:text="@string/todayfilter"
                     android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textColor="@color/filter_text_color"
+                    android:textSize="10sp" />
 
                 <View
                     android:layout_width="1dp"
@@ -78,12 +80,12 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_min"
                     android:layout_weight="1"
-                    android:background="@color/transparent_color"
+                    android:background="@color/filter_color"
                     android:gravity="center"
                     android:text="@string/week"
                     android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textColor="@color/filter_text_color"
+                    android:textSize="10sp" />
 
                 <View
                     android:layout_width="1dp"
@@ -96,12 +98,12 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_min"
                     android:layout_weight="1"
-                    android:background="@color/transparent_color"
+                    android:background="@color/filter_color"
                     android:gravity="center"
                     android:text="@string/month"
                     android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textColor="@color/filter_text_color"
+                    android:textSize="10sp" />
 
                 <View
                     android:layout_width="1dp"
@@ -115,12 +117,12 @@
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/margin_min"
                     android:layout_weight="1"
-                    android:background="@color/transparent_color"
+                    android:background="@color/filter_color"
                     android:gravity="center"
                     android:text="@string/others"
                     android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_size_medium" />
+                    android:textColor="@color/filter_text_color"
+                    android:textSize="10sp" />
 
             </LinearLayout>
 

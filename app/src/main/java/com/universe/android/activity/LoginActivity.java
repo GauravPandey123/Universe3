@@ -4,8 +4,12 @@ package com.universe.android.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.EditText;
@@ -138,8 +142,26 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        // Disable going back to the MainActivity
-        moveTaskToBack(true);
+
+
+//        if (f instanceof MapFragment) {
+//            onBackPressed();
+//        } else {
+//            mToolbar.setTitle(R.string.toobar_name_hone);
+//            if (isStopage) {
+//                mToolbar.setVisibility(View.VISIBLE);
+//                mToolbar.setTitle(R.string.vehicle_list);
+//                isStopage = false;
+//                Prefs.clearValue(AppContants.stoppageReportFilter);
+//                Prefs.clearValue(AppContants.overSpeedReportFilter);
+//                Prefs.clearValue(AppContants.distanceTravelledReportFilter);
+//                Prefs.clearValue(AppContants.iginitionReportFilter);
+//                Prefs.clearValue(AppContants.idleReportFilter);
+//                replaceFragment(new VechileListFragment(), mContainerId);
+//            } else {
+//                replaceFragment(new MapFragment(), mContainerId);
+//            }
+//        }
     }
 
 
@@ -159,7 +181,7 @@ public class LoginActivity extends BaseActivity {
         RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
         String url = UniverseAPI.WEB_SERVICE_LOGIN_METHOD;
 
-        Request request = APIClient.getPostRequest(this, url, requestBody);
+        final Request request = APIClient.getPostRequest(this, url, requestBody);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
@@ -173,44 +195,57 @@ public class LoginActivity extends BaseActivity {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) throws IOException {
                 try {
                     if (response != null && response.isSuccessful()) {
-                        String responseData = response.body().string();
-                        if (responseData != null) {
-                            JSONObject jsonResponse = new JSONObject(responseData);
-                            JSONObject jsonObject = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-                            Prefs.putStringPrefs(AppConstants.TYPE, jsonObject.optString("type"));
-                            Prefs.putStringPrefs(AppConstants.ROLE, jsonObject.optString("role"));
-                            JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
-                            Prefs.putStringPrefs(AppConstants.employee_name, jsonObject1.optString("name"));
-                            Prefs.putStringPrefs(AppConstants.picture, jsonObject1.optString("picture"));
-                            Prefs.putStringPrefs(AppConstants.email, jsonObject1.optString("email").toLowerCase());
-                            Prefs.putStringPrefs(AppConstants.phone, jsonObject1.optString(AppConstants.phone));
-                            Prefs.putStringPrefs(AppConstants.employee_code, jsonObject1.optString("employee_code"));
-                            Prefs.putStringPrefs(AppConstants.password, jsonObject1.optString("password"));
-                            Prefs.putStringPrefs(AppConstants.accessToken, jsonObject1.optString("accessToken"));
-                            Prefs.putStringPrefs(AppConstants.lat, jsonObject1.optString("lat"));
-                            Prefs.putStringPrefs(AppConstants.lng, jsonObject1.optString("lng"));
-                            Prefs.putStringPrefs(AppConstants.location, jsonObject1.optString("location"));
-                            Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
-                            jsonObject.put(AppConstants.ID,"00");
-                            new RealmController().saveUserDetail(jsonObject.toString());
+                        if (response.isSuccessful()) {
+                            String responseData = response.body().string();
+                            if (responseData != null) {
+                                JSONObject jsonResponse = new JSONObject(responseData);
+                                JSONObject jsonObject = jsonResponse.getJSONObject(AppConstants.RESPONSE);
+                                Prefs.putStringPrefs(AppConstants.TYPE, jsonObject.optString("type"));
+                                Prefs.putStringPrefs(AppConstants.ROLE, jsonObject.optString("role"));
+                                JSONObject jsonObject1 = jsonObject.getJSONObject(AppConstants.DETAIL);
+                                Prefs.putStringPrefs(AppConstants.employee_name, jsonObject1.optString("name"));
+                                Prefs.putStringPrefs(AppConstants.picture, jsonObject1.optString("picture"));
+                                Prefs.putStringPrefs(AppConstants.email, jsonObject1.optString("email").toLowerCase());
+                                Prefs.putStringPrefs(AppConstants.phone, jsonObject1.optString(AppConstants.phone));
+                                Prefs.putStringPrefs(AppConstants.employee_code, jsonObject1.optString("employee_code"));
+                                Prefs.putStringPrefs(AppConstants.password, jsonObject1.optString("password"));
+                                Prefs.putStringPrefs(AppConstants.accessToken, jsonObject1.optString("accessToken"));
+                                Prefs.putStringPrefs(AppConstants.lat, jsonObject1.optString("lat"));
+                                Prefs.putStringPrefs(AppConstants.lng, jsonObject1.optString("lng"));
+                                Prefs.putStringPrefs(AppConstants.location, jsonObject1.optString("location"));
+                                Prefs.putStringPrefs(AppConstants.UserId, jsonObject1.optString(AppConstants.ID));
+                                jsonObject.put(AppConstants.ID, "00");
+                                new RealmController().saveUserDetail(jsonObject.toString());
 
+                            }
                         }
+                        getClientResponse();
 
-                        getSurveyResponse();
+                        //\ getSurveyResponse();
 
                     } else {
                         dismissProgress();
+                        mActivity.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Utility.showToast("Wrong Credential");
+                            }
+                        });
+
                     }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
                     Utility.showToast(e.getMessage());
                 }
             }
+
         });
+
     }
 
     private void getQuestionsResponse() {

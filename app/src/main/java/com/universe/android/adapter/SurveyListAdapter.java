@@ -68,7 +68,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
                 Intent i=null;
 
                 String type=Prefs.getStringPrefs(AppConstants.TYPE);
-                if (type.equalsIgnoreCase("cd")) {
+                if (type.equalsIgnoreCase(AppConstants.requester)) {
                     if (position == 0) {
                         i = new Intent(mContext, AddNewRetailors.class);
                     } else {

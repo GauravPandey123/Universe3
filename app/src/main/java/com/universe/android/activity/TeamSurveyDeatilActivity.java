@@ -169,7 +169,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
         if (!Utility.isConnected()) {
             Utility.showToast(R.string.msg_disconnected);
         } else {
-            teamSurveyDetail();
+           // teamSurveyDetail();
         }
     }
 

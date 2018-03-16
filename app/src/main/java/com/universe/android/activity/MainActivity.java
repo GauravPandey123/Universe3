@@ -159,19 +159,19 @@ public class MainActivity extends BaseActivity {
         String type = Prefs.getStringPrefs(AppConstants.TYPE);
         if (type.equalsIgnoreCase(AppConstants.requester)) {
             DrawerItem item4 = new DrawerItem();
-            item4.setIcon(R.drawable.survey_report);
+            item4.setIcon(R.drawable.ic_questionaire);
             item4.setTitle("Questionaire");
             mDrawerItemList.add(item4);
 
 
             DrawerItem item2 = new DrawerItem();
-            item2.setIcon(R.drawable.survey_report);
+            item2.setIcon(R.drawable.ic_survey_report);
             item2.setTitle("Survey Report");
             mDrawerItemList.add(item2);
 
 
             DrawerItem item3 = new DrawerItem();
-            item3.setIcon(R.drawable.survey_report);
+            item3.setIcon(R.drawable.ic_synchronization_arrows);
             item3.setTitle("Sync Responses");
             mDrawerItemList.add(item3);
 
@@ -182,12 +182,12 @@ public class MainActivity extends BaseActivity {
         } else if (type.equalsIgnoreCase("admin")) {
 
             DrawerItem item10 = new DrawerItem();
-            item10.setIcon(R.drawable.survey_report);
+            item10.setIcon(R.drawable.ic_user);
             item10.setTitle(getResources().getString(R.string.admin));
             mDrawerItemList.add(item10);
 
             DrawerItem item3 = new DrawerItem();
-            item3.setIcon(R.drawable.survey_report);
+            item3.setIcon(R.drawable.ic_synchronization_arrows);
             item3.setTitle("Sync Responses");
             mDrawerItemList.add(item3);
 
@@ -198,17 +198,17 @@ public class MainActivity extends BaseActivity {
 
         } else {
             DrawerItem item11 = new DrawerItem();
-            item11.setIcon(R.drawable.survey_report);
+            item11.setIcon(R.drawable.ic_wokflow);
             item11.setTitle(getResources().getString(R.string.work_flows));
             mDrawerItemList.add(item11);
 
             DrawerItem item12 = new DrawerItem();
-            item12.setIcon(R.drawable.survey_report);
+            item12.setIcon(R.drawable.ic_team_survey_report);
             item12.setTitle(getResources().getString(R.string.teamSurveyReport));
             mDrawerItemList.add(item12);
 
             DrawerItem item3 = new DrawerItem();
-            item3.setIcon(R.drawable.survey_report);
+            item3.setIcon(R.drawable.ic_synchronization_arrows);
             item3.setTitle("Sync Responses");
             mDrawerItemList.add(item3);
 
@@ -255,11 +255,12 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+        if (getFragmentManager().getBackStackEntryCount() == 0) {
+            this.finish();
         } else {
-            super.onBackPressed();
+            getFragmentManager().popBackStack();
         }
+
     }
 
     @SuppressLint("RestrictedApi")

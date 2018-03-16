@@ -72,7 +72,7 @@ public class TeamSurveyDialogFragment extends DialogFragment {
     private String fromDateString, toDateString, statusString;
     DatePickerDialog dp;
     private ArrayList<LoginResponse.ResponseBean.LoginDetailsBean> loginDetailsBeanArrayList;
-    private String id;
+    private String teamId="";
 
     @Nullable
     @Override
@@ -113,10 +113,14 @@ public class TeamSurveyDialogFragment extends DialogFragment {
         input_period_to.setTypeface(FontClass.openSansLight(getActivity()));
         input_period_status.setTypeface(FontClass.openSansLight(getActivity()));
 
-        textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-        textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-        textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+        textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
+        textViewTodayFilter.setTextColor(getResources().getColor(R.color.white));
+        textViewWeekFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+        textViewMonthFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+        textViewOthersFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+        textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+        textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+        textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
         input_period_from.setText(Utility.getCurrentDate());
         input_period_to.setText(Utility.getCurrentDate());
 
@@ -134,11 +138,6 @@ public class TeamSurveyDialogFragment extends DialogFragment {
                     @Override
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
-                       /* String erg = "";
-                        erg = String.valueOf(dayOfMonth);
-                        erg += "-" + String.valueOf(monthOfYear + 1);
-                        erg += "-" + year;
-                        input_period_from.setText(erg);*/
                         Calendar newDate = Calendar.getInstance();
                         newDate.set(year, monthOfYear, dayOfMonth);
 
@@ -181,10 +180,14 @@ public class TeamSurveyDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 input_period_from.setText("");
                 input_period_to.setText("");
-                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
+                textViewTodayFilter.setTextColor(getResources().getColor(R.color.white));
+                textViewWeekFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewMonthFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewOthersFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
 
                 input_period_from.setText(Utility.getCurrentDate());
                 input_period_to.setText(Utility.getCurrentDate());
@@ -198,10 +201,14 @@ public class TeamSurveyDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 input_period_from.setText("");
                 input_period_to.setText("");
-                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
+                textViewTodayFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewWeekFilter.setTextColor(getResources().getColor(R.color.white));
+                textViewMonthFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewOthersFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
                 Date date1 = new Date();
                 Date newDate = new Date(date1.getTime() - 604800000L); // 7 * 24 * 60 * 60 * 1000
                 Calendar calendar = Calendar.getInstance();
@@ -219,10 +226,14 @@ public class TeamSurveyDialogFragment extends DialogFragment {
         textViewMonthFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
+                textViewTodayFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewMonthFilter.setTextColor(getResources().getColor(R.color.white));
+                textViewWeekFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewOthersFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
                 input_period_from.setText("");
                 input_period_to.setText("");
                 String date;
@@ -243,10 +254,14 @@ public class TeamSurveyDialogFragment extends DialogFragment {
             public void onClick(View v) {
                 input_period_from.setText("");
                 input_period_to.setText("");
-                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
-                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.transparent_color));
+                textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
+                textViewTodayFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewWeekFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewMonthFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
+                textViewOthersFilter.setTextColor(getResources().getColor(R.color.white));
+                textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
+                textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
                 input_period_from.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -339,14 +354,24 @@ public class TeamSurveyDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 fromDateString = input_period_from.getText().toString();
                 toDateString = input_period_to.getText().toString();
-                // id = loginDetailsBeanArrayList.get(0).getMember().get_id();
-                StringBuilder stringBuilder = new StringBuilder();
-                for (String number : getSaveList()) {
-                    if (stringBuilder.length() > 0)
-                        stringBuilder.append(", ");
-                    stringBuilder.append(number);
-                    id = getSaveList().toString();
+
+                for (int i = 0; i < getSaveList().size(); i++) {
+                    if (getSaveList().get(i)!=null) {
+                        teamId += "\"" + getSaveList().get(i) + "\"";
+
+                        if (i < (getSaveList().size() - 1)) {
+                            teamId += ", ";
+                        }
+                    }
                 }
+//                // id = loginDetailsBeanArrayList.get(0).getMember().get_id();
+//                StringBuilder stringBuilder = new StringBuilder();
+//                for (String number : getSaveList()) {
+//                    if (stringBuilder.length() > 0)
+//                        stringBuilder.append(", ");
+//                    stringBuilder.append(number);
+//                    id = getSaveList().toString();
+               // }
 
                 if (Utility.validateString(fromDateString) && !fromDateString.equals(AppConstants.DATE_FORMAT)) {
                     if (Utility.validateString(toDateString) && !toDateString.equals(AppConstants.DATE_FORMAT)) {
@@ -367,7 +392,7 @@ public class TeamSurveyDialogFragment extends DialogFragment {
                             Utility.showToast(getString(R.string.please_select_valid_to_date));
                         } else {
                             TeamSurveyData setDataListListener = (TeamSurveyData) getActivity();
-                            setDataListListener.submitTeamSurveyData(id, fromDateString, toDateString);
+                            setDataListListener.submitTeamSurveyData( "["+teamId.replace("\\\\", "")+"]", fromDateString, toDateString);
                             dismiss();
 
                             //  prepareList();
@@ -430,43 +455,7 @@ public class TeamSurveyDialogFragment extends DialogFragment {
     }
 
 
-    public void storeData(String data) {
-        ArrayList<String> arrayList;
-        Gson gson = new Gson();
-        String json = Prefs.getStringPrefs(AppConstants.FilterData);
-        if (!json.equals("")) {
-            Type type = new TypeToken<ArrayList<String>>() {
-            }.getType();
-            arrayList = gson.fromJson(json, type);
-            arrayList.add(data);
-            String json1 = gson.toJson(arrayList);
-            Prefs.putStringPrefs(AppConstants.FilterData, json1);
 
-        } else {
-            arrayList = new ArrayList<>();
-            arrayList.add(data);
-            String json1 = gson.toJson(arrayList);
-            Prefs.putStringPrefs(AppConstants.FilterData, json1);
-        }
-
-
-    }
-
-    public void removeData(String data) {
-        ArrayList<String> arrayList;
-        Gson gson = new Gson();
-        String json = Prefs.getStringPrefs(AppConstants.FilterData);
-        if (!json.equals("")) {
-            Type type = new TypeToken<ArrayList<String>>() {
-            }.getType();
-            arrayList = gson.fromJson(json, type);
-            arrayList.remove(data);
-            String json1 = gson.toJson(arrayList);
-            Prefs.putStringPrefs(AppConstants.FilterData, json1);
-        }
-
-
-    }
 
     public ArrayList<String> getSaveList() {
         ArrayList<String> arrayList;

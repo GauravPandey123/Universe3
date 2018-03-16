@@ -63,9 +63,11 @@ public class SplashActivity extends BaseActivity {
                 if (Prefs.getBooleanPrefs(AppConstants.Login_Status)) {
                     startActivity(new Intent(mContext, MainActivity.class));
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                    finish();
                 } else {
                     startActivity(new Intent(mContext, LoginActivity.class));
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                    finish();
                 }
             }
         };
