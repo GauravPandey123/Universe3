@@ -25,6 +25,7 @@ import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
+import com.universe.android.utility.SpacesItemDecoration;
 import com.universe.android.utility.Utility;
 
 import java.util.ArrayList;
@@ -243,7 +244,7 @@ public class WorkFlowsDetailActivity extends BaseActivity {
         surveyDetailAdapter = new WorkFLowDetailAdapter(mContext, stringArrayList);
         linearLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerViewWorkFLowsDetail.setLayoutManager(linearLayoutManager);
-        recyclerViewWorkFLowsDetail.setItemAnimator(new DefaultItemAnimator());
+        recyclerViewWorkFLowsDetail.addItemDecoration(new SpacesItemDecoration(10));
         recyclerViewWorkFLowsDetail.setAdapter(surveyDetailAdapter);
 
 

@@ -62,7 +62,7 @@ public class SearchCustomersActivity extends BaseActivity {
 
     private ArrayList<CustomerModal> stringArrayList;
     private ArrayList<CustomerModal> arrSearlist;
-    private String surveyId, strTitle,strCustomer="";
+    private String surveyId, strTitle,strCustomer="",strSearch="";
     private FloatingActionButton actionButton;
 
 
@@ -133,6 +133,7 @@ public class SearchCustomersActivity extends BaseActivity {
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     filter(newText, responseList);
+                    strSearch=newText;
                     return false;
                 }
             });
@@ -191,7 +192,12 @@ public class SearchCustomersActivity extends BaseActivity {
 
                 intent.putExtra(AppConstants.STR_TITLE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
-                intent.putExtra(AppConstants.CUSTOMERID,stringArrayList.get(position).getId());
+                if (Utility.validateString(strSearch)) {
+                    if (arrSearlist.size()>0)
+                    intent.putExtra(AppConstants.CUSTOMERID, arrSearlist.get(position).getId());
+                }else {
+                    intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getId());
+                }
                 intent.putExtra(AppConstants.CUSTOMER,strCustomer);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
@@ -209,7 +215,12 @@ public class SearchCustomersActivity extends BaseActivity {
                 //  }
                 intent.putExtra(AppConstants.STR_TITLE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
-                intent.putExtra(AppConstants.CUSTOMERID,stringArrayList.get(position).getId());
+                if (Utility.validateString(strSearch)) {
+                    if (arrSearlist.size()>0)
+                        intent.putExtra(AppConstants.CUSTOMERID, arrSearlist.get(position).getId());
+                }else {
+                    intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getId());
+                }
                 intent.putExtra(AppConstants.CUSTOMER,strCustomer);
 
                 startActivity(intent);
