@@ -15,6 +15,7 @@ import android.view.View;
 
 import com.universe.android.R;
 import com.universe.android.adapter.DrawerAdapter;
+import com.universe.android.enums.DesignationEnum;
 import com.universe.android.fragment.AdminFragment;
 import com.universe.android.fragment.ProfileFragment;
 import com.universe.android.fragment.QuestionaireTeamSuverFragment;
@@ -75,7 +76,7 @@ public class MainActivity extends BaseActivity {
                     replaceFragment(new ProfileFragment(), mContainerId);
                 }
 
-                if (type.equalsIgnoreCase(AppConstants.requester)) {
+                if (type.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                     if (position == 1) {
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(R.string.questionairemenu);
@@ -98,7 +99,7 @@ public class MainActivity extends BaseActivity {
                         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(i);
                     }
-                } else if (type.equalsIgnoreCase("admin")) {
+                } else if (type.equalsIgnoreCase(DesignationEnum.admin.toString())) {
                     if (position == 1) {
                         mDrawerLayout.closeDrawers();
                         mToolbar.setTitle(R.string.admin);
@@ -157,7 +158,7 @@ public class MainActivity extends BaseActivity {
         mDrawerItemList = new ArrayList<DrawerItem>();
         //Dummy Data
         String type = Prefs.getStringPrefs(AppConstants.TYPE);
-        if (type.equalsIgnoreCase(AppConstants.requester)) {
+        if (type.equalsIgnoreCase(DesignationEnum.requester.toString())) {
             DrawerItem item4 = new DrawerItem();
             item4.setIcon(R.drawable.survey_report);
             item4.setTitle("Questionaire");
@@ -179,7 +180,7 @@ public class MainActivity extends BaseActivity {
             item9.setIcon(R.drawable.ic_logout);
             item9.setTitle("Logout");
             mDrawerItemList.add(item9);
-        } else if (type.equalsIgnoreCase("admin")) {
+        } else if (type.equalsIgnoreCase(DesignationEnum.requester.toString())) {
 
             DrawerItem item10 = new DrawerItem();
             item10.setIcon(R.drawable.survey_report);

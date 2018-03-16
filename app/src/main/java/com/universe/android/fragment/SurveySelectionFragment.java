@@ -17,6 +17,7 @@ import com.universe.android.R;
 
 
 import com.universe.android.adapter.SurveyListAdapter;
+import com.universe.android.enums.DesignationEnum;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.SurveysModal;
 import com.universe.android.realmbean.RealmAnswers;
@@ -93,30 +94,66 @@ public class SurveySelectionFragment extends BaseFragment {
                     int total=0;
 
                    String type= Prefs.getStringPrefs(AppConstants.TYPE);
-                   if (type.equalsIgnoreCase("cd")){
+                   if (type.equalsIgnoreCase(DesignationEnum.requester.toString())){
                        total=realmSurveys.get(i).getTarget();
                        RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
                        for (int k=0;k<realmAnswers.size();k++){
-                           if (realmAnswers.get(k).getCd_Status()!=null) {
-                               if (realmAnswers.get(k).getCd_Status().equalsIgnoreCase("1") ||realmAnswers.get(k).getCd_Status().equalsIgnoreCase("2")) {
+                           if (realmAnswers.get(k).getRequester_status()!=null) {
+                               if (realmAnswers.get(k).getRequester_status().equalsIgnoreCase("1") ||realmAnswers.get(k).getRequester_status().equalsIgnoreCase("2")) {
                                    total = total - 1;
                                }
                            }
                        }
-                   }else if (type.equalsIgnoreCase("rm")){
+                   }else if (type.equalsIgnoreCase(DesignationEnum.approval1.toString())){
                        RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
                        for (int k=0;k<realmAnswers.size();k++){
-                           if (realmAnswers.get(k).getRm_STatus()!=null) {
-                               if (realmAnswers.get(k).getRm_STatus().equalsIgnoreCase("0") && realmAnswers.get(k).getCd_Status().equalsIgnoreCase("1") && realmAnswers.get(k).getZm_Status().equalsIgnoreCase("4")) {
+                           if (realmAnswers.get(k).getApproval1_status()!=null) {
+                               if (realmAnswers.get(k).getApproval1_status().equalsIgnoreCase("0")){
                                    total = total+1;
                                }
                            }
                        }
-                   }else if (type.equalsIgnoreCase("zm")){
+                   }else if (type.equalsIgnoreCase(DesignationEnum.approval2.toString())){
                        RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
                        for (int k=0;k<realmAnswers.size();k++){
-                           if (realmAnswers.get(k).getZm_Status()!=null) {
-                               if (realmAnswers.get(k).getZm_Status().equalsIgnoreCase("0") && realmAnswers.get(k).getCd_Status().equalsIgnoreCase("1") && realmAnswers.get(k).getRm_STatus().equalsIgnoreCase("2")) {
+                           if (realmAnswers.get(k).getApproval2_status()!=null) {
+                               if (realmAnswers.get(k).getApproval2_status().equalsIgnoreCase("0")){
+                                   total = total+1;
+                               }
+                           }
+                       }
+                   }else if (type.equalsIgnoreCase(DesignationEnum.approval3.toString())){
+                       RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
+                       for (int k=0;k<realmAnswers.size();k++){
+                           if (realmAnswers.get(k).getApproval3_status()!=null) {
+                               if (realmAnswers.get(k).getApproval3_status().equalsIgnoreCase("0")){
+                                   total = total+1;
+                               }
+                           }
+                       }
+                   }else if (type.equalsIgnoreCase(DesignationEnum.approval4.toString())){
+                       RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
+                       for (int k=0;k<realmAnswers.size();k++){
+                           if (realmAnswers.get(k).getApproval4_status()!=null) {
+                               if (realmAnswers.get(k).getApproval4_status().equalsIgnoreCase("0")){
+                                   total = total+1;
+                               }
+                           }
+                       }
+                   }else if (type.equalsIgnoreCase(DesignationEnum.approval5.toString())){
+                       RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
+                       for (int k=0;k<realmAnswers.size();k++){
+                           if (realmAnswers.get(k).getApproval5_status()!=null) {
+                               if (realmAnswers.get(k).getApproval5_status().equalsIgnoreCase("0")){
+                                   total = total+1;
+                               }
+                           }
+                       }
+                   }else if (type.equalsIgnoreCase(DesignationEnum.approval6.toString())){
+                       RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
+                       for (int k=0;k<realmAnswers.size();k++){
+                           if (realmAnswers.get(k).getApproval6_status()!=null) {
+                               if (realmAnswers.get(k).getApproval6_status().equalsIgnoreCase("0")){
                                    total = total+1;
                                }
                            }

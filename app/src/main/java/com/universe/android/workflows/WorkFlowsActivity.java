@@ -21,12 +21,15 @@ import com.universe.android.activity.CategoryExpandableListActivity;
 import com.universe.android.adapter.WorkFLowAdapter;
 import com.universe.android.adapter.WorkFLowDetailAdapter;
 import com.universe.android.adapter.WorkFLowUserAdapter;
+import com.universe.android.enums.DesignationEnum;
 import com.universe.android.helper.RecyclerTouchListener;
+import com.universe.android.listneners.PageChangeInterface;
 import com.universe.android.model.AnswersModal;
 import com.universe.android.model.UserModel;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.realmbean.RealmSurveys;
+import com.universe.android.realmbean.RealmWorkFlow;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.SpacesItemDecoration;
@@ -49,7 +52,7 @@ import io.realm.RealmResults;
  * Created by gaurav.pandey on 24-01-2018.
  */
 
-public class WorkFlowsActivity extends BaseActivity {
+public class WorkFlowsActivity extends BaseActivity implements PageChangeInterface{
     //decalre the Views here
     private RecyclerView recyclerViewWorkFLowsDetail,recylerViewRoles;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -77,7 +80,7 @@ public class WorkFlowsActivity extends BaseActivity {
         initialization();
         setUpElements();
         setUpListeners();
-        prepareList("");
+        prepareList("","","");
         prepareListUsers();
     }
 
@@ -308,9 +311,11 @@ public class WorkFlowsActivity extends BaseActivity {
 
     }
 
-    private void prepareList(String type) {
-        if (stringArrayList == null) stringArrayList = new ArrayList<>();
-        stringArrayList.clear();
+    private void prepareList(String type,String id,String name) {
+        if (!Utility.validateString(id)) {
+            if (stringArrayList == null) stringArrayList = new ArrayList<>();
+            stringArrayList.clear();
+        }
         Realm realm = Realm.getDefaultInstance();
 
         try {
@@ -332,6 +337,96 @@ public class WorkFlowsActivity extends BaseActivity {
                     }else{
                         modal.setTitle(jsonObject.optString(AppConstants.USERNAME));
                     }
+
+                    if (Utility.validateString(id)) {
+                        if (id.equalsIgnoreCase(jsonObject.optString(AppConstants.UserId))) {
+                            textViewStatus.setText(stringArrayList.get(i).getStatus() + " by " + jsonObject.optString(AppConstants.USERNAME) + " on " + stringArrayList.get(i).getDate());
+                                break;
+                        } else {
+
+                            if (type.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
+                                if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+
+                                }else {
+                                    textViewStatus.setText("Pending" + " by " + name);
+
+                                }
+                            }
+                            if (type.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+                                if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+
+                                } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else {
+                                    textViewStatus.setText("Pending" + " by " + name);
+                                }
+                            }
+
+                            if (type.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                                if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+
+                                } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else {
+                                    textViewStatus.setText("Pending" + " by " + name);                                }
+                            }
+
+                            if (type.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                                if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+
+                                } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else if (realmAnswers.getApproval3_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else {
+                                    textViewStatus.setText("Pending" + " by " + name);                                }
+                            }
+
+                            if (type.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+                                if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+
+                                } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else if (realmAnswers.getApproval3_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else if (realmAnswers.getApproval4_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else {
+                                    textViewStatus.setText("Pending" + " by " + name);                                }
+                            }
+
+                            if (type.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                                if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+
+                                } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else if (realmAnswers.getApproval3_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else if (realmAnswers.getApproval4_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else if (realmAnswers.getApproval5_status().equalsIgnoreCase("0")) {
+                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                } else {
+                                    textViewStatus.setText("Pending" + " by " + name);                                }
+                            }
+
+
+                        }
+                    }
                     modal.setStatus(jsonObject.optString(AppConstants.STATUS));
                     SimpleDateFormat format1 = new SimpleDateFormat(AppConstants.utc_format1);
                     SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
@@ -339,12 +434,13 @@ public class WorkFlowsActivity extends BaseActivity {
                     System.out.println(format2.format(date));
                     modal.setDate(AppConstants.format10.format(date));
                     //    modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
+                    if (!Utility.validateString(id))
                     stringArrayList.add(modal);
                 }
+                if (!Utility.validateString(id))
                 Collections.reverse(stringArrayList);
 
-                if (stringArrayList.size()>0)
-                    textViewStatus.setText(stringArrayList.get(0).getStatus() +" on "+stringArrayList.get(0).getDate());
+
             }else {
                 Utility.showToast(getString(R.string.no_data));
             }
@@ -356,6 +452,7 @@ public class WorkFlowsActivity extends BaseActivity {
         }
 
         if (surveyDetailAdapter != null) {
+            if (!Utility.validateString(id))
             surveyDetailAdapter.notifyDataSetChanged();
         }
     }
@@ -368,7 +465,7 @@ public class WorkFlowsActivity extends BaseActivity {
         try {
 
 
-            RealmSurveys realmSurveys = realm.where(RealmSurveys.class).equalTo(AppConstants.ID,surveyId).findFirst();
+            RealmResults<RealmWorkFlow> realmSurveys = realm.where(RealmWorkFlow.class).equalTo(AppConstants.SURVEYID,surveyId).findAll();
 
 
 
@@ -389,28 +486,19 @@ public class WorkFlowsActivity extends BaseActivity {
                     stringArrayListRoles.add(modal);
                 }*/
 
+               for (int i=0;i<realmSurveys.size();i++){
+                   JSONObject jsonObject=new JSONObject(realmSurveys.get(i).getAssignTo());
+                   UserModel modal = new UserModel();
+                   modal.setUserName(jsonObject.optString(AppConstants.NAME));
 
-                    UserModel modal = new UserModel();
-                    modal.setUserName(Prefs.getStringPrefs(AppConstants.NAME));
-                    modal.setUserStatus("1");
+                   modal.setId(jsonObject.optString(AppConstants.ID));
+                   modal.setUserStatus(realmSurveys.get(i).getLevel());
+                   stringArrayListRoles.add(modal);
+               }
 
-                    modal.setUserDateStatus("Submited on 12-03-2018 by "+Prefs.getStringPrefs(AppConstants.NAME));
-                    stringArrayListRoles.add(modal);
-                 modal = new UserModel();
-                modal.setUserName("Bhajan");
-                modal.setUserStatus("1");
-                modal.setUserDateStatus("Pending by Bhajan");
 
-                modal = new UserModel();
-                modal.setUserName("Abhishek");
-                modal.setUserStatus("1");
-                modal.setUserDateStatus("Pending by Abhishek");
-                stringArrayListRoles.add(modal);
-                modal = new UserModel();
-                modal.setUserName("Gaurav");
-                modal.setUserStatus("1");
-                modal.setUserDateStatus("Pending by Gaurav");
-                stringArrayListRoles.add(modal);
+
+
 
             }else {
                 Utility.showToast(getString(R.string.no_data));
@@ -453,7 +541,7 @@ public class WorkFlowsActivity extends BaseActivity {
 
 
 
-        workFLowUserAdapter = new WorkFLowUserAdapter(mContext, stringArrayListRoles);
+        workFLowUserAdapter = new WorkFLowUserAdapter(mContext, stringArrayListRoles,this);
         recylerViewRoles.addItemDecoration(new SpacesItemDecoration(10));
         recylerViewRoles.setAdapter(workFLowUserAdapter);
         recylerViewRoles.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -494,7 +582,7 @@ public class WorkFlowsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Utility.animateView(v);
-                prepareList(getString(R.string.pending));
+                prepareList(getString(R.string.pending),"","");
             }
         });
 
@@ -502,14 +590,14 @@ public class WorkFlowsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Utility.animateView(v);
-                prepareList(getString(R.string.inprogress));
+                prepareList(getString(R.string.inprogress),"","");
             }
         });
         ll_completed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Utility.animateView(v);
-                prepareList(getString(R.string.completed));
+                prepareList(getString(R.string.completed),"","");
             }
         });
 
@@ -539,4 +627,10 @@ public class WorkFlowsActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void onDataPass(String data, int pos, String categoryId) {
+
+
+        prepareList(stringArrayListRoles.get(pos).getUserStatus(),stringArrayListRoles.get(pos).getId(),stringArrayListRoles.get(pos).getUserName());
+    }
 }

@@ -19,6 +19,7 @@ import com.universe.android.R;
 import com.universe.android.activity.BaseActivity;
 import com.universe.android.activity.CategoryExpandableListActivity;
 import com.universe.android.adapter.WorkFLowDetailAdapter;
+import com.universe.android.enums.DesignationEnum;
 import com.universe.android.helper.RecyclerTouchListener;
 import com.universe.android.model.AnswersModal;
 import com.universe.android.realmbean.RealmAnswers;
@@ -81,21 +82,50 @@ public class WorkFlowsDetailActivity extends BaseActivity {
             String designation= Prefs.getStringPrefs(AppConstants.TYPE);
 
 
-            if (designation.equalsIgnoreCase("rm")){
-                realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"0").equalTo(AppConstants.ZM_STATUS,"4").count();
-                realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").count();
-                realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").count();
-                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"4").count();
+            if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())){
+                realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.approval1_status,"0").count();
+                realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.approval1_status,"2").equalTo(AppConstants.requester_status,"1").count();
+                realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.approval1_status,"2").equalTo(AppConstants.requester_status,"2").count();
+                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.approval1_status,"3").count();
+
+            }
+            if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())){
+                realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.approval2_status,"0").count();
+                realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.approval2_status,"2").equalTo(AppConstants.requester_status,"1").count();
+                realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.approval2_status,"2").equalTo(AppConstants.requester_status,"2").count();
+                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.approval2_status,"3").count();
+
+            }
+            if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())){
+                realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.approval3_status,"0").count();
+                realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.approval3_status,"2").equalTo(AppConstants.requester_status,"1").count();
+                realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.approval3_status,"2").equalTo(AppConstants.requester_status,"2").count();
+                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.approval3_status,"3").count();
+
+            }
+            if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())){
+                realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.approval4_status,"0").count();
+                realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.approval4_status,"2").equalTo(AppConstants.requester_status,"1").count();
+                realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.approval4_status,"2").equalTo(AppConstants.requester_status,"2").count();
+                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.approval4_status,"3").count();
+
+            }
+            if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())){
+                realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.approval5_status,"0").count();
+                realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.approval5_status,"2").equalTo(AppConstants.requester_status,"1").count();
+                realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.approval5_status,"2").equalTo(AppConstants.requester_status,"2").count();
+                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.approval5_status,"3").count();
+
+            }
+            if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())){
+                realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.approval6_status,"0").count();
+                realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.approval6_status,"2").equalTo(AppConstants.requester_status,"1").count();
+                realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.approval6_status,"2").equalTo(AppConstants.requester_status,"2").count();
+                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.approval6_status,"3").count();
 
             }
 
-            if (designation.equalsIgnoreCase("zm")){
-                realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").count();
-                realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"4").equalTo(AppConstants.RM_STATUS,"4").equalTo(AppConstants.ZM_STATUS,"4").count();
-                realmCompleted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").count();
-                realmRejected = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"3").count();
 
-            }
 
 
 
@@ -121,33 +151,69 @@ public class WorkFlowsDetailActivity extends BaseActivity {
         try {
             RealmResults<RealmAnswers> realmAnswers = null;
             String designation= Prefs.getStringPrefs(AppConstants.TYPE);
-            if (designation.equalsIgnoreCase("cd")){
+            if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())){
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval1_status,"0").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.inprogress)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval1_status,"2").equalTo(AppConstants.requester_status,"1").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.completed)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval1_status,"2").equalTo(AppConstants.requester_status,"2").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.rejected)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval1_status,"3").findAll();
 
             }
-            if (designation.equalsIgnoreCase("rm")){
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"0").equalTo(AppConstants.ZM_STATUS,"4").findAll();
+            if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())){
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval2_status,"0").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.inprogress)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval2_status,"2").equalTo(AppConstants.requester_status,"1").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.completed)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval2_status,"2").equalTo(AppConstants.requester_status,"2").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.rejected)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval2_status,"3").findAll();
 
-                if (type.equalsIgnoreCase(getString(R.string.inprogress))){
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").findAll();
-
-                }else if (type.equalsIgnoreCase(getString(R.string.completed))){
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").findAll();
-                }else if (type.equalsIgnoreCase(getString(R.string.rejected))){
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"4").findAll();
-                }
             }
-            if (designation.equalsIgnoreCase("zm")){
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"1").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"0").findAll();
+            if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())){
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval3_status,"0").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.inprogress)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval3_status,"2").equalTo(AppConstants.requester_status,"1").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.completed)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval3_status,"2").equalTo(AppConstants.requester_status,"2").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.rejected)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval3_status,"3").findAll();
 
-                if (type.equalsIgnoreCase(getString(R.string.inprogress))){
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"4").equalTo(AppConstants.RM_STATUS,"4").equalTo(AppConstants.ZM_STATUS,"4").findAll();
-
-                }else if (type.equalsIgnoreCase(getString(R.string.completed))){
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"2").equalTo(AppConstants.RM_STATUS,"2").equalTo(AppConstants.ZM_STATUS,"2").findAll();
-                }else if (type.equalsIgnoreCase(getString(R.string.rejected))){
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS,"3").equalTo(AppConstants.RM_STATUS,"3").equalTo(AppConstants.ZM_STATUS,"3").findAll();
-                }
             }
+            if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())){
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval4_status,"0").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.inprogress)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval4_status,"2").equalTo(AppConstants.requester_status,"1").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.completed)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval4_status,"2").equalTo(AppConstants.requester_status,"2").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.rejected)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval4_status,"3").findAll();
+
+            }
+            if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())){
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval5_status,"0").findAll();
+
+                if (type.equalsIgnoreCase(getString(R.string.inprogress)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval5_status,"2").equalTo(AppConstants.requester_status,"1").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.completed)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval5_status,"2").equalTo(AppConstants.requester_status,"2").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.rejected)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval5_status,"3").findAll();
+
+            }
+            if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())){
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval6_status,"0").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.inprogress)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval6_status,"2").equalTo(AppConstants.requester_status,"1").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.completed)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval6_status,"2").equalTo(AppConstants.requester_status,"2").findAll();
+                if (type.equalsIgnoreCase(getString(R.string.rejected)))
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.approval6_status,"3").findAll();
+
+            }
+
+
 
 
             if (realmAnswers != null && realmAnswers.size() > 0) {

@@ -70,7 +70,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_margin="@dimen/margin_min"
                     android:scaleType="centerInside"
-                    android:src="@drawable/picture1" />
+                    android:src="@drawable/ic_survey" />
 
             </RelativeLayout>
 

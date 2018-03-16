@@ -39,6 +39,21 @@ public class RealmAnswers extends RealmObject {
     private String customerId;
     private String workflow;
     private String customer;
+    private String requester;
+    private String approval1;
+    private String approval2;
+    private String approval3;
+    private String approval4;
+    private String approval5;
+    private String approval6;
+    private String requester_status;
+    private String approval1_status;
+    private String approval2_status;
+    private String approval3_status;
+    private String approval4_status;
+    private String approval5_status;
+    private String approval6_status;
+
 
 
     public String get_id() {
@@ -295,5 +310,117 @@ public class RealmAnswers extends RealmObject {
 
     public void setCustomer(String customer) {
         this.customer = customer;
+    }
+
+    public String getRequester() {
+        return requester;
+    }
+
+    public void setRequester(String requester) {
+        this.requester = requester;
+    }
+
+    public String getApproval1() {
+        return approval1;
+    }
+
+    public void setApproval1(String approval1) {
+        this.approval1 = approval1;
+    }
+
+    public String getApproval2() {
+        return approval2;
+    }
+
+    public void setApproval2(String approval2) {
+        this.approval2 = approval2;
+    }
+
+    public String getApproval3() {
+        return approval3;
+    }
+
+    public void setApproval3(String approval3) {
+        this.approval3 = approval3;
+    }
+
+    public String getApproval4() {
+        return approval4;
+    }
+
+    public void setApproval4(String approval4) {
+        this.approval4 = approval4;
+    }
+
+    public String getApproval5() {
+        return approval5;
+    }
+
+    public void setApproval5(String approval5) {
+        this.approval5 = approval5;
+    }
+
+    public String getApproval6() {
+        return approval6;
+    }
+
+    public void setApproval6(String approval6) {
+        this.approval6 = approval6;
+    }
+
+    public String getRequester_status() {
+        return requester_status;
+    }
+
+    public void setRequester_status(String requester_status) {
+        this.requester_status = requester_status;
+    }
+
+    public String getApproval1_status() {
+        return approval1_status;
+    }
+
+    public void setApproval1_status(String approval1_status) {
+        this.approval1_status = approval1_status;
+    }
+
+    public String getApproval2_status() {
+        return approval2_status;
+    }
+
+    public void setApproval2_status(String approval2_status) {
+        this.approval2_status = approval2_status;
+    }
+
+    public String getApproval3_status() {
+        return approval3_status;
+    }
+
+    public void setApproval3_status(String approval3_status) {
+        this.approval3_status = approval3_status;
+    }
+
+    public String getApproval4_status() {
+        return approval4_status;
+    }
+
+    public void setApproval4_status(String approval4_status) {
+        this.approval4_status = approval4_status;
+    }
+
+    public String getApproval5_status() {
+        return approval5_status;
+    }
+
+    public void setApproval5_status(String approval5_status) {
+        this.approval5_status = approval5_status;
+    }
+
+    public String getApproval6_status() {
+        return approval6_status;
+    }
+
+    public void setApproval6_status(String approval6_status) {
+        this.approval6_status = approval6_status;
     }
 }

@@ -199,7 +199,12 @@ public class LoginActivity extends BaseActivity {
 
                         }
 
-                        getSurveyResponse();
+                        if (Prefs.getStringPrefs(AppConstants.TYPE).equalsIgnoreCase(AppConstants.ADMIN)){
+                            getAdminSurveyResponse();
+                        }else{
+                            getSurveyResponse();
+                        }
+
 
                     } else {
                         dismissProgress();
@@ -252,12 +257,24 @@ public class LoginActivity extends BaseActivity {
         });
 
     }
-
-
-    private void getSurveyResponse() {
+    private void getAdminSurveyResponse() {
+        JSONObject jsonSubmitReq=new JSONObject();
+        try {
+            jsonSubmitReq.put(AppConstants.UserId,Prefs.getStringPrefs(AppConstants.UserId));
+            if (Prefs.getStringPrefs(AppConstants.TYPE).equalsIgnoreCase(AppConstants.ADMIN))
+                jsonSubmitReq.put(AppConstants.TYPE,Prefs.getStringPrefs(AppConstants.TYPE));
+            else {
+                jsonSubmitReq.put(AppConstants.TYPE,"");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         OkHttpClient okHttpClient = APIClient.getHttpClient();
+
+
+        RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
         String url = UniverseAPI.WEB_SERVICE_LIST_ADMIN_SURVEY_METHOD;
-        Request request = APIClient.getRequest(mContext, url);
+        Request request = APIClient.getPostRequest(this, url, requestBody);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
@@ -279,6 +296,68 @@ public class LoginActivity extends BaseActivity {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
                             new RealmController().saveSurveysResponse(array.toString());
+                        }
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getClientResponse();
+                            }
+                        });
+
+
+                    } else {
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                }
+
+            }
+        });
+
+    }
+
+    private void getSurveyResponse() {
+        JSONObject jsonSubmitReq=new JSONObject();
+        try {
+            jsonSubmitReq.put(AppConstants.UserId,Prefs.getStringPrefs(AppConstants.UserId));
+            if (Prefs.getStringPrefs(AppConstants.TYPE).equalsIgnoreCase(AppConstants.ADMIN))
+            jsonSubmitReq.put(AppConstants.TYPE,Prefs.getStringPrefs(AppConstants.TYPE));
+            else {
+                jsonSubmitReq.put(AppConstants.TYPE,"");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+
+
+        RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
+        String url = UniverseAPI.WEB_SERVICE_LIST_ADMIN_SURVEY_METHOD;
+        Request request = APIClient.getPostRequest(this, url, requestBody);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (responseData != null) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
+                            new RealmController().saveSurveysListResponse(array.toString());
                         }
 
                         runOnUiThread(new Runnable() {

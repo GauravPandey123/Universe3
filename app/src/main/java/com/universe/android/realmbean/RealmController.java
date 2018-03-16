@@ -341,6 +341,23 @@ public class RealmController {
         }
     }
 
+    public void saveSurveysListResponse(String responseData) {
+        if (responseData != null) {
+            Realm realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            try {
+                realm.createOrUpdateAllFromJson(RealmSurveysList.class, new JSONArray(responseData));
+            } catch (Exception e) {
+                realm.cancelTransaction();
+                realm.close();
+                e.printStackTrace();
+            } finally {
+                realm.commitTransaction();
+                realm.close();
+            }
+        }
+    }
+
     public void saveClientsResponse(String responseData) {
         if (responseData != null) {
             Realm realm = Realm.getDefaultInstance();

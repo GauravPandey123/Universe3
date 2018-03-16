@@ -138,6 +138,7 @@ public class AppConstants {
     public static final String ISVIEWBYZM ="isViewZM" ;
     public static final String MULTIEDITTEXT = "multiedittext";
     public static final String ROLE = "role";
+    public static final String ADMIN = "admin";
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";
@@ -206,5 +207,14 @@ public class AppConstants {
     public static String accessToken="accessToken";
     public static String requester="requester";
     public static String lob_name="lob_name";
+
+    public static String requester_status="requester_status";
+    public static String approval1_status="approval1_status";
+    public static String approval2_status="approval2_status";
+    public static String approval3_status="approval3_status";
+    public static String approval4_status="approval4_status";
+    public static String approval5_status="approval5_status";
+    public static String approval6_status="approval6_status";
+
 }
 

@@ -16,6 +16,7 @@ import com.universe.android.activity.AddNewRetailors;
 import com.universe.android.activity.CategoryExpandableListActivity;
 import com.universe.android.activity.SearchCustomersActivity;
 import com.universe.android.activity.SurveyDetailActivity;
+import com.universe.android.enums.DesignationEnum;
 import com.universe.android.model.SurveysModal;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
@@ -68,7 +69,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
                 Intent i=null;
 
                 String type=Prefs.getStringPrefs(AppConstants.TYPE);
-                if (type.equalsIgnoreCase("cd")) {
+                if (type.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                     if (position == 0) {
                         i = new Intent(mContext, AddNewRetailors.class);
                     } else {

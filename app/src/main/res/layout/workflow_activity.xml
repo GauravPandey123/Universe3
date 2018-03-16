@@ -58,7 +58,7 @@
 
             android:layout_alignParentBottom="true"
             android:layout_marginTop="8dp"
-            android:text="Approved on 23 feb 2018"
+            android:text=""
             android:layout_margin="6dp"
             android:padding="12dp"
             android:textColor="@android:color/black"
@@ -88,6 +88,7 @@
         android:id="@+id/recylerViewSurveyDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:layout_below="@+id/linaerLyout">
 
     </android.support.v7.widget.RecyclerView>

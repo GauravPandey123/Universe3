@@ -35,6 +35,7 @@ import android.widget.TextView;
 import com.universe.android.R;
 import com.universe.android.adapter.CustomExpandableListAdapter;
 import com.universe.android.component.NonScrollExpandableListView;
+import com.universe.android.enums.DesignationEnum;
 import com.universe.android.model.CategoryModal;
 import com.universe.android.model.Questions;
 import com.universe.android.okkhttp.APIClient;
@@ -203,79 +204,294 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 if (Utility.validateString(updateId))
                     jsonSubmitReq.put(AppConstants.ID, realmCategoryAnswers.get(0).get_id());
                 String designation= Prefs.getStringPrefs(AppConstants.TYPE);
-                if (designation.equalsIgnoreCase("cd")) {
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, realmCategoryAnswers.get(0).getSubmitbyRM());
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, realmCategoryAnswers.get(0).getSubmitbyZM());
-                }   if (designation.equalsIgnoreCase("rm")) {
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, realmCategoryAnswers.get(0).getSubmitbyCD());
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, realmCategoryAnswers.get(0).getSubmitbyZM());
-                } if (designation.equalsIgnoreCase("zm")) {
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, realmCategoryAnswers.get(0).getSubmitbyCD());
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, realmCategoryAnswers.get(0).getSubmitbyRM());
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
+                if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+                }   if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                } if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(),realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+
                 }
 
                 if (title.contains(AppConstants.WORKFLOWS)) {
-
-                    if (designation.equalsIgnoreCase("rm")) {
+                    if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
                         if (type.equalsIgnoreCase("Approve")) {
-                            jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
-                            jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
-                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "0");
+                            jsonSubmitReq.put(AppConstants.requester_status, "1");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "0");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "4");
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
-                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
                             jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
                             jsonObject.put(AppConstants.STATUS, "Approved");
                             array.put(jsonObject);
                         } else {
-                            jsonSubmitReq.put(AppConstants.CD_STATUS, "3");
-                            jsonSubmitReq.put(AppConstants.RM_STATUS, "3");
-                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+
+                            jsonSubmitReq.put(AppConstants.requester_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "4");
+
                             jsonSubmitReq.put(AppConstants.REASON, reason);
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
                             jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
-                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
                             jsonObject.put(AppConstants.STATUS, "Rejected");
                             array.put(jsonObject);
                         }
-                    }else{
+                    }if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
                         if (type.equalsIgnoreCase("Approve")) {
-                            jsonSubmitReq.put(AppConstants.CD_STATUS, "2");
-                            jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
-                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "2");
+                            jsonSubmitReq.put(AppConstants.requester_status, "1");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "0");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "4");
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
                             jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
-                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
                             jsonObject.put(AppConstants.STATUS, "Approved");
                             array.put(jsonObject);
                         } else {
-                            jsonSubmitReq.put(AppConstants.CD_STATUS, "3");
-                            jsonSubmitReq.put(AppConstants.RM_STATUS, "3");
-                            jsonSubmitReq.put(AppConstants.ZM_STATUS, "3");
+
+                            jsonSubmitReq.put(AppConstants.requester_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "4");
+
                             jsonSubmitReq.put(AppConstants.REASON, reason);
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
                             jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
-                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
+                            jsonObject.put(AppConstants.STATUS, "Rejected");
+                            array.put(jsonObject);
+                        }
+                    }if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                        if (type.equalsIgnoreCase("Approve")) {
+                            jsonSubmitReq.put(AppConstants.requester_status, "1");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "0");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "4");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                            jsonObject.put(AppConstants.STATUS, "Approved");
+                            array.put(jsonObject);
+                        } else {
+
+                            jsonSubmitReq.put(AppConstants.requester_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "4");
+
+                            jsonSubmitReq.put(AppConstants.REASON, reason);
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
+                            jsonObject.put(AppConstants.STATUS, "Rejected");
+                            array.put(jsonObject);
+                        }
+                    }if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                        if (type.equalsIgnoreCase("Approve")) {
+                            jsonSubmitReq.put(AppConstants.requester_status, "1");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "0");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "4");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                            jsonObject.put(AppConstants.STATUS, "Approved");
+                            array.put(jsonObject);
+                        } else {
+
+                            jsonSubmitReq.put(AppConstants.requester_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "4");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "4");
+
+                            jsonSubmitReq.put(AppConstants.REASON, reason);
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
+                            jsonObject.put(AppConstants.STATUS, "Rejected");
+                            array.put(jsonObject);
+                        }
+                    }if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+                        if (type.equalsIgnoreCase("Approve")) {
+                            jsonSubmitReq.put(AppConstants.requester_status, "1");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "0");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                            jsonObject.put(AppConstants.STATUS, "Approved");
+                            array.put(jsonObject);
+                        } else {
+
+                            jsonSubmitReq.put(AppConstants.requester_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "4");
+
+                            jsonSubmitReq.put(AppConstants.REASON, reason);
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
                             jsonObject.put(AppConstants.STATUS, "Rejected");
                             array.put(jsonObject);
                         }
                     }
+
+                    if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                        if (type.equalsIgnoreCase("Approve")) {
+                            jsonSubmitReq.put(AppConstants.requester_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "2");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "2");
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                            jsonObject.put(AppConstants.STATUS, "Approved");
+                            array.put(jsonObject);
+                        } else {
+
+                            jsonSubmitReq.put(AppConstants.requester_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval1_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval2_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval3_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval4_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval5_status, "3");
+                            jsonSubmitReq.put(AppConstants.approval6_status, "3");
+
+                            jsonSubmitReq.put(AppConstants.REASON, reason);
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                            jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
+                            jsonObject.put(AppConstants.STATUS, "Rejected");
+                            array.put(jsonObject);
+                        }
+                    }
+
+
+
+
                 } else {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
-                    jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
-                    jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
-                    jsonObject.put(AppConstants.STATUS, "Submitted");
-                    array.put(jsonObject);
-                    jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
-                    jsonSubmitReq.put(AppConstants.RM_STATUS, "0");
-                    jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                    if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())){
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                        jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
+                        jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
+                        jsonObject.put(AppConstants.STATUS, "Submitted");
+                        array.put(jsonObject);
+                        jsonSubmitReq.put(AppConstants.requester_status, "1");
+                        jsonSubmitReq.put(AppConstants.approval1_status, "0");
+                        jsonSubmitReq.put(AppConstants.approval2_status, "4");
+                        jsonSubmitReq.put(AppConstants.approval3_status, "4");
+                        jsonSubmitReq.put(AppConstants.approval4_status, "4");
+                        jsonSubmitReq.put(AppConstants.approval5_status, "4");
+                        jsonSubmitReq.put(AppConstants.approval6_status, "4");
+
+
+                    }
                 }
                 //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
@@ -581,7 +797,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
                 if (realmAnswers!=null){
                     updateId=realmAnswers.get_id();
-                    strStatus=realmAnswers.getCd_Status();
+                    strStatus=realmAnswers.getRequester_status();
                     JSONArray array=new JSONArray(realmAnswers.getAnswers());
                     // JSONArray array1=new JSONArray(array.toString());
                     //   String json=array.get(0).toString();

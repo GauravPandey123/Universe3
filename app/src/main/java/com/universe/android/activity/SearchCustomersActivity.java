@@ -285,7 +285,7 @@ public class SearchCustomersActivity extends BaseActivity {
                     modal.setId(realmCustomers.get(i).get_id());
                     RealmAnswers realmAnswers1 = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, realmCustomers.get(i).get_id()).findFirst();
                     if (realmAnswers1 != null) {
-                        String status = realmAnswers1.getCd_Status();
+                        String status = realmAnswers1.getRequester_status();
                         modal.setStatus(status);
                     } else {
                         modal.setStatus("");

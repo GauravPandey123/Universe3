@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
+import com.universe.android.listneners.PageChangeInterface;
 import com.universe.android.model.UserModel;
 import com.universe.android.utility.Utility;
 
@@ -26,11 +27,13 @@ public class WorkFLowUserAdapter extends RecyclerView.Adapter<WorkFLowUserAdapte
     private ArrayList<UserModel> stringArrayList;
     private OnItemSelecteListener mListener;
     SparseBooleanArray mSelectedItems = new SparseBooleanArray();
+    private PageChangeInterface pageChangeInterface;
 
 
-    public WorkFLowUserAdapter(Context mContext, ArrayList<UserModel> stringArrayList) {
+    public WorkFLowUserAdapter(Context mContext, ArrayList<UserModel> stringArrayList,PageChangeInterface pageChangeInterface1) {
         this.mContext = mContext;
         this.stringArrayList = stringArrayList;
+        pageChangeInterface=pageChangeInterface1;
 
     }
 
@@ -70,6 +73,8 @@ public class WorkFLowUserAdapter extends RecyclerView.Adapter<WorkFLowUserAdapte
                     holder.imgArrow.setImageResource(R.drawable.arrow_down);
                     mSelectedItems.put(position, true);
                 }
+
+                pageChangeInterface.onDataPass("",position,"");
 
 
 

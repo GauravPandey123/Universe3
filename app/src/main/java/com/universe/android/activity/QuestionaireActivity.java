@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.soundcloud.android.crop.Crop;
+import com.universe.android.enums.DesignationEnum;
 import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureRequest;
 import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureResponse;
 import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureService;
@@ -496,36 +497,81 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                 if (isSync && Utility.validateString(updateId))
                     jsonSubmitReq.put(AppConstants.ID, realmCategoryAnswers.get(0).get_id());
                 String designation = Prefs.getStringPrefs(AppConstants.TYPE);
-                if (designation.equalsIgnoreCase("cd")) {
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, realmCategoryAnswers.get(0).getSubmitbyRM());
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, realmCategoryAnswers.get(0).getSubmitbyZM());
+                if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+                }   if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                } if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(),realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+
                 }
-                if (designation.equalsIgnoreCase("rm")) {
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, realmCategoryAnswers.get(0).getSubmitbyCD());
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, realmCategoryAnswers.get(0).getSubmitbyZM());
-                }
-                if (designation.equalsIgnoreCase("zm")) {
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, realmCategoryAnswers.get(0).getSubmitbyCD());
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, realmCategoryAnswers.get(0).getSubmitbyRM());
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
-                }
-                if (title.contains(AppConstants.WORKFLOWS)) {
-                    if (type.equalsIgnoreCase("rm")) {
-                        jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
-                        jsonSubmitReq.put(AppConstants.RM_STATUS, "0");
-                        jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
-                    } else {
-                        jsonSubmitReq.put(AppConstants.CD_STATUS, "1");
-                        jsonSubmitReq.put(AppConstants.RM_STATUS, "2");
-                        jsonSubmitReq.put(AppConstants.ZM_STATUS, "0");
-                    }
-                } else {
-                    jsonSubmitReq.put(AppConstants.CD_STATUS, "5");
-                    jsonSubmitReq.put(AppConstants.RM_STATUS, "4");
-                    jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
-                }
+
+
+                    jsonSubmitReq.put(AppConstants.requester_status, realmCategoryAnswers.get(0).getRequester_status());
+                    jsonSubmitReq.put(AppConstants.approval1_status, realmCategoryAnswers.get(0).getApproval1_status());
+                    jsonSubmitReq.put(AppConstants.approval2_status, realmCategoryAnswers.get(0).getApproval2_status());
+                    jsonSubmitReq.put(AppConstants.approval3_status, realmCategoryAnswers.get(0).getApproval3_status());
+                    jsonSubmitReq.put(AppConstants.approval4_status, realmCategoryAnswers.get(0).getApproval4_status());
+                    jsonSubmitReq.put(AppConstants.approval5_status, realmCategoryAnswers.get(0).getApproval5_status());
+                    jsonSubmitReq.put(AppConstants.approval6_status,  realmCategoryAnswers.get(0).getApproval6_status());
+
+
+
                 //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
@@ -554,7 +600,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
     public void onBackPressed() {
         // super.onBackPressed();
         String designation = Prefs.getStringPrefs(AppConstants.TYPE);
-        if (designation.equalsIgnoreCase("cd")) {
+        if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
             if (strStatus.equalsIgnoreCase("1") || strStatus.equalsIgnoreCase("2")) {
                 finish();
             } else {

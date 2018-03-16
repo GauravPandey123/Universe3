@@ -47,6 +47,7 @@ import com.universe.android.component.MultiSelectItemListDialog;
 import com.universe.android.component.QuestionItemListDialog;
 import com.universe.android.component.QuestionMapComparator;
 import com.universe.android.component.SelectionItemListDialog;
+import com.universe.android.enums.DesignationEnum;
 import com.universe.android.enums.FormEnum;
 import com.universe.android.enums.FormEnumKeys;
 import com.universe.android.listneners.IUpdateTask;
@@ -131,6 +132,9 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
     private NestedScrollView scrollview;
     String visiblity="";
     String strCD="",strRM="",strZm="";
+    String strRequester="",strApproval1="",strApproval2="",strApproval3="",strApproval4="",strApproval5="",strApproval6="";
+    String strRequesterStatus="",strApproval1Status="",strApproval2Status="",strApproval3Status="",strApproval4Status="",strApproval5Status="",strApproval6Status="";
+
     private String strData="";
     String strSubmitByCD="",strSubmitByRM="",strSubmitByZM="";
 
@@ -293,18 +297,35 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 RealmAnswers realmAnswers=realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,surveyId).equalTo(AppConstants.CUSTOMERID,customerId).findFirst();
                 if (realmAnswers!=null){
-                    if (Utility.validateString(realmAnswers.getCd_Status()))
-                        strCD=realmAnswers.getCd_Status();
-                    if (Utility.validateString(realmAnswers.getRm_STatus()))
-                        strRM=realmAnswers.getRm_STatus();
-                    if (Utility.validateString(realmAnswers.getZm_Status()))
-                        strZm=realmAnswers.getZm_Status();
-                    if (Utility.validateString(realmAnswers.getSubmitbyCD()))
-                        strSubmitByCD=realmAnswers.getSubmitbyCD();
-                    if (Utility.validateString(realmAnswers.getSubmitbyRM()))
-                        strSubmitByRM=realmAnswers.getSubmitbyRM();
-                    if (Utility.validateString(realmAnswers.getSubmitbyZM()))
-                        strSubmitByZM=realmAnswers.getSubmitbyZM();
+                    if (Utility.validateString(realmAnswers.getRequester_status()))
+                        strRequesterStatus=realmAnswers.getRequester_status();
+                    if (Utility.validateString(realmAnswers.getApproval1_status()))
+                        strApproval1Status=realmAnswers.getApproval1_status();
+                    if (Utility.validateString(realmAnswers.getApproval2_status()))
+                        strApproval2Status=realmAnswers.getApproval2_status();
+                    if (Utility.validateString(realmAnswers.getApproval3_status()))
+                        strApproval3Status=realmAnswers.getApproval3_status();
+                    if (Utility.validateString(realmAnswers.getApproval4_status()))
+                        strApproval4Status=realmAnswers.getApproval4_status();
+                    if (Utility.validateString(realmAnswers.getApproval5_status()))
+                        strApproval5Status=realmAnswers.getApproval5_status();
+                    if (Utility.validateString(realmAnswers.getApproval6_status()))
+                        strApproval6Status=realmAnswers.getApproval6_status();
+                    if (Utility.validateString(realmAnswers.getRequester()))
+                        strRequester=realmAnswers.getSubmitbyCD();
+                    if (Utility.validateString(realmAnswers.getApproval1()))
+                        strApproval1=realmAnswers.getApproval1();
+                    if (Utility.validateString(realmAnswers.getApproval2()))
+                        strApproval2=realmAnswers.getApproval2();
+                    if (Utility.validateString(realmAnswers.getApproval3()))
+                        strApproval3=realmAnswers.getApproval3();
+                    if (Utility.validateString(realmAnswers.getApproval4()))
+                        strApproval4=realmAnswers.getApproval4();
+                    if (Utility.validateString(realmAnswers.getApproval5()))
+                        strApproval5=realmAnswers.getApproval5();
+                    if (Utility.validateString(realmAnswers.getApproval6()))
+                        strApproval6=realmAnswers.getApproval6();
+
 
                     JSONArray array=new JSONArray(realmAnswers.getAnswers());
                     JSONArray workFlow=new JSONArray(realmAnswers.getWorkflow());
@@ -1528,7 +1549,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 }
                 if (!Utility.validateString(updateId)){
                     JSONObject jsonObject=new JSONObject();
-                    jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.USERNAME));
+                    jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
                     jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
                     jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
                     jsonObject.put(AppConstants.STATUS,"Initiated");
@@ -1558,28 +1579,89 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 if (jsonArrayAnswers.length()>0)
                     jsonSubmitReq.put(AppConstants.ANSWERS, jsonArrayAnswers);
                 // jsonSubmitReq.put(AppConstants.RESPONSES, jsonSubmitReq);
-                if (designation.equalsIgnoreCase("cd")) {
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, Prefs.getStringPrefs(AppConstants.UserId));
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, strSubmitByRM);
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, strSubmitByZM);
-                }   if (designation.equalsIgnoreCase("rm")) {
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, strSubmitByCD);
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, Prefs.getStringPrefs(AppConstants.UserId));
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, strSubmitByZM);
-                } if (designation.equalsIgnoreCase("zm")) {
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_CD, strSubmitByCD);
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_RM, strSubmitByRM);
-                    jsonSubmitReq.put(AppConstants.SUBMITBY_ZM, Prefs.getStringPrefs(AppConstants.UserId));
+                if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), strApproval1);
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), strApproval2);
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), strApproval3);
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), strApproval4);
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), strApproval5);
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), strApproval6);
+                }   if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), strRequester);
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), strApproval2);
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), strApproval3);
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), strApproval4);
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), strApproval5);
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), strApproval6);
+
+                } if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(),strRequester);
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), strApproval1);
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), strApproval3);
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(),strApproval4);
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(),strApproval5);
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), strApproval6);
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), strRequester);
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), strApproval1);
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), strApproval2);
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), 4);
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), strApproval5);
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), strApproval6);
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), strRequester);
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(),strApproval1);
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(),strApproval2);
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), strApproval3);
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), strApproval5);
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), strApproval6);
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), strRequester);
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), strApproval1);
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), strApproval2);
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), strApproval3);
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), strApproval4);
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(),strApproval6);
+
+                }if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(),strRequester);
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), strApproval1);
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(),strApproval2);
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), strApproval3);
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), strApproval4);
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), strApproval5);
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+
                 }
 
                 if (!Utility.validateString(strCD)) {
-                    jsonSubmitReq.put(AppConstants.CD_STATUS, "5");
-                    jsonSubmitReq.put(AppConstants.RM_STATUS, "4");
-                    jsonSubmitReq.put(AppConstants.ZM_STATUS, "4");
+                    jsonSubmitReq.put(AppConstants.requester_status, "5");
+                    jsonSubmitReq.put(AppConstants.approval1_status, "4");
+                    jsonSubmitReq.put(AppConstants.approval2_status, "4");
+                    jsonSubmitReq.put(AppConstants.approval3_status, "4");
+                    jsonSubmitReq.put(AppConstants.approval4_status, "4");
+                    jsonSubmitReq.put(AppConstants.approval5_status, "4");
+                    jsonSubmitReq.put(AppConstants.approval6_status,  "4");
+
                 }else {
-                    jsonSubmitReq.put(AppConstants.CD_STATUS, strCD);
-                    jsonSubmitReq.put(AppConstants.RM_STATUS, strRM);
-                    jsonSubmitReq.put(AppConstants.ZM_STATUS, strZm);
+
+                    jsonSubmitReq.put(AppConstants.requester_status, strRequesterStatus);
+                    jsonSubmitReq.put(AppConstants.approval1_status, strApproval1Status);
+                    jsonSubmitReq.put(AppConstants.approval2_status, strApproval2Status);
+                    jsonSubmitReq.put(AppConstants.approval3_status, strApproval3Status);
+                    jsonSubmitReq.put(AppConstants.approval4_status, strApproval4Status);
+                    jsonSubmitReq.put(AppConstants.approval5_status, strApproval5Status);
+                    jsonSubmitReq.put(AppConstants.approval6_status, strApproval6Status);
+
                 }
                 //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
