@@ -346,7 +346,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
 
                             if (type.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
                                 if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.requester.toString()));
 
                                 }else {
                                     textViewStatus.setText("Pending" + " by " + name);
@@ -355,10 +355,10 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                             }
                             if (type.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
                                 if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.requester.toString()));
 
                                 } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval1.toString()));
                                 } else {
                                     textViewStatus.setText("Pending" + " by " + name);
                                 }
@@ -366,60 +366,60 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
 
                             if (type.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
                                 if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.requester.toString()));
 
                                 } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval1.toString()));
                                 } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " +getPendingUserName(DesignationEnum.approval2.toString()));
                                 } else {
                                     textViewStatus.setText("Pending" + " by " + name);                                }
                             }
 
                             if (type.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
                                 if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " +getPendingUserName(DesignationEnum.requester.toString()));
 
                                 } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval1.toString()));
                                 } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval2.toString()));
                                 } else if (realmAnswers.getApproval3_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval3.toString()));
                                 } else {
                                     textViewStatus.setText("Pending" + " by " + name);                                }
                             }
 
                             if (type.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
                                 if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.requester.toString()));
 
                                 } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval1.toString()));
                                 } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval2.toString()));
                                 } else if (realmAnswers.getApproval3_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval3.toString()));
                                 } else if (realmAnswers.getApproval4_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval4.toString()));
                                 } else {
                                     textViewStatus.setText("Pending" + " by " + name);                                }
                             }
 
                             if (type.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
                                 if (realmAnswers.getRequester_status().equalsIgnoreCase("5")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.requester.toString()));
 
                                 } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval1.toString()));
                                 } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval2.toString()));
                                 } else if (realmAnswers.getApproval3_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " +getPendingUserName(DesignationEnum.approval3.toString()));
                                 } else if (realmAnswers.getApproval4_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval4.toString()));
                                 } else if (realmAnswers.getApproval5_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " by " + jsonObject.optString(AppConstants.USERNAME));
+                                    textViewStatus.setText("Pending" + " by " + getPendingUserName(DesignationEnum.approval5.toString()));
                                 } else {
                                     textViewStatus.setText("Pending" + " by " + name);                                }
                             }
@@ -470,21 +470,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
 
 
             if (realmSurveys != null) {
-               /* JSONArray array=new JSONArray(realmSurveys.getWorkFLow());
-                for (int i = 0; i < array.length(); i++) {
-                    JSONObject jsonObject=array.getJSONObject(i);
-                    UserModel modal = new UserModel();
-                    String userId=Prefs.getStringPrefs(AppConstants.UserId);
-                    modal.setUserName(jsonObject.optString(AppConstants.USERNAME));
-                    modal.setUserStatus(jsonObject.optString(AppConstants.STATUS));
-                    SimpleDateFormat format1 = new SimpleDateFormat(AppConstants.utc_format1);
-                    SimpleDateFormat format2 = new SimpleDateFormat("dd-MM-yyyy");
-                    Date date = format1.parse(jsonObject.optString(AppConstants.DATE));
-                    System.out.println(format2.format(date));
-                    modal.setUserDateStatus(AppConstants.format10.format(date));
-                    //    modal.setDate(AppConstants.format10.format(realmAnswers.get(i).getDate()));
-                    stringArrayListRoles.add(modal);
-                }*/
+
 
                for (int i=0;i<realmSurveys.size();i++){
                    JSONObject jsonObject=new JSONObject(realmSurveys.get(i).getAssignTo());
@@ -632,5 +618,48 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
 
 
         prepareList(stringArrayListRoles.get(pos).getUserStatus(),stringArrayListRoles.get(pos).getId(),stringArrayListRoles.get(pos).getUserName());
+    }
+
+
+
+    private String getPendingUserName(String type) {
+        String userName="";
+        Realm realm = Realm.getDefaultInstance();
+
+        try {
+
+
+            RealmResults<RealmWorkFlow> realmSurveys = realm.where(RealmWorkFlow.class).equalTo(AppConstants.SURVEYID,surveyId).findAll();
+
+
+
+            if (realmSurveys != null) {
+
+
+                for (int i=0;i<realmSurveys.size();i++){
+                    if (type.equalsIgnoreCase(realmSurveys.get(i).getLevel())) {
+                        JSONObject jsonObject = new JSONObject(realmSurveys.get(i).getAssignTo());
+                        userName=jsonObject.optString(AppConstants.NAME);
+
+                    }
+
+
+                }
+
+
+
+
+
+            }else {
+                Utility.showToast(getString(R.string.no_data));
+            }
+        } catch (Exception e) {
+            realm.close();
+            e.printStackTrace();
+        } finally {
+            realm.close();
+        }
+
+       return userName;
     }
 }

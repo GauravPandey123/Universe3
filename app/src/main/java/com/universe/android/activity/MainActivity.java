@@ -64,7 +64,7 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        final String type = Prefs.getStringPrefs(AppConstants.ROLE);
+        final String type = Prefs.getStringPrefs(AppConstants.TYPE);
 
         mDrawerAdapter.setOnItemClickLister(new DrawerAdapter.OnItemSelecteListener() {
             @Override

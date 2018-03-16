@@ -112,15 +112,19 @@ public class RealmController {
             Prefs.clearValue(AppConstants.Login_Status);
             Prefs.clearValue(AppConstants.USERNAME);
             Prefs.clearValue(AppConstants.EMPLOYEE_NAME);
+            Prefs.clearValue(AppConstants.employee_name);
             Prefs.clearValue(AppConstants.name);
             realm.delete(RealmAnswers.class);
             realm.delete(RealmCategory.class);
             realm.delete(RealmCategoryAnswers.class);
             realm.delete(RealmClient.class);
             realm.delete(RealmCustomer.class);
+
             realm.delete(RealmQuestion.class);
             realm.delete(RealmQuestions.class);
             realm.delete(RealmSurveys.class);
+            realm.delete(RealmWorkFlow.class);
+            realm.delete(RealmSurveysList.class);
             realm.delete(RealmUser.class);
             realm.delete(RealmSurveyQuestion.class);
 
