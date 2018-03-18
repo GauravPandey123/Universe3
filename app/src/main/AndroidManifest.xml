@@ -29,8 +29,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity
-            android:name=".activity.SplashActivity">
+        <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,9 +44,10 @@
         <activity
             android:name=".activity.SurveyDetailActivity"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <!-- <activity android:name=".activity.TeamSurveyDetailReport" /> -->
+        <activity android:name=".activity.TeamSurveyDetailReport" />
         <activity android:name=".activity.AddNewRetailors" />
-        <!-- <activity android:name=".activity.AddNewRetailorsActivity" /> -->
+        <activity android:name=".activity.AddNewRetailorsActivity" />
+        <activity android:name=".activity.MapsOneActivity" />
 
         <activity
             android:name=".activity.CategoryExpandableListActivity"

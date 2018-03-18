@@ -99,20 +99,20 @@ public class VillageAdapter extends RecyclerView.Adapter<VillageAdapter.VillageV
     public void storeData(String data) {
         ArrayList<String> arrayList;
         Gson gson = new Gson();
-        String json = Prefs.getStringPrefs(AppConstants.FilterData);
+        String json = Prefs.getStringPrefs(AppConstants.VillageData);
         if (!json.equals("")) {
             Type type = new TypeToken<ArrayList<String>>() {
             }.getType();
             arrayList = gson.fromJson(json, type);
             arrayList.add(data);
             String json1 = gson.toJson(arrayList);
-            Prefs.putStringPrefs(AppConstants.FilterData, json1);
+            Prefs.putStringPrefs(AppConstants.VillageData, json1);
 
         } else {
             arrayList = new ArrayList<>();
             arrayList.add(data);
             String json1 = gson.toJson(arrayList);
-            Prefs.putStringPrefs(AppConstants.FilterData, json1);
+            Prefs.putStringPrefs(AppConstants.VillageData, json1);
         }
 
 

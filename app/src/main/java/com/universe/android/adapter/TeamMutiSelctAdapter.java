@@ -56,9 +56,6 @@ public class TeamMutiSelctAdapter extends RecyclerView.Adapter<TeamMutiSelctAdap
             @Override
             public void onClick(View view) {
                 CheckBox cb = (CheckBox) view;
-               /* LoginResponse.ResponseBean.LoginDetailsBean contact = (LoginResponse.ResponseBean.LoginDetailsBean) cb.getTag();
-                contact.setSelected(cb.isChecked());
-                numberArrayList.get(position).setSelected(cb.isChecked());*/
                 if (cb.isChecked()) {
                     storeData(numberArrayList.get(position).getMember().get_id());
 
@@ -70,13 +67,6 @@ public class TeamMutiSelctAdapter extends RecyclerView.Adapter<TeamMutiSelctAdap
             }
         });
 
-//        holder.checkboxTeamSelection.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//
-//
-//            }
-//        });
 
         holder.textViewTeamSelection.setText(numberArrayList.get(position).getMember().getName());
 

@@ -120,7 +120,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
     private String mImageUrl;
     private boolean isUpdateImage = false;
     CustomerPictureResponse CustomerPictureResponse;
-
+    private ImageView imageLoc;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -288,7 +288,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
-
+        imageLoc=findViewById(R.id.imageLoc);
         llStatus = (LinearLayout) findViewById(R.id.llStatus);
         imageStatus = (ImageView) findViewById(R.id.imageStatus);
         textStatus = (TextView) findViewById(R.id.textStatus);
@@ -316,6 +316,12 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
             if (strCustomer == null) {
                 strCustomer = "";
             }
+        }
+        if (Prefs.getBooleanPrefs(AppConstants.LocationUpdate)) {
+            imageLoc.setImageResource(R.drawable.ic_location_set);
+        } else {
+            imageLoc.setImageResource(R.drawable.red_loc);
+
         }
         circleImageView = findViewById(R.id.circularImageViewMap);
 //        if (CustomerPictureResponse.getResponse().getImage() != null) {

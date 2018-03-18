@@ -55,6 +55,7 @@ public class VillageFragement extends DialogFragment {
     private RelativeLayout relativeLayoutSubmit;
     private String villageId = "", villageName = "";
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -101,16 +102,33 @@ public class VillageFragement extends DialogFragment {
         relativeLayoutSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                villageId=stateBeanArrayList.get(0).get_id();
-                villageName=stateBeanArrayList.get(0).getVillage_name();
+                for (int i = 0; i < getSaveList().size(); i++) {
+                    if (getSaveList().get(i) != null) {
+                        villageId += "\"" + getSaveList().get(i) + "\"";
+                        if (i < (getSaveList().size() - 1)) {
+                            villageId += ", ";
+                        }
+                    }
+                }
+
+                StringBuilder stringBuilder = new StringBuilder();
+                for (DistributorResponse.ResponseBean.VillageBean number : stateBeanArrayList) {
+                    for (String fata : getSaveList()) {
+                        if (number.get_id().equals(fata)) {
+                            if (stringBuilder.length() > 0)
+                                stringBuilder.append(", ");
+                            stringBuilder.append(number.getVillage_name());
+                        }
+                    }
+                }
+                villageName = stringBuilder.toString();
                 VillageSubmission setDataListListener = (VillageSubmission) getActivity();
-                setDataListListener.showVillage(villageName, villageId);
+                setDataListListener.showVillage(villageName, "[" + villageId + "]");
                 dismiss();
 
 
             }
         });
-
 
 
     }
@@ -146,7 +164,6 @@ public class VillageFragement extends DialogFragment {
             public void onSuccess(@NonNull DistributorResponse response) {
                 super.onSuccess(response);
                 List<DistributorResponse.ResponseBean.VillageBean> responseBean = response.getResponse().getVillage();
-                Prefs.putStringPrefs(AppConstants.VillageId, responseBean.get(0).get_id());
                 String value = new Gson().toJson(responseBean);
                 DistributorResponse.ResponseBean.VillageBean[] stateBeans = new Gson().fromJson(value, DistributorResponse.ResponseBean.VillageBean[].class);
                 Collections.addAll(stateBeanArrayList, stateBeans);

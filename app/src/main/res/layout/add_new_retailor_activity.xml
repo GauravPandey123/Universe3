@@ -53,6 +53,7 @@
             android:layout_alignBottom="@+id/textViewReatilers"
             android:layout_toLeftOf="@+id/imageView"
             android:layout_toStartOf="@+id/imageView"
+            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_medium"
             android:orientation="vertical">
 
@@ -91,9 +92,10 @@
             android:layout_width="@dimen/margin_large"
             android:layout_height="@dimen/margin_large"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_margin="@dimen/margin_min"
             android:scaleType="centerInside"
-            android:src="@drawable/picture1" />
+            android:src="@drawable/ic_survey" />
     </RelativeLayout>
 
 

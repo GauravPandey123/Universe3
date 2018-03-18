@@ -127,7 +127,12 @@ public class CategoryExpandableListActivity extends BaseActivity {
         TextView toolbarTtile=(TextView)findViewById(R.id.toolbarTtile);
         toolbarTtile.setText(title);
 
+        if (Prefs.getBooleanPrefs(AppConstants.LocationUpdate)) {
+            imageLoc.setImageResource(R.drawable.ic_location_set);
+        } else {
+            imageLoc.setImageResource(R.drawable.red_loc);
 
+        }
 
         btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -982,26 +987,26 @@ public class CategoryExpandableListActivity extends BaseActivity {
                     if (arraylistTitle.size() != arrISView.size()) {
                         btnApprove.setBackgroundResource(R.color.grey);
                         btnApprove.setEnabled(false);
-                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
                         btnReject.setEnabled(true);
 
                     } else {
-                        btnApprove.setBackgroundResource(R.color.green);
+                        btnApprove.setBackgroundResource(R.color.buttoncolor);
                         btnApprove.setEnabled(true);
-                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
                         btnReject.setEnabled(true);
                     }
                 }else {
                     if (arraylistTitle.size() != arrISViewByZM.size()) {
                         btnApprove.setBackgroundResource(R.color.grey);
                         btnApprove.setEnabled(false);
-                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
                         btnReject.setEnabled(true);
 
                     } else {
-                        btnApprove.setBackgroundResource(R.color.green);
+                        btnApprove.setBackgroundResource(R.color.buttoncolor);
                         btnApprove.setEnabled(true);
-                        btnReject.setBackgroundResource(R.color.red);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
                         btnReject.setEnabled(true);
                     }
                 }
@@ -1035,9 +1040,9 @@ public class CategoryExpandableListActivity extends BaseActivity {
                     btnReject.setEnabled(false);
 
                 } else {
-                    btnApprove.setBackgroundResource(R.color.green);
+                    btnApprove.setBackgroundResource(R.color.buttoncolor);
                     btnApprove.setEnabled(true);
-                    btnReject.setBackgroundResource(R.color.green);
+                    btnReject.setBackgroundResource(R.color.buttoncolor1);
                     btnReject.setEnabled(true);
                 }
 

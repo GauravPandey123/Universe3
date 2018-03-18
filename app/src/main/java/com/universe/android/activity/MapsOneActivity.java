@@ -82,12 +82,12 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         autocompleteFragment.setOnPlaceSelectedListener(this);
 
         Intent intent = getIntent();
-//        if (intent != null) {
-//            title = intent.getExtras().getString(AppConstants.STR_TITLE);
-//            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
-//            customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
-//            strCustomer = intent.getExtras().getString(AppConstants.CUSTOMER);
-//        }
+        if (intent != null) {
+            title = intent.getExtras().getString(AppConstants.STR_TITLE);
+            surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
+            customerId = intent.getExtras().getString(AppConstants.CUSTOMERID);
+            strCustomer = intent.getExtras().getString(AppConstants.CUSTOMER);
+        }
 
         initialization();
         setUpElements();
@@ -104,7 +104,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
     private void initialization() {
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
-        imageLoc =findViewById(R.id.imageLoc);
+        imageLoc = findViewById(R.id.imageLoc);
         textViewHeader = findViewById(R.id.textViewHeader);
         textViewRetailersNameMap = findViewById(R.id.textViewRetailersNameMap);
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
@@ -126,7 +126,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewSetLocation.setTypeface(FontClass.openSansRegular(mContext));
-
+        textViewHeader.setText(title);
 
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,14 +136,18 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         });
         if (Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE) != null) {
             Glide.with(mActivity).load(Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE)).into(circleImageView);
+        } else if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)) {
+            circleImageViewMap.setImageResource(R.drawable.ic_customer);
         } else {
-            circleImageView.setImageResource(R.drawable.ic_customer);
-            if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)) {
-                circleImageViewMap.setImageResource(R.drawable.ic_customer);
-            } else {
-                circleImageViewMap.setImageResource(R.drawable.ic_retailer);
-            }
-            textViewHeader.setText(title);
+            circleImageViewMap.setImageResource(R.drawable.ic_retailer);
+        }
+
+
+        if (Prefs.getBooleanPrefs(AppConstants.LocationUpdate)) {
+            imageLoc.setImageResource(R.drawable.ic_location_set);
+        } else {
+            imageLoc.setImageResource(R.drawable.red_loc);
+
         }
     }
 
@@ -246,7 +250,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         upadteLocationRequest.setLat(lat);
         upadteLocationRequest.setLng(lan);
         upadteLocationRequest.setType(AppConstants.customer);
-        upadteLocationRequest.setCustomerId("5a811ccfa6f7eb1200adcbd9");
+        upadteLocationRequest.setCustomerId(customerId);
         UpdateLocationService updateLocationService = new UpdateLocationService();
         updateLocationService.executeService(upadteLocationRequest, new BaseApiCallback<UpDateLocationResponse>() {
             @Override
@@ -278,7 +282,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         upadteLocationRequest.setLat(lat);
         upadteLocationRequest.setLng(lan);
         upadteLocationRequest.setType(AppConstants.employee);
-        upadteLocationRequest.setCustomerId("5a811ccfa6f7eb1200adcbd9");
+        upadteLocationRequest.setCustomerId(customerId);
         UpdateLocationService updateLocationService = new UpdateLocationService();
         updateLocationService.executeService(upadteLocationRequest, new BaseApiCallback<UpDateLocationResponse>() {
             @Override

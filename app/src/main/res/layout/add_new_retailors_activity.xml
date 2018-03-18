@@ -129,6 +129,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/pincode"
+                        android:maxLength="8"
                         android:inputType="number"
                         android:textColor="@color/textColorPrimary"
                         android:textColorHint="@color/white" />
@@ -148,6 +149,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/mobile"
                         android:inputType="phone"
+                        android:maxLength="10"
                         android:textColor="@color/textColorPrimary"
                         android:textColorHint="@color/white" />
                 </android.support.design.widget.TextInputLayout>
@@ -269,7 +271,7 @@
         android:layout_marginRight="@dimen/margin_medium"
         android:src="@drawable/fab_add"
         android:visibility="gone"
-        app:backgroundTint="@color/app_theme_color" />
+        app:backgroundTint="@color/buttoncolor" />
 
 
 </RelativeLayout>

@@ -13,7 +13,7 @@
         style="@style/appBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/buttoncolor"
+        android:background="@color/buttoncolor1"
         android:minHeight="@dimen/btnLargeHeight"
         android:text="@string/submit"
         android:layout_margin="@dimen/margin_small"

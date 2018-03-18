@@ -7,6 +7,7 @@
         android:id="@+id/cdSurvey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_small"
         android:layout_below="@+id/retailerSelection">
 
         <RelativeLayout
@@ -68,6 +69,7 @@
                     android:layout_width="@dimen/margin_large"
                     android:layout_height="@dimen/margin_large"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_margin="@dimen/margin_min"
                     android:scaleType="centerInside"
                     android:src="@drawable/ic_survey" />

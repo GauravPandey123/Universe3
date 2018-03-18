@@ -134,6 +134,15 @@ public class StaeAndCropResponse extends BaseResponse<StaeAndCropResponse> {
             private String _id;
             private String CROP_NAME;
             private String CROP_INFO;
+            public boolean isSelected() {
+                return isSelected;
+            }
+
+            public void setSelected(boolean selected) {
+                isSelected = selected;
+            }
+
+            private boolean isSelected;
 
             public String get_id() {
                 return _id;

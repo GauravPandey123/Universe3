@@ -111,14 +111,15 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
     }
     private void setCountsFilter(Date fromDateTime,Date toDates) {
         Realm realm = Realm.getDefaultInstance();
+        String designation= Prefs.getStringPrefs(AppConstants.TYPE);
         try {
             int count = 0;
             RealmSurveys realmSurveys = realm.where(RealmSurveys.class).equalTo(AppConstants.ID, surveyId).findFirst();
             if (realmSurveys != null) {
                 count = realmSurveys.getTarget();
             }
-            long realmSubmitted = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
-            long realmInprogress = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CD_STATUS, "5").equalTo(AppConstants.RM_STATUS, "4").equalTo(AppConstants.ZM_STATUS, "4").count();
+            long realmSubmitted = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CD_STATUS, "1").count();
+            long realmInprogress = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CD_STATUS, "5").count();
             long realmNewRetailer = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CUSTOMER, AppConstants.NEW).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
             long realmCystal = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDateTime, toDates).equalTo(AppConstants.CUSTOMER, AppConstants.CrystalCustomer).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
             int n = count;
@@ -145,10 +146,11 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
             if (realmSurveys != null) {
                 count = realmSurveys.getTarget();
             }
-            long realmSubmitted = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
-            long realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "5").equalTo(AppConstants.RM_STATUS, "4").equalTo(AppConstants.ZM_STATUS, "4").count();
-            long realmNewRetailer = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.NEW).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
-            long realmCystal = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.CrystalCustomer).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").count();
+            long realmSubmitted = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status,"1").count();
+            long realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status,"5").equalTo(AppConstants.requester_status,"1").count();
+            long realmNewRetailer = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.NEW).equalTo(AppConstants.requester_status, "1").count();
+            long realmCystal = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.CrystalCustomer).equalTo(AppConstants.requester_status, "1").count();
+
             int n = count;
             int v = (int) realmSubmitted;
             int percent = v * 100 / n;
@@ -231,7 +233,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
             @Override
             public void onClick(View view) {
 
-                if (fromDateTime!=null)
+                if (fromDateTime==null)
                 prepareList(getString(R.string.completed));
                 else
                     prepareListFilter(getString(R.string.completed),fromDateTime,toDates);
@@ -241,7 +243,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         realtiveLayoutAchivement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (fromDateTime!=null)
+                if (fromDateTime==null)
                     prepareList(getString(R.string.completed));
                 else
                     prepareListFilter(getString(R.string.completed),fromDateTime,toDates);
@@ -251,7 +253,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         relativelayoutInprogress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (fromDateTime!=null)
+                if (fromDateTime==null)
                     prepareList(getString(R.string.inprogress));
                 else
                     prepareListFilter(getString(R.string.inprogress),fromDateTime,toDates);
@@ -261,7 +263,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         realativeNewRetailers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (fromDateTime!=null)
+                if (fromDateTime==null)
                     prepareList(getString(R.string.newretailor));
                 else
                     prepareListFilter(getString(R.string.newretailor),fromDateTime,toDates);
@@ -309,27 +311,6 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
     }
     private void initialization() {
         intent = getIntent();
-//        if (intent != null) {
-//            fromDate = intent.getExtras().getString(AppConstants.FROMDATE);
-//            toDate = intent.getExtras().getString(AppConstants.TODATE);
-//            statusData = intent.getExtras().getString(AppConstants.STATUS);
-//            if (fromDate != null && toDate != null) {
-//            }
-//            } else if (fromDate != null && toDate != null && statusData.equalsIgnoreCase(getResources().getString(R.string.inprogress))) {
-//                prepareListFilter(getResources().getString(R.string.inprogress), fromDate, toDate);
-//            } else if (fromDate != null && toDate != null && statusData.equalsIgnoreCase(getResources().getString(R.string.target))) {
-//                prepareListFilter(getResources().getString(R.string.target), fromDate, toDate);
-//            } else if (fromDate != null && toDate != null && statusData.equalsIgnoreCase(getResources().getString(R.string.completed))) {
-//                prepareListFilter(getResources().getString(R.string.completed), fromDate, toDate);
-//            } else if (fromDate != null && toDate != null && statusData.equalsIgnoreCase(getResources().getString(R.string.inprogress)) && statusData.equalsIgnoreCase(getResources().getString(R.string.target))) {
-//                prepareListFilter(getResources().getString(R.string.completed).concat(getResources().getString(R.string.inprogress)), fromDate, toDate);
-//            } else if (fromDate != null && toDate != null && statusData.equalsIgnoreCase(getResources().getString(R.string.target)) && statusData.equalsIgnoreCase(getResources().getString(R.string.completed))) {
-//                prepareListFilter(getResources().getString(R.string.target).concat(getResources().getString(R.string.completed)), fromDate, toDate);
-//            } else if (fromDate != null && toDate != null && statusData.equalsIgnoreCase(getResources().getString(R.string.completed)) && statusData.equalsIgnoreCase(getResources().getString(R.string.inprogress))) {
-//                prepareListFilter(getResources().getString(R.string.completed).concat(getResources().getString(R.string.inprogress)), fromDate, toDate);
-//            }
-
-
         stringArrayList = new ArrayList<>();
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerViewSurveyDetail = findViewById(R.id.recylerViewSurveyDetail);
@@ -390,44 +371,17 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         try {
             RealmResults<RealmAnswers> realmAnswers = null;
             String designation = Prefs.getStringPrefs(AppConstants.TYPE);
-            if (designation.equalsIgnoreCase("cd")) {
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status, "1").findAll();
                 if (type.equalsIgnoreCase(getString(R.string.inprogress))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "5").equalTo(AppConstants.RM_STATUS, "4").equalTo(AppConstants.ZM_STATUS, "4").findAll();
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status, "5").findAll();
                 } else if (type.equalsIgnoreCase(getString(R.string.completed))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.rejected))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "3").equalTo(AppConstants.RM_STATUS, "3").equalTo(AppConstants.ZM_STATUS, "4").findAll();
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status, "1").findAll();
                 } else if (type.equalsIgnoreCase(getString(R.string.newretailor))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.NEW).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.NEW).equalTo(AppConstants.requester_status, "1").findAll();
                 } else if (type.equalsIgnoreCase(getString(R.string.crystalmembers))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.CrystalCustomer).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
+                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.CrystalCustomer).equalTo(AppConstants.requester_status, "1").findAll();
                 }
-            }
-            if (designation.equalsIgnoreCase("rm")) {
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
 
-                if (type.equalsIgnoreCase(getString(R.string.inprogress))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "2").equalTo(AppConstants.ZM_STATUS, "0").findAll();
-
-                } else if (type.equalsIgnoreCase(getString(R.string.completed))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "2").equalTo(AppConstants.RM_STATUS, "2").equalTo(AppConstants.ZM_STATUS, "2").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.rejected))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "3").equalTo(AppConstants.RM_STATUS, "3").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                }
-            }
-            if (designation.equalsIgnoreCase("zm")) {
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "2").equalTo(AppConstants.ZM_STATUS, "0").findAll();
-
-                if (type.equalsIgnoreCase(getString(R.string.inprogress))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "4").equalTo(AppConstants.RM_STATUS, "4").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-
-                } else if (type.equalsIgnoreCase(getString(R.string.completed))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "2").equalTo(AppConstants.RM_STATUS, "2").equalTo(AppConstants.ZM_STATUS, "2").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.rejected))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "3").equalTo(AppConstants.RM_STATUS, "3").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                }
-            }
             if (realmAnswers != null && realmAnswers.size() > 0) {
                 for (int i = 0; i < realmAnswers.size(); i++) {
                     AnswersModal modal = new AnswersModal();
