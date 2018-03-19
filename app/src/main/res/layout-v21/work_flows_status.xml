@@ -37,7 +37,7 @@
                         android:layout_height="wrap_content">
 
 
-                        <ImageView
+                        <TextView
                             android:id="@+id/imgCD"
                             android:layout_width="33dp"
                             android:layout_height="33dp"/>
@@ -75,7 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                        <ImageView
+                        <TextView
                             android:id="@+id/imgRM"
                             android:layout_width="33dp"
                             android:layout_height="33dp"/>

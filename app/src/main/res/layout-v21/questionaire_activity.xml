@@ -129,8 +129,7 @@
                     app:tabIndicatorColor="@color/app_theme_color"
                     app:tabIndicatorHeight="4dp"
                     app:tabMode="scrollable"
-                    app:tabTextAppearance="@style/MyCustomTextAppearance"
-                    app:tabSelectedTextColor="@color/app_theme_color"
+                    app:tabTextAppearance="@style/MyCustomTextAppearance"                    app:tabSelectedTextColor="@color/app_theme_color"
                     app:tabTextColor="@color/app_theme_color" />
 
                 <com.universe.android.helper.PagerSlidingTabStrip
