@@ -102,7 +102,7 @@ public class ProfileFragment extends BaseFragment {
         textViewTLerritor.setTypeface(FontClass.openSansRegular(getActivity()));
         editTextPhoneProfile.setTypeface(FontClass.openSansLight(getActivity()));
         editTextRolesProfile.setTypeface(FontClass.openSansLight(getActivity()));
-        editTextRolesProfile.setText(new StringBuilder().append(Prefs.getStringPrefs(AppConstants.ROLE).substring(0, 1).toUpperCase()).append(Prefs.getStringPrefs(AppConstants.TYPE).substring(1).toLowerCase()).toString());
+        editTextRolesProfile.setText(new StringBuilder().append(Prefs.getStringPrefs(AppConstants.ROLE).substring(0, 1).toUpperCase()).append(Prefs.getStringPrefs(AppConstants.ROLE).substring(1).toLowerCase()).toString());
         editTextLob.setTypeface(FontClass.openSansLight(getActivity()));
         editTextTerritory.setTypeface(FontClass.openSansLight(getActivity()));
         textViewUserNameProfile.setText(Prefs.getStringPrefs(AppConstants.employee_name));

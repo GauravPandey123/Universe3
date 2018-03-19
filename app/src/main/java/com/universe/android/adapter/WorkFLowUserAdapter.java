@@ -69,12 +69,14 @@ public class WorkFLowUserAdapter extends RecyclerView.Adapter<WorkFLowUserAdapte
                 if(mSelectedItems.get(position)) {
                     holder.imgArrow.setImageResource(R.drawable.icon_right_arrow);
                     mSelectedItems.put(position, false);
+                    pageChangeInterface.onDataPass("",position,"0");
                 } else {
                     holder.imgArrow.setImageResource(R.drawable.arrow_down);
                     mSelectedItems.put(position, true);
+                    pageChangeInterface.onDataPass("",position,"1");
                 }
 
-                pageChangeInterface.onDataPass("",position,"");
+
 
 
 
