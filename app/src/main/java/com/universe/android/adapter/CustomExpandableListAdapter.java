@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 
 import com.universe.android.R;
+import com.universe.android.helper.FontClass;
 import com.universe.android.model.CategoryModal;
 import com.universe.android.model.Questions;
 import com.universe.android.utility.AppConstants;
@@ -80,6 +81,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.imgStatus);
         ImageView imgRequired = (ImageView) convertView
                 .findViewById(R.id.imgRequired);
+        tvQuestionName.setTypeface(FontClass.openSansRegular(_context));
 
         if (Utility.validateString(answer)) {
             imgStatus.setBackgroundResource(R.drawable.done);
@@ -140,7 +142,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.tvCount);
         ImageView imgStatus = (ImageView) convertView
                 .findViewById(R.id.imgStatus);
-
+        lblListHeader.setTypeface(FontClass.openSansRegular(_context));
 
         if (categoryAnsweredd.equalsIgnoreCase("Yes")) {
             imgStatus.setBackgroundResource(R.drawable.done);

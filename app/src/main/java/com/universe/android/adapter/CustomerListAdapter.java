@@ -40,9 +40,9 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
 
     @Override
     public void onBindViewHolder(SurveyViewHolder holder, int position) {
-        holder.textViewRetailersName.setTypeface(FontClass.openSansBold(mContext));
-        holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
-
+        holder.textViewRetailersName.setTypeface(FontClass.openSansRegular(mContext));
+        holder.textViewMobileNo.setTypeface(FontClass.openSansLight(mContext));
+        holder.textViewDate.setTypeface(FontClass.openSansLight(mContext));
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
             holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
         holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo() + " | " +

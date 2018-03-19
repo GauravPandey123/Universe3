@@ -31,96 +31,106 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/relativeLayoutRetailers"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/include">
+        android:layout_below="@+id/include"
+        android:layout_margin="@dimen/margin_small">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textViewReatilers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_medium"
-            android:text="@string/retailers"
-            android:textAllCaps="true"
-            android:textColor="@color/textColorPrimaryDark"
-            android:textSize="@dimen/text_size_normal" />
+            <RelativeLayout
+                android:id="@+id/relativeLayoutRetailers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/textViewReatilers"
-            android:layout_toLeftOf="@+id/imageView"
-            android:layout_toStartOf="@+id/imageView"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textViewReatilers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:text="@string/retailers"
+                    android:textAllCaps="true"
+                    android:textColor="@color/textColorPrimaryDark"
+                    android:textSize="@dimen/text_size_normal" />
 
-            <TextView
-                android:id="@+id/retailerPending"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:text="@string/pending"
-                android:textColor="@color/textColorPrimary"
-                android:textSize="@dimen/text_size_small" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="10sp"
-                android:text="Pending"
-                android:layout_marginLeft="@dimen/margin_small"
-                android:textColor="@color/textColorPrimary" />
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/textViewReatilers"
+                    android:layout_toLeftOf="@+id/imageView"
+                    android:layout_toStartOf="@+id/imageView"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewReatilersDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/textViewReatilers"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:text="@string/enddate"
-            android:textAllCaps="true"
-            android:textColor="@color/textColorPrimaryDark"
-            android:textSize="@dimen/text_size_small" />
+                    <TextView
+                        android:id="@+id/retailerPending"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:text="@string/pending"
+                        android:textColor="@color/textColorPrimary"
+                        android:textSize="@dimen/text_size_small" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:textSize="10sp"
+                        android:text="Pending"
+                        android:layout_marginLeft="@dimen/margin_small"
+                        android:textColor="@color/textColorPrimary" />
+                </LinearLayout>
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/margin_large"
-            android:layout_height="@dimen/margin_large"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/margin_min"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_survey" />
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/textViewReatilersDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textViewReatilers"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:text="@string/enddate"
+                    android:textColor="@color/textColorPrimaryDark"
+                    android:textSize="@dimen/text_size_small" />
 
-
-    <RelativeLayout
-        android:id="@+id/relativelayoutImage"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_below="@+id/relativeLayoutRetailers">
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="@dimen/margin_large"
+                    android:layout_height="@dimen/margin_large"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/margin_min"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_survey" />
+            </RelativeLayout>
 
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/margin_medium"
-            android:background="@drawable/arrow_down"
-            android:scaleType="centerCrop"
-            android:src="@drawable/distributor" />
+            <RelativeLayout
+                android:id="@+id/relativelayoutImage"
+                android:layout_width="match_parent"
+                android:layout_below="@+id/relativeLayoutRetailers"
+                android:layout_height="50dp">
 
-    </RelativeLayout>
 
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="@dimen/margin_medium"
+                    android:background="@drawable/arrow_down"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="centerCrop" />
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relativelayoutImage"
+        android:layout_below="@+id/cardView1"
         android:layout_margin="@dimen/margin_small">
 
 
@@ -243,7 +253,7 @@
                     android:text="@string/new_retailer_text"
                     android:textColor="@color/textColorPrimary"
                     android:visibility="visible" />
-                android:textSize="@dimen/text_size_small" />
+
             </LinearLayout>
 
 

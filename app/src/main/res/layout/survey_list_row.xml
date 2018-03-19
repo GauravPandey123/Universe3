@@ -7,7 +7,8 @@
         android:id="@+id/cdSurvey"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_small"
+        android:layout_margin="@dimen/margin_small"
+
         android:layout_below="@+id/retailerSelection">
 
         <RelativeLayout
@@ -36,7 +37,6 @@
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:text="@string/enddate"
-                    android:textAllCaps="true"
                     android:textColor="@color/textColorPrimaryDark"
                     android:textSize="@dimen/text_size_small" />
 
@@ -86,6 +86,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="@dimen/margin_medium"
                     android:scaleType="centerCrop"
+                    android:visibility="gone"
                     android:src="@drawable/distributor" />
 
                 <TextView

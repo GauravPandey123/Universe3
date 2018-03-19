@@ -17,6 +17,7 @@ import com.universe.android.activity.CategoryExpandableListActivity;
 import com.universe.android.activity.SearchCustomersActivity;
 import com.universe.android.activity.SurveyDetailActivity;
 import com.universe.android.enums.DesignationEnum;
+import com.universe.android.helper.FontClass;
 import com.universe.android.model.SurveysModal;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
@@ -62,6 +63,9 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
         if (Utility.validateString(surveysModal.getStatus())){
             holder.tvPending.setText(surveysModal.getStatus());
         }
+        holder.tvTitle.setTypeface(FontClass.openSansRegular(mContext));
+        holder.tvExpiryDate.setTypeface(FontClass.openSansLight(mContext));
+        holder.tvPending.setTypeface(FontClass.openSansLight(mContext));
 
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override

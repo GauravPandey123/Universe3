@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
+import com.universe.android.helper.FontClass;
 import com.universe.android.model.CrystalDoctorModel;
 import com.universe.android.model.CustomerModal;
 import com.universe.android.resource.Login.login.LoginResponse;
@@ -51,7 +52,8 @@ public class TeamSurveySelectionAdapter extends RecyclerView.Adapter<TeamSurveyS
         }
         String dateresult = mappingBean.getSurveyDetails().getExpiryDate();
         if (dateresult != null) {
-            DateFormat writeFormat =  new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");;
+            DateFormat writeFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+            ;
             DateFormat readFormat = new SimpleDateFormat(" dd-MMM-yyyy");
             Date date = null;
             try {
@@ -70,6 +72,9 @@ public class TeamSurveySelectionAdapter extends RecyclerView.Adapter<TeamSurveyS
             holder.tvPending.setText(String.valueOf(mappingBean.getPending()));
             setUpListners(holder, position);
         }
+        holder.tvTitle.setTypeface(FontClass.openSansRegular(mContext));
+        holder.tvExpiryDate.setTypeface(FontClass.openSansLight(mContext));
+        holder.tvPending.setTypeface(FontClass.openSansLight(mContext));
     }
 
     private void setUpListners(TeamSurveyViewHolder holder, int position) {
