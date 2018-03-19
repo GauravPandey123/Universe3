@@ -643,7 +643,7 @@ public class LoginActivity extends BaseActivity {
                         if (responseData != null) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
-//                            new RealmController().saveCustomersResponse(array.toString());
+                            new RealmController().saveCustomersResponse(array.toString());
                         }
 
                         runOnUiThread(new Runnable() {

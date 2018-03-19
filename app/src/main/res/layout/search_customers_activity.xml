@@ -91,6 +91,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="12dp"
-        android:backgroundTint="@color/buttoncolor"
-        android:src="@drawable/fab_add" />
+        android:background="@color/buttoncolor"
+        android:src="@drawable/fab_add"
+        tools:targetApi="lollipop" />
 </RelativeLayout>

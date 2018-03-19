@@ -285,6 +285,7 @@ public class SearchCustomersActivity extends BaseActivity {
                     modal.setId(realmCustomers.get(i).get_id());
                     RealmAnswers realmAnswers1 = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, realmCustomers.get(i).get_id()).findFirst();
                     if (realmAnswers1 != null) {
+                        modal.setDate(AppConstants.format2.format(realmAnswers1.getCreatedAt()));
                         String status = realmAnswers1.getRequester_status();
                         modal.setStatus(status);
                     } else {
@@ -307,7 +308,7 @@ public class SearchCustomersActivity extends BaseActivity {
                     modal.setPincode(realmCustomers.get(i).getPincode());
 
                     //modal.setStatus(type);
-                    modal.setDate(AppConstants.format2.format(realmCustomers.get(i).getCreatedAt()));
+
                     stringArrayList.add(modal);
                 }
             }
