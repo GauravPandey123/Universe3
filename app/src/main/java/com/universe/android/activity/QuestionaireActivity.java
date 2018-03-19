@@ -121,6 +121,8 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
     private boolean isUpdateImage = false;
     CustomerPictureResponse CustomerPictureResponse;
     private ImageView imageLoc;
+    private String strValidAnswer="";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -472,6 +474,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
             RealmResults<RealmAnswers> realmCategoryAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, customerId).equalTo(AppConstants.SURVEYID, surveyId).findAll();
 
             if (realmCategoryAnswers != null && realmCategoryAnswers.size() > 0) {
+                strValidAnswer =realmCategoryAnswers.size()+"";
                 isSync = realmCategoryAnswers.get(0).isSync();
                 if (realmCategoryAnswers.get(0).isSync()) {
                     updateId = realmCategoryAnswers.get(0).get_id();
@@ -586,6 +589,8 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
 
                 jsonSubmitReq.put(AppConstants.WORKFLOW, array);
                 jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());
+            }else{
+                strValidAnswer=null;
             }
 
 
@@ -605,30 +610,41 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
     @Override
     public void onBackPressed() {
         // super.onBackPressed();
-        String designation = Prefs.getStringPrefs(AppConstants.TYPE);
-        if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-            if (strStatus.equalsIgnoreCase("1") || strStatus.equalsIgnoreCase("2")) {
-                finish();
-            } else {
-                if (Utility.isConnected()) {
-                    jsonSubmitReq = prepareJsonRequest("Reject", "");
-                    submitAnswers(updateId, true);
-                } else {
+
+            String designation = Prefs.getStringPrefs(AppConstants.TYPE);
+
+            if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+                if (strStatus.equalsIgnoreCase("1") || strStatus.equalsIgnoreCase("2")) {
                     finish();
-                }
-            }
-        } else {
-            if (!strStatus.equalsIgnoreCase("2") || !strStatus.equalsIgnoreCase("3")) {
-                finish();
-            } else {
-                if (Utility.isConnected()) {
-                    jsonSubmitReq = prepareJsonRequest("Reject", "");
-                    submitAnswers(updateId, true);
                 } else {
-                    finish();
-                }
+                    if (Utility.isConnected()) {
+                        jsonSubmitReq = prepareJsonRequest("Reject", "");
+                        if (Utility.validateString(strValidAnswer)) {
+                            submitAnswers(updateId, true);
+                        }else {
+                            finish();
+                        }
+                        }  else{
+                            finish();
+                        }
+                    }
+                } else{
+                    if (!strStatus.equalsIgnoreCase("2") || !strStatus.equalsIgnoreCase("3")) {
+                        finish();
+                    } else {
+                        if (Utility.isConnected()) {
+                            jsonSubmitReq = prepareJsonRequest("Reject", "");
+                            if (Utility.validateString(strValidAnswer)) {
+                                submitAnswers(updateId, true);
+                            } else {
+                                finish();
+                            }
+                        } else {
+                            finish();
+                        }
+                    }
+
             }
-        }
     }
 
     private void submitAnswers(final String isUpdateId, final boolean isBack) {
@@ -834,7 +850,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
 
                 if (realmAnswers != null) {
                     if (Utility.validateString(realmAnswers.getCd_Status()))
-                        strStatus = realmAnswers.getCd_Status();
+                        strStatus = realmAnswers.getRequester_status();
 
                     if (realmAnswers.isSync()) {
                         //  updateId = realmAnswers.get_id();

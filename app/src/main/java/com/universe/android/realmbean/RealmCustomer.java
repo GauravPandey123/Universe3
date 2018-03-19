@@ -60,8 +60,8 @@ public class RealmCustomer extends RealmObject {
     private String Address;
     private String major_crop;
     private String retailerName;
-    private int state_code;
-    private int territory_code;
+    private String state_code;
+    private String territory_code;
     private String distributer_code;
     private String customer;
 
@@ -336,21 +336,7 @@ public class RealmCustomer extends RealmObject {
         this.retailerName = retailerName;
     }
 
-    public int getState_code() {
-        return state_code;
-    }
 
-    public void setState_code(int state_code) {
-        this.state_code = state_code;
-    }
-
-    public int getTerritory_code() {
-        return territory_code;
-    }
-
-    public void setTerritory_code(int territory_code) {
-        this.territory_code = territory_code;
-    }
 
     public String getDistributer_code() {
         return distributer_code;
@@ -374,5 +360,21 @@ public class RealmCustomer extends RealmObject {
 
     public void setMajor_crop(String major_crop) {
         this.major_crop = major_crop;
+    }
+
+    public String getState_code() {
+        return state_code;
+    }
+
+    public void setState_code(String state_code) {
+        this.state_code = state_code;
+    }
+
+    public String getTerritory_code() {
+        return territory_code;
+    }
+
+    public void setTerritory_code(String territory_code) {
+        this.territory_code = territory_code;
     }
 }

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -17,18 +16,13 @@ import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.activity.BaseActivity;
-import com.universe.android.activity.CategoryExpandableListActivity;
 import com.universe.android.adapter.WorkFLowAdapter;
-import com.universe.android.adapter.WorkFLowDetailAdapter;
 import com.universe.android.adapter.WorkFLowUserAdapter;
 import com.universe.android.enums.DesignationEnum;
-import com.universe.android.helper.RecyclerTouchListener;
 import com.universe.android.listneners.PageChangeInterface;
 import com.universe.android.model.AnswersModal;
 import com.universe.android.model.UserModel;
 import com.universe.android.realmbean.RealmAnswers;
-import com.universe.android.realmbean.RealmCustomer;
-import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.realmbean.RealmWorkFlow;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
@@ -44,7 +38,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
-import in.editsoft.api.util.App;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -80,7 +73,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
         initialization();
         setUpElements();
         setUpListeners();
-        prepareList("","","");
+        prepareList("","","", "");
         prepareListUsers();
     }
 
@@ -311,7 +304,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
 
     }
 
-    private void prepareList(String type,String id,String name) {
+    private void prepareList(String type, String id, String name, String visible) {
         if (!Utility.validateString(id)) {
             if (stringArrayList == null) stringArrayList = new ArrayList<>();
             stringArrayList.clear();
@@ -338,6 +331,11 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                         modal.setTitle(jsonObject.optString(AppConstants.USERNAME));
                     }
 
+                    if (visible.equalsIgnoreCase("0")){
+                        textViewStatus.setVisibility(View.GONE);
+                    }else{
+                        textViewStatus.setVisibility(View.VISIBLE);
+                    }
                     if (Utility.validateString(id)) {
                         if (id.equalsIgnoreCase(jsonObject.optString(AppConstants.UserId))) {
                             textViewStatus.setText(stringArrayList.get(i).getStatus() + " by " + jsonObject.optString(AppConstants.USERNAME) + " on " + stringArrayList.get(i).getDate());
@@ -426,6 +424,8 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
 
 
                         }
+                    }else {
+                        textViewStatus.setVisibility(View.GONE);
                     }
                     modal.setStatus(jsonObject.optString(AppConstants.STATUS));
                     SimpleDateFormat format1 = new SimpleDateFormat(AppConstants.utc_format1);
@@ -568,7 +568,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
             @Override
             public void onClick(View v) {
                 Utility.animateView(v);
-                prepareList(getString(R.string.pending),"","");
+                prepareList(getString(R.string.pending),"","", "");
             }
         });
 
@@ -576,14 +576,14 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
             @Override
             public void onClick(View v) {
                 Utility.animateView(v);
-                prepareList(getString(R.string.inprogress),"","");
+                prepareList(getString(R.string.inprogress),"","", "");
             }
         });
         ll_completed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Utility.animateView(v);
-                prepareList(getString(R.string.completed),"","");
+                prepareList(getString(R.string.completed),"","", "");
             }
         });
 
@@ -617,7 +617,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
     public void onDataPass(String data, int pos, String categoryId) {
 
 
-        prepareList(stringArrayListRoles.get(pos).getUserStatus(),stringArrayListRoles.get(pos).getId(),stringArrayListRoles.get(pos).getUserName());
+        prepareList(stringArrayListRoles.get(pos).getUserStatus(),stringArrayListRoles.get(pos).getId(),stringArrayListRoles.get(pos).getUserName(),categoryId);
     }
 
 

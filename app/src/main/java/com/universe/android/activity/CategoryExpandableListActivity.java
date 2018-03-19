@@ -1042,7 +1042,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 } else {
                     btnApprove.setBackgroundResource(R.color.buttoncolor);
                     btnApprove.setEnabled(true);
-                    btnReject.setBackgroundResource(R.color.buttoncolor1);
+                    btnReject.setBackgroundResource(R.color.buttoncolor);
                     btnReject.setEnabled(true);
                 }
 

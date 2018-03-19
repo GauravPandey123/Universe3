@@ -263,7 +263,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
         final TextView view1=(TextView)view.findViewById(R.id.view);
         String type=Prefs.getStringPrefs(AppConstants.TYPE);
-        if (type.equalsIgnoreCase("cd")){
+        if (type.equalsIgnoreCase(DesignationEnum.requester.toString())){
             view1.setVisibility(View.GONE);
         }else {
             view1.setVisibility(View.VISIBLE);
