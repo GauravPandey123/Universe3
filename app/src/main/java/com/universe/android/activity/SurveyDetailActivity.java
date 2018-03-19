@@ -30,6 +30,7 @@ import com.universe.android.R;
 import com.universe.android.adapter.StatusAdapter;
 import com.universe.android.adapter.SurveyDetailAdapter;
 import com.universe.android.adapter.WorkFLowDetailAdapter;
+import com.universe.android.enums.DesignationEnum;
 import com.universe.android.fragment.SurveyDetailDialogFragment;
 import com.universe.android.helper.FontClass;
 
@@ -234,7 +235,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
             public void onClick(View view) {
 
                 if (fromDateTime==null)
-                prepareList(getString(R.string.completed));
+                    prepareList(getString(R.string.completed));
                 else
                     prepareListFilter(getString(R.string.completed),fromDateTime,toDates);
             }
@@ -371,16 +372,16 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         try {
             RealmResults<RealmAnswers> realmAnswers = null;
             String designation = Prefs.getStringPrefs(AppConstants.TYPE);
+            realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status, "1").findAll();
+            if (type.equalsIgnoreCase(getString(R.string.inprogress))) {
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status, "5").findAll();
+            } else if (type.equalsIgnoreCase(getString(R.string.completed))) {
                 realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status, "1").findAll();
-                if (type.equalsIgnoreCase(getString(R.string.inprogress))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status, "5").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.completed))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status, "1").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.newretailor))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.NEW).equalTo(AppConstants.requester_status, "1").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.crystalmembers))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.CrystalCustomer).equalTo(AppConstants.requester_status, "1").findAll();
-                }
+            } else if (type.equalsIgnoreCase(getString(R.string.newretailor))) {
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.NEW).equalTo(AppConstants.requester_status, "1").findAll();
+            } else if (type.equalsIgnoreCase(getString(R.string.crystalmembers))) {
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER,AppConstants.CrystalCustomer).equalTo(AppConstants.requester_status, "1").findAll();
+            }
 
             if (realmAnswers != null && realmAnswers.size() > 0) {
                 for (int i = 0; i < realmAnswers.size(); i++) {
@@ -403,7 +404,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
                     modal.setCustomer(realmCustomer.getCustomer());
 
                     modal.setStatus(realmAnswers.get(i).getCd_Status());
-                      modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getCreatedAt()));
+                    modal.setDate(AppConstants.format2.format(realmAnswers.get(i).getCreatedAt()));
                     stringArrayList.add(modal);
                 }
             } else {
@@ -616,22 +617,22 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         fromDate = fromDateString;
         toDate = toDateString;
         statusData = statusString;
-                Date date = null;
-                Date toDateTime = null;
-                try {
-                    date = AppConstants.format2.parse(fromDate);
-                    fromDateTime = AppConstants.format3.parse(AppConstants.format3.format(date));
-                    date = AppConstants.format2.parse(toDate);
-                    toDateTime = AppConstants.format3.parse(AppConstants.format3.format(date));
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(toDateTime);
-                cal.add(Calendar.DATE, 1);
-                 toDates=cal.getTime();
-                prepareListFilter("", fromDateTime,toDates );
-                setCountsFilter(fromDateTime,toDates );
+        Date date = null;
+        Date toDateTime = null;
+        try {
+            date = AppConstants.format2.parse(fromDate);
+            fromDateTime = AppConstants.format3.parse(AppConstants.format3.format(date));
+            date = AppConstants.format2.parse(toDate);
+            toDateTime = AppConstants.format3.parse(AppConstants.format3.format(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(toDateTime);
+        cal.add(Calendar.DATE, 1);
+        toDates=cal.getTime();
+        prepareListFilter("", fromDateTime,toDates );
+        setCountsFilter(fromDateTime,toDates );
     }
 
 

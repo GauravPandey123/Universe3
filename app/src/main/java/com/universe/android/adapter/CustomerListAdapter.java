@@ -44,7 +44,7 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         holder.textViewMobileNo.setTypeface(FontClass.openSansLight(mContext));
         holder.textViewDate.setTypeface(FontClass.openSansLight(mContext));
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
-            holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
+            holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle().substring(0, 1).toUpperCase() + stringArrayList.get(position).getTitle().substring(1).toLowerCase());
         holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo() + " | " +
                 stringArrayList.get(position).getTerritory() + " | " + stringArrayList.get(position).getState());
         holder.textViewDate.setVisibility(View.GONE);

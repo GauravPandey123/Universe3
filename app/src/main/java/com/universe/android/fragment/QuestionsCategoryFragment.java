@@ -1737,6 +1737,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                     } else if (AppConstants.TEXTBOX.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_edit, null);
                         final EditText edtChild = (EditText) child.findViewById(R.id.edtChild);
+                        edtChild.setTypeface(FontClass.openSansRegular(getActivity()));
                         String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                         if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                             if (strCD.equalsIgnoreCase("1")) {
@@ -1949,7 +1950,8 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         if (child.findViewById(R.id.tvAsteric) != null) {
                             child.findViewById(R.id.tvAsteric).setVisibility(View.GONE);
                         }
-                        TextView textView = (TextView) child.findViewById(R.id.tvChild);
+                        TextView textView = child.findViewById(R.id.tvChild);
+                        textView.setTypeface(FontClass.openSansRegular(mContext));
                         if (textView != null) {
                             String questionTitle;
                             questionTitle = question.getLongTitle();

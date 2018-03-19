@@ -50,7 +50,7 @@
                     android:layout_margin="@dimen/margin_medium"
                     android:text="@string/retailersname"
                     android:textColor="@color/textColorPrimaryDark"
-                    android:textSize="@dimen/text_size_normal" />
+                    android:textSize="@dimen/text_size_small" />
 
                 <TextView
                     android:id="@+id/textViewMobileNoMap"
@@ -61,13 +61,15 @@
                     android:layout_marginLeft="@dimen/margin_medium"
                     android:text="@string/mobile_no"
                     android:textColor="@color/textColorPrimary"
-                    android:textSize="@dimen/text_size_small" />
+                    android:textSize="10sp" />
 
                 <RelativeLayout
                     android:id="@+id/rl_progressBar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true">
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true">
 
                     <RelativeLayout
                         android:layout_width="100dp"
@@ -95,7 +97,8 @@
                             <TextView
                                 android:id="@+id/textStatus"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content" />
+                                android:layout_height="wrap_content"
+                                android:textSize="@dimen/text_size_small" />
                         </LinearLayout>
 
                         <TextView
@@ -104,8 +107,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:gravity="center"
-                            android:textSize="10sp"
-                            android:text="0%" />
+                            android:text="0%"
+                            android:textSize="10sp" />
 
                         <SeekBar
                             android:layout_width="54dp"
