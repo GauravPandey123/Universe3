@@ -283,8 +283,9 @@ public class SearchCustomersActivity extends BaseActivity {
                 for (int i = 0; i < realmCustomers.size(); i++) {
                     CustomerModal modal = new CustomerModal();
                     modal.setId(realmCustomers.get(i).get_id());
-                    RealmAnswers realmAnswers1 = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, realmCustomers.get(i).get_id()).findFirst();
+                    RealmAnswers realmAnswers1 = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID, surveyId).equalTo(AppConstants.CUSTOMERID, realmCustomers.get(i).get_id()).findFirst();
                     if (realmAnswers1 != null) {
+                        if (realmAnswers1.getCreatedAt()!=null)
                         modal.setDate(AppConstants.format2.format(realmAnswers1.getCreatedAt()));
                         String status = realmAnswers1.getRequester_status();
                         modal.setStatus(status);

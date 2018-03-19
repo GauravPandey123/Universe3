@@ -139,6 +139,7 @@ public class AppConstants {
     public static final String MULTIEDITTEXT = "multiedittext";
     public static final String ROLE = "role";
     public static final String ADMIN = "admin";
+    public static final String RATING = "rating";
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";

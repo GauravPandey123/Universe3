@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.ScrollView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -1326,7 +1327,25 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                                 }
                             }
-                        } else if (question != null && (question.getInputType().equals(AppConstants.DATE))) {
+                        } else if (question != null && (question.getInputType().equals(AppConstants.RATING))) {
+                            View childView = llFields.findViewWithTag(question);
+                            if (childView != null && childView.getVisibility() == View.VISIBLE) {
+                                RatingBar textView = (RatingBar) childView.findViewById(R.id.edtChild);
+                                if (textView != null) {
+                                    question.setAnswer(textView.getRating()+"");
+                                    jsonSubmitReq.put(question.getQuestionId(), question.getAnswer());
+                                    jsonObjectQ.put(AppConstants.TITLE,question.getTitle());
+                                    jsonObjectQ.put(AppConstants.ANSWER,question.getAnswer());
+                                    jsonObjectQ.put(AppConstants.QUESTIONID,question.getQuestionId());
+                                    if (question.isRequired())
+                                        jsonObjectQ.put(AppConstants.REQUIRED,"Yes");
+                                    else {
+                                        jsonObjectQ.put(AppConstants.REQUIRED,"No");
+                                    }
+                                    jsonArrayQuestions.put(jsonObjectQ);
+                                }
+                            }
+                        }else if (question != null && (question.getInputType().equals(AppConstants.DATE))) {
                             View childView = llFields.findViewWithTag(question);
                             if (childView != null && childView.getVisibility() == View.VISIBLE) {
                                 TextView textView = (TextView) childView.findViewById(R.id.tvFormDate);
@@ -1707,14 +1726,14 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
                     child = null;
                     final Questions question = entry.getValue();
-                    Log.v("QUESTIONCATEGORY","STARTING CALLING "+question.getTitle());
+
                     if (AppConstants.SECTION.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_section, null);
                     } else if (AppConstants.TEXTBOX.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_edit, null);
                         final EditText edtChild = (EditText) child.findViewById(R.id.edtChild);
                         String designation=Prefs.getStringPrefs(AppConstants.TYPE);
-                        if (designation.equalsIgnoreCase("cd")) {
+                        if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                             if (strCD.equalsIgnoreCase("1")) {
                                 edtChild.setFocusable(false);
                             } else {
@@ -1754,7 +1773,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         edtChild.setText(question.getAnswer());
                         if (AppConstants.STRING.equals(question.getType())) {
                             edtChild.setInputType(InputType.TYPE_CLASS_TEXT);
-                            //  Utility.setEditFilter(edtChild, question.getMaxLength(), AppConstants.STRING, false, question.isAlpha());
+                             Utility.setEditFilter(edtChild, question.getMaxLength(), AppConstants.STRING, false, question.isAlpha());
                         } else if (AppConstants.LONG.equals(question.getType())) {
                             edtChild.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -1786,11 +1805,39 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                             }
                         }
 
+                    }else if (AppConstants.RATING.equals(question.getInputType())) {
+                        child = getLayoutInflater().inflate(R.layout.field_row_rating, null);
+                        final RatingBar edtChild = (RatingBar) child.findViewById(R.id.edtChild);
+                        String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                        edtChild.setNumStars(question.getMaxLength());
+                        if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+                            if (strCD.equalsIgnoreCase("1")) {
+                                edtChild.setFocusable(false);
+                            } else {
+                                edtChild.setFocusable(true);
+                            }
+                        }
+                        final Map<String, Questions> finalQuestionsMap2 = questionsMap;
+
+                        edtChild.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                            @Override
+                            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                                edtChild.setRating(rating);
+                                String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                                if (Utility.validateString(visiblity)) {
+                                    jsonSubmitReq = prepareJsonRequest(finalQuestionsMap2);
+                                    saveNCDResponseLocal(updateId, false);
+
+                                }
+                            }
+                        });
+                        if (Utility.validateString(question.getAnswer()))
+                        edtChild.setRating(Float.parseFloat(question.getAnswer()));
                     } else if (AppConstants.TEXTAREA.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_textarea, null);
                         EditText edtChild = (EditText) child.findViewById(R.id.edtChild);
                         String designation=Prefs.getStringPrefs(AppConstants.TYPE);
-                        if (designation.equalsIgnoreCase("cd")) {
+                        if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                             if (strCD.equalsIgnoreCase("1")) {
                                 edtChild.setFocusable(false);
                             } else {
@@ -1876,7 +1923,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                             public void onClick(View view) {
 
                                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
-                                if (designation.equalsIgnoreCase("cd")) {
+                                if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                                     if (strCD.equalsIgnoreCase("1")) {
 
                                     } else {
@@ -1886,7 +1933,11 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                             }
                         });
-                        setTodaysDate(tvFormDate);
+                        if (Utility.validateString(question.getAnswer()))
+                            tvFormDate.setText(question.getAnswer());
+                        else {
+                            setTodaysDate(tvFormDate);
+                        }
 
                     }
                     if (llFields != null && child != null) {
@@ -1896,7 +1947,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         TextView textView = (TextView) child.findViewById(R.id.tvChild);
                         if (textView != null) {
                             String questionTitle;
-                            questionTitle = question.getTitle();
+                            questionTitle = question.getLongTitle();
                             if (Utility.validateString(questionTitle)) {
                                 textView.setText(questionTitle);
                                 if (question.isRequired()) {
@@ -1989,7 +2040,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
             public void onClick(View view) {
 
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
-                if (designation.equalsIgnoreCase("cd")) {
+                if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                     if (strCD.equalsIgnoreCase("1")) {
 
                     } else {
@@ -2174,7 +2225,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
             public void onClick(View view) {
 
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
-                if (designation.equalsIgnoreCase("cd")) {
+                if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                     if (strCD.equalsIgnoreCase("1")) {
 
                     } else {
@@ -2278,7 +2329,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
             public void onClick(View view) {
 
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
-                if (designation.equalsIgnoreCase("cd")) {
+                if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                     if (strCD.equalsIgnoreCase("1")) {
 
                     } else {
