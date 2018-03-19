@@ -12,6 +12,7 @@
         <TextView
             style="@style/appText"
             android:gravity="center"
+            android:visibility="gone"
             android:text="@string/settings" />
     </LinearLayout>
 
