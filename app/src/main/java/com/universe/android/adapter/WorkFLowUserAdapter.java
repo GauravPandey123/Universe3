@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
+import com.universe.android.enums.DesignationEnum;
 import com.universe.android.helper.FontClass;
 import com.universe.android.listneners.PageChangeInterface;
 import com.universe.android.model.UserModel;
@@ -48,12 +49,25 @@ public class WorkFLowUserAdapter extends RecyclerView.Adapter<WorkFLowUserAdapte
         holder.textViewCD.setTypeface(FontClass.openSansBold(mContext));
         holder.textViewStatus.setTypeface(FontClass.openSansRegular(mContext));
 
-        if (Utility.validateString(stringArrayList.get(position).getUserName()))
-        holder.textViewCD.setText(stringArrayList.get(position).getUserName());
+        if (Utility.validateString(stringArrayList.get(position).getUserDateStatus()))
+        holder.textViewCD.setText(stringArrayList.get(position).getUserDateStatus());
 
-            holder.imgCD.setText(stringArrayList.get(position).getUserStatus());
+        if ("1".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())) {
+            holder.imgCD.setBackgroundResource(R.drawable.green_circle);
+        }else if ("5".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
+            holder.imgCD.setBackgroundResource(R.drawable.yellow_circle);
+        }else  if ("2".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
+            holder.imgCD.setBackgroundResource(R.drawable.green_circle);
+        }else if ("3".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
+            holder.imgCD.setBackgroundResource(R.drawable.red_circle);
+        }else if ("0".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
+           // holder.imgCD.setBackgroundResource(R.drawable.red_circle);
+        }else {
+
+        }
+
         holder.textViewStatus.setText(stringArrayList.get(position).getUserDateStatus());
-
+        holder.textViewStatus.setVisibility(View.GONE);
         if(mSelectedItems.get(position)) {
             holder.imgArrow.setImageResource(R.drawable.arrow_down);
         } else {

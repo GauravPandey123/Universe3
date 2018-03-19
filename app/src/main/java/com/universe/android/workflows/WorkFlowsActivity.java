@@ -65,6 +65,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
 
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -471,6 +472,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
 
             if (realmSurveys != null) {
 
+                RealmAnswers realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID,customerId).equalTo(AppConstants.SURVEYID,surveyId).findFirst();
 
                for (int i=0;i<realmSurveys.size();i++){
                    JSONObject jsonObject=new JSONObject(realmSurveys.get(i).getAssignTo());
@@ -478,7 +480,25 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                    modal.setUserName(jsonObject.optString(AppConstants.NAME));
 
                    modal.setId(jsonObject.optString(AppConstants.ID));
-                   modal.setUserStatus(realmSurveys.get(i).getLevel());
+
+                   if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.requester.toString())){
+                       modal.setUserStatus(realmAnswers.getRequester_status());
+                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval1.toString())){
+                       modal.setUserStatus(realmAnswers.getApproval1_status());
+                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval2.toString())){
+                       modal.setUserStatus(realmAnswers.getApproval2_status());
+                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval3.toString())){
+                       modal.setUserStatus(realmAnswers.getApproval3_status());
+                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval4.toString())){
+                       modal.setUserStatus(realmAnswers.getApproval4_status());
+                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval5.toString())){
+                       modal.setUserStatus(realmAnswers.getApproval5_status());
+                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval6.toString())){
+                       modal.setUserStatus(realmAnswers.getApproval6_status());
+                   }
+
+                   modal.setUserDateStatus(realmSurveys.get(i).getType());
+                   modal.setLevel(realmSurveys.get(i).getLevel());
                    stringArrayListRoles.add(modal);
                }
 
@@ -551,9 +571,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
         llPending = (LinearLayout) findViewById(R.id.ll_pending);
         ll_inprogress = (LinearLayout) findViewById(R.id.ll_inprogress);
         ll_completed = (LinearLayout) findViewById(R.id.ll_completed);
-        imgCD = (ImageView) findViewById(R.id.imgCD);
-        imgRM = (ImageView) findViewById(R.id.imgRM);
-        imgZM = (ImageView) findViewById(R.id.imgZM);
+
 
         textViewCd = (TextView) findViewById(R.id.textViewCD);
         textViewRM = (TextView) findViewById(R.id.textViewRM);
@@ -617,7 +635,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
     public void onDataPass(String data, int pos, String categoryId) {
 
 
-        prepareList(stringArrayListRoles.get(pos).getUserStatus(),stringArrayListRoles.get(pos).getId(),stringArrayListRoles.get(pos).getUserName(),categoryId);
+        prepareList(stringArrayListRoles.get(pos).getLevel(),stringArrayListRoles.get(pos).getId(),stringArrayListRoles.get(pos).getUserName(),categoryId);
     }
 
 
