@@ -180,7 +180,7 @@ public class MainActivity extends BaseActivity {
             item9.setIcon(R.drawable.ic_logout);
             item9.setTitle("Logout");
             mDrawerItemList.add(item9);
-        } else if (type.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+        } else if (type.equalsIgnoreCase(DesignationEnum.admin.toString())) {
 
             DrawerItem item10 = new DrawerItem();
             item10.setIcon(R.drawable.ic_user);

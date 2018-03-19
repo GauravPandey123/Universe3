@@ -1341,7 +1341,7 @@ public class FormQuestionActivity extends FormParentActivity {
                     Questions question = (Questions) question1;
                     if (question != null && question.getQuestionId().equals(FormEnumKeys.inputType.toString())) {
                         if (Utility.validateString(strAns)) {
-                            if (strAns.equalsIgnoreCase("textbox")) {
+                            if (strAns.equalsIgnoreCase("textbox") || strAns.equalsIgnoreCase("rating")) {
                                 if (questionsMap != null && questionsMap.size() > 0) {
                                     Questions q = questionsMap.get(FormEnumKeys.maxLength.toString());
                                     if (q != null) {
@@ -1473,7 +1473,7 @@ public class FormQuestionActivity extends FormParentActivity {
                                 }
                             }
 
-                            if (strAns.equalsIgnoreCase("radio") || strAns.equalsIgnoreCase("checkbox") || strAns.equalsIgnoreCase("rating") || strAns.equalsIgnoreCase("multiedittext") || strAns.equalsIgnoreCase("multiselect") || strAns.equalsIgnoreCase("select")) {
+                            if (strAns.equalsIgnoreCase("radio") || strAns.equalsIgnoreCase("checkbox")  || strAns.equalsIgnoreCase("multiedittext") || strAns.equalsIgnoreCase("multiselect") || strAns.equalsIgnoreCase("select")) {
                                 if (questionsMap != null && questionsMap.size() > 0) {
                                     llOptionValues.setVisibility(View.VISIBLE);
                                     Questions q2 = questionsMap.get(FormEnumKeys.optionValuesCount.toString());

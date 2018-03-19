@@ -52,7 +52,7 @@ public class AdminFragment extends BaseFragment {
 
     private void initialization(View view) {
         tvMaster = view.findViewById(R.id.tvMaster);
-        tvMaster.setTypeface(FontClass.openSansRegular(mContext));
+        tvMaster.setTypeface(FontClass.openSansRegular(getActivity()));
         getHomeData();
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);

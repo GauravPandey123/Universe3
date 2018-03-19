@@ -861,7 +861,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                 RealmAnswers realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID, surveyId).equalTo(AppConstants.CUSTOMERID, customerId).findFirst();
 
                 if (realmAnswers != null) {
-                    if (Utility.validateString(realmAnswers.getCd_Status()))
+                    if (Utility.validateString(realmAnswers.getRequester_status()))
                         strStatus = realmAnswers.getRequester_status();
 
                     if (realmAnswers.isSync()) {
