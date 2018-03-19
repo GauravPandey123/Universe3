@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/relativeLayoutState"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark">
+
+        <TextView
+            android:id="@+id/textViewState"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_large"
+            android:layout_margin="@dimen/margin_small"
+            android:gravity="center_vertical"
+            android:padding="@dimen/margin_small"
+            android:text="@string/state"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_normal" />
+
+        <ImageView
+            android:id="@+id/imageViewStateClose"
+            android:layout_width="@dimen/margin_xnormal"
+            android:layout_height="@dimen/margin_xnormal"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_close_black_24dp" />
+
+    </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewStateandCrop"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/relativeLayoutState"
+            android:layout_height="wrap_content">
+        </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/realtiveLayoutSubmitVillage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium"
+        android:layout_below="@+id/recyclerViewStateandCrop">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            android:paddingTop="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_centerInParent="true"
+            android:paddingLeft="@dimen/margin_xxlarge"
+            android:paddingRight="@dimen/margin_xxlarge"
+            android:textColor="@color/white"
+            android:background="@color/buttoncolor"/>
+    </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

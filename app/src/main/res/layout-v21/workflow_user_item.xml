@@ -26,45 +26,45 @@
 
 
 
-        <LinearLayout
-            android:id="@+id/ll_pending"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:padding="8dp"
-            android:background="@color/white"
-            android:gravity="center"
-            android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/ll_pending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:padding="8dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-
-                <TextView
-                    android:id="@+id/imgCD"
-                    android:layout_width="33dp"
-                    android:layout_height="33dp"/>
-                <ImageView
-                    android:layout_width="@dimen/margin_large"
-                    android:layout_height="@dimen/margin_large"
-                    android:src="@drawable/ic_grey_user" />
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
 
 
+                        <TextView
+                            android:id="@+id/imgCD"
+                            android:layout_width="33dp"
+                            android:layout_height="33dp"/>
+                        <ImageView
+                            android:layout_width="@dimen/margin_large"
+                            android:layout_height="@dimen/margin_large"
+                            android:src="@drawable/ic_grey_user" />
 
-            </RelativeLayout>
 
 
-            <TextView
-                android:id="@+id/textViewCD"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/me"
-                android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_medium" />
+                    </RelativeLayout>
 
-        </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textViewCD"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/me"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/text_size_medium" />
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/imgArrow"
