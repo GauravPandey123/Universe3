@@ -229,17 +229,22 @@ public class MainActivity extends BaseActivity {
     private void initialization() {
         mToolbar = findViewById(R.id.appBar);
         setSupportActionBar(mToolbar);
-        mToolbar.setTitle(R.string.dashboard);
+
         mRecyclerView = findViewById(R.id.drawerRecyclerView);
         mDrawerLayout = findViewById(R.id.drawerLayout);
         mContainerId = R.id.fragment_container;
         String type = Prefs.getStringPrefs(AppConstants.TYPE);
         if (type.equalsIgnoreCase(AppConstants.requester)) {
             addFragment(new SurveySelectionFragment().newInstance(getResources().getString(R.string.questionairemenu)), mContainerId);
+            mToolbar.setTitle(R.string.questionairemenu);
         } else if (type.equalsIgnoreCase("admin")) {
             addFragment(new AdminFragment(), mContainerId);
+            mToolbar.setTitle(R.string.admin);
+
         } else {
             addFragment(new SurveySelectionFragment().newInstance(AppConstants.WORKFLOWS), mContainerId);
+            mToolbar.setTitle(R.string.work_flows);
+
         }
 
 

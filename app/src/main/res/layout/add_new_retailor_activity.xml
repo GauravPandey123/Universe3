@@ -83,7 +83,6 @@
             android:layout_marginLeft="@dimen/margin_medium"
             android:layout_marginStart="@dimen/margin_medium"
             android:text="@string/enddate"
-            android:textAllCaps="true"
             android:textColor="@color/textColorPrimaryDark"
             android:textSize="@dimen/text_size_small" />
 
@@ -107,12 +106,12 @@
 
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_margin="@dimen/margin_medium"
             android:background="@drawable/arrow_down"
-            android:scaleType="centerCrop"
-            android:src="@drawable/distributor" />
+            android:layout_alignParentRight="true"
+            android:scaleType="centerCrop" />
 
     </RelativeLayout>
 

@@ -213,7 +213,6 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
         mViewPager.setCurrentItem(groupPosition);
         //      pagerSlidingTabStrip.setViewPager(mViewPager);
         //      pagerSlidingTabStrip.setTypeface(FontClass.openSansRegular(mContext));
-
         pagerSlidingTabStrip.setupWithViewPager(mViewPager);
 
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

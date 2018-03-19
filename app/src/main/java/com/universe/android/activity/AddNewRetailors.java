@@ -130,12 +130,13 @@ public class AddNewRetailors extends BaseActivity {
         cardViewReatailor = findViewById(R.id.cardViewReatailor);
         textViewReatlorsSelect = findViewById(R.id.textViewReatlorsSelect);
         textViewCrystalSelect = findViewById(R.id.textViewCrystalSelect);
-
+        textViewReatilers.setTypeface(FontClass.openSansRegular(mContext));
+        textViewReatilersDate.setTypeface(FontClass.openSansLight(mContext));
+        retailerPending.setTypeface(FontClass.openSansLight(mContext));
         textViewNewRetailers.setTypeface(FontClass.openSansLight(mContext));
         textViewNewCustomers.setTypeface(FontClass.openSansRegular(mContext));
         textViewHeader.setTypeface(FontClass.openSansRegular(mContext));
-        textViewReatilers.setTypeface(FontClass.openSansRegular(mContext));
-        retailerPending.setTypeface(FontClass.openSansRegular(mContext));
+
         textViewCrystalCustomers.setTypeface(FontClass.openSansRegular(mContext));
         textViewCustomersDetails.setTypeface(FontClass.openSansRegular(mContext));
         textViewReatlorsSelect.setTypeface(FontClass.openSansRegular(mContext));
