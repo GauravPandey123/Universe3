@@ -51,6 +51,7 @@ import com.universe.android.component.SelectionItemListDialog;
 import com.universe.android.enums.DesignationEnum;
 import com.universe.android.enums.FormEnum;
 import com.universe.android.enums.FormEnumKeys;
+import com.universe.android.helper.FontClass;
 import com.universe.android.listneners.IUpdateTask;
 import com.universe.android.listneners.PageChangeInterface;
 import com.universe.android.model.CategoryModal;
@@ -181,7 +182,11 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         spnCategory = (TextView) view.findViewById(R.id.spnCategory);
         spnOptionValues = (TextView) view.findViewById(R.id.spnOptionValues);
         spnCategorySingle = (TextView) view.findViewById(R.id.spnCategorySingle);
-
+        spnClient.setTypeface(FontClass.openSansRegular(getActivity()));
+        spnSurvey.setTypeface(FontClass.openSansRegular(getActivity()));
+        spnCategory.setTypeface(FontClass.openSansRegular(getActivity()));
+        spnOptionValues.setTypeface(FontClass.openSansRegular(getActivity()));
+        spnCategorySingle.setTypeface(FontClass.openSansRegular(getActivity()));
         addAllQuestions();
 
         prepareQuestionList(true, "");

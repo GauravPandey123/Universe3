@@ -11,11 +11,10 @@ import java.util.List;
 
 public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse> {
 
-
     /**
      * errorMsg :
      * statusCode : 200
-     * response : {"location":{"_id":"5a811ccfa6f7eb1200adcbd9","updatedAt":"2018-03-07T13:38:34.785Z","createdAt":"2018-02-12T04:49:19.490Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1520426934461.png","createdBy":"asdas","address":"asdsa","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Ganga Pesticides","__v":0,"state":"WB","territory":"Amtala","pincode":"9999","customer":"CrystalCustomer","locationSet":{"_id":"5a9feb5ae54f6d101c98e2e9","updatedAt":"2018-03-07T13:38:34.767Z","createdAt":"2018-03-07T13:38:34.767Z","location":"TECHNICAL PARADISE, SECTOR 56, GURGOAN, Basai Rd, Jacobpura, Sector 12, Gurugram, Haryana 122006, India","customerId":"5a811ccfa6f7eb1200adcbd9","type":"customer","loc":[28.4595,77.0266],"long":"77.0266","lat":"28.4595","user":"5a8eb8b82741361f5827afb5","__v":0}},"locationSet":true}
+     * response : {"location":{"_id":"5a811ccfa6f7eb1200adcbd9","updatedAt":"2018-03-19T09:03:09.369Z","createdAt":"2018-02-09T13:30:57.529Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1520426934461.png","createdBy":"asdas","address":"asdsa","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Ganga Pesticides","__v":0,"state":"WB","territory":"Amtala","pincode":"9999","customer":"CrystalCustomer","locationSet":{"_id":"5aaf7ccd938fea1160a4bfe2","updatedAt":"2018-03-19T09:03:09.366Z","createdAt":"2018-03-19T09:03:09.366Z","location":"Unnamed Road, Chikal Pat, Madhya Pradesh 461228, India","customerId":"5a811ccfa6f7eb1200adcbd9","type":"customer","loc":[22,77],"long":"77","lat":"22","user":"1234567","__v":0},"isLocation":true}}
      */
 
     private String errorMsg;
@@ -54,12 +53,10 @@ public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse>
 
     public static class ResponseBean {
         /**
-         * location : {"_id":"5a811ccfa6f7eb1200adcbd9","updatedAt":"2018-03-07T13:38:34.785Z","createdAt":"2018-02-12T04:49:19.490Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1520426934461.png","createdBy":"asdas","address":"asdsa","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Ganga Pesticides","__v":0,"state":"WB","territory":"Amtala","pincode":"9999","customer":"CrystalCustomer","locationSet":{"_id":"5a9feb5ae54f6d101c98e2e9","updatedAt":"2018-03-07T13:38:34.767Z","createdAt":"2018-03-07T13:38:34.767Z","location":"TECHNICAL PARADISE, SECTOR 56, GURGOAN, Basai Rd, Jacobpura, Sector 12, Gurugram, Haryana 122006, India","customerId":"5a811ccfa6f7eb1200adcbd9","type":"customer","loc":[28.4595,77.0266],"long":"77.0266","lat":"28.4595","user":"5a8eb8b82741361f5827afb5","__v":0}}
-         * locationSet : true
+         * location : {"_id":"5a811ccfa6f7eb1200adcbd9","updatedAt":"2018-03-19T09:03:09.369Z","createdAt":"2018-02-09T13:30:57.529Z","isActive":0,"status":"0","clientId":"asdasd","surveyId":"asdas","image":"https://s3.ap-south-1.amazonaws.com/images.prs.co.in/profile_pics/Photo_1520426934461.png","createdBy":"asdas","address":"asdsa","contactNo":89999998765,"description":"asd","contactPerson":"asdsa","name":"Ganga Pesticides","__v":0,"state":"WB","territory":"Amtala","pincode":"9999","customer":"CrystalCustomer","locationSet":{"_id":"5aaf7ccd938fea1160a4bfe2","updatedAt":"2018-03-19T09:03:09.366Z","createdAt":"2018-03-19T09:03:09.366Z","location":"Unnamed Road, Chikal Pat, Madhya Pradesh 461228, India","customerId":"5a811ccfa6f7eb1200adcbd9","type":"customer","loc":[22,77],"long":"77","lat":"22","user":"1234567","__v":0},"isLocation":true}
          */
 
         private LocationBean location;
-        private boolean locationSet;
 
         public LocationBean getLocation() {
             return location;
@@ -69,19 +66,11 @@ public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse>
             this.location = location;
         }
 
-        public boolean isLocationSet() {
-            return locationSet;
-        }
-
-        public void setLocationSet(boolean locationSet) {
-            this.locationSet = locationSet;
-        }
-
         public static class LocationBean {
             /**
              * _id : 5a811ccfa6f7eb1200adcbd9
-             * updatedAt : 2018-03-07T13:38:34.785Z
-             * createdAt : 2018-02-12T04:49:19.490Z
+             * updatedAt : 2018-03-19T09:03:09.369Z
+             * createdAt : 2018-02-09T13:30:57.529Z
              * isActive : 0
              * status : 0
              * clientId : asdasd
@@ -98,7 +87,8 @@ public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse>
              * territory : Amtala
              * pincode : 9999
              * customer : CrystalCustomer
-             * locationSet : {"_id":"5a9feb5ae54f6d101c98e2e9","updatedAt":"2018-03-07T13:38:34.767Z","createdAt":"2018-03-07T13:38:34.767Z","location":"TECHNICAL PARADISE, SECTOR 56, GURGOAN, Basai Rd, Jacobpura, Sector 12, Gurugram, Haryana 122006, India","customerId":"5a811ccfa6f7eb1200adcbd9","type":"customer","loc":[28.4595,77.0266],"long":"77.0266","lat":"28.4595","user":"5a8eb8b82741361f5827afb5","__v":0}
+             * locationSet : {"_id":"5aaf7ccd938fea1160a4bfe2","updatedAt":"2018-03-19T09:03:09.366Z","createdAt":"2018-03-19T09:03:09.366Z","location":"Unnamed Road, Chikal Pat, Madhya Pradesh 461228, India","customerId":"5a811ccfa6f7eb1200adcbd9","type":"customer","loc":[22,77],"long":"77","lat":"22","user":"1234567","__v":0}
+             * isLocation : true
              */
 
             private String _id;
@@ -121,6 +111,7 @@ public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse>
             private String pincode;
             private String customer;
             private LocationSetBean locationSet;
+            private boolean isLocation;
 
             public String get_id() {
                 return _id;
@@ -282,18 +273,26 @@ public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse>
                 this.locationSet = locationSet;
             }
 
+            public boolean isIsLocation() {
+                return isLocation;
+            }
+
+            public void setIsLocation(boolean isLocation) {
+                this.isLocation = isLocation;
+            }
+
             public static class LocationSetBean {
                 /**
-                 * _id : 5a9feb5ae54f6d101c98e2e9
-                 * updatedAt : 2018-03-07T13:38:34.767Z
-                 * createdAt : 2018-03-07T13:38:34.767Z
-                 * location : TECHNICAL PARADISE, SECTOR 56, GURGOAN, Basai Rd, Jacobpura, Sector 12, Gurugram, Haryana 122006, India
+                 * _id : 5aaf7ccd938fea1160a4bfe2
+                 * updatedAt : 2018-03-19T09:03:09.366Z
+                 * createdAt : 2018-03-19T09:03:09.366Z
+                 * location : Unnamed Road, Chikal Pat, Madhya Pradesh 461228, India
                  * customerId : 5a811ccfa6f7eb1200adcbd9
                  * type : customer
-                 * loc : [28.4595,77.0266]
-                 * long : 77.0266
-                 * lat : 28.4595
-                 * user : 5a8eb8b82741361f5827afb5
+                 * loc : [22,77]
+                 * long : 77
+                 * lat : 22
+                 * user : 1234567
                  * __v : 0
                  */
 
@@ -308,7 +307,7 @@ public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse>
                 private String lat;
                 private String user;
                 private int __v;
-                private List<Double> loc;
+
 
                 public String get_id() {
                     return _id;
@@ -390,13 +389,6 @@ public class UpDateLocationResponse extends BaseResponse<UpDateLocationResponse>
                     this.__v = __v;
                 }
 
-                public List<Double> getLoc() {
-                    return loc;
-                }
-
-                public void setLoc(List<Double> loc) {
-                    this.loc = loc;
-                }
             }
         }
     }

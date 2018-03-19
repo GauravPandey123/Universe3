@@ -92,13 +92,14 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         initialization();
         setUpElements();
         setUpListners();
-        setupDetail();
+
 
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        setupDetail();
         prepareCategory();
     }
 
@@ -127,28 +128,13 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewSetLocation.setTypeface(FontClass.openSansRegular(mContext));
         textViewHeader.setText(title);
-
         circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showImageOptions();
             }
         });
-        if (Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE) != null) {
-            Glide.with(mActivity).load(Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE)).into(circleImageView);
-        } else if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)) {
-            circleImageViewMap.setImageResource(R.drawable.ic_customer);
-        } else {
-            circleImageViewMap.setImageResource(R.drawable.ic_retailer);
-        }
 
-
-        if (Prefs.getBooleanPrefs(AppConstants.LocationUpdate)) {
-            imageLoc.setImageResource(R.drawable.ic_location_set);
-        } else {
-            imageLoc.setImageResource(R.drawable.red_loc);
-
-        }
     }
 
 
@@ -175,7 +161,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         imageViewLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateMap(new LatLng(lat, lng), "");
+                updateMap(new LatLng(28.4975915, 77.0828436), "");
             }
         });
     }
@@ -198,6 +184,25 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 textViewMobileNoMap.setText(new StringBuilder().append(realmCustomer.getMobile()).append(" | ").append(realmCustomer.getTerritory_code()).append(" | ").append(realmCustomer.getState_code()).append("  \n").append("Pincode - ").append(realmCustomer.getPincode()).toString());
             }
 
+            if (Utility.validateString(realmCustomer.getImage())) {
+                if (realmCustomer.getImage().equals("")) {
+                    if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)) {
+                        circleImageView.setImageResource(R.drawable.ic_crystal_cutomer);
+                    } else {
+                        circleImageView.setImageResource(R.drawable.ic_customer);
+                    }
+                } else {
+                    Glide.with(mActivity).load(realmCustomer.getImage()).into(circleImageView);
+                }
+
+                if (realmCustomer.isLocation()) {
+                    imageLoc.setImageResource(R.drawable.ic_location_set);
+                } else {
+                    imageLoc.setImageResource(R.drawable.red_loc);
+
+                }
+            }
+
         } catch (Exception e0) {
             e0.printStackTrace();
             realm.close();
@@ -213,7 +218,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
-        updateMap(new LatLng(lat, lng), "");
+        updateMap(new LatLng(28.4975915, 77.0828436), "");
     }
 
     @Override
@@ -263,6 +268,11 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 super.onSuccess(response);
                 Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLocationSet().getLat());
                 Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLocationSet().getLongX());
+                if (response.getResponse().getLocation().isIsLocation()) {
+                    imageLoc.setImageResource(R.drawable.ic_location_set);
+                } else {
+                    imageLoc.setImageResource(R.drawable.red_loc);
+                }
             }
 
             @Override
@@ -295,13 +305,6 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 super.onSuccess(response);
                 Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLocationSet().getLat());
                 Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLocationSet().getLongX());
-                Prefs.putBooleanPrefs(AppConstants.LocationUpdate, response.getResponse().isLocationSet());
-
-                if (response.getResponse().isLocationSet()) {
-                    imageLoc.setImageResource(R.drawable.ic_location_set);
-                } else {
-                    imageLoc.setImageResource(R.drawable.red_loc);
-                }
 
 
 //                Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);

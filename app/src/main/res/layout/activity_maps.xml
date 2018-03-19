@@ -50,6 +50,19 @@
         android:layout_below="@+id/include">
 
         <include layout="@layout/questoionaire_header" />
+
+        <ImageView
+            android:id="@+id/imageViewLocation"
+            android:layout_width="@dimen/margin_large"
+            android:layout_height="@dimen/margin_large"
+
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="373dp"
+            android:src="@drawable/ic_location_searching_black_24dp" />
     </RelativeLayout>
 
 
@@ -82,21 +95,12 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/buttoncolor"
         android:gravity="center"
         android:padding="@dimen/text_size_large"
         android:text="@string/setLocation"
         android:textColor="@android:color/white"
         android:textSize="@dimen/text_size_large" />
-
-    <ImageView
-        android:id="@+id/imageViewLocation"
-        android:layout_width="@dimen/margin_large"
-        android:layout_height="@dimen/margin_large"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="@dimen/margin_medium"
-        android:src="@drawable/ic_location_searching_black_24dp" />
 
 
 </RelativeLayout>

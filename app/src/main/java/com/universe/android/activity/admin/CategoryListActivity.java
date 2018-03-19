@@ -52,7 +52,7 @@ public class CategoryListActivity extends BaseActivity {
             formId = intent.getStringExtra(AppConstants.FORM_ID);
         }
         prepareList();
-        ((TextView) findViewById(R.id.textViewHeader)).setText(getString(R.string.category));
+        ((TextView) findViewById(R.id.textViewHeader)).setText(getString(R.string.category)) ;
 
         ImageView imageBack = (ImageView) findViewById(R.id.imageviewbackSearch);
         imageBack.setOnClickListener(new View.OnClickListener() {

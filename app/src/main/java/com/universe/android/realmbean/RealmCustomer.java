@@ -43,7 +43,6 @@ public class RealmCustomer extends RealmObject {
     private int isActive;
     private boolean isSync=true;
     private boolean isUpdate=true;
-    private String image;
     private String surveyId;
     private String clientId;
     private String state;
@@ -64,7 +63,17 @@ public class RealmCustomer extends RealmObject {
     private String territory_code;
     private String distributer_code;
     private String customer;
+    private String image;
 
+    public boolean isLocation() {
+        return isLocation;
+    }
+
+    public void setLocation(boolean location) {
+        isLocation = location;
+    }
+
+    private boolean isLocation;
 
     public String getName() {
         return name;

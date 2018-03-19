@@ -42,7 +42,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
-                    android:text="BHAJAN.LAL@CRYSTALCROP.COM"
                     android:textColor="@color/white"
                     android:inputType="textEmailAddress"
                     android:textColorHint="@color/white" />
@@ -61,7 +60,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password"
-                    android:text="pass123456"
                     android:textColor="@color/white"
                     android:inputType="textPassword"
                     android:textColorHint="@color/white" />
