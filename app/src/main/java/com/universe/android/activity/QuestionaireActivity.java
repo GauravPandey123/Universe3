@@ -121,7 +121,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
     private boolean isUpdateImage = false;
     CustomerPictureResponse CustomerPictureResponse;
     private ImageView imageLoc;
-    private String strValidAnswer="";
+    private String strValidAnswer = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,13 +132,12 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
         prepareCategory();
         setUpElements();
         setUpListeners();
-        setupDetail();
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        setupDetail();
         calculateProgress();
     }
 
@@ -151,19 +150,31 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                 if (Utility.validateString(realmCustomer.getName()))
                     textViewRetailersNameMap.setText(realmCustomer.getName());
 
-                textViewMobileNoMap.setText(realmCustomer.getContactNo() + " | " +
-                        realmCustomer.getTerritory() + " | " + realmCustomer.getState() + "  \n" +
-                        "Pincode - " + realmCustomer.getPincode());
-
+                textViewMobileNoMap.setText(new StringBuilder().append(realmCustomer.getContactNo()).append(" | ").append(realmCustomer.getTerritory()).append(" | ").append(realmCustomer.getState()).append("  \n").append("Pincode - ").append(realmCustomer.getPincode()).toString());
             } else {
                 if (Utility.validateString(realmCustomer.getRetailerName()))
                     textViewRetailersNameMap.setText(realmCustomer.getRetailerName());
 
-                textViewMobileNoMap.setText(realmCustomer.getMobile() + " | " +
-                        realmCustomer.getTerritory_code() + " | " + realmCustomer.getState_code() + "  \n" +
-                        "Pincode - " + realmCustomer.getPincode());
+                textViewMobileNoMap.setText(new StringBuilder().append(realmCustomer.getMobile()).append(" | ").append(realmCustomer.getTerritory_code()).append(" | ").append(realmCustomer.getState_code()).append("  \n").append("Pincode - ").append(realmCustomer.getPincode()).toString());
             }
 
+            if (Utility.validateString(realmCustomer.getImage())) {
+                if (realmCustomer.getImage().equals("")) {
+                    if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)) {
+                        circleImageView.setImageResource(R.drawable.ic_crystal_cutomer);
+                    } else {
+                        circleImageView.setImageResource(R.drawable.ic_customer);
+                    }
+                } else {
+                    Glide.with(mActivity).load(realmCustomer.getImage()).into(circleImageView);
+                }
+            }
+            if (realmCustomer.isLocation()) {
+                imageLoc.setImageResource(R.drawable.ic_location_set);
+            } else {
+                imageLoc.setImageResource(R.drawable.red_loc);
+
+            }
 
         } catch (Exception e0) {
             e0.printStackTrace();
@@ -187,10 +198,10 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(QuestionaireActivity.this, MapsOneActivity.class);
-                intent.putExtra(AppConstants.STR_TITLE,title);
-                intent.putExtra(AppConstants.SURVEYID,surveyId);
-                intent.putExtra(AppConstants.CUSTOMERID,customerId);
-                intent.putExtra(AppConstants.CUSTOMER,strCustomer);
+                intent.putExtra(AppConstants.STR_TITLE, title);
+                intent.putExtra(AppConstants.SURVEYID, surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID, customerId);
+                intent.putExtra(AppConstants.CUSTOMER, strCustomer);
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }
@@ -302,7 +313,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
         textViewMobileNoMap = findViewById(R.id.textViewMobileNoMap);
         textViewStatusMap = findViewById(R.id.textViewStatusMap);
         imageViewSearchBack = findViewById(R.id.imageviewbackSearch);
-        imageLoc=findViewById(R.id.imageLoc);
+        imageLoc = findViewById(R.id.imageLoc);
         llStatus = (LinearLayout) findViewById(R.id.llStatus);
         imageStatus = (ImageView) findViewById(R.id.imageStatus);
         textStatus = (TextView) findViewById(R.id.textStatus);
@@ -318,7 +329,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
         textViewRetailersNameMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewMobileNoMap.setTypeface(FontClass.openSansRegular(mContext));
         textViewStatusMap.setTypeface(FontClass.openSansRegular(mContext));
-        CircleImageView circleImageView = (CircleImageView) findViewById(R.id.circularImageViewMap);
+         circleImageView = findViewById(R.id.circularImageViewMap);
         Intent intent = getIntent();
         if (intent != null) {
             title = intent.getExtras().getString(AppConstants.STR_TITLE);
@@ -331,12 +342,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                 strCustomer = "";
             }
         }
-        if (Prefs.getBooleanPrefs(AppConstants.LocationUpdate)) {
-            imageLoc.setImageResource(R.drawable.ic_location_set);
-        } else {
-            imageLoc.setImageResource(R.drawable.red_loc);
 
-        }
         circleImageView = findViewById(R.id.circularImageViewMap);
 //        if (CustomerPictureResponse.getResponse().getImage() != null) {
 //            Glide.with(mContext)
@@ -349,13 +355,6 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                 showImageOptions();
             }
         });
-
-
-        if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)) {
-            circleImageView.setImageResource(R.drawable.ic_customer);
-        } else {
-            circleImageView.setImageResource(R.drawable.ic_retailer);
-        }
 
         textViewHeader.setText(title);
 
@@ -421,17 +420,12 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
 
                 realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID, jsonArray.get(l).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
                 if (realmCategoryDetails != null) {
-
-
                     CategoryModal categoryModal = new CategoryModal();
                     categoryModal.setId(realmCategoryDetails.getId());
                     categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
                     categoryModal.setStatus(realmCategoryDetails.getStatus());
                     try {
                         RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findAll();
-
-                        //  if (realmQuestions != null && realmQuestions.size() > 0) {
-                        //         String categoryId = realmCategoryDetails.get(k).getId();
                         ArrayList<Questions> questionsArrayList = new ArrayList<>();
 
                         for (int i = 0; i < realmQuestions.size(); i++) {
@@ -486,7 +480,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
             RealmResults<RealmAnswers> realmCategoryAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, customerId).equalTo(AppConstants.SURVEYID, surveyId).findAll();
 
             if (realmCategoryAnswers != null && realmCategoryAnswers.size() > 0) {
-                strValidAnswer =realmCategoryAnswers.size()+"";
+                strValidAnswer = realmCategoryAnswers.size() + "";
                 isSync = realmCategoryAnswers.get(0).isSync();
                 if (realmCategoryAnswers.get(0).isSync()) {
                     updateId = realmCategoryAnswers.get(0).get_id();
@@ -526,71 +520,76 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                     jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
                     jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
                     jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
-                }   if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
                     jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
-                    jsonSubmitReq.put(DesignationEnum.approval1.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), Prefs.getStringPrefs(AppConstants.UserId));
                     jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
                     jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
                     jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
                     jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
                     jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
 
-                } if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
-                    jsonSubmitReq.put(DesignationEnum.requester.toString(),realmCategoryAnswers.get(0).getRequester());
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
                     jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
-                    jsonSubmitReq.put(DesignationEnum.approval2.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), Prefs.getStringPrefs(AppConstants.UserId));
                     jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
                     jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
                     jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
                     jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
 
-                }if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
                     jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
                     jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
                     jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
-                    jsonSubmitReq.put(DesignationEnum.approval3.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), Prefs.getStringPrefs(AppConstants.UserId));
                     jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
                     jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
                     jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
 
-                }if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
                     jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
                     jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
                     jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
                     jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
-                    jsonSubmitReq.put(DesignationEnum.approval4.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), Prefs.getStringPrefs(AppConstants.UserId));
                     jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
                     jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
 
-                }if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
-                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
-                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
-                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
-                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
-                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
-                    jsonSubmitReq.put(DesignationEnum.approval5.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
-                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
-
-                }if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
                     jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
                     jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
                     jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
                     jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
                     jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
                     jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
-                    jsonSubmitReq.put(DesignationEnum.approval6.toString(),  Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), Prefs.getStringPrefs(AppConstants.UserId));
 
                 }
 
 
-                    jsonSubmitReq.put(AppConstants.requester_status, realmCategoryAnswers.get(0).getRequester_status());
-                    jsonSubmitReq.put(AppConstants.approval1_status, realmCategoryAnswers.get(0).getApproval1_status());
-                    jsonSubmitReq.put(AppConstants.approval2_status, realmCategoryAnswers.get(0).getApproval2_status());
-                    jsonSubmitReq.put(AppConstants.approval3_status, realmCategoryAnswers.get(0).getApproval3_status());
-                    jsonSubmitReq.put(AppConstants.approval4_status, realmCategoryAnswers.get(0).getApproval4_status());
-                    jsonSubmitReq.put(AppConstants.approval5_status, realmCategoryAnswers.get(0).getApproval5_status());
-                    jsonSubmitReq.put(AppConstants.approval6_status,  realmCategoryAnswers.get(0).getApproval6_status());
-
+                jsonSubmitReq.put(AppConstants.requester_status, realmCategoryAnswers.get(0).getRequester_status());
+                jsonSubmitReq.put(AppConstants.approval1_status, realmCategoryAnswers.get(0).getApproval1_status());
+                jsonSubmitReq.put(AppConstants.approval2_status, realmCategoryAnswers.get(0).getApproval2_status());
+                jsonSubmitReq.put(AppConstants.approval3_status, realmCategoryAnswers.get(0).getApproval3_status());
+                jsonSubmitReq.put(AppConstants.approval4_status, realmCategoryAnswers.get(0).getApproval4_status());
+                jsonSubmitReq.put(AppConstants.approval5_status, realmCategoryAnswers.get(0).getApproval5_status());
+                jsonSubmitReq.put(AppConstants.approval6_status, realmCategoryAnswers.get(0).getApproval6_status());
 
 
                 //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
@@ -601,8 +600,8 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
 
                 jsonSubmitReq.put(AppConstants.WORKFLOW, array);
                 jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());
-            }else{
-                strValidAnswer=null;
+            } else {
+                strValidAnswer = null;
             }
 
 
@@ -623,40 +622,40 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
     public void onBackPressed() {
         // super.onBackPressed();
 
-            String designation = Prefs.getStringPrefs(AppConstants.TYPE);
+        String designation = Prefs.getStringPrefs(AppConstants.TYPE);
 
-            if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                if (strStatus.equalsIgnoreCase("1") || strStatus.equalsIgnoreCase("2")) {
-                    finish();
-                } else {
-                    if (Utility.isConnected()) {
-                        jsonSubmitReq = prepareJsonRequest("Reject", "");
-                        if (Utility.validateString(strValidAnswer)) {
-                            submitAnswers(updateId, true);
-                        }else {
-                            finish();
-                        }
-                        }  else{
-                            finish();
-                        }
-                    }
-                } else{
-                    if (!strStatus.equalsIgnoreCase("2") || !strStatus.equalsIgnoreCase("3")) {
-                        finish();
+        if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+            if (strStatus.equalsIgnoreCase("1") || strStatus.equalsIgnoreCase("2")) {
+                finish();
+            } else {
+                if (Utility.isConnected()) {
+                    jsonSubmitReq = prepareJsonRequest("Reject", "");
+                    if (Utility.validateString(strValidAnswer)) {
+                        submitAnswers(updateId, true);
                     } else {
-                        if (Utility.isConnected()) {
-                            jsonSubmitReq = prepareJsonRequest("Reject", "");
-                            if (Utility.validateString(strValidAnswer)) {
-                                submitAnswers(updateId, true);
-                            } else {
-                                finish();
-                            }
-                        } else {
-                            finish();
-                        }
+                        finish();
                     }
-
+                } else {
+                    finish();
+                }
             }
+        } else {
+            if (!strStatus.equalsIgnoreCase("2") || !strStatus.equalsIgnoreCase("3")) {
+                finish();
+            } else {
+                if (Utility.isConnected()) {
+                    jsonSubmitReq = prepareJsonRequest("Reject", "");
+                    if (Utility.validateString(strValidAnswer)) {
+                        submitAnswers(updateId, true);
+                    } else {
+                        finish();
+                    }
+                } else {
+                    finish();
+                }
+            }
+
+        }
     }
 
     private void submitAnswers(final String isUpdateId, final boolean isBack) {
@@ -800,7 +799,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                 Glide.with(mContext)
                         .load(response.getResponse().getImage())
                         .into(circleImageView);
-                Prefs.putStringPrefs(AppConstants.CUSTOMERIMAGE,response.getResponse().getImage());
+                Prefs.putStringPrefs(AppConstants.CUSTOMERIMAGE, response.getResponse().getImage());
                 Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
             }
 
@@ -1034,31 +1033,6 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                 textViewProgress.setVisibility(View.VISIBLE);
                 mProgress.setVisibility(View.VISIBLE);
                 llStatus.setVisibility(View.GONE);
-              /*  String type=Prefs.getStringPrefs(AppConstants.TYPE);
-                if (type.equalsIgnoreCase("rm")){
-                    if (strStatus.equalsIgnoreCase("1") ||strStatus.equalsIgnoreCase("3")){
-
-                        textViewProgress.setVisibility(View.GONE);
-                        mProgress.setVisibility(View.GONE);
-                        llStatus.setVisibility(View.VISIBLE);
-
-                        if (strStatus.equalsIgnoreCase("1")){
-                            textStatus.setText("Submitted");
-                            imageStatus.setImageResource(R.drawable.ic_submitted);
-                        }else if (strStatus.equalsIgnoreCase("2")){
-                            textStatus.setText("Approved");
-                            imageStatus.setImageResource(R.drawable.ic_submitted);
-                        }else if (strStatus.equalsIgnoreCase("3")){
-                            textStatus.setText("Rejected");
-                            imageStatus.setImageResource(R.drawable.rejected);
-                        }
-                    }else {
-
-
-                    }
-                }else {
-
-                }*/
 
             } else {
                 if (strStatus.equalsIgnoreCase("1") || strStatus.equalsIgnoreCase("2") || strStatus.equalsIgnoreCase("3")) {

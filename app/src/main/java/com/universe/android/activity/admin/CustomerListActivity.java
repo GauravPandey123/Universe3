@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.activity.BaseActivity;
+import com.universe.android.helper.FontClass;
 import com.universe.android.model.ClientModal;
 import com.universe.android.model.CustomerModal;
 import com.universe.android.parent.ParentSaveActivity;
@@ -150,6 +151,9 @@ public class CustomerListActivity extends BaseActivity {
         TextView text = (TextView) dialog.findViewById(R.id.text_dialog);
         Button dialogButton = (Button) dialog.findViewById(R.id.btnYes);
         Button dialogNo = (Button) dialog.findViewById(R.id.btnNo);
+        text.setTypeface(FontClass.openSansRegular(mContext));
+        dialogButton.setTypeface(FontClass.openSansRegular(mContext));
+        dialogNo.setTypeface(FontClass.openSansRegular(mContext));
         if (size == 0) {
             text.setText(getString(R.string.delete_msg));
             dialogButton.setVisibility(View.VISIBLE);

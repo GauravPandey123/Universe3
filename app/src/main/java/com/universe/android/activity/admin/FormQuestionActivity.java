@@ -35,6 +35,7 @@ import com.universe.android.component.QuestionMapComparator;
 import com.universe.android.component.SelectionItemListDialog;
 import com.universe.android.enums.FormEnum;
 import com.universe.android.enums.FormEnumKeys;
+import com.universe.android.helper.FontClass;
 import com.universe.android.model.MultiSpinnerList;
 import com.universe.android.model.Questions;
 import com.universe.android.model.SpinnerList;
@@ -121,7 +122,11 @@ public class FormQuestionActivity extends FormParentActivity {
         spnCategory = (TextView) findViewById(R.id.spnCategory);
         spnOptionValues = (TextView) findViewById(R.id.spnOptionValues);
         spnCategorySingle = (TextView) findViewById(R.id.spnCategorySingle);
-
+        spnClient.setTypeface(FontClass.openSansRegular(FormQuestionActivity.this));
+        spnSurvey.setTypeface(FontClass.openSansRegular(FormQuestionActivity.this));
+        spnCategory.setTypeface(FontClass.openSansRegular(FormQuestionActivity.this));
+        spnOptionValues.setTypeface(FontClass.openSansRegular(FormQuestionActivity.this));
+        spnCategorySingle.setTypeface(FontClass.openSansRegular(FormQuestionActivity.this));
         if (formId.equalsIgnoreCase(FormEnum.customer.toString())) {
             llSurvey.setVisibility(View.GONE);
             llClient.setVisibility(View.VISIBLE);

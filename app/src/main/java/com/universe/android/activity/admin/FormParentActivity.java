@@ -35,6 +35,7 @@ import com.universe.android.component.QuestionItemListDialog;
 import com.universe.android.component.QuestionMapComparator;
 import com.universe.android.enums.FormEnum;
 import com.universe.android.enums.FormEnumKeys;
+import com.universe.android.helper.FontClass;
 import com.universe.android.model.Questions;
 import com.universe.android.model.SpinnerList;
 import com.universe.android.realmbean.RealmCategory;
@@ -158,6 +159,7 @@ public class FormParentActivity extends AppCompatActivity {
 
         TextView text = (TextView) layout.findViewById(R.id.tvToast);
         text.setText(strMsg);
+        text.setTypeface(FontClass.openSansRegular(FormParentActivity.this));
 
         Toast toast = new Toast(getApplicationContext());
         toast.setGravity(Gravity.CENTER_VERTICAL, 0, 0);

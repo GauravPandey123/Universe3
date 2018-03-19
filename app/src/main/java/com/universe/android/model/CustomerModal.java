@@ -34,6 +34,16 @@ public class CustomerModal{
     private String title;
     private String date;
 
+    public boolean isLocation() {
+        return isLocation;
+    }
+
+    public void setLocation(boolean location) {
+        isLocation = location;
+    }
+
+    private boolean isLocation=false;
+
     public String getQuery() {
         return query;
     }
