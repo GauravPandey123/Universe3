@@ -10,6 +10,7 @@ public class UserModel {
    private String userName;
    private String userStatus;
    private String userDateStatus;
+   private String level;
 
     public String getId() {
         return id;
@@ -41,6 +42,14 @@ public class UserModel {
 
     public void setUserDateStatus(String userDateStatus) {
         this.userDateStatus = userDateStatus;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }
 

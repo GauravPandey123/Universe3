@@ -44,7 +44,8 @@
                         <TextView
                             android:id="@+id/imgCD"
                             android:layout_width="33dp"
-                            android:layout_height="33dp"/>
+                            android:layout_height="33dp"
+                          />
                         <ImageView
                             android:layout_width="@dimen/margin_large"
                             android:layout_height="@dimen/margin_large"
