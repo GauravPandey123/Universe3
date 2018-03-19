@@ -111,6 +111,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
     private boolean isUpdateImage = false;
     CircleImageView circleImageView;
     private ImageView imageLoc;
+    private String isLocationSet="";
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -694,8 +695,10 @@ public class CategoryExpandableListActivity extends BaseActivity {
             }
 
             if (realmCustomer.isLocation()) {
+                isLocationSet="yes";
                 imageLoc.setImageResource(R.drawable.ic_location_set);
             } else {
+                isLocationSet="no";
                 imageLoc.setImageResource(R.drawable.red_loc);
 
             }
@@ -1049,7 +1052,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                     btnReject.setVisibility(View.VISIBLE);
                 }
             } else {
-                if (categoryAnswered.contains("No") || categoryAnswered.contains("")) {
+                if (categoryAnswered.contains("No") || categoryAnswered.contains("") || isLocationSet.equalsIgnoreCase("no") || isLocationSet.equalsIgnoreCase("")) {
                     btnApprove.setBackgroundResource(R.color.grey);
                     btnApprove.setEnabled(false);
                     btnReject.setBackgroundResource(R.color.grey);

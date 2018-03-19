@@ -64,13 +64,22 @@
         android:dividerHeight="0.5dp"
         android:listSelector="@android:color/transparent"></ListView>
 
-
+    <TextView
+        android:id="@+id/tvAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/list_popup"
+        android:layout_above="@+id/llDone"
+        android:text="1000"
+        android:textSize="16sp"
+        />
 
     <LinearLayout
         android:id="@+id/llDone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/list_popup"
+        android:layout_below="@+id/tvAmount"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:orientation="horizontal"

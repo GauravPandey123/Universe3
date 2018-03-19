@@ -69,8 +69,8 @@
 
     <string name="no_future_date">No Future Date Allowed</string>
 
-    <string name="search">Search Customers</string>
-    <string name="customersearch">Search Customers</string>
+    <string name="search">Search </string>
+    <string name="customersearch">Search </string>
     <string name="category1">Category1</string>
     <string name="select_status">Choose Status</string>
     <string name="profile">Profile</string>
