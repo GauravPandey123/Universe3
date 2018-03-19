@@ -43,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/margin_medium"
             android:text="@string/retailers"
-            android:textAllCaps="true"
             android:textColor="@color/textColorPrimaryDark"
             android:textSize="@dimen/text_size_normal" />
 
