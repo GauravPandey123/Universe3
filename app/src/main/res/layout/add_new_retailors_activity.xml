@@ -36,9 +36,8 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/imageviewbackRetailors"
                     android:text="@string/addNewReatiors"
-                    android:textAllCaps="true"
                     android:textColor="@android:color/white"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 

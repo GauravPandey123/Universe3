@@ -181,6 +181,19 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
             }
         });
 
+        imageLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(QuestionaireActivity.this, MapsOneActivity.class);
+                intent.putExtra(AppConstants.STR_TITLE,title);
+                intent.putExtra(AppConstants.SURVEYID,surveyId);
+                intent.putExtra(AppConstants.CUSTOMERID,customerId);
+                intent.putExtra(AppConstants.CUSTOMER,strCustomer);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+        });
+
     }
 
     private void setUpElements() {
@@ -772,6 +785,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                 Glide.with(mContext)
                         .load(response.getResponse().getImage())
                         .into(circleImageView);
+                Prefs.putStringPrefs(AppConstants.CUSTOMERIMAGE,response.getResponse().getImage());
                 Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
             }
 

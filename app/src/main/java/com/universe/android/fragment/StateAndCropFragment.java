@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -46,6 +47,7 @@ public class StateAndCropFragment extends DialogFragment {
     private ArrayList<StaeAndCropResponse.ResponseBean.StateBean> stateBeanArrayList;
     private StateAdapter stateAdapter;
     String stateString;
+    private RelativeLayout realtiveLayoutSubmitVillage;
 
 
     @Nullable
@@ -104,6 +106,8 @@ public class StateAndCropFragment extends DialogFragment {
         textViewState = view.findViewById(R.id.textViewState);
         imageViewStateClose = view.findViewById(R.id.imageViewStateClose);
         recyclerViewStateandCrop = view.findViewById(R.id.recyclerViewStateandCrop);
+        realtiveLayoutSubmitVillage=view.findViewById(R.id.realtiveLayoutSubmitVillage);
+        realtiveLayoutSubmitVillage.setVisibility(View.GONE);
     }
 
     public void stateService() {
@@ -119,7 +123,7 @@ public class StateAndCropFragment extends DialogFragment {
             public void onSuccess(@NonNull StaeAndCropResponse response) {
                 super.onSuccess(response);
                 List<StaeAndCropResponse.ResponseBean.StateBean> responseBean = response.getResponse().getState();
-                Prefs.putIntegerPrefs(AppConstants.STATECODE,responseBean.get(0).getState_code());
+                Prefs.putIntegerPrefs(AppConstants.STATECODE, responseBean.get(0).getState_code());
                 String value = new Gson().toJson(responseBean);
                 StaeAndCropResponse.ResponseBean.StateBean[] stateBeans = new Gson().fromJson(value, StaeAndCropResponse.ResponseBean.StateBean[].class);
                 Collections.addAll(stateBeanArrayList, stateBeans);
@@ -132,9 +136,6 @@ public class StateAndCropFragment extends DialogFragment {
             }
         });
     }
-
-
-
 
 
     public interface SetStateData {

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -46,8 +47,9 @@ public class TerroryFragment extends DialogFragment {
     private ArrayList<TerroritryResponse.ResponseBean> responseBeans;
 
     private TerroritryAdapter terroritryAdapter;
-
     private String terroirtyString;
+
+    private RelativeLayout realtiveLayoutSubmitVillage;
 
 
     @Nullable
@@ -104,7 +106,9 @@ public class TerroryFragment extends DialogFragment {
         textViewState = view.findViewById(R.id.textViewState);
         imageViewStateClose = view.findViewById(R.id.imageViewStateClose);
         recyclerViewStateandCrop = view.findViewById(R.id.recyclerViewStateandCrop);
+        realtiveLayoutSubmitVillage = view.findViewById(R.id.realtiveLayoutSubmitVillage);
         textViewState.setText("Select Territory");
+        realtiveLayoutSubmitVillage.setVisibility(View.GONE);
     }
 
 

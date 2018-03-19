@@ -106,6 +106,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     private String villageIdString;
     private String cropIdString;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -619,7 +620,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
                             JSONObject jsonResponse = new JSONObject(responseData);
                             jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
                             updateId=jsonResponse.optString(AppConstants.ID);
-                           //new RealmController().saveFormNewRetailerSubmit(jsonResponse.toString(), "");
+                            new RealmController().saveFormNewRetailerSubmit(jsonResponse.toString(), "");
                         }
 
 

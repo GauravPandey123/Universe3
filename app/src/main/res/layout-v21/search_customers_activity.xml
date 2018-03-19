@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:id="@+id/include"
@@ -47,7 +48,6 @@
         android:iconifiedByDefault="false"
         android:imeActionLabel="Done"
         android:queryBackground="@android:color/transparent"
-        android:backgroundTint="@null"
         android:imeOptions="actionDone"
         android:inputType="text"
         android:queryHint="@string/search_name" />
@@ -91,5 +91,6 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_margin="12dp"
+        android:backgroundTint="@color/buttoncolor"
         android:src="@drawable/fab_add" />
 </RelativeLayout>

@@ -81,7 +81,7 @@
                         <com.universe.android.component.NonScrollExpandableListView
                             android:id="@+id/expandableListView"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="wrap_content" />
 
                     </LinearLayout>
 
@@ -102,7 +102,7 @@
             <include
                 layout="@layout/button_approve_reject"
                 android:layout_width="match_parent"
-                android:layout_height="90dp" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </RelativeLayout>
 

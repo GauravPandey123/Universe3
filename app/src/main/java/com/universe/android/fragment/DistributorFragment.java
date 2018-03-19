@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -48,6 +49,7 @@ public class DistributorFragment extends DialogFragment {
     private ArrayList<DistributorResponse.ResponseBean.DistributerBean> stateBeanArrayList;
     private DistributorAdapter distributorAdapter;
     String stateString;
+    private RelativeLayout realtiveLayoutSubmitVillage;
 
     @Nullable
     @Override
@@ -63,7 +65,10 @@ public class DistributorFragment extends DialogFragment {
         textViewState = view.findViewById(R.id.textViewState);
         imageViewStateClose = view.findViewById(R.id.imageViewStateClose);
         recyclerViewStateandCrop = view.findViewById(R.id.recyclerViewStateandCrop);
+        realtiveLayoutSubmitVillage=view.findViewById(R.id.realtiveLayoutSubmitVillage);
+        realtiveLayoutSubmitVillage.setVisibility(View.GONE);
         textViewState.setText("Distributor Name");
+
     }
 
     private void setUpElements() {
@@ -121,7 +126,7 @@ public class DistributorFragment extends DialogFragment {
             public void onSuccess(@NonNull DistributorResponse response) {
                 super.onSuccess(response);
                 List<DistributorResponse.ResponseBean.DistributerBean> responseBean = response.getResponse().getDistributer();
-                Prefs.putStringPrefs(AppConstants.Distributor_Id,responseBean.get(0).get_id());
+                Prefs.putStringPrefs(AppConstants.Distributor_Id, responseBean.get(0).get_id());
                 String value = new Gson().toJson(responseBean);
                 DistributorResponse.ResponseBean.DistributerBean[] stateBeans = new Gson().fromJson(value, DistributorResponse.ResponseBean.DistributerBean[].class);
                 Collections.addAll(stateBeanArrayList, stateBeans);
@@ -135,8 +140,7 @@ public class DistributorFragment extends DialogFragment {
         });
     }
 
-    public interface submitDistributor
-    {
+    public interface submitDistributor {
         public void submitDistriButor(String DistributorName);
     }
 }

@@ -711,7 +711,9 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 showImageOptions();
             }
         });
-        if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)){
+        if (Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE) != null) {
+            Glide.with(mActivity).load(Prefs.getStringPrefs(AppConstants.CUSTOMERIMAGE)).into(circleImageView);
+        } else if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)){
             circleImageView.setImageResource(R.drawable.ic_customer);
         }else {
             circleImageView.setImageResource(R.drawable.ic_retailer);
@@ -720,12 +722,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
         llStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(CategoryExpandableListActivity.this, WorkFlowsActivity.class);
-
-
-
-
                 intent.putExtra(AppConstants.STR_TITLE,title);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
                 intent.putExtra(AppConstants.CUSTOMERID,customerId);
@@ -1236,6 +1233,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 Glide.with(mContext)
                         .load(response.getResponse().getImage())
                         .into(circleImageView);
+                Prefs.putStringPrefs(AppConstants.CUSTOMERIMAGE,response.getResponse().getImage());
                 Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
             }
 
