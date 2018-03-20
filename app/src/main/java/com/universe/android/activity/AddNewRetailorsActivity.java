@@ -1,58 +1,46 @@
 package com.universe.android.activity;
 
-import android.app.Dialog;
+
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
+
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.text.Editable;
-import android.text.TextUtils;
+
 import android.text.TextWatcher;
-import android.util.Patterns;
+
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
-import com.universe.android.activity.admin.FormQuestionActivity;
-import com.universe.android.adapter.StatusAdapter;
-import com.universe.android.enums.FormEnum;
 import com.universe.android.fragment.CropFragment;
 import com.universe.android.fragment.DistributorFragment;
 import com.universe.android.fragment.StateAndCropFragment;
 import com.universe.android.fragment.TerroryFragment;
 import com.universe.android.fragment.VillageFragement;
 import com.universe.android.helper.FontClass;
-import com.universe.android.model.StatusModel;
+
 import com.universe.android.okkhttp.APIClient;
 import com.universe.android.okkhttp.UniverseAPI;
-import com.universe.android.realmbean.RealmCategory;
-import com.universe.android.realmbean.RealmClient;
+
 import com.universe.android.realmbean.RealmController;
-import com.universe.android.realmbean.RealmCustomer;
+
 import com.universe.android.realmbean.RealmNewRetailers;
-import com.universe.android.realmbean.RealmQuestion;
-import com.universe.android.realmbean.RealmSurveys;
-import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatiler.AddNewReatilerRequest;
-import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatiler.AddNewReatilerResponse;
-import com.universe.android.resource.Login.NewRetailor.StateAndCrop.AddNewReatiler.AddNewReatilerService;
+
 import com.universe.android.utility.AppConstants;
-import com.universe.android.utility.Log;
+
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
-import com.universe.android.web.BaseApiCallback;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -93,18 +81,19 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     private EditText editTextRetailersState;
     private TextInputLayout textInputLayoutTerroitryPincode;
     private EditText editTextTerroitryPinCode;
-    private StatusAdapter statusAdapter;
-    private ArrayList<StatusModel> statusModels;
-    private ArrayList<StatusModel> multiselectSatuslist = new ArrayList<>();
+
     private String cropString, stateDataString, terroritryDataString, distributorString, villageSubmitString;
     private String reatilersNameString, addressString, phoneString, totalSalesString, pincodeString;
     private RelativeLayout relativeLayoutSubmit;
-    private String surveyId, strTitle,strCustomer;
+    private String surveyId, strTitle, strCustomer;
     private JSONObject jsonSubmitReq = new JSONObject();
     FragmentManager fm = getSupportFragmentManager();
-    private String updateId="";
+    private String updateId = "";
     private String villageIdString;
     private String cropIdString;
+    private int stateId;
+    private int terroritryId;
+    private int distributorId;
 
 
     @Override
@@ -119,7 +108,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
             strCustomer = intent.getExtras().getString(AppConstants.CUSTOMER);
         }
 
-        strCustomer=Prefs.getStringPrefs(AppConstants.CUSTOMER);
+        strCustomer = Prefs.getStringPrefs(AppConstants.CUSTOMER);
         initialization();
         setUpElements();
         setUpListeners();
@@ -129,15 +118,22 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         retailorTerroitry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 TerroryFragment dFragment = new TerroryFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt(AppConstants.STATECODE, stateId);
+                dFragment.setArguments(bundle);
                 dFragment.show(fm, "Dialog Fragment");
+
+
             }
         });
         retailorTerroitryRetailorDistributor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DistributorFragment dFragment = new DistributorFragment();
+                Bundle bundle = new Bundle();
+                bundle.putInt(AppConstants.TerroitryCode, terroritryId);
+                dFragment.setArguments(bundle);
                 dFragment.show(fm, "Dialog Fragment");
             }
         });
@@ -147,6 +143,9 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
             @Override
             public void onClick(View view) {
                 VillageFragement dFragment = new VillageFragement();
+                Bundle bundle = new Bundle();
+                bundle.putInt(AppConstants.TerroitryCode, terroritryId);
+                dFragment.setArguments(bundle);
                 dFragment.show(fm, "Dialog Fragment");
             }
         });
@@ -205,24 +204,24 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         if (!validateAddress()) {
             return;
         }
-        if (!validateDistributoName()) {
-            return;
-        }
-        if (!validateFocusVillage()) {
-            return;
-        }
+//        if (!validateDistributoName()) {
+//            return;
+//        }
+//        if (!validateFocusVillage()) {
+//            return;
+//        }
         if (!validateTerroitryName()) {
             return;
         }
-        if (!validateTotalSales()) {
-            return;
-        }
+//        if (!validateTotalSales()) {
+//            return;
+//        }
         if (!validatePhone()) {
             return;
         }
-        if (!validateCrop()) {
-            return;
-        }
+//        if (!validateCrop()) {
+//            return;
+//        }
         if (!validateState()) {
             return;
         }
@@ -234,11 +233,11 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         phoneString = retailorPhoneNumber.getText().toString();
         pincodeString = editTextTerroitryPinCode.getText().toString();
         totalSalesString = retailorTerroitryRetailorTotalSales.getText().toString();
-        jsonSubmitReq= prepareJsonSubmit(reatilersNameString, phoneString, addressString, pincodeString, totalSalesString);
+        jsonSubmitReq = prepareJsonSubmit(reatilersNameString, phoneString, addressString, pincodeString, totalSalesString);
 
         if (Utility.isConnected()) {
 
-            submitAnswers("",false);
+            submitAnswers("", false);
         } else {
             Utility.showToast(getString(R.string.no_network));
 
@@ -248,24 +247,24 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     }
 
     private JSONObject prepareJsonSubmit(String reatilersNameString, String phoneString, String addressString, String pincodeString, String totalSalesString) {
-        jsonSubmitReq=new JSONObject();
+        jsonSubmitReq = new JSONObject();
 
 
         try {
-            jsonSubmitReq.put(AppConstants.retailerName,reatilersNameString);
-            jsonSubmitReq.put(AppConstants.state_code,Prefs.getIntegerPrefs(AppConstants.STATECODE));
-            jsonSubmitReq.put(AppConstants.territory_code,AppConstants.TerroitryCode);
-            jsonSubmitReq.put(AppConstants.distributer_code,Prefs.getStringPrefs(AppConstants.Distributor_Id));
-            jsonSubmitReq.put(AppConstants.mobile,phoneString);
-            jsonSubmitReq.put(AppConstants.pincode,pincodeString);
-            jsonSubmitReq.put(AppConstants.cropId,cropIdString);
-            jsonSubmitReq.put(AppConstants.village_code,villageIdString);
-            jsonSubmitReq.put(AppConstants.Address,addressString);
-            jsonSubmitReq.put(AppConstants.totalSales,totalSalesString);
-            jsonSubmitReq.put(AppConstants.CUSTOMER,AppConstants.NEW);
-            jsonSubmitReq.put(AppConstants.CREATEDAT,Utility.getTodaysDate());
+            jsonSubmitReq.put(AppConstants.retailerName, reatilersNameString);
+            jsonSubmitReq.put(AppConstants.state_code, stateId);
+            jsonSubmitReq.put(AppConstants.territory_code, terroritryId);
+            jsonSubmitReq.put(AppConstants.distributer_code, Prefs.getStringPrefs(AppConstants.Distributor_Id));
+            jsonSubmitReq.put(AppConstants.mobile, phoneString);
+            jsonSubmitReq.put(AppConstants.pincode, pincodeString);
+            jsonSubmitReq.put(AppConstants.cropId, cropIdString);
+            jsonSubmitReq.put(AppConstants.village_code, villageIdString);
+            jsonSubmitReq.put(AppConstants.Address, addressString);
+            jsonSubmitReq.put(AppConstants.totalSales, totalSalesString);
+            jsonSubmitReq.put(AppConstants.CUSTOMER, AppConstants.NEW);
+            jsonSubmitReq.put(AppConstants.CREATEDAT, Utility.getTodaysDate());
 
-            if (!Utility.isConnected()){
+            if (!Utility.isConnected()) {
                 jsonSubmitReq.put(AppConstants.ISSYNC, false);
             }
 
@@ -395,16 +394,16 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     }
 
     private static boolean isValidPhone(String phone) {
-        boolean check=false;
-        if(!Pattern.matches("[a-zA-Z]+", phone)) {
-            if(phone.length() < 6 || phone.length() > 13) {
+        boolean check = false;
+        if (!Pattern.matches("[a-zA-Z]+", phone)) {
+            if (phone.length() < 6 || phone.length() > 13) {
                 // if(phone.length() != 10) {
                 check = false;
             } else {
                 check = true;
             }
         } else {
-            check=false;
+            check = false;
         }
         return check;
     }
@@ -416,7 +415,6 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     }
 
     private void initialization() {
-        statusModels = new ArrayList<>();
         imageviewbackRetailors = findViewById(R.id.imageviewbackRetailors);
         textViewRetailorsName = findViewById(R.id.textViewRetailorsName);
         textInputLayoutRetailorName = findViewById(R.id.textInputLayoutRetailorName);
@@ -467,38 +465,39 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     }
 
     @Override
-    public void submitStateData(String State) {
+    public void submitStateData(String State, int StateId) {
         stateDataString = State;
-        editTextRetailersState.setText(stateDataString);
+        stateId = StateId;
+        editTextRetailersState.setText(stateDataString.substring(0, 1).toUpperCase() + stateDataString.substring(1).toLowerCase());
     }
 
     @Override
-    public void submitTerroitryData(String Terroitry) {
+    public void submitTerroitryData(String Terroitry, int sterroritryId) {
         terroritryDataString = Terroitry;
-        retailorTerroitry.setText(Terroitry);
+        terroritryId = sterroritryId;
+        retailorTerroitry.setText(Terroitry.substring(0, 1).toUpperCase() + Terroitry.substring(1).toLowerCase());
     }
 
     @Override
-    public void submitCropData(String State,String cropId) {
+    public void submitCropData(String State, String cropId) {
         cropString = State;
-        retailorTerroitryCrop.setText(cropString);
-        cropIdString=cropId;
+        retailorTerroitryCrop.setText(cropString.substring(0, 1).toUpperCase() + State.substring(1).toLowerCase());
+        cropIdString = cropId;
     }
 
     @Override
     public void submitDistriButor(String DistributorName) {
         distributorString = DistributorName;
-        retailorTerroitryRetailorDistributor.setText(distributorString);
+        retailorTerroitryRetailorDistributor.setText(distributorString.substring(0, 1).toUpperCase() + DistributorName.substring(1).toLowerCase());
 
     }
-
 
 
     @Override
     public void showVillage(String villageString, String villageId) {
         villageSubmitString = villageString;
-        retailorTerroitryRetailorFocusVillage.setText(villageString);
-        villageIdString=villageId;
+        retailorTerroitryRetailorFocusVillage.setText(villageString.substring(0, 1).toUpperCase() + villageString.substring(1).toLowerCase());
+        villageIdString = villageId;
     }
 
 
@@ -556,20 +555,20 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     }
 
 
-    private void goToActivity(String customerId){
+    private void goToActivity(String customerId) {
         Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
-        intent.putExtra(AppConstants.STR_TITLE,strTitle);
-        intent.putExtra(AppConstants.SURVEYID,surveyId);
-        intent.putExtra(AppConstants.CUSTOMER,strCustomer);
-        intent.putExtra(AppConstants.CUSTOMERID,customerId);
+        intent.putExtra(AppConstants.STR_TITLE, strTitle);
+        intent.putExtra(AppConstants.SURVEYID, surveyId);
+        intent.putExtra(AppConstants.CUSTOMER, strCustomer);
+        intent.putExtra(AppConstants.CUSTOMERID, customerId);
         startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
         finish();
     }
 
 
-    private void submitAnswers( String isUpdateId, final boolean isBack) {
-        updateId=isUpdateId;
+    private void submitAnswers(String isUpdateId, final boolean isBack) {
+        updateId = isUpdateId;
         if (Utility.validateString(updateId)) {
             try {
                 jsonSubmitReq.put(AppConstants.ID, isUpdateId);
@@ -620,7 +619,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
                         if (Utility.validateString(responseData)) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-                            updateId=jsonResponse.optString(AppConstants.ID);
+                            updateId = jsonResponse.optString(AppConstants.ID);
                             Prefs.clearValue(AppConstants.VillageData);
                             new RealmController().saveFormNewRetailerSubmit(jsonResponse.toString(), "");
                         }
@@ -673,8 +672,6 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
                         jsonSubmitReq.put(AppConstants.ID, id);
                     }
                 }
-
-
 
 
                 realm.createOrUpdateObjectFromJson(RealmNewRetailers.class, jsonSubmitReq);

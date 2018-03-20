@@ -154,7 +154,7 @@ public class SearchCustomersActivity extends BaseActivity {
                 for (CustomerModal wp : responseList) {
                     if (wp.getTitle() != null) {
 
-                        if (wp.getTitle().toLowerCase(Locale.getDefault()).contains(charText)) {
+                        if (wp.getTitle().toLowerCase(Locale.getDefault()).contains(charText)||wp.getState().toLowerCase(Locale.getDefault()).contains(charText)||wp.getContactNo().toLowerCase(Locale.getDefault()).contains(charText)||wp.getTerritory().toLowerCase(Locale.getDefault()).contains(charText)) {
                             arrSearlist.add(wp);
                         }
                     }

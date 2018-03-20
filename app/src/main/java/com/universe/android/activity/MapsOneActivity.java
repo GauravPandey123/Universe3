@@ -218,8 +218,10 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             }
 
             if (realmCustomer.isLocation()) {
+                isLocationSet="yes";
                 imageLoc.setImageResource(R.drawable.ic_location_set);
             } else {
+                isLocationSet="no";
                 imageLoc.setImageResource(R.drawable.red_loc);
 
             }
@@ -554,12 +556,12 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                                                 stringsRequired.add(questionsArrayList.get(p).getStatus());
                                             }
                                             if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
-
-                                                stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                                if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0"))
+                                                    stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
                                             }
                                             if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
-
-                                                doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                                if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0"))
+                                                    doneQuestions.add(questionsArrayList.get(p).getAnswer());
                                             }
 
                                         }
@@ -612,7 +614,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                         categoryModal.setStatus("");
                         categoryModal.setCategoryAnswered("");
                         try {
-                            RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID, surveyId).findAll();
+                            RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId()).findAll();
 
                             //  if (realmQuestions != null && realmQuestions.size() > 0) {
                             //         String categoryId = realmCategoryDetails.get(k).getId();
@@ -640,12 +642,12 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                                     stringsRequired.add(questionsArrayList.get(p).getStatus());
                                 }
                                 if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
-
-                                    stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                    if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0"))
+                                        stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
                                 }
                                 if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
-
-                                    doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                    if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0"))
+                                        doneQuestions.add(questionsArrayList.get(p).getAnswer());
                                 }
 
                             }
@@ -704,6 +706,8 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
 
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {

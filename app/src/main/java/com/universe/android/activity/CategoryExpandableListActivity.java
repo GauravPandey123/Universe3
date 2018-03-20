@@ -824,7 +824,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
         ArrayList<String> stringsRequired = new ArrayList<>();
         ArrayList<String> stringsRequiredAnswers = new ArrayList<>();
         stringsRequired.add("isLocationRequired");
-        if (isLocationSet.equalsIgnoreCase("yes")) {
+        if (isLocationSet.equalsIgnoreCase("yes")){
             stringsRequiredAnswers.add("isLocationRequired");
         }
         arraylistTitle = new ArrayList<>();
@@ -898,28 +898,30 @@ public class CategoryExpandableListActivity extends BaseActivity {
                                                 stringsRequired.add(questionsArrayList.get(p).getStatus());
                                             }
                                             if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
-
-                                                stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                                if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0")) {
+                                                    stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                                }
                                             }
                                             if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
-
-                                                doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                                if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0")) {
+                                                    doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                                }
                                             }
 
                                         }
 
-                                        int required = 0, requiredAnswers = 0;
-                                        if (stringsRequired.contains("isLocationRequired")) {
-                                            required = stringsRequired.size() - 1;
-                                        } else {
-                                            required = stringsRequired.size();
+                                        int required=0,requiredAnswers=0;
+                                        if (stringsRequired.contains("isLocationRequired")){
+                                            required=stringsRequired.size()-1;
+                                        }else {
+                                            required=stringsRequired.size();
                                         }
-                                        if (stringsRequiredAnswers.contains("isLocationRequired")) {
-                                            requiredAnswers = stringsRequiredAnswers.size() - 1;
-                                        } else {
-                                            requiredAnswers = stringsRequiredAnswers.size();
+                                        if (stringsRequiredAnswers.contains("isLocationRequired")){
+                                            requiredAnswers=stringsRequiredAnswers.size()-1;
+                                        }else {
+                                            requiredAnswers=stringsRequiredAnswers.size();
                                         }
-                                        if (required == requiredAnswers) {
+                                        if (required ==requiredAnswers) {
                                             categoryModal.setCategoryAnswered("Yes");
                                         } else {
                                             categoryModal.setCategoryAnswered("No");
@@ -986,12 +988,12 @@ public class CategoryExpandableListActivity extends BaseActivity {
                                     stringsRequired.add(questionsArrayList.get(p).getStatus());
                                 }
                                 if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
-
-                                    stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                    if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0"))
+                                        stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
                                 }
                                 if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
-
-                                    doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                    if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0"))
+                                        doneQuestions.add(questionsArrayList.get(p).getAnswer());
                                 }
 
                             }
@@ -1140,6 +1142,8 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
 
     }
+
+
 
     protected void showToastMessage(String strMsg) {
         Utility.showToastMessage(this, strMsg);

@@ -43,25 +43,27 @@ public class VillageAdapter extends RecyclerView.Adapter<VillageAdapter.VillageV
     @Override
     public void onBindViewHolder(VillageViewHolder holder, final int position) {
         villageBean = villageBeanArrayList.get(position);
-        holder.textViewTeamSelection.setText(villageBean.getVillage_name());
-        holder.checkboxTeamSelection.setText("Checkbox " + position);
-        holder.checkboxTeamSelection.setChecked(villageBeanArrayList.get(position).isSelected());
-        if (getSaveList().contains(villageBeanArrayList.get(position).get_id())) {
-            holder.checkboxTeamSelection.setChecked(true);
-        }
-        holder.checkboxTeamSelection.setTag(villageBeanArrayList.get(position));
-        holder.checkboxTeamSelection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CheckBox cb = (CheckBox) view;
-                if (cb.isChecked()) {
-                    storeData(villageBeanArrayList.get(position).get_id());
-                } else {
-                    removeData(villageBeanArrayList.get(position).get_id());
-
-                }
+        if (villageBean != null) {
+            holder.textViewTeamSelection.setText(villageBean.getVillage_name());
+            holder.checkboxTeamSelection.setText("Checkbox " + position);
+            holder.checkboxTeamSelection.setChecked(villageBeanArrayList.get(position).isSelected());
+            if (getSaveList().contains(villageBeanArrayList.get(position).get_id())) {
+                holder.checkboxTeamSelection.setChecked(true);
             }
-        });
+            holder.checkboxTeamSelection.setTag(villageBeanArrayList.get(position));
+            holder.checkboxTeamSelection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CheckBox cb = (CheckBox) view;
+                    if (cb.isChecked()) {
+                        storeData(villageBeanArrayList.get(position).get_id());
+                    } else {
+                        removeData(villageBeanArrayList.get(position).get_id());
+
+                    }
+                }
+            });
+        }
 
     }
 

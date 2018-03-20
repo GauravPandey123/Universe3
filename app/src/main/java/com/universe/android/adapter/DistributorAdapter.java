@@ -36,7 +36,9 @@ public class DistributorAdapter extends RecyclerView.Adapter<DistributorAdapter.
     @Override
     public void onBindViewHolder(distributorViewHolder holder, int position) {
         DistributorResponse.ResponseBean.DistributerBean distributerBean = distributerBeanArrayList.get(position);
-        holder.textViewState.setText(distributerBean.getName());
+        if (distributerBean != null) {
+            holder.textViewState.setText(distributerBean.getName().substring(0,1).toUpperCase()+distributerBean.getName().substring(1).toLowerCase());
+        }
     }
 
     @Override

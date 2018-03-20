@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.universe.android.R;
 import com.universe.android.resource.Login.NewRetailor.StateAndCrop.StaeAndCropResponse;
+import com.universe.android.utility.AppConstants;
+import com.universe.android.utility.Prefs;
 
 import java.util.ArrayList;
 
@@ -36,7 +38,9 @@ public class StateAdapter extends RecyclerView.Adapter<StateAdapter.StateViewHol
     @Override
     public void onBindViewHolder(StateViewHolder holder, int position) {
         stateBean = stateBeanArrayList.get(position);
-        holder.textViewState.setText(stateBean.getState_name());
+        if (stateBean != null) {
+            holder.textViewState.setText(stateBean.getState_name());
+        }
     }
 
     @Override
