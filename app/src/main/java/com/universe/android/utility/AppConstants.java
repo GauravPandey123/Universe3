@@ -143,6 +143,8 @@ public class AppConstants {
     public static final String USERID ="userId" ;
     public static final java.lang.String LOCATION = "location";
     public static final java.lang.String ISLOCATIONSET = "isLocation";
+    public static final String PERCENTAGE = "percentage";
+    public static final String RANKING = "ranking";
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";

@@ -44,7 +44,9 @@ import com.universe.android.R;
 import com.universe.android.activity.BaseActivity;
 import com.universe.android.component.FilterPredicate;
 import com.universe.android.component.MultiEdittextListItemDialog;
+import com.universe.android.component.MultiEdittextListItemMatchDialog;
 import com.universe.android.component.MultiSelectItemListDialog;
+import com.universe.android.component.MultiSelectItemRankingListDialog;
 import com.universe.android.component.QuestionItemListDialog;
 import com.universe.android.component.QuestionMapComparator;
 import com.universe.android.component.SelectionItemListDialog;
@@ -543,7 +545,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         questionsMap = QuestionMapComparator.sortByValue(questionsMap);
                         for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
                             Questions question = (Questions) entry.getValue();
-                            if (question.getTitle().contains(strData)) {
+                            if (question.getTitle().contains(strData) || question.getTitle().equalsIgnoreCase(strData)) {
                                 if (llFields != null && llFields.getChildCount() > 0) {
                                     View targetView = llFields.findViewWithTag(question);
                                     if (targetView != null) {
@@ -569,7 +571,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         questionsMap = QuestionMapComparator.sortByValue(questionsMap);
                         for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
                             Questions question = (Questions) entry.getValue();
-                            if (question.getTitle().contains(strData)) {
+                            if (question.getTitle().contains(strData) ||question.getTitle().equalsIgnoreCase(strData)) {
                                 if (llFields != null && llFields.getChildCount() > 0) {
                                     View targetView = llFields.findViewWithTag(question);
                                     if (targetView != null) {
@@ -598,13 +600,6 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         });
 
     }
-
-
-
-
-
-
-
 
 
     private void showMultiSelectionList1(Context context, final TextView textView, List<MultiSpinnerList> list, final String defaultMsg, List<MultiSpinnerList> selectedItems) {
@@ -1299,6 +1294,17 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                                         }
                                         jsonArrayQuestions.put(jsonObjectQ);
                                         jsonSubmitReq.put(question.getQuestionId(), question.getAnswer());
+                                    }else {
+                                        jsonObjectQ.put(AppConstants.TITLE,question.getTitle());
+                                        jsonObjectQ.put(AppConstants.ANSWER,question.getAnswer());
+                                        jsonObjectQ.put(AppConstants.QUESTIONID,question.getQuestionId());
+                                        if (question.isRequired())
+                                            jsonObjectQ.put(AppConstants.REQUIRED,"Yes");
+                                        else {
+                                            jsonObjectQ.put(AppConstants.REQUIRED,"No");
+                                        }
+                                        jsonArrayQuestions.put(jsonObjectQ);
+                                        jsonSubmitReq.put(question.getQuestionId(), question.getAnswer());
                                     }
                                 }
                             }
@@ -1424,7 +1430,71 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                             }
 
 
+                        }else if (question.getInputType().equals(AppConstants.PERCENTAGE)) {
+                            View childView = llFields.findViewWithTag(question);
+                            if (childView != null && childView.getVisibility() == View.VISIBLE) {
+                                TextView textView = (TextView) childView.findViewById(R.id.spnSelect);
+                                if (textView != null && textView.getTag() != null) {
+                                    List<MultiSpinnerList> spinnerList = (List<MultiSpinnerList>) textView.getTag();
+                                    Collection<MultiSpinnerList> result = Collections2.filter(spinnerList, new FilterPredicate().filterMultiSpnList);
+                                    if (result != null && result.size() > 0) {
+                                        JSONArray jsonCheckArray = new JSONArray();
+                                        for (MultiSpinnerList s : result) {
+                                            question.setAnswer(s.getName());
+                                            jsonCheckArray.put(s.getName());
+                                        }
+                                        question.setAnswer(jsonCheckArray.toString());
+                                    }
+                                    jsonAnswers.put(question.getQuestionId(), question.getAnswer());
+                                    jsonObjectQ.put(AppConstants.TITLE,question.getTitle());
+                                    jsonObjectQ.put(AppConstants.ANSWER,question.getAnswer());
+                                    jsonObjectQ.put(AppConstants.QUESTIONID,question.getQuestionId());
+                                    if (question.isRequired())
+                                        jsonObjectQ.put(AppConstants.REQUIRED,"Yes");
+                                    else {
+                                        jsonObjectQ.put(AppConstants.REQUIRED,"No");
+                                    }
+                                    jsonArrayQuestions.put(jsonObjectQ);
+                                } else {
+                                    question.setAnswer("");
+                                }
+
+                            }
+
+
                         }else if (question.getInputType().equals(AppConstants.MULTISELECT)) {
+                            View childView = llFields.findViewWithTag(question);
+                            if (childView != null && childView.getVisibility() == View.VISIBLE) {
+                                TextView textView = (TextView) childView.findViewById(R.id.spnSelect);
+                                if (textView != null && textView.getTag() != null) {
+                                    List<MultiSpinnerList> spinnerList = (List<MultiSpinnerList>) textView.getTag();
+                                    Collection<MultiSpinnerList> result = Collections2.filter(spinnerList, new FilterPredicate().filterMultiSpnList);
+                                    if (result != null && result.size() > 0) {
+                                        JSONArray jsonCheckArray = new JSONArray();
+                                        for (MultiSpinnerList s : result) {
+                                            question.setAnswer(s.getId());
+                                            jsonCheckArray.put(s.getId());
+                                        }
+                                        question.setAnswer(jsonCheckArray.toString());
+                                    }
+                                    jsonAnswers.put(question.getQuestionId(), question.getAnswer());
+                                    jsonObjectQ.put(AppConstants.TITLE,question.getTitle());
+                                    jsonObjectQ.put(AppConstants.ANSWER,question.getAnswer());
+                                    jsonObjectQ.put(AppConstants.QUESTIONID,question.getQuestionId());
+                                    if (question.isRequired())
+                                        jsonObjectQ.put(AppConstants.REQUIRED,"Yes");
+                                    else {
+                                        jsonObjectQ.put(AppConstants.REQUIRED,"No");
+                                    }
+                                    jsonArrayQuestions.put(jsonObjectQ);
+                                } else {
+                                    question.setAnswer("");
+                                }
+
+                            }
+
+
+                        }else if (question.getInputType().equals(AppConstants.RANKING)) {
                             View childView = llFields.findViewWithTag(question);
                             if (childView != null && childView.getVisibility() == View.VISIBLE) {
                                 TextView textView = (TextView) childView.findViewById(R.id.spnSelect);
@@ -1842,6 +1912,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                     } else if (AppConstants.TEXTAREA.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_textarea, null);
                         EditText edtChild = (EditText) child.findViewById(R.id.edtChild);
+                        edtChild.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                         String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                         if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                             if (strCD.equalsIgnoreCase("1")) {
@@ -1876,7 +1947,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         });
 
                         edtChild.setText(question.getAnswer());
-                        Utility.setEditFilter(edtChild, question.getMaxLength(), AppConstants.STRING, false, question.isAlpha());
+                      //  Utility.setEditFilter(edtChild, question.getMaxLength(), AppConstants.STRING, false, question.isAlpha());
                     } else if (AppConstants.RADIO.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_radio_logical, null);
                         RadioGroup radioGroup = (RadioGroup) child.findViewById(R.id.radChild);
@@ -1915,13 +1986,25 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         addSelectTextView(tvSelect, question);
 
 
+                    }else if (question.getInputType().equals(AppConstants.RANKING)) {
+                        child = getLayoutInflater().inflate(R.layout.field_row_select, null);
+                        final TextView tvSelect = (TextView) child.findViewById(R.id.spnSelect);
+                        addRankingSelectTextView(tvSelect, question);
+
+
                     }else if (question.getInputType().equals(AppConstants.MULTIEDITTEXT)) {
                         child = getLayoutInflater().inflate(R.layout.field_row_select, null);
                         final TextView tvSelect = (TextView) child.findViewById(R.id.spnSelect);
                         addMultiEdittextTextView(tvSelect, question);
 
 
-                    } else if (AppConstants.DATE.equals(question.getInputType())) {
+                    } else if (question.getInputType().equals(AppConstants.PERCENTAGE)) {
+                        child = getLayoutInflater().inflate(R.layout.field_row_select, null);
+                        final TextView tvSelect = (TextView) child.findViewById(R.id.spnSelect);
+                        addPercentMultiEdittextTextView(tvSelect, question);
+
+
+                    }else if (AppConstants.DATE.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_date, null);
                         final TextView tvFormDate = (TextView) child.findViewById(R.id.tvFormDate);
                         tvFormDate.setOnClickListener(new View.OnClickListener() {
@@ -2273,6 +2356,213 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         // tvSelect.addTextChangedListener(new ScreenFormQuestionTwoActivity.SelectTextWatcher(question));
     }
 
+    private void addRankingSelectTextView(final TextView tvSelect, final Questions question) {
+        final List<MultiSpinnerList> spinnerList = new ArrayList<MultiSpinnerList>();
+        tvSelect.setTag(question);
+        if (Utility.validateString(question.getAnswer())) {
+            try {
+                JSONArray ans = new JSONArray(question.getAnswer());
+                String as = "";
+                for (int a = 0; a < ans.length(); a++) {
+                    if (a == 0)
+                        as = ans.getString(a);
+                    else
+                        as += ", " + ans.getString(a);
+                    ;
+                }
+                tvSelect.setText(as);
+            } catch (Exception e) {
+            }
+        } else {
+            tvSelect.setText(question.getPlaceholder());
+        }
+        String apiModel = question.getApiModel();
+        if (!Utility.validateString(apiModel)) {
+            String options = question.getOptionValues();
+            if (Utility.validateString(options)) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = new JSONArray(options);
+                    if (jsonArray != null) {
+
+                        for (int m = 0; m < jsonArray.length(); m++) {
+                            MultiSpinnerList spinner = new MultiSpinnerList();
+                            spinner.setId((String) jsonArray.get(m));
+
+                            if (Utility.validateString(question.getAnswer())) {
+                                JSONArray ans = new JSONArray(question.getAnswer());
+                                for (int a = 0; a < ans.length(); a++) {
+                                    if (ans.get(a).toString().equals((String) jsonArray.get(m))) {
+                                        spinner.setChecked(true);
+                                        //   editForms.add(new EditForm(ans.get(a).toString(), question));
+
+                                    }
+                                }
+                                /*if (question.getAnswer().equals((String) jsonArray.get(m))) {
+                                    spinner.setChecked(true);
+
+                                    editForms.add(new EditForm(question.getAnswer(),question));
+                                }*/
+                            }
+                            spinner.setName((String) jsonArray.get(m));
+                            spinnerList.add(spinner);
+                        }
+                        tvSelect.setTag(spinnerList);
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        }
+        tvSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+                    if (strCD.equalsIgnoreCase("1")) {
+
+                    } else {
+                        if (view.getTag() != null) {
+                            if (isPopupVisible) return;
+                            isPopupVisible = true;
+                            List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
+                            if (spnList == null || spnList.size() == 0) {
+                                showRankingSingleSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                            } else {
+                                showRankingSingleSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+                            }
+                            //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
+                        } else {
+                            showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                            isPopupVisible = false;
+                        }
+                    }
+                }else {
+                    if (view.getTag() != null) {
+                        if (isPopupVisible) return;
+                        isPopupVisible = true;
+                        List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
+                        if (spnList == null || spnList.size() == 0) {
+                            showRankingSingleSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                        } else {
+                            showRankingSingleSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+                        }
+                        //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
+                    } else {
+                        showRankingSingleSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                        isPopupVisible = false;
+                    }
+                }
+
+            }
+        });
+        // tvSelect.addTextChangedListener(new ScreenFormQuestionTwoActivity.SelectTextWatcher(question));
+    }
+    private void addPercentMultiEdittextTextView(final TextView tvSelect, final Questions question) {
+        final List<MultiSpinnerList> spinnerList = new ArrayList<MultiSpinnerList>();
+        tvSelect.setTag(question);
+        if (Utility.validateString(question.getAnswer())) {
+            try {
+                JSONArray ans = new JSONArray(question.getAnswer());
+                String as = "";
+                for (int a = 0; a < ans.length(); a++) {
+                    if (a == 0)
+                        as = ans.getString(a);
+                    else
+                        as += ", " + ans.getString(a);
+                    ;
+                }
+                tvSelect.setText(as);
+            } catch (Exception e) {
+            }
+        } else {
+            tvSelect.setText(question.getPlaceholder());
+        }
+        String apiModel = question.getApiModel();
+        if (!Utility.validateString(apiModel)) {
+            String options = question.getOptionValues();
+            if (Utility.validateString(options)) {
+                JSONArray jsonArray = null;
+                try {
+                    jsonArray = new JSONArray(options);
+                    if (jsonArray != null) {
+
+                        for (int m = 0; m < jsonArray.length(); m++) {
+                            MultiSpinnerList spinner = new MultiSpinnerList();
+                            spinner.setId((String) jsonArray.get(m));
+
+                            if (Utility.validateString(question.getAnswer())) {
+                                JSONArray ans = new JSONArray(question.getAnswer());
+                                for (int a = 0; a < ans.length(); a++) {
+                                    if (ans.get(a).toString().equals((String) jsonArray.get(m))) {
+                                        spinner.setChecked(true);
+                                        //   editForms.add(new EditForm(ans.get(a).toString(), question));
+
+                                    }
+                                }
+                                /*if (question.getAnswer().equals((String) jsonArray.get(m))) {
+                                    spinner.setChecked(true);
+
+                                    editForms.add(new EditForm(question.getAnswer(),question));
+                                }*/
+                            }
+                            spinner.setName((String) jsonArray.get(m));
+                            spinnerList.add(spinner);
+                        }
+                        tvSelect.setTag(spinnerList);
+                    }
+                } catch (Exception e) {
+
+                }
+            }
+        }
+        tvSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+                    if (strCD.equalsIgnoreCase("1")) {
+
+                    } else {
+                        if (view.getTag() != null) {
+                            if (isPopupVisible) return;
+                            isPopupVisible = true;
+                            List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
+                            if (spnList == null || spnList.size() == 0) {
+                                showPercentMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null,"1000");
+                            } else {
+                                showPercentMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList,"1000");
+                            }
+                            //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
+                        } else {
+                            showMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                            isPopupVisible = false;
+                        }
+                    }
+                }else {
+                    if (view.getTag() != null) {
+                        if (isPopupVisible) return;
+                        isPopupVisible = true;
+                        List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
+                        if (spnList == null || spnList.size() == 0) {
+                            showPercentMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null,"1000");
+                        } else {
+                            showPercentMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList,"1000");
+                        }
+                        //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
+                    } else {
+                        showPercentMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null,"1000");
+                        isPopupVisible = false;
+                    }
+                }
+
+            }
+        });
+        // tvSelect.addTextChangedListener(new ScreenFormQuestionTwoActivity.SelectTextWatcher(question));
+    }
+
     private void addMultiEdittextTextView(final TextView tvSelect, final Questions question) {
         final List<MultiSpinnerList> spinnerList = new ArrayList<MultiSpinnerList>();
         tvSelect.setTag(question);
@@ -2438,6 +2728,64 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
     }
 
 
+    private void showPercentMultiEdittextList(Context context, final TextView textView, List<MultiSpinnerList> list, final String defaultMsg, final List<MultiSpinnerList> selectedItems,String totalSales) {
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++) {
+                list.get(i).setChecked(true);
+            }
+            MultiEdittextListItemMatchDialog selectionPickerDialog = new MultiEdittextListItemMatchDialog(context, defaultMsg, selectedItems, list, R.layout.pop_up_question_list_match,totalSales, new MultiEdittextListItemMatchDialog.ItemPickerListner() {
+                @Override
+                public void OnDoneButton(Dialog ansPopup, List<MultiSpinnerList> selctedItems) {
+                    ansPopup.dismiss();
+                    if (selectedItems != null && selectedItems.size() > 0) {
+                        setSpnValue(textView, selectedItems);
+                    } else {
+                        textView.setText(defaultMsg);
+                    }
+                    textView.setTag(selectedItems);
+
+                    String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                    if (Utility.validateString(visiblity)) {
+                        jsonSubmitReq = prepareJsonRequest(questionsMap);
+                        saveNCDResponseLocal(updateId, false);
+                    }
+                }
+
+                @Override
+                public void OnCancelButton(Dialog ansPopup, List<MultiSpinnerList> selctedItems) {
+                    ansPopup.dismiss();
+                    if (selectedItems != null && selectedItems.size() > 0) {
+                        setSpnValue(textView, selectedItems);
+                    } else {
+                        textView.setText(defaultMsg);
+                    }
+                    textView.setTag(selectedItems);
+                    String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                    if (Utility.validateString(visiblity)) {
+                        jsonSubmitReq = prepareJsonRequest(questionsMap);
+                        saveNCDResponseLocal(updateId, false);
+                    }
+                }
+
+
+
+            });
+
+            if (!selectionPickerDialog.isShowing()) {
+                selectionPickerDialog.show();
+            }
+            selectionPickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    isPopupVisible = false;
+                }
+            });
+        } else {
+            isPopupVisible = false;
+            showToastMessage(getString(R.string.no_data));
+        }
+
+    }
 
 
 
@@ -2447,6 +2795,68 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
 
             MultiSelectItemListDialog selectionPickerDialog = new MultiSelectItemListDialog(context, defaultMsg, selectedItems1, list, R.layout.pop_up_question_list, new MultiSelectItemListDialog.ItemPickerListner() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void OnDoneButton(Dialog ansPopup, List<MultiSpinnerList> selectedItems) {
+                    ansPopup.dismiss();
+                    if (selectedItems != null && selectedItems.size() > 0) {
+                        setSpnValue(textView, selectedItems);
+
+                    } else {
+
+                        textView.setText(defaultMsg);
+                    }
+                    textView.setTag(selectedItems);
+
+
+                    String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                    if (Utility.validateString(visiblity)) {
+                        jsonSubmitReq = prepareJsonRequest(questionsMap);
+                        saveNCDResponseLocal(updateId, false);
+                    }
+                }
+
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void OnCancelButton(Dialog ansPopup, List<MultiSpinnerList> selectedItems) {
+                    ansPopup.dismiss();
+                    if (selectedItems != null && selectedItems.size() > 0) {
+                        setSpnValue(textView, selectedItems);
+                    } else {
+                        textView.setText(defaultMsg);
+                    }
+                    textView.setTag(selectedItems);
+
+                    String visiblity= Prefs.getStringPrefs(AppConstants.VISIBLITY);
+                    if (Utility.validateString(visiblity)) {
+                        jsonSubmitReq = prepareJsonRequest(questionsMap);
+                        saveNCDResponseLocal(updateId, false);
+                    }
+                }
+
+            });
+
+
+            if (!selectionPickerDialog.isShowing()) {
+                selectionPickerDialog.show();
+            }
+            selectionPickerDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialog) {
+                    isPopupVisible = false;
+                }
+            });
+        } else {
+            isPopupVisible = false;
+            showToastMessage(getString(R.string.no_data));
+        }
+    }
+
+    private void showRankingSingleSelectionList(Context context, final TextView textView, List<MultiSpinnerList> list, final String defaultMsg, final List<MultiSpinnerList> selectedItems1) {
+        if (list != null && list.size() > 0) {
+
+
+            MultiSelectItemRankingListDialog selectionPickerDialog = new MultiSelectItemRankingListDialog(context, defaultMsg, selectedItems1, list, R.layout.pop_up_question_list_ranking, new MultiSelectItemRankingListDialog.ItemPickerListner() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void OnDoneButton(Dialog ansPopup, List<MultiSpinnerList> selectedItems) {

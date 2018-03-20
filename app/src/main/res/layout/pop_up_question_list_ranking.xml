@@ -35,18 +35,6 @@
             android:textStyle="bold" />
 
     </RelativeLayout>
-    <TextView
-        android:id="@+id/tvAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:layout_below="@+id/relTitle"
-        android:layout_above="@+id/llDone"
-        android:text="1000"
-        android:padding="8dp"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        />
 
     <SearchView
         android:id="@+id/searchView"

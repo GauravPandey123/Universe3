@@ -83,7 +83,7 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.imgRequired);
         tvQuestionName.setTypeface(FontClass.openSansRegular(_context));
 
-        if (Utility.validateString(answer)) {
+        if (Utility.validateString(answer) && !answer.equalsIgnoreCase("0") &&!answer.equalsIgnoreCase("0.0")) {
             imgStatus.setBackgroundResource(R.drawable.done);
         } else {
             imgStatus.setBackgroundResource(R.drawable.wrong);

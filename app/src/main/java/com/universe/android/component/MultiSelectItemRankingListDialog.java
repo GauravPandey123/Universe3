@@ -6,10 +6,6 @@ import android.app.Dialog;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
-import android.content.Intent;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.CheckedTextView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -37,13 +33,13 @@ import java.util.Locale;
  * This class contains methods required in creation, opening and closing of Dialog.
  * It displays the gender list or state list in  registration screen
  */
-public class MultiEdittextListItemMatchDialog extends Dialog {
+public class MultiSelectItemRankingListDialog extends Dialog {
     final ArrayList<MultiSpinnerList> arrSearlist = new ArrayList<>();
     SelectionItemAdapter adapter;
     ListView listView;
     private String searchText = "";
 
-    public MultiEdittextListItemMatchDialog(final Context context, String defaultMsg, final List<MultiSpinnerList> selectItems, final List<MultiSpinnerList> questions, int resId, final String total, final ItemPickerListner dtp) {
+    public MultiSelectItemRankingListDialog(final Context context, String defaultMsg, final List<MultiSpinnerList> selectItems, final List<MultiSpinnerList> questions, int resId, final ItemPickerListner dtp) {
         super(context);
         dismiss();
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(context, R.style.app_custom_dialog_theme);
@@ -65,8 +61,7 @@ public class MultiEdittextListItemMatchDialog extends Dialog {
             listView.setLayoutParams(lp);
         }
         ((TextView) dialogView.findViewById(R.id.tvDialogTitle)).setText(defaultMsg);
-        ((TextView) dialogView.findViewById(R.id.tvAmount)).setText("Total INR-"+total);
-        adapter = new SelectionItemAdapter(context, R.layout.dialog_edittext_row, questions);
+        adapter = new SelectionItemAdapter(context, R.layout.dialog_single_row_ranking, questions);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         if (listView != null) {
             listView.setAdapter(adapter);
@@ -78,27 +73,17 @@ public class MultiEdittextListItemMatchDialog extends Dialog {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Utility.animateView(view);
-                    // adapter.setSelectedIndex(position);
-                    //  if (searchText.isEmpty())
-                    // questions.get(position).setName(!questions.get(position).getName());
-                    // else
-                    //  arrSearlist.get(position).setChecked(!arrSearlist.get(position).isChecked());
-                    //  adapter.notifyDataSetChanged();
+                   /* Utility.animateView(view);
+                    adapter.setSelectedIndex(position);
+                    if (searchText.isEmpty())
+                        questions.get(position).setChecked(!questions.get(position).isChecked());
+                    else
+                        arrSearlist.get(position).setChecked(!arrSearlist.get(position).isChecked());
+                    adapter.notifyDataSetChanged();*/
                 }
             });
 
-            if (selectItems != null && selectItems.size() > 0) {
-                for (int i = 0; i < selectItems.size(); i++) {
-                    for (int j = 0; j < questions.size(); j++) {
-                        if (selectItems.get(i).getId().equals(questions.get(j).getId())) {
-                            questions.get(j).setName(selectItems.get(i).getName());
-                            adapter.notifyDataSetChanged();
-                            break;
-                        }
-                    }
-                }
-            }
+
         }
         setupSearchView(searchView, context, questions);
 
@@ -109,54 +94,49 @@ public class MultiEdittextListItemMatchDialog extends Dialog {
                 List<MultiSpinnerList> selectItems = new ArrayList<MultiSpinnerList>();
                 List<String> selectText = new ArrayList<String>();
                 Collection<MultiSpinnerList> result = Collections2.filter(questions, new FilterPredicate().filterMultiSpnListEdittext);
-                int count =0;
                 if (questions != null && questions.size() > 0) {
                     for (MultiSpinnerList s : questions) {
-                       /* if (!Utility.validateString(s.getAmount())) {
-                         //   if (!selectText.contains(s.getName()))
+                        if (!s.getAmount().isEmpty()) {
+                            if (!selectText.contains(s.getAmount()))
+                                selectText.add(s.getAmount());
+                        }
 
-                        }*/
-                        selectText.add(s.getAmount());
 
                     }
 
-                    for (int k = 0; k < selectText.size(); k++) {
-                        MultiSpinnerList multiSpinnerList = new MultiSpinnerList();
-                        multiSpinnerList.setName(selectText.get(k));
-                        if (Utility.validateString(selectText.get(k)))
-                        count=count+ Integer.parseInt(selectText.get(k));
-
-                        if (Utility.validateString(selectText.get(k))){
+                    if (questions.size()!=selectText.size()){
+                       // Utility.showToast("Please fill all options");
+                    }else {
+                        for (int k = 0; k < selectText.size(); k++) {
+                            MultiSpinnerList multiSpinnerList = new MultiSpinnerList();
                             multiSpinnerList.setAmount(selectText.get(k));
-                        }else {
-                            multiSpinnerList.setAmount(0+"");
+
+                            multiSpinnerList.setName(questions.get(k).getName());
+                            multiSpinnerList.setChecked(true);
+                            selectItems.add(multiSpinnerList);
                         }
-
-                        multiSpinnerList.setId((k + 1) + "");
-                        multiSpinnerList.setChecked(true);
-
-                        selectItems.add(multiSpinnerList);
                     }
                 } else {
                     selectItems = null;
                 }
+
                 if (selectItems!=null) {
-                    if (count != Integer.parseInt(total)) {
-                        Utility.showToast("Amount not match");
+                    if (selectItems.size() != questions.size()) {
+                        Utility.showToast("Same rank not acceptable");
                     } else {
-                        dtp.OnDoneButton(MultiEdittextListItemMatchDialog.this, selectItems);
+                        dtp.OnDoneButton(MultiSelectItemRankingListDialog.this, selectItems);
                     }
                 }else {
-                    dtp.OnDoneButton(MultiEdittextListItemMatchDialog.this, selectItems);
+                    dtp.OnDoneButton(MultiSelectItemRankingListDialog.this, selectItems);
                 }
 
-
+              //  dtp.OnDoneButton(MultiSelectItemRankingListDialog.this, selectItems);
             }
         });
         dialogView.findViewById(R.id.tvCancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dtp.OnCancelButton(MultiEdittextListItemMatchDialog.this, selectItems);
+                dtp.OnCancelButton(MultiSelectItemRankingListDialog.this, selectItems);
             }
         });
 
@@ -218,9 +198,9 @@ public class MultiEdittextListItemMatchDialog extends Dialog {
             }
         }
         if (charText.length() > 0) {
-            adapter = new SelectionItemAdapter(context, R.layout.dialog_edittext_row, arrSearlist);
+            adapter = new SelectionItemAdapter(context, R.layout.dialog_single_row_ranking, arrSearlist);
         } else {
-            adapter = new SelectionItemAdapter(context, R.layout.dialog_edittext_row, questions);
+            adapter = new SelectionItemAdapter(context, R.layout.dialog_single_row_ranking, questions);
         }
         listView.setAdapter(adapter);
     }
@@ -267,7 +247,12 @@ public class MultiEdittextListItemMatchDialog extends Dialog {
                         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 v = vi.inflate(rowResourceId, null);
                 viewHolder = new ViewHolder();
-                viewHolder.edtChild = (EditText) v.findViewById(R.id.edtChild);
+                viewHolder.radio1 = (CheckedTextView) v.findViewById(R.id.radio1);
+                viewHolder.radio2 = (CheckedTextView) v.findViewById(R.id.radio2);
+                viewHolder.radio3 = (CheckedTextView) v.findViewById(R.id.radio3);
+                viewHolder.radio4 = (CheckedTextView) v.findViewById(R.id.radio4);
+                viewHolder.radio5 = (CheckedTextView) v.findViewById(R.id.radio5);
+                viewHolder.title = (TextView) v.findViewById(R.id.title);
                 // store the holder with the view.
                 v.setTag(viewHolder);
             } else {
@@ -275,39 +260,156 @@ public class MultiEdittextListItemMatchDialog extends Dialog {
             }
 
             String quest = list.get(position).getName();
-            final EditText txtTitle = viewHolder.edtChild;
-            txtTitle.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            final TextView txtTitle = viewHolder.title;
+            final CheckedTextView radio1 = viewHolder.radio1;
+            final CheckedTextView radio2 = viewHolder.radio2;
+            final CheckedTextView radio3 = viewHolder.radio3;
+            final CheckedTextView radio4 = viewHolder.radio4;
+            final CheckedTextView radio5 = viewHolder.radio5;
+
+
+
+            if (Utility.validateString(list.get(position).getAmount())){
+
+                if (list.get(position).getAmount().equalsIgnoreCase("1")){
+                    radio1.setChecked(true);
+                }else if (list.get(position).getAmount().equalsIgnoreCase("2")){
+                    radio2.setChecked(true);
+                }else if (list.get(position).getAmount().equalsIgnoreCase("3")){
+                    radio3.setChecked(true);
+                }else if (list.get(position).getAmount().equalsIgnoreCase("4")){
+                    radio4.setChecked(true);
+                }else if (list.get(position).getAmount().equalsIgnoreCase("5")){
+                    radio5.setChecked(true);
+                }
+            }
+            radio1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    radio1.setChecked(true);
+                    radio2.setChecked(false);
+
+                    radio3.setChecked(false);
+
+                    radio4.setChecked(false);
+                    radio5.setChecked(false);
+
+                    /*radio1.setEnabled(true);
+                    radio2.setEnabled(false);
+                    radio3.setEnabled(false);
+                    radio4.setEnabled(false);
+                    radio5.setEnabled(false);*/
+                    list.get(position).setAmount("1");
+                    list.get(position).setChecked(true);
+
+                }
+            });
+
+            radio2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    radio2.setChecked(true);
+                    radio1.setChecked(false);
+
+                    radio3.setChecked(false);
+
+                    radio4.setChecked(false);
+                    radio5.setChecked(false);
+
+                   /* radio2.setEnabled(true);
+                    radio1.setEnabled(false);
+                    radio3.setEnabled(false);
+                    radio4.setEnabled(false);
+                    radio5.setEnabled(false);*/
+
+                    list.get(position).setChecked(true);
+                    list.get(position).setAmount("2");
+
+                }
+            });
+            radio3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    radio3.setChecked(true);
+                    radio2.setChecked(false);
+
+                    radio1.setChecked(false);
+
+                    radio4.setChecked(false);
+                    radio5.setChecked(false);
+
+                   /* radio1.setEnabled(true);
+                    radio2.setEnabled(false);
+                    radio3.setEnabled(false);
+                    radio4.setEnabled(false);
+                    radio5.setEnabled(false);*/
+
+                    list.get(position).setChecked(true);
+                    list.get(position).setAmount("3");
+
+                }
+            });
+            radio4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    radio4.setChecked(true);
+                    radio2.setChecked(false);
+
+                    radio3.setChecked(false);
+
+                    radio1.setChecked(false);
+                    radio5.setChecked(false);
+
+                   /* radio1.setEnabled(true);
+                    radio2.setEnabled(false);
+                    radio3.setEnabled(false);
+                    radio4.setEnabled(false);
+                    radio5.setEnabled(false);*/
+
+                    list.get(position).setChecked(true);
+                    list.get(position).setAmount("4");
+                }
+            });
+            radio5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    radio5.setChecked(true);
+                    radio2.setChecked(false);
+
+                    radio3.setChecked(false);
+
+                    radio4.setChecked(false);
+                    radio1.setChecked(false);
+
+                  /*  radio1.setEnabled(true);
+                    radio2.setEnabled(false);
+                    radio3.setEnabled(false);
+                    radio4.setEnabled(false);
+                    radio5.setEnabled(false);*/
+
+                    list.get(position).setChecked(true);
+                    list.get(position).setAmount("5");
+                }
+            });
 
             SpinnerList spinnerList = new SpinnerList();
             spinnerList.setName(list.get(position).getName());
             spinnerList.setId(list.get(position).getId());
-            if (Utility.validateString(list.get(position).getAmount())) {
-                txtTitle.setHint(list.get(position).getAmount());
+            if (Utility.validateString(list.get(position).getName())) {
+                txtTitle.setText(list.get(position).getName());
             } else {
-                txtTitle.setHint(list.get(position).getName());
+                txtTitle.setText(list.get(position).getName());
             }
 
-
-            txtTitle.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-                    list.get(position).setAmount(s.toString());
-                }
-            });
             txtTitle.setTag(quest);
 
 
-            //  txtTitle.setText(quest);
+            txtTitle.setText(quest);
             return v;
         }
 
@@ -316,7 +418,8 @@ public class MultiEdittextListItemMatchDialog extends Dialog {
          * so can immediately access them without the need to look them up repeatedly.
          */
         private class ViewHolder {
-            EditText edtChild;
+            CheckedTextView radio1,radio2,radio3,radio4,radio5;
+            TextView title;
         }
 
     }

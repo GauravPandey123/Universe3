@@ -4,6 +4,7 @@ package com.universe.android.model;
 public class MultiSpinnerList {
     private String id;
     private String name;
+    private String amount;
     private boolean isChecked;
 
     public String getId() {
@@ -28,5 +29,13 @@ public class MultiSpinnerList {
 
     public void setChecked(boolean checked) {
         isChecked = checked;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 }

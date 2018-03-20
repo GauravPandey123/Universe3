@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/appLinear"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="start"
+        android:layout_gravity="start|center_vertical"
+        android:text=""/>
+
+    <CheckedTextView
+        android:id="@+id/radio1"
+        style="@style/appTinyText"
+        android:layout_toRightOf="@+id/title"
+        android:layout_width="wrap_content"
+        android:drawablePadding="@dimen/view_small_padding"
+        android:drawableRight="@drawable/icon_answer_selector"
+        android:gravity="center_vertical"
+        android:padding="@dimen/view_padding"
+        android:text="1"
+        android:singleLine="false"
+        android:textColor="@color/black"></CheckedTextView>
+
+    <CheckedTextView
+        android:id="@+id/radio2"
+        style="@style/appTinyText"
+        android:layout_width="wrap_content"
+
+        android:layout_toRightOf="@+id/radio1"
+        android:drawablePadding="@dimen/view_small_padding"
+        android:drawableRight="@drawable/icon_answer_selector"
+        android:gravity="center_vertical"
+        android:padding="@dimen/view_padding"
+        android:singleLine="false"
+        android:text="2"
+        android:textColor="@color/black"></CheckedTextView>
+    <CheckedTextView
+        android:id="@+id/radio3"
+        style="@style/appTinyText"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@+id/radio2"
+        android:drawablePadding="@dimen/view_small_padding"
+        android:drawableRight="@drawable/icon_answer_selector"
+        android:gravity="center_vertical"
+        android:padding="@dimen/view_padding"
+        android:singleLine="false"
+        android:text="3"
+        android:textColor="@color/black"></CheckedTextView>
+
+    <CheckedTextView
+        android:id="@+id/radio4"
+        style="@style/appTinyText"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@+id/radio3"
+        android:drawablePadding="@dimen/view_small_padding"
+        android:drawableRight="@drawable/icon_answer_selector"
+        android:gravity="center_vertical"
+        android:padding="@dimen/view_padding"
+        android:singleLine="false"
+        android:text="4"
+        android:textColor="@color/black"></CheckedTextView>
+
+    <CheckedTextView
+        android:id="@+id/radio5"
+        style="@style/appTinyText"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@+id/radio4"
+        android:drawablePadding="@dimen/view_small_padding"
+        android:drawableRight="@drawable/icon_answer_selector"
+        android:gravity="center_vertical"
+        android:padding="@dimen/view_padding"
+        android:singleLine="false"
+        android:text="5"
+        android:textColor="@color/black"></CheckedTextView>
+
+
+
+</LinearLayout>

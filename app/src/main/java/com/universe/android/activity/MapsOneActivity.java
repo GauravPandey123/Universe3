@@ -456,12 +456,14 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                                                 stringsRequired.add(questionsArrayList.get(p).getStatus());
                                             }
                                             if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
-
-                                                stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                                if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") || !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0")) {
+                                                    stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                                }
                                             }
                                             if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
-
-                                                doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                                if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0")) {
+                                                    doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                                }
                                             }
 
                                         }
@@ -542,12 +544,14 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                                     stringsRequired.add(questionsArrayList.get(p).getStatus());
                                 }
                                 if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
-
-                                    stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                    if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") || !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0")) {
+                                        stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                    }
                                 }
                                 if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
-
-                                    doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                    if (!questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0") && !questionsArrayList.get(p).getAnswer().equalsIgnoreCase("0.0")) {
+                                        doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                    }
                                 }
 
                             }
