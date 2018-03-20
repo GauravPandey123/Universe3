@@ -33,6 +33,9 @@ public interface UniverseAPI {
     String WEB_SERVICE_ADD_NEWRETAILER_METHOD = WEB_SERVICE_BASE_URL + "addRetailer";
     String WEB_SERVICE_LIST_RETAILER_METHOD = WEB_SERVICE_BASE_URL + "retailerList";
 
+    String WEB_SERVICE_SET_LOCATION_METHOD = WEB_SERVICE_BASE_URL + "setLocation";
+
+
     //newRetailers
 
     String WERSERVICESTATEANDCROPLISTMETHOD=WEB_SERVICE_BASE_URL+"stateAndcropList";

@@ -21,6 +21,7 @@ import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -117,15 +118,30 @@ public class SyncResponsesFragment extends BaseFragment {
 
     }
 
-
     private void getSurveyResponse() {
 
-
+        if (progressDialog==null){
+            progressDialog=new ProgressDialog(getActivity());
+            progressDialog.setMessage(getString(R.string.msg_load_default));
+            progressDialog.show();
+        }
+        JSONObject jsonSubmitReq=new JSONObject();
+        try {
+            jsonSubmitReq.put(AppConstants.UserId,Prefs.getStringPrefs(AppConstants.UserId));
+            if (Prefs.getStringPrefs(AppConstants.TYPE).equalsIgnoreCase(AppConstants.ADMIN))
+                jsonSubmitReq.put(AppConstants.TYPE,Prefs.getStringPrefs(AppConstants.TYPE));
+            else {
+                jsonSubmitReq.put(AppConstants.TYPE,"");
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         OkHttpClient okHttpClient = APIClient.getHttpClient();
+
+
+        RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
         String url = UniverseAPI.WEB_SERVICE_LIST_ADMIN_SURVEY_METHOD;
-
-
-        Request request = APIClient.getRequest(mContext, url);
+        Request request = APIClient.getPostRequest(getActivity(), url, requestBody);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
@@ -146,7 +162,7 @@ public class SyncResponsesFragment extends BaseFragment {
                         if (responseData != null) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
-                            new RealmController().saveSurveysResponse(array.toString());
+                            new RealmController().saveSurveysListResponse(array.toString());
                         }
 
                         getActivity().runOnUiThread(new Runnable() {
@@ -169,6 +185,10 @@ public class SyncResponsesFragment extends BaseFragment {
         });
 
     }
+
+
+
+
 
 
     private void getClientResponse() {
@@ -390,7 +410,7 @@ public class SyncResponsesFragment extends BaseFragment {
                             JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
                             new RealmController().saveAnswers(array.toString());
                         }
-                        dismissProgress();
+
                         goToMain();
                     } else {
                     }
