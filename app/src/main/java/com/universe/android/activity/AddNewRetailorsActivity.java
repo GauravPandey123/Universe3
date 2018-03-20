@@ -314,9 +314,9 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
     }
 
     private boolean validateTerroitryName() {
-        if (retailorTerroitryAddress.getText().toString().trim().isEmpty()) {
-            textInputLayoutTerroitryAddress.setError(getString(R.string.err_msg_terroritry));
-            requestFocus(retailorTerroitryAddress);
+        if (retailorTerroitry.getText().toString().trim().isEmpty()) {
+            retailorTerroitry.setError(getString(R.string.err_msg_terroritry));
+            requestFocus(retailorTerroitry);
             return false;
         } else {
             textInputLayoutRetailorName.setErrorEnabled(false);
@@ -564,6 +564,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
         intent.putExtra(AppConstants.CUSTOMERID,customerId);
         startActivity(intent);
         overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+        finish();
     }
 
 
@@ -620,6 +621,7 @@ public class AddNewRetailorsActivity extends BaseActivity implements StateAndCro
                             JSONObject jsonResponse = new JSONObject(responseData);
                             jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
                             updateId=jsonResponse.optString(AppConstants.ID);
+                            Prefs.clearValue(AppConstants.VillageData);
                             new RealmController().saveFormNewRetailerSubmit(jsonResponse.toString(), "");
                         }
 

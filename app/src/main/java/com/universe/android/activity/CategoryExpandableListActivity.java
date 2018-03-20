@@ -696,10 +696,10 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
             if (realmCustomer.isLocation()) {
                 isLocationSet="yes";
-                imageLoc.setImageResource(R.drawable.ic_location_set);
+                imageLoc.setImageResource(R.drawable.red_loc);
             } else {
                 isLocationSet="no";
-                imageLoc.setImageResource(R.drawable.red_loc);
+                imageLoc.setImageResource(R.drawable.ic_location_set);
 
             }
 

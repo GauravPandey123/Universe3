@@ -251,7 +251,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     public void updateLocationService(String lat, String lan) {
         showProgress();
         UpadteLocationRequest upadteLocationRequest = new UpadteLocationRequest();
-        upadteLocationRequest.setUserId(AppConstants.UserId);
+        upadteLocationRequest.setUserId(Prefs.getStringPrefs(AppConstants.UserId));
         upadteLocationRequest.setLat(lat);
         upadteLocationRequest.setLng(lan);
         upadteLocationRequest.setType(AppConstants.customer);
@@ -266,12 +266,17 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onSuccess(@NonNull UpDateLocationResponse response) {
                 super.onSuccess(response);
-                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLocationSet().getLat());
-                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLocationSet().getLongX());
-                if (response.getResponse().getLocation().isIsLocation()) {
-                    imageLoc.setImageResource(R.drawable.ic_location_set);
+                if (response.getResponse() != null) {
+                    Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLocationSet().getLat());
+                    Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLocationSet().getLongX());
+                    if (response.getResponse().getLocation().isIsLocation()) {
+                        imageLoc.setImageResource(R.drawable.ic_location_set);
+                    } else {
+                        imageLoc.setImageResource(R.drawable.red_loc);
+                    }
+
                 } else {
-                    imageLoc.setImageResource(R.drawable.red_loc);
+                    Utility.showToast("Invalid Response");
                 }
             }
 
@@ -303,18 +308,22 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onSuccess(@NonNull UpDateLocationResponse response) {
                 super.onSuccess(response);
-                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLocationSet().getLat());
-                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLocationSet().getLongX());
+                if (response.getResponse() != null) {
+                    Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLocationSet().getLat());
+                    Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLocationSet().getLongX());
+                    Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
+                    intent.putExtra(AppConstants.STR_TITLE, title);
+                    intent.putExtra(AppConstants.SURVEYID, surveyId);
+                    intent.putExtra(AppConstants.CUSTOMERID, customerId);
+                    intent.putExtra(AppConstants.CUSTOMER, strCustomer);
 
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                    finish();
+                } else {
+                    Utility.showToast("Invalid Response");
+                }
 
-//                Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
-//                intent.putExtra(AppConstants.STR_TITLE, title);
-//                intent.putExtra(AppConstants.SURVEYID, surveyId);
-//                intent.putExtra(AppConstants.CUSTOMERID, customerId);
-//                intent.putExtra(AppConstants.CUSTOMER, strCustomer);
-
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
                 Utility.showToast(R.string.location_updated);
             }
 
