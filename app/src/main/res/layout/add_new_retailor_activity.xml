@@ -227,7 +227,7 @@
                     android:id="@+id/textViewNewCustomers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/retailers"
+                    android:text="@string/newretailers"
                     android:textColor="@color/textColorPrimaryDark"
                     android:textStyle="bold" />
 

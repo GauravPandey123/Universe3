@@ -3,16 +3,17 @@
     <string name="msg_load_default">Loading</string>
     <string name="login">Login</string>
     <string name="forgotpassword">Forgot Password</string>
-    <string name="phoneno">Enter The Phone Number</string>
+    <string name="phoneno">Enter phone number</string>
     <string name="today">For The Period Today</string>
     <string name="target">Target</string>
-    <string name="questionaire">Compelted Questionaire(10)</string>
+    <string name="questionaire">Compelted Questionnaire(10)</string>
     <string name="questionairemenu">Questionnaire</string>
     <string name="retailersname">Retailers Name</string>
     <string name="mobile_no">Mobile No | Location | State \n| Completed date</string>
     <string name="workflow_mobile_no">Mobile No | Location | State \nSubmitted Date</string>
     <string name="status">Status</string>
-    <string name="retailers">Retailor</string>
+    <string name="retailers"> Retailer</string>
+    <string name="newretailers"> New Retailer</string>
     <string name="enddate">Ends On 31 mar 2018</string>
     <string name="select">Select</string>
     <string name="disributors">Distributors</string>
@@ -41,7 +42,7 @@
     <string name="inprogress">Inprogress</string>
     <string name="newretailors">New Retailers</string>
     <string name="crystalmembers">Crystal Members</string>
-    <string name="newretailor">New Retailors</string>
+    <string name="newretailor">New Retailers</string>
 
     <string name="admin">Admin</string>
     <string name="master">Master</string>
@@ -60,7 +61,7 @@
     <string name="minimum_must">minimum must be</string>
     <string name="fill_required_fields">Please fill all required fields</string>
     <string name="save_add"><![CDATA[Save & Close]]></string>
-    <string name="save_data_msg">Save Data Successfully</string>
+    <string name="save_data_msg">Data Save Successfully</string>
     <string name="review_confirm_msg">Do you wants to save the data?</string>
     <string name="alert_clear_form">You have not saved any data.Do you wish to leave this screen?</string>
     <string name="date_format">dd MMM yyyy</string>
@@ -128,7 +129,7 @@
     <string name="address">Address</string>
     <string name="discontinue">Discontinue</string>
     <string name="distributorName">Distributor Name</string>
-    <string name="totalSales">Total Sales</string>
+    <string name="totalSales">Total Sales(Inlac)</string>
     <string name="focusvillage">Focus Village</string>
     <string name="addNewReatiors">Add New Retailers</string>
     <string name="err_msg_name">Please Enter Retailer Name</string>

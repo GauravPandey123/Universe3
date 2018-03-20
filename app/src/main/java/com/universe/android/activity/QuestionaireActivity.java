@@ -86,6 +86,8 @@ import io.realm.RealmResults;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -159,17 +161,17 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                 textViewMobileNoMap.setText(new StringBuilder().append(realmCustomer.getMobile()).append(" | ").append(realmCustomer.getTerritory_code()).append(" | ").append(realmCustomer.getState_code()).append("  \n").append("Pincode - ").append(realmCustomer.getPincode()).toString());
             }
 
-            if (Utility.validateString(realmCustomer.getImage())) {
-                if (realmCustomer.getImage().equals("")) {
-                    if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)) {
-                        circleImageView.setImageResource(R.drawable.ic_crystal_cutomer);
-                    } else {
-                        circleImageView.setImageResource(R.drawable.ic_customer);
-                    }
+            if (!Utility.validateString(realmCustomer.getImage()) || realmCustomer.getImage().equalsIgnoreCase("null")) {
+                if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)) {
+                    circleImageView.setImageResource(R.drawable.ic_customer);
                 } else {
-                    Glide.with(mActivity).load(realmCustomer.getImage()).into(circleImageView);
+                    circleImageView.setImageResource(R.drawable.ic_crystal_cutomer);
                 }
+            }else {
+                Glide.with(mActivity).load(realmCustomer.getImage()).into(circleImageView);
+
             }
+
             if (realmCustomer.isLocation()) {
                 isLocationSet="yes";
                 imageLoc.setImageResource(R.drawable.ic_location_set);
@@ -783,34 +785,76 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
         }
     }
 
-    public void imageUpload(String path) {
-//        ((BaseActivity) getActivity()).showProgress();
-        CustomerPictureRequest profileRequest = new CustomerPictureRequest();
-        profileRequest.setCustomerId(customerId);
-        profileRequest.setIsPicture(1);
-        profileRequest.setPhoto(path);
-        CustomerPictureService profileService = new CustomerPictureService();
-        profileService.executeService(profileRequest, new BaseApiCallback<CustomerPictureResponse>() {
-            @Override
-            public void onComplete() {
+    private void updateCustomerImage(File path) {
 
+        showProgress();
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("type", strCustomer)
+                .addFormDataPart("isPicture", "1")
+                .addFormDataPart("customerId", customerId)
+                .addFormDataPart("photo",path.getName(), RequestBody.create(path.toString().endsWith("png") ?
+                        MediaType.parse("image/png") : MediaType.parse("image/jpeg"), path))
+                .build();
+        //    RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
+        String url = UniverseAPI.WEB_SERVICE_CUSTOMER_PROFILE_METHOD;
+
+
+        Request request = APIClient.getPostRequest(this, url, requestBody);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                dismissProgress();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
             }
 
             @Override
-            public void onSuccess(@NonNull CustomerPictureResponse response) {
-                super.onSuccess(response);
-                Glide.with(mContext)
-                        .load(response.getResponse().getImage())
-                        .into(circleImageView);
-                Prefs.putStringPrefs(AppConstants.CUSTOMERIMAGE, response.getResponse().getImage());
-                Prefs.putBooleanPrefs(AppConstants.PROFILE_CHECK, true);
-            }
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
 
-            @Override
-            public void onFailure(APIException e) {
-                super.onFailure(e);
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (Utility.validateString(responseData)) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
+                            // JSONObject location = jsonResponse.optJSONObject(AppConstants.LOCATION);
+                            new RealmController().saveFormNewRetailerSubmit(jsonResponse.toString(), "");
+
+
+                        }
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setupDetail();
+                                dismissProgress();
+
+
+                            }
+                        });
+
+                    } else {
+                        dismissProgress();
+                    }
+
+                } catch (Exception e) {
+                    dismissProgress();
+                    e.printStackTrace();
+                } finally {
+                }
+
             }
         });
+
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -834,7 +878,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                         .load(file)
                         .into(circleImageView);
                 isUpdateImage = true;
-                imageUpload(mImageUrl);
+                updateCustomerImage(file);
             }
         } else if (resultCode == Crop.RESULT_ERROR) {
             Toast.makeText(mActivity, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();

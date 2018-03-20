@@ -2,10 +2,14 @@ package com.universe.android.activity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 
@@ -26,6 +30,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.soundcloud.android.crop.Crop;
 import com.universe.android.R;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.CategoryModal;
@@ -50,6 +55,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +67,8 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -78,10 +87,11 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     private CircleImageView circleImageViewMap;
     private ImageView imageLoc;
     List<CategoryModal> arraylistTitle = new ArrayList<>();
-
+    private String mImageUrl;
+    private boolean isUpdateImage = false;
     ProgressBar mProgress;
     private CircleImageView circleImageView;
-    private String isLocationSet="";
+    private String isLocationSet = "";
 
 
     @Override
@@ -160,7 +170,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onClick(View view) {
                 updateLocationService(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
-
+                updateLocationServiceEmployee(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
             }
         });
 
@@ -196,24 +206,24 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 textViewMobileNoMap.setText(new StringBuilder().append(realmCustomer.getMobile()).append(" | ").append(realmCustomer.getTerritory_code()).append(" | ").append(realmCustomer.getState_code()).append("  \n").append("Pincode - ").append(realmCustomer.getPincode()).toString());
             }
 
-            if (Utility.validateString(realmCustomer.getImage())) {
-                if (realmCustomer.getImage().equals("")) {
-                    if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)) {
-                        circleImageView.setImageResource(R.drawable.ic_crystal_cutomer);
-                    } else {
-                        circleImageView.setImageResource(R.drawable.ic_customer);
-                    }
+            if (!Utility.validateString(realmCustomer.getImage()) || realmCustomer.getImage().equalsIgnoreCase("null")) {
+                if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)) {
+                    circleImageView.setImageResource(R.drawable.ic_customer);
                 } else {
-                    Glide.with(mActivity).load(realmCustomer.getImage()).into(circleImageView);
+                    circleImageView.setImageResource(R.drawable.ic_crystal_cutomer);
                 }
+            } else {
+                Glide.with(mActivity).load(realmCustomer.getImage()).into(circleImageView);
 
-                if (realmCustomer.isLocation()) {
-                    imageLoc.setImageResource(R.drawable.ic_location_set);
-                } else {
-                    imageLoc.setImageResource(R.drawable.red_loc);
-
-                }
             }
+
+            if (realmCustomer.isLocation()) {
+                imageLoc.setImageResource(R.drawable.ic_location_set);
+            } else {
+                imageLoc.setImageResource(R.drawable.red_loc);
+
+            }
+
 
         } catch (Exception e0) {
             e0.printStackTrace();
@@ -260,18 +270,18 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         Prefs.putStringPrefs(AppConstants.LONGITUDE, String.valueOf(latLng.longitude));
     }
 
-    private void updateLocationService( String lat, String lan) {
-        JSONObject jsonSubmitReq=new JSONObject();
+    private void updateLocationService(String lat, String lan) {
+        JSONObject jsonSubmitReq = new JSONObject();
 
-            try {
-                jsonSubmitReq.put(AppConstants.USERID, Prefs.getStringPrefs(AppConstants.UserId));
-                jsonSubmitReq.put(AppConstants.LAT, lat);
-                jsonSubmitReq.put(AppConstants.LNG, lan);
-                jsonSubmitReq.put(AppConstants.TYPE, AppConstants.customer);
-                jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        try {
+            jsonSubmitReq.put(AppConstants.USERID, Prefs.getStringPrefs(AppConstants.UserId));
+            jsonSubmitReq.put(AppConstants.LAT, lat);
+            jsonSubmitReq.put(AppConstants.LNG, lan);
+            jsonSubmitReq.put(AppConstants.TYPE, AppConstants.customer);
+            jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         showProgress();
 
         OkHttpClient okHttpClient = APIClient.getHttpClient();
@@ -279,12 +289,11 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         String url = UniverseAPI.WEB_SERVICE_SET_LOCATION_METHOD;
 
 
-
         Request request = APIClient.getPostRequest(this, url, requestBody);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-               dismissProgress();
+                dismissProgress();
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -302,7 +311,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                         if (Utility.validateString(responseData)) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-                            JSONObject location=jsonResponse.optJSONObject(AppConstants.LOCATION);
+                            JSONObject location = jsonResponse.optJSONObject(AppConstants.LOCATION);
                             new RealmController().saveFormNewRetailerSubmit(location.toString(), "");
 
                             if (location.optBoolean(AppConstants.ISLOCATIONSET)) {
@@ -316,19 +325,18 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                              dismissProgress();
+                                dismissProgress();
 
-                                updateLocationServiceEmployee(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
 
                             }
                         });
 
                     } else {
-                       dismissProgress();
+                        dismissProgress();
                     }
 
                 } catch (Exception e) {
-                 dismissProgress();
+                    dismissProgress();
                     e.printStackTrace();
                 } finally {
                 }
@@ -336,6 +344,96 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             }
         });
 
+    }
+
+    private void updateCustomerImage(File path) {
+
+        showProgress();
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+
+        RequestBody requestBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("type", strCustomer)
+                .addFormDataPart("isPicture", "1")
+                .addFormDataPart("customerId", customerId)
+                .addFormDataPart("photo",path.getName(), RequestBody.create(path.toString().endsWith("png") ?
+                        MediaType.parse("image/png") : MediaType.parse("image/jpeg"), path))
+                .build();
+        //    RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
+        String url = UniverseAPI.WEB_SERVICE_CUSTOMER_PROFILE_METHOD;
+
+
+        Request request = APIClient.getPostRequest(this, url, requestBody);
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+                dismissProgress();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (Utility.validateString(responseData)) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
+                            // JSONObject location = jsonResponse.optJSONObject(AppConstants.LOCATION);
+                            new RealmController().saveFormNewRetailerSubmit(jsonResponse.toString(), "");
+
+
+                        }
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                setupDetail();
+                                dismissProgress();
+
+
+                            }
+                        });
+
+                    } else {
+                        dismissProgress();
+                    }
+
+                } catch (Exception e) {
+                    dismissProgress();
+                    e.printStackTrace();
+                } finally {
+                }
+
+            }
+        });
+
+    }
+
+
+
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+            mImageUrl = Crop.getOutput(result).getPath();
+            if (Crop.getOutput(result).getPath() != null) {
+                File file = new File(Crop.getOutput(result).getPath());
+                Glide.with(mActivity)
+                        .load(file)
+                        .into(circleImageView);
+                isUpdateImage = true;
+                updateCustomerImage(file);
+            }
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(mActivity, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -389,7 +487,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         ArrayList<String> stringsRequired = new ArrayList<>();
         ArrayList<String> stringsRequiredAnswers = new ArrayList<>();
         stringsRequired.add("isLocationRequired");
-        if (isLocationSet.equalsIgnoreCase("yes")){
+        if (isLocationSet.equalsIgnoreCase("yes")) {
             stringsRequiredAnswers.add("isLocationRequired");
         }
         arraylistTitle = new ArrayList<>();
@@ -465,18 +563,18 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                                             }
 
                                         }
-                                        int required=0,requiredAnswers=0;
-                                        if (stringsRequired.contains("isLocationRequired")){
-                                            required=stringsRequired.size()-1;
-                                        }else {
-                                            required=stringsRequired.size();
+                                        int required = 0, requiredAnswers = 0;
+                                        if (stringsRequired.contains("isLocationRequired")) {
+                                            required = stringsRequired.size() - 1;
+                                        } else {
+                                            required = stringsRequired.size();
                                         }
-                                        if (stringsRequiredAnswers.contains("isLocationRequired")){
-                                            requiredAnswers=stringsRequiredAnswers.size()-1;
-                                        }else {
-                                            requiredAnswers=stringsRequiredAnswers.size();
+                                        if (stringsRequiredAnswers.contains("isLocationRequired")) {
+                                            requiredAnswers = stringsRequiredAnswers.size() - 1;
+                                        } else {
+                                            requiredAnswers = stringsRequiredAnswers.size();
                                         }
-                                        if (required ==requiredAnswers) {
+                                        if (required == requiredAnswers) {
                                             categoryModal.setCategoryAnswered("Yes");
                                         } else {
                                             categoryModal.setCategoryAnswered("No");
@@ -606,5 +704,34 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent result) {
+        super.onActivityResult(requestCode, resultCode, result);
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bitmap photo = (Bitmap) result.getExtras().get("data");
+            Uri tempUri = getImageUri(mActivity, photo);
+            beginCrop(tempUri);
+        } else if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
+            beginCrop(result.getData());
+        } else if (requestCode == Crop.REQUEST_CROP) {
+            handleCrop(resultCode, result);
+        }
+    }
+
+
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
+    private void beginCrop(Uri source) {
+        Uri destination = Uri.fromFile(new File(mContext.getCacheDir(), "cropped"));
+        Crop.of(source, destination).asSquare().start(mActivity);
+    }
+
 
 }
