@@ -1,6 +1,7 @@
 package com.universe.android.activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -29,8 +30,11 @@ import com.universe.android.R;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.CategoryModal;
 import com.universe.android.model.Questions;
+import com.universe.android.okkhttp.APIClient;
+import com.universe.android.okkhttp.UniverseAPI;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmCategory;
+import com.universe.android.realmbean.RealmController;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.realmbean.RealmQuestion;
 import com.universe.android.realmbean.RealmSurveys;
@@ -43,8 +47,10 @@ import com.universe.android.utility.Utility;
 import com.universe.android.web.BaseApiCallback;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +58,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import in.editsoft.api.exception.APIException;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 
 public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener, PlaceSelectionListener {
@@ -69,6 +81,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
     ProgressBar mProgress;
     private CircleImageView circleImageView;
+    private String isLocationSet="";
 
 
     @Override
@@ -147,7 +160,6 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             @Override
             public void onClick(View view) {
                 updateLocationService(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
-                updateLocationServiceEmployee(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
 
             }
         });
@@ -248,42 +260,84 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         Prefs.putStringPrefs(AppConstants.LONGITUDE, String.valueOf(latLng.longitude));
     }
 
-    public void updateLocationService(String lat, String lan) {
+    private void updateLocationService( String lat, String lan) {
+        JSONObject jsonSubmitReq=new JSONObject();
+
+            try {
+                jsonSubmitReq.put(AppConstants.USERID, Prefs.getStringPrefs(AppConstants.UserId));
+                jsonSubmitReq.put(AppConstants.LAT, lat);
+                jsonSubmitReq.put(AppConstants.LNG, lan);
+                jsonSubmitReq.put(AppConstants.TYPE, AppConstants.customer);
+                jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         showProgress();
-        UpadteLocationRequest upadteLocationRequest = new UpadteLocationRequest();
-        upadteLocationRequest.setUserId(AppConstants.UserId);
-        upadteLocationRequest.setLat(lat);
-        upadteLocationRequest.setLng(lan);
-        upadteLocationRequest.setType(AppConstants.customer);
-        upadteLocationRequest.setCustomerId(customerId);
-        UpdateLocationService updateLocationService = new UpdateLocationService();
-        updateLocationService.executeService(upadteLocationRequest, new BaseApiCallback<UpDateLocationResponse>() {
+
+        OkHttpClient okHttpClient = APIClient.getHttpClient();
+        RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
+        String url = UniverseAPI.WEB_SERVICE_SET_LOCATION_METHOD;
+
+
+
+        Request request = APIClient.getPostRequest(this, url, requestBody);
+        okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onComplete() {
-                dismissProgress();
+            public void onFailure(Call call, final IOException e) {
+               dismissProgress();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Utility.showToast(e.getMessage());
+                    }
+                });
             }
 
             @Override
-            public void onSuccess(@NonNull UpDateLocationResponse response) {
-                super.onSuccess(response);
-                Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLocationSet().getLat());
-                Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLocationSet().getLongX());
-                if (response.getResponse().getLocation().isIsLocation()) {
-                    imageLoc.setImageResource(R.drawable.ic_location_set);
-                } else {
-                    imageLoc.setImageResource(R.drawable.red_loc);
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+
+                    if (response != null && response.isSuccessful()) {
+                        String responseData = response.body().string();
+                        if (Utility.validateString(responseData)) {
+                            JSONObject jsonResponse = new JSONObject(responseData);
+                            jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
+                            JSONObject location=jsonResponse.optJSONObject(AppConstants.LOCATION);
+                            new RealmController().saveFormNewRetailerSubmit(location.toString(), "");
+
+                            if (location.optBoolean(AppConstants.ISLOCATIONSET)) {
+                                imageLoc.setImageResource(R.drawable.ic_location_set);
+                            } else {
+                                imageLoc.setImageResource(R.drawable.red_loc);
+                            }
+                        }
+
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                              dismissProgress();
+
+                                updateLocationServiceEmployee(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
+
+                            }
+                        });
+
+                    } else {
+                       dismissProgress();
+                    }
+
+                } catch (Exception e) {
+                 dismissProgress();
+                    e.printStackTrace();
+                } finally {
                 }
-            }
 
-            @Override
-            public void onFailure(APIException e) {
-                super.onFailure(e);
-                Utility.showToast(e.getData());
             }
         });
 
-
     }
+
 
     public void updateLocationServiceEmployee(String lat, String lan) {
         showProgress();
@@ -306,7 +360,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 Prefs.putStringPrefs(AppConstants.LATTITUDE, response.getResponse().getLocation().getLocationSet().getLat());
                 Prefs.putStringPrefs(AppConstants.LONGITUDE, response.getResponse().getLocation().getLocationSet().getLongX());
 
-
+                finish();
 //                Intent intent = new Intent(mContext, CategoryExpandableListActivity.class);
 //                intent.putExtra(AppConstants.STR_TITLE, title);
 //                intent.putExtra(AppConstants.SURVEYID, surveyId);
@@ -332,7 +386,12 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
         int progressTotal = 0;
         int progressRequired = 0;
-
+        ArrayList<String> stringsRequired = new ArrayList<>();
+        ArrayList<String> stringsRequiredAnswers = new ArrayList<>();
+        stringsRequired.add("isLocationRequired");
+        if (isLocationSet.equalsIgnoreCase("yes")){
+            stringsRequiredAnswers.add("isLocationRequired");
+        }
         arraylistTitle = new ArrayList<>();
         //  expandableListDetail=new HashMap<CategoryModal, List<Questions>>();
         ArrayList<String> arrISView = new ArrayList<>();
@@ -389,8 +448,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                                             questionsArrayList.add(questions1);
 
                                         }
-                                        ArrayList<String> stringsRequired = new ArrayList<>();
-                                        ArrayList<String> stringsRequiredAnswers = new ArrayList<>();
+
                                         ArrayList<String> doneQuestions = new ArrayList<>();
                                         for (int p = 0; p < questionsArrayList.size(); p++) {
                                             if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
@@ -407,7 +465,18 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                                             }
 
                                         }
-                                        if (stringsRequired.size() == stringsRequiredAnswers.size()) {
+                                        int required=0,requiredAnswers=0;
+                                        if (stringsRequired.contains("isLocationRequired")){
+                                            required=stringsRequired.size()-1;
+                                        }else {
+                                            required=stringsRequired.size();
+                                        }
+                                        if (stringsRequiredAnswers.contains("isLocationRequired")){
+                                            requiredAnswers=stringsRequiredAnswers.size()-1;
+                                        }else {
+                                            requiredAnswers=stringsRequiredAnswers.size();
+                                        }
+                                        if (required ==requiredAnswers) {
                                             categoryModal.setCategoryAnswered("Yes");
                                         } else {
                                             categoryModal.setCategoryAnswered("No");
@@ -466,10 +535,26 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                                 questionsArrayList.add(questions);
 
                             }
+                            ArrayList<String> doneQuestions = new ArrayList<>();
+                            for (int p = 0; p < questionsArrayList.size(); p++) {
+                                if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+
+                                    stringsRequired.add(questionsArrayList.get(p).getStatus());
+                                }
+                                if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+
+                                    stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                }
+                                if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
+
+                                    doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                }
+
+                            }
                             categoryModal.setQuestionCount(questionsArrayList.size() + "");
                             categoryModal.setQuestions(questionsArrayList);
-                            progressRequired = 0;
-                            progressTotal = 100;
+                            progressRequired = progressRequired + stringsRequiredAnswers.size();
+                            progressTotal = progressTotal + stringsRequired.size();
                             arraylistTitle.add(categoryModal);
 
                             //   }

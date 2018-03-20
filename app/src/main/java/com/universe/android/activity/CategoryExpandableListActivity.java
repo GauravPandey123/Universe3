@@ -819,7 +819,12 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
         int progressTotal = 0;
         int progressRequired = 0;
-
+        ArrayList<String> stringsRequired = new ArrayList<>();
+        ArrayList<String> stringsRequiredAnswers = new ArrayList<>();
+        stringsRequired.add("isLocationRequired");
+        if (isLocationSet.equalsIgnoreCase("yes")){
+            stringsRequiredAnswers.add("isLocationRequired");
+        }
         arraylistTitle = new ArrayList<>();
         expandableListDetail = new HashMap<CategoryModal, List<Questions>>();
         ArrayList<String> arrISView = new ArrayList<>();
@@ -883,8 +888,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                                             questionsArrayList.add(questions1);
 
                                         }
-                                        ArrayList<String> stringsRequired = new ArrayList<>();
-                                        ArrayList<String> stringsRequiredAnswers = new ArrayList<>();
+
                                         ArrayList<String> doneQuestions = new ArrayList<>();
                                         for (int p = 0; p < questionsArrayList.size(); p++) {
                                             if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
@@ -901,7 +905,19 @@ public class CategoryExpandableListActivity extends BaseActivity {
                                             }
 
                                         }
-                                        if (stringsRequired.size() == stringsRequiredAnswers.size()) {
+
+                                        int required=0,requiredAnswers=0;
+                                        if (stringsRequired.contains("isLocationRequired")){
+                                            required=stringsRequired.size()-1;
+                                        }else {
+                                            required=stringsRequired.size();
+                                        }
+                                        if (stringsRequiredAnswers.contains("isLocationRequired")){
+                                            requiredAnswers=stringsRequiredAnswers.size()-1;
+                                        }else {
+                                            requiredAnswers=stringsRequiredAnswers.size();
+                                        }
+                                        if (required ==requiredAnswers) {
                                             categoryModal.setCategoryAnswered("Yes");
                                         } else {
                                             categoryModal.setCategoryAnswered("No");
@@ -961,10 +977,27 @@ public class CategoryExpandableListActivity extends BaseActivity {
                                 questionsArrayList.add(questions);
 
                             }
+                            ArrayList<String> doneQuestions = new ArrayList<>();
+                            for (int p = 0; p < questionsArrayList.size(); p++) {
+                                if (questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+
+                                    stringsRequired.add(questionsArrayList.get(p).getStatus());
+                                }
+                                if (Utility.validateString(questionsArrayList.get(p).getAnswer()) && questionsArrayList.get(p).getStatus().equalsIgnoreCase("Yes")) {
+
+                                    stringsRequiredAnswers.add(questionsArrayList.get(p).getAnswer());
+                                }
+                                if (Utility.validateString(questionsArrayList.get(p).getAnswer())) {
+
+                                    doneQuestions.add(questionsArrayList.get(p).getAnswer());
+                                }
+
+                            }
                             categoryModal.setQuestionCount(questionsArrayList.size() + "");
                             categoryModal.setQuestions(questionsArrayList);
-                            progressRequired = 0;
-                            progressTotal = 100;
+                            progressRequired = progressRequired + stringsRequiredAnswers.size();
+                            progressTotal = progressTotal + stringsRequired.size();
+
                             arraylistTitle.add(categoryModal);
 
                             //   }

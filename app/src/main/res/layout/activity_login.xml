@@ -75,6 +75,7 @@
                 android:background="@color/app_theme_color"
                 android:padding="@dimen/margin_xmedium"
                 android:text="@string/login"
+                android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
