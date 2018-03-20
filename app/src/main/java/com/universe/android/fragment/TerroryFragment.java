@@ -1,5 +1,6 @@
 package com.universe.android.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,12 +33,13 @@ import java.util.Collections;
 import java.util.List;
 
 import in.editsoft.api.exception.APIException;
+import in.editsoft.api.util.App;
 
 /**
  * Created by gaurav.pandey on 03-03-2018.
  */
 
-public class TerroryFragment extends DialogFragment {
+public class TerroryFragment extends DialogFragment implements StateAndCropFragment.SetStateData {
     private View view;
 
     private TextView textViewState;
@@ -48,9 +50,17 @@ public class TerroryFragment extends DialogFragment {
 
     private TerroritryAdapter terroritryAdapter;
     private String terroirtyString;
-
+    private int stataeId;
     private RelativeLayout realtiveLayoutSubmitVillage;
+    StateAndCropFragment.SetStateData setStateData;
+    private int stateCode;
+    private int terrotryId;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Nullable
     @Override
@@ -67,8 +77,9 @@ public class TerroryFragment extends DialogFragment {
             @Override
             public void onClick(View view, int position) {
                 terroirtyString = responseBeans.get(position).getName();
+                terrotryId = responseBeans.get(position).getTerritory_code();
                 SubmitTerroitryData setDataListListener = (SubmitTerroitryData) getActivity();
-                setDataListListener.submitTerroitryData(terroirtyString);
+                setDataListListener.submitTerroitryData(terroirtyString, terrotryId);
                 dismiss();
             }
 
@@ -94,6 +105,13 @@ public class TerroryFragment extends DialogFragment {
         setUpWebService();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+
+    }
+
     public void setUpWebService() {
         if (!Utility.isConnected()) {
             Utility.showToast(R.string.msg_disconnected);
@@ -103,6 +121,7 @@ public class TerroryFragment extends DialogFragment {
     }
 
     private void initialization() {
+        stateCode = getArguments().getInt(AppConstants.STATECODE);
         textViewState = view.findViewById(R.id.textViewState);
         imageViewStateClose = view.findViewById(R.id.imageViewStateClose);
         recyclerViewStateandCrop = view.findViewById(R.id.recyclerViewStateandCrop);
@@ -114,7 +133,7 @@ public class TerroryFragment extends DialogFragment {
 
     public void setTerroritry() {
         TerrorityRequest terrorityRequest = new TerrorityRequest();
-        terrorityRequest.setState_code(20016);
+        terrorityRequest.setState_code(stateCode);
         TerroritryService terroritryService = new TerroritryService();
         terroritryService.executeService(terrorityRequest, new BaseApiCallback<TerroritryResponse>() {
             @Override
@@ -126,7 +145,6 @@ public class TerroryFragment extends DialogFragment {
             public void onSuccess(@NonNull TerroritryResponse response) {
                 super.onSuccess(response);
                 List<TerroritryResponse.ResponseBean> responseBean = response.getResponse();
-                Prefs.putIntegerPrefs(AppConstants.TerroitryCode, responseBean.get(0).getTerritory_code());
                 String value = new Gson().toJson(responseBean);
                 TerroritryResponse.ResponseBean[] stateBeans = new Gson().fromJson(value, TerroritryResponse.ResponseBean[].class);
                 Collections.addAll(responseBeans, stateBeans);
@@ -140,7 +158,18 @@ public class TerroryFragment extends DialogFragment {
         });
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void submitStateData(String State, int StateCode) {
+
+    }
+
+
     public interface SubmitTerroitryData {
-        void submitTerroitryData(String Terroitry);
+        void submitTerroitryData(String Terroitry, int terroritiryId);
     }
 }

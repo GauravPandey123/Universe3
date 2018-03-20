@@ -50,6 +50,7 @@ public class DistributorFragment extends DialogFragment {
     private DistributorAdapter distributorAdapter;
     String stateString;
     private RelativeLayout realtiveLayoutSubmitVillage;
+    private int terroritryCode;
 
     @Nullable
     @Override
@@ -62,6 +63,7 @@ public class DistributorFragment extends DialogFragment {
     }
 
     private void inittialization() {
+        terroritryCode=getArguments().getInt(AppConstants.TerroitryCode);
         textViewState = view.findViewById(R.id.textViewState);
         imageViewStateClose = view.findViewById(R.id.imageViewStateClose);
         recyclerViewStateandCrop = view.findViewById(R.id.recyclerViewStateandCrop);
@@ -114,7 +116,7 @@ public class DistributorFragment extends DialogFragment {
 
     public void distributorName() {
         DistributorRequest distributorRequest = new DistributorRequest();
-        distributorRequest.setTerritory_code(652);
+        distributorRequest.setTerritory_code(terroritryCode);
         DistributorService distributorService = new DistributorService();
         distributorService.executeService(distributorRequest, new BaseApiCallback<DistributorResponse>() {
             @Override
@@ -126,7 +128,6 @@ public class DistributorFragment extends DialogFragment {
             public void onSuccess(@NonNull DistributorResponse response) {
                 super.onSuccess(response);
                 List<DistributorResponse.ResponseBean.DistributerBean> responseBean = response.getResponse().getDistributer();
-                Prefs.putStringPrefs(AppConstants.Distributor_Id, responseBean.get(0).get_id());
                 String value = new Gson().toJson(responseBean);
                 DistributorResponse.ResponseBean.DistributerBean[] stateBeans = new Gson().fromJson(value, DistributorResponse.ResponseBean.DistributerBean[].class);
                 Collections.addAll(stateBeanArrayList, stateBeans);

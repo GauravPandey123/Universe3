@@ -34,6 +34,7 @@ public interface UniverseAPI {
     String WEB_SERVICE_LIST_RETAILER_METHOD = WEB_SERVICE_BASE_URL + "retailerList";
 
     String WEB_SERVICE_SET_LOCATION_METHOD = WEB_SERVICE_BASE_URL + "setLocation";
+    String WEB_SERVICE_CUSTOMER_PROFILE_METHOD = WEB_SERVICE_BASE_URL + "customerProfile";
 
 
     //newRetailers

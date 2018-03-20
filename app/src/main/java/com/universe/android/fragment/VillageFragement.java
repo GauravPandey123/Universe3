@@ -54,7 +54,7 @@ public class VillageFragement extends DialogFragment {
     String villageString;
     private RelativeLayout relativeLayoutSubmit;
     private String villageId = "", villageName = "";
-
+    private int terroritryCode;
 
     @Nullable
     @Override
@@ -67,6 +67,7 @@ public class VillageFragement extends DialogFragment {
     }
 
     private void initialization() {
+        terroritryCode=getArguments().getInt(AppConstants.TerroitryCode);
         textViewState = view.findViewById(R.id.textViewState);
         imageViewStateClose = view.findViewById(R.id.imageViewStateClose);
         recyclerViewStateandCrop = view.findViewById(R.id.recyclerViewStateandCrop);
@@ -152,7 +153,7 @@ public class VillageFragement extends DialogFragment {
 
     public void VillageName() {
         DistributorRequest distributorRequest = new DistributorRequest();
-        distributorRequest.setTerritory_code(652);
+        distributorRequest.setTerritory_code(terroritryCode);
         DistributorService distributorService = new DistributorService();
         distributorService.executeService(distributorRequest, new BaseApiCallback<DistributorResponse>() {
             @Override

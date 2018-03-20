@@ -48,7 +48,7 @@ public class StateAndCropFragment extends DialogFragment {
     private StateAdapter stateAdapter;
     String stateString;
     private RelativeLayout realtiveLayoutSubmitVillage;
-
+    int stateCode;
 
     @Nullable
     @Override
@@ -71,8 +71,9 @@ public class StateAndCropFragment extends DialogFragment {
             @Override
             public void onClick(View view, int position) {
                 stateString = stateBeanArrayList.get(position).getState_name();
+                stateCode = stateBeanArrayList.get(position).getState_code();
                 SetStateData setDataListListener = (SetStateData) getActivity();
-                setDataListListener.submitStateData(stateString);
+                setDataListListener.submitStateData(stateString,stateCode);
                 dismiss();
             }
 
@@ -106,7 +107,7 @@ public class StateAndCropFragment extends DialogFragment {
         textViewState = view.findViewById(R.id.textViewState);
         imageViewStateClose = view.findViewById(R.id.imageViewStateClose);
         recyclerViewStateandCrop = view.findViewById(R.id.recyclerViewStateandCrop);
-        realtiveLayoutSubmitVillage=view.findViewById(R.id.realtiveLayoutSubmitVillage);
+        realtiveLayoutSubmitVillage = view.findViewById(R.id.realtiveLayoutSubmitVillage);
         realtiveLayoutSubmitVillage.setVisibility(View.GONE);
     }
 
@@ -139,6 +140,8 @@ public class StateAndCropFragment extends DialogFragment {
 
 
     public interface SetStateData {
-        public void submitStateData(String State);
+        public void submitStateData(String State, int StateCode);
     }
+
+
 }

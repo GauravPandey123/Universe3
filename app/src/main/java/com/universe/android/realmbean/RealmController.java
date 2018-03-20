@@ -200,6 +200,31 @@ public class RealmController {
         }
     }
 
+    public void saveUpdateCustomerLoc(JSONObject jsonResponse, String isUpdate) {
+        Realm realm = Realm.getDefaultInstance();
+        try {
+        //    JSONObject jsonResponse = new JSONObject(responseData);
+            if (jsonResponse != null) {
+                realm.beginTransaction();
+                if (Utility.validateString(isUpdate)) {
+                    jsonResponse.put(AppConstants.ISUPDATE, true);
+                } else {
+                    jsonResponse.put(AppConstants.ISSYNC, true);
+                }
+
+                realm.createOrUpdateObjectFromJson(RealmCustomer.class, jsonResponse);
+
+            }
+        } catch (Exception e) {
+            realm.cancelTransaction();
+            realm.close();
+            e.printStackTrace();
+        } finally {
+            realm.commitTransaction();
+            realm.close();
+        }
+    }
+
     public void saveFormInputFromSubmit(String responseData, String isUpdate, String formId) {
         Realm realm = Realm.getDefaultInstance();
         try {

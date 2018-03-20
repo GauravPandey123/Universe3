@@ -44,25 +44,27 @@ public class CropAdapter extends RecyclerView.Adapter<CropAdapter.CropDoctorView
     @Override
     public void onBindViewHolder(CropDoctorViewHolder holder, final int position) {
         cropBean = cropBeanArrayList.get(position);
-        holder.textViewTeamSelection.setText(cropBean.getCROP_NAME());
-        holder.checkboxTeamSelection.setText("Checkbox " + position);
-        holder.checkboxTeamSelection.setChecked(cropBeanArrayList.get(position).isSelected());
-        if (getSaveList().contains(cropBeanArrayList.get(position).get_id())) {
-            holder.checkboxTeamSelection.setChecked(true);
-        }
-        holder.checkboxTeamSelection.setTag(cropBeanArrayList.get(position));
-        holder.checkboxTeamSelection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CheckBox cb = (CheckBox) view;
-                if (cb.isChecked()) {
-                    storeData(cropBeanArrayList.get(position).get_id());
-                } else {
-                    removeData(cropBeanArrayList.get(position).get_id());
-
-                }
+        if (cropBean != null) {
+            holder.textViewTeamSelection.setText(cropBean.getCROP_NAME());
+            holder.checkboxTeamSelection.setText("Checkbox " + position);
+            holder.checkboxTeamSelection.setChecked(cropBeanArrayList.get(position).isSelected());
+            if (getSaveList().contains(cropBeanArrayList.get(position).get_id())) {
+                holder.checkboxTeamSelection.setChecked(true);
             }
-        });
+            holder.checkboxTeamSelection.setTag(cropBeanArrayList.get(position));
+            holder.checkboxTeamSelection.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CheckBox cb = (CheckBox) view;
+                    if (cb.isChecked()) {
+                        storeData(cropBeanArrayList.get(position).get_id());
+                    } else {
+                        removeData(cropBeanArrayList.get(position).get_id());
+
+                    }
+                }
+            });
+        }
     }
 
     public void removeData(String data) {
