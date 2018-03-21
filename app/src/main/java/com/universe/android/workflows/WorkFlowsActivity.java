@@ -339,8 +339,13 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                     }
                     if (Utility.validateString(id)) {
                         if (id.equalsIgnoreCase(jsonObject.optString(AppConstants.UserId))) {
-                            textViewStatus.setText(stringArrayList.get(i).getStatus() + " by " + jsonObject.optString(AppConstants.USERNAME) + " on " + stringArrayList.get(i).getDate());
-                                break;
+
+                            SimpleDateFormat format1 = new SimpleDateFormat(AppConstants.utc_format1);
+                            Date date = format1.parse(jsonObject.optString(AppConstants.DATE));
+
+
+                            textViewStatus.setText(jsonObject.optString(AppConstants.STATUS) + " by " + jsonObject.optString(AppConstants.USERNAME) + " on " +AppConstants.format10.format(date));
+                             //   break;
                         } else {
 
                             if (type.equalsIgnoreCase(DesignationEnum.approval1.toString())) {

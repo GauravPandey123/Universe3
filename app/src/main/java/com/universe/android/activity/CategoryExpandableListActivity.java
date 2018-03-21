@@ -831,6 +831,13 @@ public class CategoryExpandableListActivity extends BaseActivity {
         expandableListDetail = new HashMap<CategoryModal, List<Questions>>();
         ArrayList<String> arrISView = new ArrayList<>();
         ArrayList<String> arrISViewByZM = new ArrayList<>();
+        ArrayList<String> arrISViewByRequester = new ArrayList<>();
+        ArrayList<String> arrISViewByApproval1 = new ArrayList<>();
+        ArrayList<String> arrISViewByApproval2 = new ArrayList<>();
+        ArrayList<String> arrISViewByApproval3 = new ArrayList<>();
+        ArrayList<String> arrISViewByApproval4 = new ArrayList<>();
+        ArrayList<String> arrISViewByApproval5 = new ArrayList<>();
+        ArrayList<String> arrISViewByApproval6 = new ArrayList<>();
 
         Realm realm = Realm.getDefaultInstance();
         RealmSurveys realmSurveys = realm.where(RealmSurveys.class).equalTo(AppConstants.ID, surveyId).findFirst();
@@ -854,6 +861,13 @@ public class CategoryExpandableListActivity extends BaseActivity {
                             JSONObject jsonObject = array.getJSONObject(i);
                             String categoryId = jsonObject.optString(AppConstants.CATEGORYID);
                             String isView = jsonObject.optString(AppConstants.ISVIEW);
+                            String isViewRequester = jsonObject.optString(AppConstants.ISVIEWBYREQUESTER);
+                            String isViewApproval1 = jsonObject.optString(AppConstants.ISVIEWBYAPPROVAL1);
+                            String isViewApproval2 = jsonObject.optString(AppConstants.ISVIEWBYAPPROVAL2);
+                            String isViewApproval3 = jsonObject.optString(AppConstants.ISVIEWBYAPPROVAL3);
+                            String isViewApproval4 = jsonObject.optString(AppConstants.ISVIEWBYAPPROVAL4);
+                            String isViewApproval5 = jsonObject.optString(AppConstants.ISVIEWBYAPPROVAL5);
+                            String isViewApproval6 = jsonObject.optString(AppConstants.ISVIEWBYAPPROVAL6);
                             String isViewByZM = jsonObject.optString(AppConstants.ISVIEWBYZM);
                             JSONArray questions = jsonObject.getJSONArray(AppConstants.QUESTIONS);
                             if (categoryId.equalsIgnoreCase(jsonArray.get(l).toString())) {
@@ -864,13 +878,32 @@ public class CategoryExpandableListActivity extends BaseActivity {
                                     CategoryModal categoryModal = new CategoryModal();
                                     categoryModal.setId(realmCategoryDetails.getId());
                                     categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
-                                    categoryModal.setStatus(isView);
-                                    categoryModal.setIsViewByZM(isViewByZM);
-                                    if (isView.equalsIgnoreCase("1"))
-                                        arrISView.add(isView);
+                                    categoryModal.setIsViewByRequester(isViewRequester);
+                                    categoryModal.setIsViewByApproval1(isViewApproval1);
+                                    categoryModal.setIsViewByApproval2(isViewApproval2);
+                                    categoryModal.setIsViewByApproval3(isViewApproval3);
+                                    categoryModal.setIsViewByApproval4(isViewApproval4);
+                                    categoryModal.setIsViewByApproval5(isViewApproval5);
+                                    categoryModal.setIsViewByApproval6(isViewApproval6);
 
-                                    if (isViewByZM.equalsIgnoreCase("1"))
-                                        arrISViewByZM.add(isViewByZM);
+
+                                    if (isViewRequester.equalsIgnoreCase("1"))
+                                        arrISViewByRequester.add(isViewRequester);
+
+
+
+                                    if (isViewApproval1.equalsIgnoreCase("1"))
+                                        arrISViewByApproval1.add(isViewApproval1);
+                                    if (isViewApproval2.equalsIgnoreCase("1"))
+                                        arrISViewByApproval2.add(isViewApproval2);
+                                    if (isViewApproval3.equalsIgnoreCase("1"))
+                                        arrISViewByApproval3.add(isViewApproval3);
+                                    if (isViewApproval4.equalsIgnoreCase("1"))
+                                        arrISViewByApproval4.add(isViewApproval4);
+                                    if (isViewApproval5.equalsIgnoreCase("1"))
+                                        arrISViewByApproval5.add(isViewApproval5);
+                                    if (isViewApproval6.equalsIgnoreCase("1"))
+                                        arrISViewByApproval6.add(isViewApproval6);
                                     try {
                                         //  RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID,surveyId).findAll();
 
@@ -956,8 +989,13 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         CategoryModal categoryModal = new CategoryModal();
                         categoryModal.setId(realmCategoryDetails.getId());
                         categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
-                        categoryModal.setStatus("");
-                        categoryModal.setIsViewByZM("");
+                        categoryModal.setIsViewByRequester("");
+                        categoryModal.setIsViewByApproval1("");
+                        categoryModal.setIsViewByApproval2("");
+                        categoryModal.setIsViewByApproval3("");
+                        categoryModal.setIsViewByApproval4("");
+                        categoryModal.setIsViewByApproval5("");
+                        categoryModal.setIsViewByApproval6("");
                         categoryModal.setCategoryAnswered("");
                         try {
                             RealmResults<RealmQuestion> realmQuestions = realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID, realmCategoryDetails.getId())/*.equalTo(AppConstants.SURVEYID, surveyId)*/.findAll();
@@ -1049,8 +1087,8 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 mProgress.setVisibility(View.VISIBLE);
                 llStatus.setVisibility(View.GONE);
                 String type = Prefs.getStringPrefs(AppConstants.TYPE);
-                if (type.equalsIgnoreCase("rm")) {
-                    if (arraylistTitle.size() != arrISView.size()) {
+                if (type.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
+                    if (arraylistTitle.size() != arrISViewByApproval1.size()) {
                         btnApprove.setBackgroundResource(R.color.grey);
                         btnApprove.setEnabled(false);
                         btnReject.setBackgroundResource(R.color.buttoncolor1);
@@ -1062,8 +1100,60 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         btnReject.setBackgroundResource(R.color.buttoncolor1);
                         btnReject.setEnabled(true);
                     }
-                } else {
-                    if (arraylistTitle.size() != arrISViewByZM.size()) {
+                } else   if (type.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+                    if (arraylistTitle.size() != arrISViewByApproval2.size()) {
+                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setEnabled(false);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setEnabled(true);
+
+                    } else {
+                        btnApprove.setBackgroundResource(R.color.buttoncolor);
+                        btnApprove.setEnabled(true);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setEnabled(true);
+                    }
+                }else   if (type.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                    if (arraylistTitle.size() != arrISViewByApproval3.size()) {
+                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setEnabled(false);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setEnabled(true);
+
+                    } else {
+                        btnApprove.setBackgroundResource(R.color.buttoncolor);
+                        btnApprove.setEnabled(true);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setEnabled(true);
+                    }
+                }else   if (type.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                    if (arraylistTitle.size() != arrISViewByApproval4.size()) {
+                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setEnabled(false);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setEnabled(true);
+
+                    } else {
+                        btnApprove.setBackgroundResource(R.color.buttoncolor);
+                        btnApprove.setEnabled(true);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setEnabled(true);
+                    }
+                }else   if (type.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+                    if (arraylistTitle.size() != arrISViewByApproval5.size()) {
+                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setEnabled(false);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setEnabled(true);
+
+                    } else {
+                        btnApprove.setBackgroundResource(R.color.buttoncolor);
+                        btnApprove.setEnabled(true);
+                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setEnabled(true);
+                    }
+                }else   if (type.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                    if (arraylistTitle.size() != arrISViewByApproval6.size()) {
                         btnApprove.setBackgroundResource(R.color.grey);
                         btnApprove.setEnabled(false);
                         btnReject.setBackgroundResource(R.color.buttoncolor1);

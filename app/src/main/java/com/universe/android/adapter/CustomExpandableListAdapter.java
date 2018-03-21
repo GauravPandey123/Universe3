@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 
 import com.universe.android.R;
+import com.universe.android.enums.DesignationEnum;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.CategoryModal;
 import com.universe.android.model.Questions;
@@ -127,8 +128,14 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
         String headerTitle = _listDataHeader.get(groupPosition).getCategoryName();
         String count = _listDataHeader.get(groupPosition).getQuestionCount();
         String categoryAnsweredd = _listDataHeader.get(groupPosition).getCategoryAnswered();
-        String status = _listDataHeader.get(groupPosition).getStatus();
-        String isViewByZM = _listDataHeader.get(groupPosition).getIsViewByZM();
+        String status = _listDataHeader.get(groupPosition).getIsViewByRequester();
+        String isViewByApproval1 = _listDataHeader.get(groupPosition).getIsViewByApproval1();
+        String isViewByApproval2 = _listDataHeader.get(groupPosition).getIsViewByApproval2();
+        String isViewByApproval3 = _listDataHeader.get(groupPosition).getIsViewByApproval3();
+        String isViewByApproval4 = _listDataHeader.get(groupPosition).getIsViewByApproval4();
+        String isViewByApproval5 = _listDataHeader.get(groupPosition).getIsViewByApproval5();
+        String isViewByApproval6 = _listDataHeader.get(groupPosition).getIsViewByApproval6();
+
 
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this._context
@@ -152,16 +159,32 @@ public class CustomExpandableListAdapter extends BaseExpandableListAdapter {
 
         String designation = Prefs.getStringPrefs(AppConstants.TYPE);
 
-        if (designation.equalsIgnoreCase("cd")) {
+        if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
             if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("2")) {
                 imgStatus.setBackgroundResource(R.drawable.done);
             }
-        } else if (designation.equalsIgnoreCase("rm")) {
-            if (categoryAnsweredd.equalsIgnoreCase("Yes") && status.equalsIgnoreCase("1")) {
+        } else if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && isViewByApproval1.equalsIgnoreCase("1")) {
                 imgStatus.setBackgroundResource(R.drawable.double_done);
             }
-        } else {
-            if (categoryAnsweredd.equalsIgnoreCase("Yes") && isViewByZM.equalsIgnoreCase("1")) {
+        }else if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && isViewByApproval2.equalsIgnoreCase("1")) {
+                imgStatus.setBackgroundResource(R.drawable.double_done);
+            }
+        }else if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && isViewByApproval3.equalsIgnoreCase("1")) {
+                imgStatus.setBackgroundResource(R.drawable.double_done);
+            }
+        }else if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && isViewByApproval4.equalsIgnoreCase("1")) {
+                imgStatus.setBackgroundResource(R.drawable.double_done);
+            }
+        }else if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && isViewByApproval5.equalsIgnoreCase("1")) {
+                imgStatus.setBackgroundResource(R.drawable.double_done);
+            }
+        }else if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+            if (categoryAnsweredd.equalsIgnoreCase("Yes") && isViewByApproval6.equalsIgnoreCase("1")) {
                 imgStatus.setBackgroundResource(R.drawable.double_done);
             }
         }
