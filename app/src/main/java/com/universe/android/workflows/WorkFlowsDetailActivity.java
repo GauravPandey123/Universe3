@@ -80,8 +80,6 @@ public class WorkFlowsDetailActivity extends BaseActivity {
 
             long realmPending = 0,realmInprogress=0,realmCompleted=0,realmRejected=0;
             String designation= Prefs.getStringPrefs(AppConstants.TYPE);
-
-
             if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())){
                 realmPending = realm.where(RealmAnswers.class).equalTo(AppConstants.approval1_status,"0").count();
                 realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.approval1_status,"2").equalTo(AppConstants.requester_status,"1").count();

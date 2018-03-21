@@ -24,7 +24,7 @@
                 android:layout_margin="@dimen/margin_medium"
                 android:text="@string/retailersname"
                 android:textColor="@color/textColorPrimaryDark"
-                android:textSize="@dimen/text_size_normal" />
+                android:textSize="@dimen/text_size_medium" />
 
             <TextView
                 android:id="@+id/textViewMobileNo"
@@ -73,6 +73,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="@string/submitted"
+                    android:textSize="@dimen/text_size_small"
                     android:visibility="visible" />
             </LinearLayout>
 

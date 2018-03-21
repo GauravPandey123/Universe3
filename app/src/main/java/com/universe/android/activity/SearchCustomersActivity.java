@@ -67,7 +67,6 @@ public class SearchCustomersActivity extends BaseActivity {
     private ImageView actionButton;
 
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,7 +156,7 @@ public class SearchCustomersActivity extends BaseActivity {
                 for (CustomerModal wp : responseList) {
                     if (wp.getTitle() != null) {
 
-                        if (wp.getTitle().toLowerCase(Locale.getDefault()).contains(charText)||wp.getState().toLowerCase(Locale.getDefault()).contains(charText)||wp.getContactNo().toLowerCase(Locale.getDefault()).contains(charText)||wp.getTerritory().toLowerCase(Locale.getDefault()).contains(charText)) {
+                        if (wp.getTitle().toLowerCase(Locale.getDefault()).contains(charText) || wp.getState().toLowerCase(Locale.getDefault()).contains(charText) || wp.getContactNo().toLowerCase(Locale.getDefault()).contains(charText) || wp.getTerritory().toLowerCase(Locale.getDefault()).contains(charText)) {
                             arrSearlist.add(wp);
                         }
                     }
@@ -250,7 +249,7 @@ public class SearchCustomersActivity extends BaseActivity {
         imageViewback = findViewById(R.id.imageviewbacSearch);
         textViewSuverDetail = findViewById(R.id.textViewSuverDetail);
 
-        actionButton =  findViewById(R.id.actionButton);
+        actionButton = findViewById(R.id.actionButton);
 
         editTextSearchcustomers.setTypeface(FontClass.openSansLight(mContext));
         textViewSuverDetail.setTypeface(FontClass.openSemiBold(mContext));
@@ -283,8 +282,8 @@ public class SearchCustomersActivity extends BaseActivity {
                     modal.setId(realmCustomers.get(i).get_id());
                     RealmAnswers realmAnswers1 = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID, surveyId).equalTo(AppConstants.CUSTOMERID, realmCustomers.get(i).get_id()).findFirst();
                     if (realmAnswers1 != null) {
-                        if (realmAnswers1.getCreatedAt()!=null)
-                        modal.setDate(AppConstants.format2.format(realmAnswers1.getCreatedAt()));
+                        if (realmAnswers1.getCreatedAt() != null)
+                            modal.setDate(AppConstants.format2.format(realmAnswers1.getCreatedAt()));
                         String status = realmAnswers1.getRequester_status();
                         modal.setStatus(status);
                     } else {
@@ -309,16 +308,7 @@ public class SearchCustomersActivity extends BaseActivity {
 
                     modal.setPincode(realmCustomers.get(i).getPincode());
 
-                    //modal.setStatus(type);
-                  /*  Date today=new Date();
-                    if (!expiry.before(today) || expiry.equals(today)){
-                        stringArrayList.add(modal);
-                    }else {
-                        if (Utility.validateString(modal.getStatus())){
-                            stringArrayList.add(modal);
-                        }
-                    }*/
-                  stringArrayList.add(modal);
+                    stringArrayList.add(modal);
 
 
                 }

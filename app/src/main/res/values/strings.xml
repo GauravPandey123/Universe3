@@ -36,7 +36,7 @@
     <string name="survey_report">Survey Report</string>
     <string name="customers">Crystal Customers</string>
     <string name="text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged</string>
-    <string name="pending"> pending </string>
+    <string name="pending"> Pending </string>
     <string name="completed">Submitted</string>
     <string name="achiovement">  Achievement</string>
     <string name="inprogress">Inprogress</string>
