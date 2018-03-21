@@ -12,6 +12,15 @@ public class CategoryModal {
     private String categoryAnswered;
     private Date description;
     private String isViewByZM;
+    private String isViewByRequester;
+    private String isViewByApproval1;
+    private String isViewByApproval2;
+    private String isViewByApproval3;
+    private String isViewByApproval4;
+    private String isViewByApproval5;
+    private String isViewByApproval6;
+
+
 
     private String contactNo;
 
@@ -183,5 +192,61 @@ public class CategoryModal {
 
     public void setIsViewByZM(String isViewByZM) {
         this.isViewByZM = isViewByZM;
+    }
+
+    public String getIsViewByRequester() {
+        return isViewByRequester;
+    }
+
+    public void setIsViewByRequester(String isViewByRequester) {
+        this.isViewByRequester = isViewByRequester;
+    }
+
+    public String getIsViewByApproval1() {
+        return isViewByApproval1;
+    }
+
+    public void setIsViewByApproval1(String isViewByApproval1) {
+        this.isViewByApproval1 = isViewByApproval1;
+    }
+
+    public String getIsViewByApproval2() {
+        return isViewByApproval2;
+    }
+
+    public void setIsViewByApproval2(String isViewByApproval2) {
+        this.isViewByApproval2 = isViewByApproval2;
+    }
+
+    public String getIsViewByApproval3() {
+        return isViewByApproval3;
+    }
+
+    public void setIsViewByApproval3(String isViewByApproval3) {
+        this.isViewByApproval3 = isViewByApproval3;
+    }
+
+    public String getIsViewByApproval4() {
+        return isViewByApproval4;
+    }
+
+    public void setIsViewByApproval4(String isViewByApproval4) {
+        this.isViewByApproval4 = isViewByApproval4;
+    }
+
+    public String getIsViewByApproval5() {
+        return isViewByApproval5;
+    }
+
+    public void setIsViewByApproval5(String isViewByApproval5) {
+        this.isViewByApproval5 = isViewByApproval5;
+    }
+
+    public String getIsViewByApproval6() {
+        return isViewByApproval6;
+    }
+
+    public void setIsViewByApproval6(String isViewByApproval6) {
+        this.isViewByApproval6 = isViewByApproval6;
     }
 }

@@ -1653,15 +1653,69 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                 if (jsonArrayQuestions.length()!=0) {
                     JSONObject updatePosition = new JSONObject();
-                    if (designation.equalsIgnoreCase("rm")) {
-                        updatePosition.put(AppConstants.ISVIEW, "1");
-                        updatePosition.put(AppConstants.ISVIEWBYZM, "0");
-                    } else if (designation.equalsIgnoreCase("zm")) {
-                        updatePosition.put(AppConstants.ISVIEW, "1");
-                        updatePosition.put(AppConstants.ISVIEWBYZM, "1");
+                    if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
+                        updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
+                    } else if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+                        updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
+                    }else if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                        updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
+                    }else if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                        updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
+                    }else if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+
+                        updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
+                    }else if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                        updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "1");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "1");
                     } else {
-                        updatePosition.put(AppConstants.ISVIEW, "0");
-                        updatePosition.put(AppConstants.ISVIEWBYZM, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "0");
+                        updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
                     }
                     updatePosition.put(AppConstants.CATEGORYID, categoryId);
                     updatePosition.put(AppConstants.QUESTIONS, jsonArrayQuestions);

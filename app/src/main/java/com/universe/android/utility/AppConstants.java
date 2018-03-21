@@ -17,7 +17,7 @@ public class AppConstants {
     //    2018-12-05T00:00:00.000Z
     public static final SimpleDateFormat format3 = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00.000'Z'");
     public static final SimpleDateFormat format4 = new SimpleDateFormat("yyyy-MM-dd");
-    public static final String utc_format = "yyyy-MM-dd'T'HH:00:00.SSS'Z'";
+    public static final String utc_format = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static final String utc_format1 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
     public static final String format6 = "yyyy-MM-dd";
     public static final String format5 = "MMM dd, yyyy hh:mm:ss a";
@@ -146,6 +146,13 @@ public class AppConstants {
     public static final String PERCENTAGE = "percentage";
     public static final String RANKING = "ranking";
     public static final String EXPIRY ="expiry" ;
+    public static final String ISVIEWBYREQUESTER = "requesterView";
+    public static final String ISVIEWBYAPPROVAL1 = "approval1View";
+    public static final String ISVIEWBYAPPROVAL2 = "approval2View";
+    public static final String ISVIEWBYAPPROVAL3 = "approval3View";
+    public static final String ISVIEWBYAPPROVAL4 = "approval4View";
+    public static final String ISVIEWBYAPPROVAL5 = "approval5View";
+    public static final String ISVIEWBYAPPROVAL6 = "approval6View";
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";
