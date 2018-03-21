@@ -10,6 +10,17 @@ public class UpadteLocationRequest extends BaseRequest {
     private String userId;
     private String lat;
 
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
+    private String customer;
+
     public String getType() {
         return type;
     }

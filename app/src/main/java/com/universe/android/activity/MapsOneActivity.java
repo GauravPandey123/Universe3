@@ -63,6 +63,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import in.editsoft.api.exception.APIException;
+import in.editsoft.api.util.App;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import okhttp3.Call;
@@ -171,6 +172,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             public void onClick(View view) {
                 updateLocationService(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
                 updateLocationServiceEmployee(Prefs.getStringPrefs(AppConstants.LATTITUDE), Prefs.getStringPrefs(AppConstants.LONGITUDE));
+
             }
         });
 
@@ -218,10 +220,10 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             }
 
             if (realmCustomer.isLocation()) {
-                isLocationSet="yes";
+                isLocationSet = "yes";
                 imageLoc.setImageResource(R.drawable.ic_location_set);
             } else {
-                isLocationSet="no";
+                isLocationSet = "no";
                 imageLoc.setImageResource(R.drawable.red_loc);
 
             }
@@ -277,6 +279,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
         try {
             jsonSubmitReq.put(AppConstants.USERID, Prefs.getStringPrefs(AppConstants.UserId));
+            jsonSubmitReq.put(AppConstants.CUSTOMER, strCustomer);
             jsonSubmitReq.put(AppConstants.LAT, lat);
             jsonSubmitReq.put(AppConstants.LNG, lan);
             jsonSubmitReq.put(AppConstants.TYPE, AppConstants.customer);
@@ -359,7 +362,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 .addFormDataPart("type", strCustomer)
                 .addFormDataPart("isPicture", "1")
                 .addFormDataPart("customerId", customerId)
-                .addFormDataPart("photo",path.getName(), RequestBody.create(path.toString().endsWith("png") ?
+                .addFormDataPart("photo", path.getName(), RequestBody.create(path.toString().endsWith("png") ?
                         MediaType.parse("image/png") : MediaType.parse("image/jpeg"), path))
                 .build();
         //    RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
@@ -421,7 +424,6 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     }
 
 
-
     private void handleCrop(int resultCode, Intent result) {
         if (resultCode == RESULT_OK) {
             mImageUrl = Crop.getOutput(result).getPath();
@@ -447,6 +449,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         upadteLocationRequest.setLng(lan);
         upadteLocationRequest.setType(AppConstants.employee);
         upadteLocationRequest.setCustomerId(customerId);
+        upadteLocationRequest.setCustomer(strCustomer);
         UpdateLocationService updateLocationService = new UpdateLocationService();
         updateLocationService.executeService(upadteLocationRequest, new BaseApiCallback<UpDateLocationResponse>() {
             @Override
@@ -708,7 +711,6 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {
         super.onActivityResult(requestCode, resultCode, result);
@@ -722,7 +724,6 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             handleCrop(resultCode, result);
         }
     }
-
 
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
