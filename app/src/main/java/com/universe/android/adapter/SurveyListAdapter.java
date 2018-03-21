@@ -82,7 +82,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
                 Intent i=null;
 
                 Date today=new Date();
-                if (surveysModal.getExpiry().before(today) || surveysModal.getExpiry().equals(today)){
+                if (!surveysModal.getExpiry().before(today) || surveysModal.getExpiry().equals(today)){
                     String type=Prefs.getStringPrefs(AppConstants.TYPE);
                     if (type.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                         i = new Intent(mContext, AddNewRetailors.class);

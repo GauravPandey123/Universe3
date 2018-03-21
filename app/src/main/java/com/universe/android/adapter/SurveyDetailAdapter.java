@@ -40,37 +40,33 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
 
     @Override
     public void onBindViewHolder(SurveyViewHolder holder, int position) {
-        holder.textViewRetailersName.setTypeface(FontClass.openSansBold(mContext));
+        holder.textViewRetailersName.setTypeface(FontClass.openSansRegular(mContext));
         holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
+        holder.textViewDate.setTypeface(FontClass.openSansRegular(mContext));
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
             holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
+        holder.textViewMobileNo.setText(new StringBuilder().append(stringArrayList.get(position).getContactNo()).append(" | ").append(stringArrayList.get(position).getTerritory()).append(" | ").append(stringArrayList.get(position).getState()).append("  "));
+        holder.textViewDate.setVisibility(View.GONE);
 
-        holder.textViewMobileNo.setText(stringArrayList.get(position).getContactNo() + " | " +
-                stringArrayList.get(position).getTerritory() + " | " + stringArrayList.get(position).getState() + "  " +
-                stringArrayList.get(position).getDate());
-        if (stringArrayList.get(position).getStatus() != null) {
-            if (stringArrayList.get(position).getStatus().equalsIgnoreCase("0")) {
-                holder.imageViewStatus.setImageResource(R.drawable.pending);
-                holder.tvStatus.setText(R.string.pending);
-            } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
+        if (Utility.validateString(stringArrayList.get(position).getStatus())) {
+            if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
+                holder.llStatus.setVisibility(View.VISIBLE);
+                holder.textViewDate.setText("|" + stringArrayList.get(position).getDate());
                 holder.imageViewStatus.setImageResource(R.drawable.ic_submitted);
-                holder.tvStatus.setText(R.string.submit);
-            } else if (stringArrayList.get((position)).getStatus().equalsIgnoreCase("2")) {
-
-            } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("3")) {
-
-            } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("4")) {
-
+                holder.textViewDate.setVisibility(View.VISIBLE);
+                holder.tvStatus.setText(R.string.completed);
             } else if (stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
-                holder.imageViewStatus.setImageResource(R.drawable.pending);
+                holder.llStatus.setVisibility(View.VISIBLE);
+                holder.textViewDate.setVisibility(View.GONE);
+                holder.imageViewStatus.setImageResource(R.drawable.ic_inprogress);
                 holder.tvStatus.setText(R.string.inprogress);
+            } else {
+                holder.llStatus.setVisibility(View.GONE);
             }
+        } else {
+            holder.llStatus.setVisibility(View.GONE);
         }
 
-    }
-
-    public void setOnItemClickLister(OnItemSelecteListener mListener) {
-        this.mListener = mListener;
     }
 
     @Override
@@ -86,6 +82,7 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
         private TextView textViewRetailersName, textViewMobileNo, tvStatus;
         private LinearLayout llStatus;
         public ImageView imageViewStatus;
+        public TextView textViewDate;
 
         public SurveyViewHolder(View itemView) {
             super(itemView);
@@ -93,7 +90,8 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
             textViewMobileNo = itemView.findViewById(R.id.textViewMobileNo);
             imageViewStatus = itemView.findViewById(R.id.imageViewStatus);
             tvStatus = itemView.findViewById(R.id.tvStatus);
-
+            textViewDate = itemView.findViewById(R.id.textViewDate);
+            llStatus = itemView.findViewById(R.id.llStatus);
         }
     }
 }

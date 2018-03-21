@@ -104,13 +104,6 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
             tvStatus = itemView.findViewById(R.id.tvStatus);
             relativeLayout = itemView.findViewById(R.id.relativeLayout);
             textViewDate = itemView.findViewById(R.id.textViewDate);
-           /* itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mListener.onItemSelected(view, getAdapterPosition());
-
-                }
-            });*/
 
         }
     }
