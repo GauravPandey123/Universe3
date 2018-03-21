@@ -82,17 +82,18 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
                 Intent i=null;
 
                 Date today=new Date();
-                if (!surveysModal.getExpiry().before(today) || surveysModal.getExpiry().equals(today)){
+                if (surveysModal.getExpiry().before(today) || surveysModal.getExpiry().equals(today)){
                     String type=Prefs.getStringPrefs(AppConstants.TYPE);
                     if (type.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                        if (position == 0) {
-                            i = new Intent(mContext, AddNewRetailors.class);
-                        } else {
-                            i = new Intent(mContext, SearchCustomersActivity.class);
-                            Prefs.putStringPrefs(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
-                            Prefs.putStringPrefs(AppConstants.STR_TITLE, strType+" "+surveysModal.getTitle());
-                            i.putExtra(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
-                        }
+                        i = new Intent(mContext, AddNewRetailors.class);
+//                        if (position == 0) {
+//
+//                        } else {
+//                            i = new Intent(mContext, SearchCustomersActivity.class);
+//                            Prefs.putStringPrefs(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
+//                            Prefs.putStringPrefs(AppConstants.STR_TITLE, strType+" "+surveysModal.getTitle());
+//                            i.putExtra(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
+//                        }
                     }
 
                     if (strType.equalsIgnoreCase(AppConstants.WORKFLOWS)){

@@ -1653,10 +1653,10 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                 if (jsonArrayQuestions.length()!=0) {
                     JSONObject updatePosition = new JSONObject();
-                    if (designation.equalsIgnoreCase("rm")) {
+                    if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
                         updatePosition.put(AppConstants.ISVIEW, "1");
                         updatePosition.put(AppConstants.ISVIEWBYZM, "0");
-                    } else if (designation.equalsIgnoreCase("zm")) {
+                    } else if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
                         updatePosition.put(AppConstants.ISVIEW, "1");
                         updatePosition.put(AppConstants.ISVIEWBYZM, "1");
                     } else {

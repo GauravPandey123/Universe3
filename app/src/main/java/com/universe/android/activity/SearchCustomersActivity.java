@@ -64,7 +64,7 @@ public class SearchCustomersActivity extends BaseActivity {
     private ArrayList<CustomerModal> stringArrayList;
     private ArrayList<CustomerModal> arrSearlist;
     private String surveyId, strTitle, strCustomer = "", strSearch = "";
-    private FloatingActionButton actionButton;
+    private ImageView actionButton;
 
 
 
@@ -250,8 +250,8 @@ public class SearchCustomersActivity extends BaseActivity {
         imageViewback = findViewById(R.id.imageviewbacSearch);
         textViewSuverDetail = findViewById(R.id.textViewSuverDetail);
 
-        actionButton = (FloatingActionButton) findViewById(R.id.actionButton);
-        actionButton.setImageResource(R.drawable.ic_floating_button);
+        actionButton =  findViewById(R.id.actionButton);
+
         editTextSearchcustomers.setTypeface(FontClass.openSansLight(mContext));
         textViewSuverDetail.setTypeface(FontClass.openSemiBold(mContext));
 
