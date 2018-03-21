@@ -22,10 +22,12 @@ import android.widget.TextView;
 import com.universe.android.R;
 import com.universe.android.activity.SurveyDetailActivity;
 import com.universe.android.adapter.StatusAdapter;
+import com.universe.android.adapter.SurveyStatusSelectionAdapter;
 import com.universe.android.adapter.TeamSelectionAdapter;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.Number;
 import com.universe.android.model.StatusModel;
+import com.universe.android.model.SurveyReportModel;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
@@ -47,7 +49,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
     DatePickerDialog dp;
     private Dialog dialogFilter, dialogStatus, dialogCalendra;
     private ImageView imageViewCancel;
-
+    private SurveyStatusSelectionAdapter surveyStatusSelectionAdapter;
     private LinearLayoutManager mLayoutManager;
     private StatusAdapter statusAdapter;
     private Calendar mcalendar;
@@ -58,6 +60,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
     private RelativeLayout relativeLayoutSubmit;
     private ImageView imageViewClose, imageViewCloseStatus;
     private String fromDateString, toDateString, statusString;
+    private ArrayList<SurveyReportModel> surveyReportModelArrayList;
 
     @Nullable
     @Override
@@ -401,6 +404,20 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         dp.show();
 
     }
+
+    private void prepareMovieData() {
+        SurveyReportModel movie = new SurveyReportModel("Target");
+        surveyReportModelArrayList.add(movie);
+
+        movie = new SurveyReportModel(getResources().getString(R.string.completed));
+        surveyReportModelArrayList.add(movie);
+
+        movie = new SurveyReportModel(getResources().getString(R.string.inprogress));
+        surveyReportModelArrayList.add(movie);
+
+        surveyStatusSelectionAdapter.notifyDataSetChanged();
+    }
+
 
     public interface SetDataListListener {
         public void submitData(String statusString, String fromDateString, String toDateString);

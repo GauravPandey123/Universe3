@@ -44,8 +44,8 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
         holder.textViewMobileNo.setTypeface(FontClass.openSansRegular(mContext));
         holder.textViewDate.setTypeface(FontClass.openSansRegular(mContext));
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
-            holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
-        holder.textViewMobileNo.setText(new StringBuilder().append(stringArrayList.get(position).getContactNo()).append(" | ").append(stringArrayList.get(position).getTerritory()).append(" | ").append(stringArrayList.get(position).getState()).append("  "));
+            holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle().substring(0, 1).concat(stringArrayList.get(position).getTitle().substring(1).toLowerCase()));
+        holder.textViewMobileNo.setText(new StringBuilder().append(stringArrayList.get(position).getContactNo()).append(" | ").append(stringArrayList.get(position).getTerritory().substring(0, 1).toUpperCase().concat(stringArrayList.get(position).getTerritory().substring(1).toLowerCase())).append(" | ").append(stringArrayList.get(position).getState().substring(0, 1).concat(stringArrayList.get(position).getState().substring(1).toLowerCase())).toString());
         holder.textViewDate.setVisibility(View.GONE);
 
         if (Utility.validateString(stringArrayList.get(position).getStatus())) {

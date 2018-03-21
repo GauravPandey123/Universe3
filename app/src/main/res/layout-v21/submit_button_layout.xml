@@ -6,7 +6,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/buttoncolor"
+        android:background="@drawable/rounded_corner_dialog"
         android:gravity="center"
         android:text="@string/submit"
         android:textAllCaps="true"
