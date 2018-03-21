@@ -237,11 +237,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_min"
                     android:layout_marginRight="@dimen/margin_xxlarge"
+                    android:textSize="@dimen/text_size_small"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:text="@string/new_retailer_text"
                     android:textColor="@color/textColorPrimary"
                     android:visibility="visible" />
-                android:textSize="@dimen/text_size_small" />
+
             </LinearLayout>
 
 

@@ -89,8 +89,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:layout_margin="12dp"
-        android:background="@color/buttoncolor"
-        android:src="@drawable/fab_add" />
+        tools:targetApi="lollipop" />
 </RelativeLayout>

@@ -26,7 +26,7 @@
                 android:text="@string/today"
                 android:textAllCaps="true"
                 android:textColor="@android:color/black"
-                android:textSize="@dimen/text_size_medium" />
+                android:textSize="@dimen/text_size_small" />
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
@@ -71,7 +71,7 @@
                             android:gravity="center"
                             android:text="10"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
 
                         <TextView
                             android:id="@+id/textViewtarget"
@@ -80,12 +80,12 @@
                             android:layout_marginLeft="@dimen/margin_medium"
                             android:text="@string/target"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
+                        android:layout_width="@dimen/margin_xnormal"
+                        android:layout_height="@dimen/margin_xnormal"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
@@ -115,7 +115,7 @@
                             android:layout_marginRight="@dimen/margin_normal"
                             android:text="0"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
 
                         <TextView
                             android:id="@+id/textViewCompleted"
@@ -125,12 +125,12 @@
                             android:layout_marginLeft="@dimen/margin_medium"
                             android:text="@string/completed"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
+                        android:layout_width="@dimen/margin_xnormal"
+                        android:layout_height="@dimen/margin_xnormal"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
@@ -160,7 +160,7 @@
                             android:layout_marginRight="@dimen/margin_normal"
                             android:text="10%"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
 
                         <TextView
                             android:id="@+id/textViewAchievement"
@@ -169,12 +169,12 @@
                             android:layout_marginLeft="@dimen/margin_medium"
                             android:text="@string/achiovement"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
+                        android:layout_width="@dimen/margin_xnormal"
+                        android:layout_height="@dimen/margin_xnormal"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
@@ -222,12 +222,12 @@
                             android:layout_marginLeft="@dimen/margin_small"
                             android:text="@string/inprogress"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
+                        android:layout_width="@dimen/margin_xnormal"
+                        android:layout_height="@dimen/margin_xnormal"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/margin_medium"
                         android:layout_marginTop="@dimen/margin_medium"
@@ -268,12 +268,12 @@
                             android:layout_marginLeft="@dimen/margin_small"
                             android:text="@string/newretailors"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
+                        android:layout_width="@dimen/margin_xnormal"
+                        android:layout_height="@dimen/margin_xnormal"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_small"
                         android:layout_marginRight="@dimen/margin_small"
@@ -301,7 +301,7 @@
                             android:layout_marginRight="@dimen/margin_normal"
                             android:text="0"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
 
                         <TextView
                             android:id="@+id/textViewCrystalmembers"
@@ -310,12 +310,12 @@
                             android:layout_marginLeft="@dimen/margin_small"
                             android:text="@string/crystalmembers"
                             android:textColor="@android:color/black"
-                            android:textSize="@dimen/text_size_medium" />
+                            android:textSize="@dimen/text_size_small" />
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="@dimen/margin_large"
-                        android:layout_height="@dimen/margin_large"
+                        android:layout_width="@dimen/margin_xnormal"
+                        android:layout_height="@dimen/margin_xnormal"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginLeft="@dimen/margin_small"
@@ -336,12 +336,14 @@
         android:layout_height="40dp"
         android:layout_below="@id/cardViewTarget"
         android:layout_margin="@dimen/margin_min"
+        android:visibility="gone"
         app:cardBackgroundColor="@android:color/holo_blue_dark">
 
         <RelativeLayout
             android:id="@+id/linearLayoutSurvey"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:orientation="horizontal">
 
             <TextView

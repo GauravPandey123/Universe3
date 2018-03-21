@@ -248,6 +248,7 @@ public class SearchCustomersActivity extends BaseActivity {
         textViewSuverDetail = findViewById(R.id.textViewSuverDetail);
 
         actionButton = (FloatingActionButton) findViewById(R.id.actionButton);
+        actionButton.setImageResource(R.drawable.ic_floating_button);
         editTextSearchcustomers.setTypeface(FontClass.openSansLight(mContext));
         textViewSuverDetail.setTypeface(FontClass.openSemiBold(mContext));
 

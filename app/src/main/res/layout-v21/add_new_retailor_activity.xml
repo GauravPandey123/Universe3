@@ -31,108 +31,94 @@
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView1"
+    <RelativeLayout
+        android:id="@+id/relativeLayoutRetailers"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/include"
-        android:layout_margin="@dimen/margin_small">
+        android:layout_below="@+id/include">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/textViewReatilers"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:text="@string/retailers"
+            android:textColor="@color/textColorPrimaryDark"
+            android:textSize="@dimen/text_size_normal" />
 
-            <RelativeLayout
-                android:id="@+id/relativeLayoutRetailers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textViewReatilers"
+            android:layout_toLeftOf="@+id/imageView"
+            android:layout_toStartOf="@+id/imageView"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_medium"
+            android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/textViewReatilers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:text="@string/retailers"
-                    android:textColor="@color/textColorPrimaryDark"
-                    android:textSize="@dimen/text_size_normal" />
+            <TextView
+                android:id="@+id/retailerPending"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:text="@string/pending"
+                android:textColor="@color/textColorPrimary"
+                android:textSize="@dimen/text_size_small" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="10sp"
+                android:text="Pending"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:textColor="@color/textColorPrimary" />
+        </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/linearLayout1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/textViewReatilers"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin_medium"
-                    android:layout_toLeftOf="@+id/imageView"
-                    android:layout_toStartOf="@+id/imageView"
-                    android:orientation="vertical">
+        <TextView
+            android:id="@+id/textViewReatilersDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewReatilers"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:text="@string/enddate"
+            android:textColor="@color/textColorPrimaryDark"
+            android:textSize="@dimen/text_size_small" />
 
-                    <TextView
-                        android:id="@+id/retailerPending"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_medium"
-                        android:text="@string/pending"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="@dimen/text_size_small" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_small"
-                        android:gravity="center"
-                        android:text="Pending"
-                        android:textColor="@color/textColorPrimary"
-                        android:textSize="10sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/textViewReatilersDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textViewReatilers"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginStart="@dimen/margin_medium"
-                    android:text="@string/enddate"
-                    android:textColor="@color/textColorPrimaryDark"
-                    android:textSize="@dimen/text_size_small" />
-
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="@dimen/margin_large"
-                    android:layout_height="@dimen/margin_large"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="@dimen/margin_min"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/ic_survey" />
-            </RelativeLayout>
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/margin_large"
+            android:layout_height="@dimen/margin_large"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/margin_min"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_survey" />
+    </RelativeLayout>
 
 
-            <RelativeLayout
-                android:id="@+id/relativelayoutImage"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/relativeLayoutRetailers">
+    <RelativeLayout
+        android:id="@+id/relativelayoutImage"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@+id/relativeLayoutRetailers">
 
 
-                <ImageView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_margin="@dimen/margin_medium"
-                    android:background="@drawable/arrow_down"
-                    android:scaleType="centerCrop" />
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="@drawable/arrow_down"
+            android:layout_alignParentRight="true"
+            android:scaleType="centerCrop" />
 
-            </RelativeLayout>
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </RelativeLayout>
 
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cardView1"
+        android:layout_below="@+id/relativelayoutImage"
         android:layout_margin="@dimen/margin_small">
 
 
@@ -241,7 +227,7 @@
                     android:id="@+id/textViewNewCustomers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/newretailors"
+                    android:text="@string/newretailers"
                     android:textColor="@color/textColorPrimaryDark"
                     android:textStyle="bold" />
 
@@ -251,6 +237,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_min"
                     android:layout_marginRight="@dimen/margin_xxlarge"
+                    android:textSize="@dimen/text_size_small"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:text="@string/new_retailer_text"
                     android:textColor="@color/textColorPrimary"
