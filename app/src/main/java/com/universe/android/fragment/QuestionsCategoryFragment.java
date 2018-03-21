@@ -243,7 +243,9 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         assert searchManager != null;
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getActivity().getComponentName());
         if (searchView != null) {
+
             searchView.setSearchableInfo(searchableInfo);
+
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
@@ -261,6 +263,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 @Override
                 public boolean onQueryTextChange(String data) {
                     strData=data;
+
                     //   QuestionsCategoryFragment.pageChangeInterface.onDataPass(newText ,positionValue,categoryModals.get(mViewPager.getCurrentItem()).getId());
 
 
@@ -540,12 +543,13 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utility.hideSoftKeyboard(getActivity());
                 if (Utility.validateString(strData)) {
                     if (questionsMap != null && questionsMap.size() > 0) {
                         questionsMap = QuestionMapComparator.sortByValue(questionsMap);
                         for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
                             Questions question = (Questions) entry.getValue();
-                            if (question.getTitle().contains(strData) || question.getTitle().equalsIgnoreCase(strData)) {
+                            if (question.getTitle().toLowerCase().contains(strData.toLowerCase())) {
                                 if (llFields != null && llFields.getChildCount() > 0) {
                                     View targetView = llFields.findViewWithTag(question);
                                     if (targetView != null) {
@@ -571,7 +575,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         questionsMap = QuestionMapComparator.sortByValue(questionsMap);
                         for (Map.Entry<String, Questions> entry : questionsMap.entrySet()) {
                             Questions question = (Questions) entry.getValue();
-                            if (question.getTitle().contains(strData) ||question.getTitle().equalsIgnoreCase(strData)) {
+                            if (question.getTitle().toLowerCase().contains(strData.toLowerCase()) ) {
                                 if (llFields != null && llFields.getChildCount() > 0) {
                                     View targetView = llFields.findViewWithTag(question);
                                     if (targetView != null) {

@@ -105,12 +105,13 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void login() {
-        String email = editTextInputEmail.getText().toString();
-        String pass = editTextInputPassword.getText().toString();
+        final String email = editTextInputEmail.getText().toString();
+        final String pass = editTextInputPassword.getText().toString();
         if (validateDetails(email, pass)) {
             if (!Utility.isConnected()) {
                 Utility.showToast(R.string.msg_disconnected);
             } else {
+
                 submitLoginRequest(email, pass);
             }
         }
@@ -159,21 +160,15 @@ public class LoginActivity extends BaseActivity {
         RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
         String url = UniverseAPI.WEB_SERVICE_LOGIN_METHOD;
 
-        Request request = APIClient.getPostRequest(this, url, requestBody);
+        final Request request = APIClient.getPostRequest(this, url, requestBody);
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utility.showToast(e.getMessage());
-                        dismissProgress();
-                    }
-                });
+                errorExceptionHandle(e.getMessage());
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
+            public void onResponse(Call call, final Response response) throws IOException {
                 try {
                     if (response != null && response.isSuccessful()) {
                         String responseData = response.body().string();
@@ -200,23 +195,63 @@ public class LoginActivity extends BaseActivity {
                         }
 
                         if (Prefs.getStringPrefs(AppConstants.TYPE).equalsIgnoreCase(AppConstants.ADMIN)){
-                            getAdminSurveyResponse();
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getAdminSurveyResponse();
+                                }
+                            });
+
                         }else{
-                            getSurveyResponse();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    getSurveyResponse();
+                                }
+                            });
+
                         }
 
 
                     } else {
-                        dismissProgress();
+                        errorHandle(response);
+
+
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Utility.showToast(e.getMessage());
+                    errorExceptionHandle(e.getMessage());
+
+
                 }
             }
         });
     }
+
+    private void errorHandle(final Response response){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                assert response != null;
+                Utility.showToast("Unexpected code - "+response.code()+" "+response.message());
+                dismissProgress();
+            }
+        });
+    }
+    private void errorExceptionHandle(final String response){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                assert response != null;
+                Utility.showToast(response);
+                dismissProgress();
+            }
+        });
+    }
+
+
 
     private void getQuestionsResponse() {
         OkHttpClient okHttpClient = APIClient.getHttpClient();
@@ -225,12 +260,7 @@ public class LoginActivity extends BaseActivity {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utility.showToast(e.getMessage());
-                    }
-                });
+                errorExceptionHandle(e.getMessage());
             }
 
             @Override
@@ -244,12 +274,22 @@ public class LoginActivity extends BaseActivity {
                             JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
                             new RealmController().saveQuestions(array.toString());
                         }
-                        getSurveyQuestionsResponse();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getSurveyQuestionsResponse();
+                            }
+                        });
+
                     } else {
+                        errorHandle(response);
                     }
 
                 } catch (Exception e) {
+
                     e.printStackTrace();
+                    errorExceptionHandle(e.getMessage());
                 } finally {
                 }
 
@@ -278,12 +318,7 @@ public class LoginActivity extends BaseActivity {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utility.showToast(e.getMessage());
-                    }
-                });
+               errorExceptionHandle(e.getMessage());
             }
 
             @Override
@@ -307,9 +342,11 @@ public class LoginActivity extends BaseActivity {
 
 
                     } else {
+                     errorHandle(response);
                     }
 
                 } catch (Exception e) {
+                    errorExceptionHandle(e.getMessage());
                     e.printStackTrace();
                 } finally {
                 }
@@ -340,12 +377,7 @@ public class LoginActivity extends BaseActivity {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utility.showToast(e.getMessage());
-                    }
-                });
+                errorExceptionHandle(e.getMessage());
             }
 
             @Override
@@ -369,9 +401,11 @@ public class LoginActivity extends BaseActivity {
 
 
                     } else {
+                     errorHandle(response);
                     }
 
                 } catch (Exception e) {
+                    errorExceptionHandle(e.getMessage());
                     e.printStackTrace();
                 } finally {
                 }
@@ -390,12 +424,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onFailure(Call call, final IOException e) {
 
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utility.showToast(e.getMessage());
-                    }
-                });
+                errorExceptionHandle(e.getMessage());
             }
 
             @Override
@@ -420,10 +449,11 @@ public class LoginActivity extends BaseActivity {
 
 
                     } else {
-
+                       errorHandle(response);
                     }
 
                 } catch (Exception e) {
+                    errorExceptionHandle(e.getMessage());
                     e.printStackTrace();
                 } finally {
                 }
@@ -445,12 +475,7 @@ public class LoginActivity extends BaseActivity {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utility.showToast(e.getMessage());
-                    }
-                });
+                errorExceptionHandle(e.getMessage());
             }
 
             @Override
@@ -474,9 +499,11 @@ public class LoginActivity extends BaseActivity {
 
 
                     } else {
+                     errorHandle(response);
                     }
 
                 } catch (Exception e) {
+                    errorExceptionHandle(e.getMessage());
                     e.printStackTrace();
                 } finally {
                 }
@@ -494,12 +521,7 @@ public class LoginActivity extends BaseActivity {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utility.showToast(e.getMessage());
-                    }
-                });
+                errorExceptionHandle(e.getMessage());
             }
 
             @Override
@@ -522,9 +544,11 @@ public class LoginActivity extends BaseActivity {
 
 
                     } else {
+                      errorHandle(response);
                     }
 
                 } catch (Exception e) {
+                    errorExceptionHandle(e.getMessage());
                     e.printStackTrace();
                 } finally {
                 }
@@ -541,12 +565,7 @@ public class LoginActivity extends BaseActivity {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utility.showToast(e.getMessage());
-                    }
-                });
+                errorExceptionHandle(e.getMessage());
             }
 
             @Override
@@ -561,11 +580,19 @@ public class LoginActivity extends BaseActivity {
                             new RealmController().saveSurveyQuestions(array.toString());
                         }
 
-                        getRetailerResponse();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getRetailerResponse();
+                            }
+                        });
+
                     } else {
+                      errorHandle(response);
                     }
 
                 } catch (Exception e) {
+                    errorExceptionHandle(e.getMessage());
                     e.printStackTrace();
                 } finally {
                 }
@@ -582,12 +609,7 @@ public class LoginActivity extends BaseActivity {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utility.showToast(e.getMessage());
-                    }
-                });
+                errorExceptionHandle(e.getMessage());
             }
 
             @Override
@@ -601,11 +623,20 @@ public class LoginActivity extends BaseActivity {
                             JSONArray array = jsonResponse.getJSONArray(AppConstants.RESPONSE);
                             new RealmController().saveAnswers(array.toString());
                         }
-                        dismissProgress();
-                        goToMain();
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                dismissProgress();
+                                goToMain();
+                            }
+                        });
+
                     } else {
+                       errorHandle(response);
                     }
                 } catch (Exception e) {
+                    errorExceptionHandle(e.getMessage());
                     e.printStackTrace();
                 } finally {
                 }
@@ -626,12 +657,7 @@ public class LoginActivity extends BaseActivity {
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Utility.showToast(e.getMessage());
-                    }
-                });
+                errorExceptionHandle(e.getMessage());
             }
 
             @Override
@@ -655,10 +681,13 @@ public class LoginActivity extends BaseActivity {
 
 
                     } else {
+                        errorHandle(response);
+
                     }
 
                 } catch (Exception e) {
                     e.printStackTrace();
+                    errorExceptionHandle(e.getMessage());
                 } finally {
                 }
 
