@@ -1737,7 +1737,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 }
 
-                if (!Utility.validateString(strCD)) {
+                if (!Utility.validateString(strRequesterStatus)) {
                     jsonSubmitReq.put(AppConstants.requester_status, "5");
                     jsonSubmitReq.put(AppConstants.approval1_status, "4");
                     jsonSubmitReq.put(AppConstants.approval2_status, "4");
@@ -1810,7 +1810,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         edtChild.setTypeface(FontClass.openSansRegular(getActivity()));
                         String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                         if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                            if (strCD.equalsIgnoreCase("1")) {
+                            if (strRequesterStatus.equalsIgnoreCase("1")) {
                                 edtChild.setFocusable(false);
                             } else {
                                 edtChild.setFocusable(true);
@@ -1887,7 +1887,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                         edtChild.setNumStars(question.getMaxLength());
                         if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                            if (strCD.equalsIgnoreCase("1")) {
+                            if (strRequesterStatus.equalsIgnoreCase("1")) {
                                 edtChild.setFocusable(false);
                             } else {
                                 edtChild.setFocusable(true);
@@ -1915,7 +1915,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         edtChild.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                         String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                         if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                            if (strCD.equalsIgnoreCase("1")) {
+                            if (strRequesterStatus.equalsIgnoreCase("1")) {
                                 edtChild.setFocusable(false);
                             } else {
                                 edtChild.setFocusable(true);
@@ -2013,7 +2013,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                                 if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                                    if (strCD.equalsIgnoreCase("1")) {
+                                    if (strRequesterStatus.equalsIgnoreCase("1")) {
 
                                     } else {
                                         showDatePicker(tvFormDate.getText().toString(), tvFormDate);
@@ -2131,7 +2131,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                 if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                    if (strCD.equalsIgnoreCase("1")) {
+                    if (strRequesterStatus.equalsIgnoreCase("1")) {
 
                     } else {
                         if (view.getTag() != null) {
@@ -2316,7 +2316,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                 if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                    if (strCD.equalsIgnoreCase("1")) {
+                    if (strRequesterStatus.equalsIgnoreCase("1")) {
 
                     } else {
                         if (view.getTag() != null) {
@@ -2420,7 +2420,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                 if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                    if (strCD.equalsIgnoreCase("1")) {
+                    if (strRequesterStatus.equalsIgnoreCase("1")) {
 
                     } else {
                         if (view.getTag() != null) {
@@ -2523,7 +2523,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                 if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                    if (strCD.equalsIgnoreCase("1")) {
+                    if (strRequesterStatus.equalsIgnoreCase("1")) {
 
                     } else {
                         if (view.getTag() != null) {
@@ -2627,7 +2627,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                 String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                 if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                    if (strCD.equalsIgnoreCase("1")) {
+                    if (strRequesterStatus.equalsIgnoreCase("1")) {
 
                     } else {
                         if (view.getTag() != null) {

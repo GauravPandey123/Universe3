@@ -34,7 +34,9 @@
         android:layout_weight="1"
         android:gravity="start"
         android:hint=""
-        android:inputType="text|textMultiLine"
+        android:text=""
+        android:imeOptions="flagNoEnterAction"
+        android:inputType="textMultiLine"
         android:maxLines="5"
         android:minHeight="80dp"
         android:singleLine="false" />
