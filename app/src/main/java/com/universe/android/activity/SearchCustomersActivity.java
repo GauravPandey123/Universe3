@@ -39,6 +39,7 @@ import com.universe.android.utility.Utility;
 import com.universe.android.workflows.WorkFlowsActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -66,6 +67,7 @@ public class SearchCustomersActivity extends BaseActivity {
     private FloatingActionButton actionButton;
 
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +78,7 @@ public class SearchCustomersActivity extends BaseActivity {
             strTitle = intent.getExtras().getString(AppConstants.TYPE);
 
             strCustomer = intent.getExtras().getString(AppConstants.CUSTOMER);
+
         }
         if (strTitle == null) {
             strTitle = Prefs.getStringPrefs(AppConstants.STR_TITLE);
@@ -307,8 +310,17 @@ public class SearchCustomersActivity extends BaseActivity {
                     modal.setPincode(realmCustomers.get(i).getPincode());
 
                     //modal.setStatus(type);
+                  /*  Date today=new Date();
+                    if (!expiry.before(today) || expiry.equals(today)){
+                        stringArrayList.add(modal);
+                    }else {
+                        if (Utility.validateString(modal.getStatus())){
+                            stringArrayList.add(modal);
+                        }
+                    }*/
+                  stringArrayList.add(modal);
 
-                    stringArrayList.add(modal);
+
                 }
             }
         } catch (Exception e) {

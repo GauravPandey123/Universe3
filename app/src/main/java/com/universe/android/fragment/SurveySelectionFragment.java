@@ -24,9 +24,11 @@ import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmSurveys;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
+import com.universe.android.utility.Utility;
 import com.universe.android.workflows.WorkFlowsDetailActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -161,7 +163,7 @@ public class SurveySelectionFragment extends BaseFragment {
                    }
                     modal.setStatus(total+"");
 
-
+                    modal.setExpiry(realmSurveys.get(i).getExpiryDate());
                     modal.setExpiryDate(AppConstants.format2.format(realmSurveys.get(i).getExpiryDate()));
                     surveysModals.add(modal);
                 }
@@ -171,6 +173,10 @@ public class SurveySelectionFragment extends BaseFragment {
             e.printStackTrace();
         } finally {
             realm.close();
+        }
+
+        if (surveysModals.size()==0){
+            Utility.showToast(getString(R.string.no_data));
         }
 
         if (adapter != null) {
