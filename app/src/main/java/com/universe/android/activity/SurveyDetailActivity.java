@@ -406,7 +406,7 @@ public class SurveyDetailActivity extends BaseActivity  {
                         modal.setTitle(realmCustomer.getRetailerName());
                         modal.setState(realmCustomer.getAddress());
                         modal.setContactNo(realmCustomer.getMobile());
-                        modal.setTerritory(realmCustomer.getTerritory_code()git + "");
+                        modal.setTerritory(realmCustomer.getTerritory_code() + "");
                         modal.setStatus(realmAnswers.get(i).getRequester_status());
                     }
                     modal.setPincode(realmCustomer.getPincode());
