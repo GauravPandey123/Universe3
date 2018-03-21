@@ -145,6 +145,7 @@ public class AppConstants {
     public static final java.lang.String ISLOCATIONSET = "isLocation";
     public static final String PERCENTAGE = "percentage";
     public static final String RANKING = "ranking";
+    public static final String EXPIRY ="expiry" ;
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";

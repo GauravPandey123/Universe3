@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
@@ -25,6 +26,7 @@ import com.universe.android.utility.Utility;
 import com.universe.android.workflows.WorkFlowsDetailActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import in.editsoft.api.util.App;
 
@@ -67,36 +69,50 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
         holder.tvExpiryDate.setTypeface(FontClass.openSansLight(mContext));
         holder.tvPending.setTypeface(FontClass.openSansLight(mContext));
 
+        Date today=new Date();
+        if (!surveysModal.getExpiry().before(today) || surveysModal.getExpiry().equals(today)){
+            holder.rlExpired.setVisibility(View.GONE);
+        }else {
+            holder.rlExpired.setVisibility(View.VISIBLE);
+        }
+
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i=null;
 
-                String type=Prefs.getStringPrefs(AppConstants.TYPE);
-                if (type.equalsIgnoreCase(DesignationEnum.requester.toString())) {
-                    if (position == 0) {
-                        i = new Intent(mContext, AddNewRetailors.class);
-                    } else {
-                        i = new Intent(mContext, SearchCustomersActivity.class);
-                        Prefs.putStringPrefs(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
-                        Prefs.putStringPrefs(AppConstants.STR_TITLE, strType+" "+surveysModal.getTitle());
-                        i.putExtra(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
+                Date today=new Date();
+                if (!surveysModal.getExpiry().before(today) || surveysModal.getExpiry().equals(today)){
+                    String type=Prefs.getStringPrefs(AppConstants.TYPE);
+                    if (type.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+                        if (position == 0) {
+                            i = new Intent(mContext, AddNewRetailors.class);
+                        } else {
+                            i = new Intent(mContext, SearchCustomersActivity.class);
+                            Prefs.putStringPrefs(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
+                            Prefs.putStringPrefs(AppConstants.STR_TITLE, strType+" "+surveysModal.getTitle());
+                            i.putExtra(AppConstants.CUSTOMER, AppConstants.CrystalCustomer);
+                        }
                     }
+
+                    if (strType.equalsIgnoreCase(AppConstants.WORKFLOWS)){
+                        i=new Intent(mContext, WorkFlowsDetailActivity.class);
+                    }
+                    if(strType.equalsIgnoreCase(AppConstants.SURVEYREPORT)) {
+                        i=new Intent(mContext, SurveyDetailActivity.class);
+                    }
+
+                    i.putExtra(AppConstants.TYPE,surveysModal.getTitle()+" "+strType);
+                    i.putExtra(AppConstants.SURVEYID,surveysModal.getId());
+                    i.putExtra(AppConstants.STATUS,surveysModal.getStatus());
+                    i.putExtra(AppConstants.EXPIRYDATE,surveysModal.getExpiryDate());
+                    i.putExtra(AppConstants.EXPIRY,surveysModal.getExpiry());
+
+                    mContext.startActivity(i);
+                }else {
+                    Utility.showToast("Survey Expired");
                 }
 
-                if (strType.equalsIgnoreCase(AppConstants.WORKFLOWS)){
-                    i=new Intent(mContext, WorkFlowsDetailActivity.class);
-                }
-                if(strType.equalsIgnoreCase(AppConstants.SURVEYREPORT)) {
-                    i=new Intent(mContext, SurveyDetailActivity.class);
-                }
-
-                i.putExtra(AppConstants.TYPE,surveysModal.getTitle()+" "+strType);
-                i.putExtra(AppConstants.SURVEYID,surveysModal.getId());
-                i.putExtra(AppConstants.STATUS,surveysModal.getStatus());
-                i.putExtra(AppConstants.EXPIRYDATE,surveysModal.getExpiryDate());
-
-                mContext.startActivity(i);
             }
         });
 
@@ -112,6 +128,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
 
         private final View item;
         private TextView tvTitle,tvExpiryDate,tvPending;
+        private RelativeLayout rlExpired;
 
 
         public StatusViewHolder(View itemView) {
@@ -120,6 +137,7 @@ public class SurveyListAdapter extends RecyclerView.Adapter<SurveyListAdapter.St
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvExpiryDate = itemView.findViewById(R.id.tvExpiryDate);
             tvPending = itemView.findViewById(R.id.tvPending);
+            rlExpired=itemView.findViewById(R.id.rlExpired);
         }
     }
 }

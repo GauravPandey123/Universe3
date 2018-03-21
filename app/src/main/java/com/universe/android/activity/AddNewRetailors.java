@@ -16,6 +16,8 @@ import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
 
+import java.util.Date;
+
 import io.realm.Realm;
 
 /**
@@ -87,6 +89,8 @@ public class AddNewRetailors extends BaseActivity {
                 Intent intent = new Intent(mContext, SearchCustomersActivity.class);
                 intent.putExtra(AppConstants.TYPE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
+
+
                 Prefs.putStringPrefs(AppConstants.CUSTOMER,AppConstants.CrystalCustomer);
                 intent.putExtra(AppConstants.CUSTOMER,AppConstants.CrystalCustomer);
                 startActivity(intent);
@@ -99,6 +103,7 @@ public class AddNewRetailors extends BaseActivity {
                 Intent intent = new Intent(mContext, SearchCustomersActivity.class);
                 intent.putExtra(AppConstants.TYPE,strTitle);
                 intent.putExtra(AppConstants.SURVEYID,surveyId);
+
                 Prefs.putStringPrefs(AppConstants.CUSTOMER,AppConstants.NEW);
                 intent.putExtra(AppConstants.CUSTOMER,AppConstants.NEW);
                 startActivity(intent);

@@ -17,6 +17,7 @@ public class SurveysModal {
     private boolean isActive;
     private String description;
     private String image;
+    private Date expiry;
 
     public String getId() {
         return id;
@@ -98,5 +99,13 @@ public class SurveysModal {
 
     public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public Date getExpiry() {
+        return expiry;
+    }
+
+    public void setExpiry(Date expiry) {
+        this.expiry = expiry;
     }
 }
