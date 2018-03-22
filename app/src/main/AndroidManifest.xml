@@ -36,18 +36,34 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
         <activity
             android:name=".activity.LoginActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".activity.BaseActivity" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
+        <activity android:name=".activity.BaseActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
         <activity
             android:name=".activity.SurveyDetailActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".activity.TeamSurveyDetailReport" />
-        <activity android:name=".activity.AddNewRetailors" />
-        <activity android:name=".activity.AddNewRetailorsActivity" />
-        <activity android:name=".activity.MapsOneActivity" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
+        <activity android:name=".activity.TeamSurveyDetailReport"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
+        <activity android:name=".activity.AddNewRetailors"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
+        <activity android:name=".activity.AddNewRetailorsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
+        <activity android:name=".activity.MapsOneActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
 
         <activity
             android:name=".activity.CategoryExpandableListActivity"
@@ -82,18 +98,34 @@
             android:name=".activity.admin.ClientListActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize" />
-        <activity android:name=".activity.SearchCustomersActivity" />
-        <activity android:name=".activity.QuestionaireActivity" />
+        <activity android:name=".activity.SearchCustomersActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
+        <activity android:name=".activity.QuestionaireActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
         <activity
             android:name=".activity.ForgotPasswordActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
         <activity
             android:name=".activity.ResetPasswordActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".workflows.WorkFlowsDetailActivity" />
-        <activity android:name=".workflows.WorkFlowsActivity" />
-        <activity android:name=".activity.TeamSurveyDeatilActivity" />
-        <activity android:name=".activity.TeamSurveyDetailReport" />
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
+        <activity android:name=".workflows.WorkFlowsDetailActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
+        <activity android:name=".workflows.WorkFlowsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
+        <activity android:name=".activity.TeamSurveyDeatilActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
+        <activity android:name=".activity.TeamSurveyDetailReport"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+            />
         <!--<activity android:name=".activity.AddNewRetailorsActivity" />-->
         <!--<activity android:name=".activity.MapsOneActivity" />-->
 

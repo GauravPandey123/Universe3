@@ -30,6 +30,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -540,6 +541,41 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         btnReject = (Button) view.findViewById(R.id.btnSave);
         btnApprove = (Button) view.findViewById(R.id.btnSaveNext);
         TextView searchBtn=(TextView) view.findViewById(R.id.searchBtn);
+        ImageView upArrow=(ImageView) view.findViewById(R.id.upArrow);
+        ImageView downArrow=(ImageView) view.findViewById(R.id.downArrow);
+
+        upArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (llFields != null && llFields.getChildCount() > 0) {
+                    View targetView = llFields.getFocusedChild();
+                    if (targetView != null) {
+                        targetView.setBackgroundResource(R.color.light_blue);
+                        llFields.getParent().requestChildFocus(targetView, targetView);
+
+                        prev(targetView);
+                        scrollToView(scrollview,targetView);
+
+                    }
+                }
+            }
+        });
+        downArrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (llFields != null && llFields.getChildCount() > 0) {
+                    View targetView = llFields.getFocusedChild();
+                    if (targetView != null) {
+                        targetView.setBackgroundResource(R.color.light_blue);
+                        llFields.getParent().requestChildFocus(targetView, targetView);
+
+                        next(targetView);
+                        scrollToView(scrollview,targetView);
+
+                    }
+                }
+            }
+        });
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -3925,7 +3961,37 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
         return questionsMap;
     }
+    public static View prev(View view) {
 
+        ViewGroup container = (ViewGroup) view.getParent();
+
+        int indexOfChild = container.indexOfChild(view);
+
+        if ((indexOfChild - 1) >= 0) {
+
+            return container.getChildAt(indexOfChild - 1);
+
+        }
+
+        return null;
+
+    }
+
+    public static View next(View view) {
+
+        ViewGroup container = (ViewGroup) view.getParent();
+
+        int indexOfChild = container.indexOfChild(view);
+
+        if (container.getChildCount() > (indexOfChild + 1)) {
+
+            return container.getChildAt(indexOfChild + 1);
+
+        }
+
+        return null;
+
+    }
 
 
 }

@@ -212,7 +212,7 @@ public class BaseActivity extends AppCompatActivity {
         } else {
             shareIntent.setType(AppConstants.EXCEL_FILE_TYPE);
         }
-        List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(shareIntent, 0);
+        List<ResolveInfo> resInfo = getApplicationContext().getPackageManager().queryIntentActivities(shareIntent, 0);
 
         if (!resInfo.isEmpty()) {
             for (ResolveInfo resolveInfo : resInfo) {
