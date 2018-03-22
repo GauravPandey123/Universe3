@@ -43,7 +43,9 @@
         <activity android:name=".activity.BaseActivity" />
         <activity
             android:name=".activity.SurveyDetailActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden">
+
+        </activity>
         <activity android:name=".activity.TeamSurveyDetailReport" />
         <activity android:name=".activity.AddNewRetailors" />
         <activity android:name=".activity.AddNewRetailorsActivity" />
@@ -93,9 +95,6 @@
         <activity android:name=".workflows.WorkFlowsDetailActivity" />
         <activity android:name=".workflows.WorkFlowsActivity" />
         <activity android:name=".activity.TeamSurveyDeatilActivity" />
-        <activity android:name=".activity.TeamSurveyDetailReport" />
-        <!--<activity android:name=".activity.AddNewRetailorsActivity" />-->
-        <!--<activity android:name=".activity.MapsOneActivity" />-->
 
 
         <!--

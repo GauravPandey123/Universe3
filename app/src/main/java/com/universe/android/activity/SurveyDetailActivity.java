@@ -246,12 +246,11 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
             @Override
             public void onClick(View view) {
                 cardViewDownaload.setVisibility(View.VISIBLE);
-                textViewCompletedQuestionaire.setText("Submitted Questionaire".concat("(").concat(String.valueOf(realmSubmitted).concat(")")));
-
-//                if (fromDateTime == null)
-                prepareList(getString(R.string.completed));
-//                else
-//                    prepareListFilter(getString(R.string.completed), fromDateTime, toDates);
+                textViewCompletedQuestionaire.setText("Submitted Questionnaire".concat("(").concat(String.valueOf(realmSubmitted).concat(")")));
+                if (fromDateTime == null)
+                    prepareList(getString(R.string.completed));
+                else
+                    prepareListFilter(getString(R.string.completed), fromDateTime, toDates);
             }
         });
 
@@ -269,21 +268,22 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
             @Override
             public void onClick(View view) {
                 cardViewDownaload.setVisibility(View.VISIBLE);
-                textViewCompletedQuestionaire.setText("InProgress Questionaire".concat("(").concat(String.valueOf(realmInprogress).concat(")")));
-//                if (fromDateTime == null)
-                prepareList(getString(R.string.inprogress));
-//                else
-//                    prepareListFilter(getString(R.string.inprogress), fromDateTime, toDates);
+                textViewCompletedQuestionaire.setText("Inprogress Questionnaire".concat("(").concat(String.valueOf(realmInprogress).concat(")")));
+                if (fromDateTime == null)
+                    prepareList(getString(R.string.inprogress));
+                else
+                    prepareListFilter(getString(R.string.inprogress), fromDateTime, toDates);
 
             }
         });
         realativeNewRetailers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //  if (fromDateTime == null)
-                prepareList(getString(R.string.newretailor));
-//                else
-//                    prepareListFilter(getString(R.string.newretailor), fromDateTime, toDates);
+                cardViewDownaload.setVisibility(View.GONE);
+                if (fromDateTime == null)
+                    prepareList(getString(R.string.newretailor));
+                else
+                    prepareListFilter(getString(R.string.newretailor), fromDateTime, toDates);
 
 
             }
@@ -291,11 +291,11 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         relativeLayoutCrystalCustomers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-//                if (fromDateTime == null)
-                prepareList(getString(R.string.crystalmembers));
-//                else
-//                    prepareListFilter(getString(R.string.crystalmembers), fromDateTime, toDates);
+                cardViewDownaload.setVisibility(View.GONE);
+                if (fromDateTime == null)
+                    prepareList(getString(R.string.crystalmembers));
+                else
+                    prepareListFilter(getString(R.string.crystalmembers), fromDateTime, toDates);
             }
         });
     }
@@ -330,12 +330,13 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
     private void initialization() {
         intent = getIntent();
         stringArrayList = new ArrayList<>();
+
         cardViewDownaload = findViewById(R.id.carView);
         swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
         recyclerViewSurveyDetail = findViewById(R.id.recylerViewSurveyDetail);
         imageViewBack = findViewById(R.id.imageviewback);
         imageViewFilter = findViewById(R.id.imageviewfilter);
-        textViewTitle=findViewById(R.id.textViewSurveyDetailActivity);
+        textViewTitle = findViewById(R.id.textViewSurveyDetailActivity);
         imageViewDownload = findViewById(R.id.imageViewDownload);
         textViewToday = findViewById(R.id.textViewToday);
         textViewtarget = findViewById(R.id.textViewtarget);
@@ -359,7 +360,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         relativelayoutInprogress = findViewById(R.id.relativelayoutInprogress);
         realativeNewRetailers = findViewById(R.id.realativeNewRetailers);
         relativeLayoutCrystalCustomers = findViewById(R.id.relativeLayoutCrystalCustomers);
-
+        textViewToday.setText(getResources().getString(R.string.today).concat(":" + "(".concat(Utility.getCurrentDate()).concat(")")));
         textViewToday.setTypeface(FontClass.openSemiBold(mContext));
         textViewtarget.setTypeface(FontClass.openSansRegular(mContext));
         textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
@@ -375,7 +376,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         textViewCompletedQuestionaire.setTypeface(FontClass.openSansRegular(mContext));
         textViewTitle.setTypeface(FontClass.openSansRegular(mContext));
         surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
-        titleString=intent.getExtras().getString(AppConstants.TYPE);
+        titleString = intent.getExtras().getString(AppConstants.TYPE);
         textViewTitle.setText(titleString);
 //\        textViewFilter.setTypeface(FontClass.openSemiBold(mContext));
 
@@ -500,48 +501,17 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         Realm realm = Realm.getDefaultInstance();
         try {
             RealmResults<RealmAnswers> realmAnswers = null;
-            String designation = Prefs.getStringPrefs(AppConstants.TYPE);
-            String[] strings = {type};
-            if (designation.equalsIgnoreCase("cd")) {
-                realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                if (type.equalsIgnoreCase(getString(R.string.inprogress))) {
-                    realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "5").equalTo(AppConstants.RM_STATUS, "4").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.completed))) {
-                    realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.rejected))) {
-                    realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "3").equalTo(AppConstants.RM_STATUS, "3").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.newretailor))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.NEW).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.crystalmembers))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.CrystalCustomer).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.inprogress)) && type.equalsIgnoreCase(getString(R.string.completed))) {
-                    realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CD_STATUS, "5").equalTo(AppConstants.RM_STATUS, "4").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                }
+            realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.requester_status, "1").findAll();
+            if (type.equalsIgnoreCase(getString(R.string.inprogress))) {
+                realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.requester_status, "5").findAll();
+            } else if (type.equalsIgnoreCase(getString(R.string.completed))) {
+                realmAnswers = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.requester_status, "1").findAll();
+            } else if (type.equalsIgnoreCase(getString(R.string.newretailor))) {
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.NEW).equalTo(AppConstants.requester_status, "1").findAll();
+            } else if (type.equalsIgnoreCase(getString(R.string.crystalmembers))) {
+                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.CrystalCustomer).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.requester_status, "1").findAll();
             }
-            if (designation.equalsIgnoreCase("rm")) {
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "0").equalTo(AppConstants.ZM_STATUS, "4").findAll();
 
-                if (type.equalsIgnoreCase(getString(R.string.inprogress))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "2").equalTo(AppConstants.ZM_STATUS, "0").findAll();
-
-                } else if (type.equalsIgnoreCase(getString(R.string.completed))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "2").equalTo(AppConstants.RM_STATUS, "2").equalTo(AppConstants.ZM_STATUS, "2").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.rejected))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "3").equalTo(AppConstants.RM_STATUS, "3").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                }
-            }
-            if (designation.equalsIgnoreCase("zm")) {
-                realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "1").equalTo(AppConstants.RM_STATUS, "2").equalTo(AppConstants.ZM_STATUS, "0").findAll();
-
-                if (type.equalsIgnoreCase(getString(R.string.inprogress))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "4").equalTo(AppConstants.RM_STATUS, "4").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-
-                } else if (type.equalsIgnoreCase(getString(R.string.completed))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "2").equalTo(AppConstants.RM_STATUS, "2").equalTo(AppConstants.ZM_STATUS, "2").findAll();
-                } else if (type.equalsIgnoreCase(getString(R.string.rejected))) {
-                    realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CD_STATUS, "3").equalTo(AppConstants.RM_STATUS, "3").equalTo(AppConstants.ZM_STATUS, "4").findAll();
-                }
-            }
             if (realmAnswers != null && realmAnswers.size() > 0) {
                 for (int i = 0; i < realmAnswers.size(); i++) {
                     AnswersModal modal = new AnswersModal();
@@ -633,7 +603,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
 
 
     @Override
-    public void submitData(String statusString, String fromDateString, String toDateString) {
+    public void submitData(String statusString, String fromDateString, String toDateString, String type) {
         fromDate = fromDateString;
         toDate = toDateString;
         statusData = statusString;
@@ -647,6 +617,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        textViewToday.setText(new StringBuilder().append(getResources().getString(R.string.today)).append(":".concat("(".concat(fromDateString.concat("-").concat(toDateString))).concat(")")).toString());
         Calendar cal = Calendar.getInstance();
         cal.setTime(toDateTime);
         cal.add(Calendar.DATE, 1);

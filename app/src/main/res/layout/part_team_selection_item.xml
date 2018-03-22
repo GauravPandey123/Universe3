@@ -34,7 +34,6 @@
                 android:layout_toEndOf="@+id/imageViewTeamSelection"
                 android:layout_toRightOf="@+id/imageViewTeamSelection"
                 android:text="@string/status"
-                android:textAllCaps="true"
                 android:textColor="@color/textColorPrimaryDark"
                 android:textSize="@dimen/text_size_medium" />
 

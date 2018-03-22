@@ -26,13 +26,16 @@ import com.universe.android.adapter.StatusAdapter;
 import com.universe.android.adapter.SurveyStatusSelectionAdapter;
 import com.universe.android.adapter.TeamSelectionAdapter;
 import com.universe.android.helper.FontClass;
+import com.universe.android.helper.RecyclerTouchListener;
 import com.universe.android.model.Number;
 import com.universe.android.model.StatusModel;
 import com.universe.android.model.SurveyReportModel;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -62,7 +65,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
     private ImageView imageViewClose, imageViewCloseStatus;
     private String fromDateString, toDateString, statusString;
     private ArrayList<SurveyReportModel> surveyReportModelArrayList;
-    String type = "", teamTitleString;
+    String type, teamTitleString;
 
     @Nullable
     @Override
@@ -110,10 +113,9 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                             Utility.showToast(getString(R.string.please_select_valid_to_date));
                         } else {
                             SetDataListListener setDataListListener = (SetDataListListener) getActivity();
-                            setDataListListener.submitData(statusString, fromDateString, toDateString);
+                            setDataListListener.submitData(statusString, fromDateString, toDateString, type);
                             dismiss();
 
-                            //  prepareList();
                         }
                     }
                 }
@@ -134,7 +136,6 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         textViewTodayFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                type = AppConstants.ToDay;
                 input_period_from.setText("");
                 input_period_to.setText("");
                 textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
@@ -146,9 +147,21 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
                 textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
 
+                type = ":" + AppConstants.ToDay;
                 input_period_from.setText(Utility.getCurrentDate());
                 input_period_to.setText(Utility.getCurrentDate());
-
+                input_period_from.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dateDialogfrom();
+                    }
+                });
+                input_period_to.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dateDialogto();
+                    }
+                });
 
             }
         });
@@ -156,7 +169,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         textViewWeekFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                type = AppConstants.CurrentWeek;
+                type = ":" + AppConstants.CurrentWeek;
                 input_period_from.setText("");
                 input_period_to.setText("");
                 textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
@@ -167,15 +180,31 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
                 textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
                 textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
-                Date date1 = new Date();
-                Date newDate = new Date(date1.getTime() - 604800000L); // 7 * 24 * 60 * 60 * 1000
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(newDate);
-                Date newDate1 = calendar.getTime();
-                String dateFinal = AppConstants.format2.format(newDate1);
+                // Get calendar set to current date and time
+                Calendar c = Calendar.getInstance();
 
-                input_period_from.setText(dateFinal);
+                // Set the calendar to Sunday of the current week
+                c.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+                // Print dates of the current week starting on Sunday
+                DateFormat df = new SimpleDateFormat("dd MMM yyyy");
+
+                input_period_from.setText(df.format(c.getTime()));
+
                 input_period_to.setText(Utility.getCurrentDate());
+                input_period_from.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dateDialogfrom();
+                    }
+                });
+                input_period_to.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dateDialogto();
+                    }
+                });
+
             }
 
 
@@ -184,7 +213,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         textViewMonthFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                type = AppConstants.CurrentMonth;
+                type = ":" + AppConstants.CurrentMonth;
                 textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
                 textViewTodayFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
                 textViewMonthFilter.setTextColor(getResources().getColor(R.color.white));
@@ -195,15 +224,28 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
                 input_period_from.setText("");
                 input_period_to.setText("");
-                String date;
-                Date date1 = new Date();
-                Date newDate = new Date(date1.getTime() - 2592000000L); // 7 * 24 * 60 * 60 * 1000
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(newDate);
-                Date newDate1 = calendar.getTime();
-                String dateFinal = AppConstants.format2.format(newDate1);
-                input_period_from.setText(dateFinal);
+                // Get calendar set to current date and time
+                Calendar c = Calendar.getInstance();
+
+                // Set the calendar to Sunday of the current week
+                c.set(Calendar.DAY_OF_MONTH, 1);
+
+                // Print dates of the current week starting on Sunday
+                DateFormat df = new SimpleDateFormat("dd MMM yyyy");
+                input_period_from.setText(df.format(c.getTime()));
                 input_period_to.setText(Utility.getCurrentDate());
+                input_period_from.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dateDialogfrom();
+                    }
+                });
+                input_period_to.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dateDialogto();
+                    }
+                });
 
             }
         });
@@ -211,7 +253,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         textViewOthersFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                type = AppConstants.Others;
+                type = ":" + AppConstants.Others;
                 input_period_from.setText("");
                 input_period_to.setText("");
                 textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
@@ -272,21 +314,20 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 dialogStatus.dismiss();
             }
         });
+        recylerViewStatus.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recylerViewStatus, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                input_period_status.setText(surveyReportModelArrayList.get(position).getTitleString());
+                dialogStatus.dismiss();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
 
     }
-
-//    private void showData() {
-//
-//        String ONEs[] = {"Target", "Submitted", "InProgress"};
-//        for (int i = 0; i <= 2; i++) {
-//            Number number = new Number();
-//            number.setONEs(i + "");
-//            number.setTextONEs(ONEs[i]);
-//
-//            this.numberArrayList.add(number);
-//        }
-//
-//    }
 
     private void dialogStatusInitialization() {
         textViewChooseStatus = dialogStatus.findViewById(R.id.textViewChooseStatus);
@@ -298,6 +339,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
     }
 
     private void initialization() {
+        type = ":" + AppConstants.ToDay;
         input_period_from = view.findViewById(R.id.input_period_from);
         input_period_to = view.findViewById(R.id.input_period_to);
         input_period_status = view.findViewById(R.id.input_period_status);
@@ -406,7 +448,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
 
 
     public interface SetDataListListener {
-        public void submitData(String statusString, String fromDateString, String toDateString);
+        public void submitData(String statusString, String fromDateString, String toDateString, String type);
     }
 
 }

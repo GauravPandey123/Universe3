@@ -131,8 +131,8 @@ public class AppConstants {
     public static final String TYPE = "type";
     public static final String TODATE ="toDate" ;
     public static final String CUSTOMER = "customer";
-    public static final String PNG_FILE_TYPE = "pngFile";
-    public static final String EXCEL_FILE_TYPE = "excelFile";
+    public static final String PNG_FILE_TYPE = "image/*";
+    public static final String EXCEL_FILE_TYPE = "application/excel";
     public static final String DIR_UNIVERSE = "/Universe";
     public static final String NEW = "retailer";
     public static final String ISVIEWBYZM ="isViewZM" ;
