@@ -126,7 +126,7 @@
             android:gravity="center"
             android:padding="@dimen/margin_medium"
             android:textColor="@android:color/white"
-            android:background="@color/buttoncolor1"
+            android:background="@drawable/red_background_corner"
             android:textAllCaps="true"
             android:layout_margin="@dimen/margin_medium"
             android:textSize="@dimen/text_size_normal"
@@ -142,7 +142,7 @@
             android:layout_margin="@dimen/margin_medium"
             android:textColor="@android:color/white"
             android:padding="@dimen/margin_medium"
-            android:background="@color/buttoncolor"
+            android:background="@drawable/rounded_corner_dialog"
             android:textSize="@dimen/text_size_normal"
             android:text="@string/apply_filter" />
 

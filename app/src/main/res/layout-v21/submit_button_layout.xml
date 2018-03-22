@@ -5,11 +5,13 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
+        android:layout_height="@dimen/margin_large"
         android:background="@drawable/rounded_corner_dialog"
         android:gravity="center"
         android:text="@string/submit"
         android:textAllCaps="true"
+        android:paddingTop="@dimen/margin_medium"
+        android:paddingBottom="@dimen/margin_medium"
         android:textColor="@android:color/white"
-        android:textSize="@dimen/text_size_large" />
+        android:textSize="@dimen/text_size_medium" />
 </RelativeLayout>

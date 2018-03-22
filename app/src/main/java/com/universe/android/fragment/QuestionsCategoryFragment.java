@@ -237,8 +237,9 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
         });
 
+        Utility.hideSoftKeyboard(getActivity());
         final SearchView searchView=(SearchView)view.findViewById(R.id.searchView);
-
+            searchView.clearFocus();
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         assert searchManager != null;
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getActivity().getComponentName());

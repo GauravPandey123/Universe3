@@ -651,8 +651,8 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         cal.setTime(toDateTime);
         cal.add(Calendar.DATE, 1);
         toDates = cal.getTime();
-        //prepareListFilter("", fromDateTime, toDates);
-      //  setCountsFilter(fromDateTime, toDates);
+        prepareListFilter("", fromDateTime, toDates);
+        setCountsFilter(fromDateTime, toDates);
     }
 
 

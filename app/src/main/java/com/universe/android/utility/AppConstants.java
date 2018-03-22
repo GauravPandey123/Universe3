@@ -231,5 +231,10 @@ public class AppConstants {
     public static String approval6_status="approval6_status";
 
     public static String VillageData="villageData";
+    public static String ToDay="Today";
+    public static String CurrentMonth="CurrentMonth";
+    public static String CurrentWeek="CurrentWeek";
+    public static String Others="Others";
+
 }
 

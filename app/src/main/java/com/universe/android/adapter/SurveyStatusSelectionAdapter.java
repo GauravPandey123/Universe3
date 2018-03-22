@@ -23,7 +23,7 @@ public class SurveyStatusSelectionAdapter extends RecyclerView.Adapter<SurveySta
     private ArrayList<SurveyReportModel> surveyReportModels;
     private Context mContext;
 
-    private SurveyStatusSelectionAdapter(Context mContext, ArrayList<SurveyReportModel> surveyReportModels) {
+    public  SurveyStatusSelectionAdapter(Context mContext, ArrayList<SurveyReportModel> surveyReportModels) {
         this.surveyReportModels = surveyReportModels;
         this.mContext = mContext;
 

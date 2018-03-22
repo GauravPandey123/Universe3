@@ -686,7 +686,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
             }
 
             if (!Utility.validateString(realmCustomer.getImage()) || realmCustomer.getImage().equalsIgnoreCase("null")) {
-                if (strCustomer.equalsIgnoreCase(AppConstants.CrystalCustomer)) {
+                if (AppConstants.CrystalCustomer.equalsIgnoreCase(strCustomer)) {
                     circleImageView.setImageResource(R.drawable.ic_customer);
                 } else {
                     circleImageView.setImageResource(R.drawable.ic_crystal_cutomer);
@@ -1089,80 +1089,80 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 String type = Prefs.getStringPrefs(AppConstants.TYPE);
                 if (type.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
                     if (arraylistTitle.size() != arrISViewByApproval1.size()) {
-                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                         btnApprove.setEnabled(false);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
 
                     } else {
-                        btnApprove.setBackgroundResource(R.color.buttoncolor);
+                        btnApprove.setBackgroundResource(R.drawable.rounded_corner_dialog);
                         btnApprove.setEnabled(true);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
                     }
                 } else   if (type.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
                     if (arraylistTitle.size() != arrISViewByApproval2.size()) {
-                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                         btnApprove.setEnabled(false);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
 
                     } else {
-                        btnApprove.setBackgroundResource(R.color.buttoncolor);
+                        btnApprove.setBackgroundResource(R.drawable.rounded_corner_dialog);
                         btnApprove.setEnabled(true);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
                     }
                 }else   if (type.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
                     if (arraylistTitle.size() != arrISViewByApproval3.size()) {
-                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                         btnApprove.setEnabled(false);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
 
                     } else {
-                        btnApprove.setBackgroundResource(R.color.buttoncolor);
+                        btnApprove.setBackgroundResource(R.drawable.rounded_corner_dialog);
                         btnApprove.setEnabled(true);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
                     }
                 }else   if (type.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
                     if (arraylistTitle.size() != arrISViewByApproval4.size()) {
-                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                         btnApprove.setEnabled(false);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
 
                     } else {
-                        btnApprove.setBackgroundResource(R.color.buttoncolor);
+                        btnApprove.setBackgroundResource(R.drawable.rounded_corner_dialog);
                         btnApprove.setEnabled(true);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
                     }
                 }else   if (type.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
                     if (arraylistTitle.size() != arrISViewByApproval5.size()) {
-                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                         btnApprove.setEnabled(false);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
 
                     } else {
-                        btnApprove.setBackgroundResource(R.color.buttoncolor);
+                        btnApprove.setBackgroundResource(R.drawable.rounded_corner_dialog);
                         btnApprove.setEnabled(true);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
                     }
                 }else   if (type.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
                     if (arraylistTitle.size() != arrISViewByApproval6.size()) {
-                        btnApprove.setBackgroundResource(R.color.grey);
+                        btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                         btnApprove.setEnabled(false);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
 
                     } else {
-                        btnApprove.setBackgroundResource(R.color.buttoncolor);
+                        btnApprove.setBackgroundResource(R.drawable.rounded_corner_dialog);
                         btnApprove.setEnabled(true);
-                        btnReject.setBackgroundResource(R.color.buttoncolor1);
+                        btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
                     }
                 }
@@ -1180,15 +1180,15 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 }
             } else {
                 if (categoryAnswered.contains("No") || categoryAnswered.contains("") || isLocationSet.equalsIgnoreCase("no") || isLocationSet.equalsIgnoreCase("")) {
-                    btnApprove.setBackgroundResource(R.color.grey);
+                    btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                     btnApprove.setEnabled(false);
-                    btnReject.setBackgroundResource(R.color.grey);
+                    btnReject.setBackgroundResource(R.drawable.grey_background_corner);
                     btnReject.setEnabled(false);
 
                 } else {
-                    btnApprove.setBackgroundResource(R.color.buttoncolor);
+                    btnApprove.setBackgroundResource(R.drawable.rounded_corner_dialog);
                     btnApprove.setEnabled(true);
-                    btnReject.setBackgroundResource(R.color.buttoncolor);
+                    btnReject.setBackgroundResource(R.drawable.rounded_corner_dialog);
                     btnReject.setEnabled(true);
                 }
 

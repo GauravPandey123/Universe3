@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,6 +62,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
     private ImageView imageViewClose, imageViewCloseStatus;
     private String fromDateString, toDateString, statusString;
     private ArrayList<SurveyReportModel> surveyReportModelArrayList;
+    String type = "", teamTitleString;
 
     @Nullable
     @Override
@@ -86,7 +88,8 @@ public class SurveyDetailDialogFragment extends DialogFragment {
             public void onClick(View view) {
                 fromDateString = input_period_from.getText().toString();
                 toDateString = input_period_to.getText().toString();
-                statusString = input_period_status.getText().toString();
+                teamTitleString = input_period_status.getText().toString();
+
 
                 if (Utility.validateString(fromDateString) && !fromDateString.equals(AppConstants.DATE_FORMAT)) {
                     if (Utility.validateString(toDateString) && !toDateString.equals(AppConstants.DATE_FORMAT)) {
@@ -125,27 +128,13 @@ public class SurveyDetailDialogFragment extends DialogFragment {
             }
         });
 
-//        imageViewClose.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                dismiss();
-//            }
-//        });
-
-//        imageViewCloseStatus.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                dismiss();
-//            }
-//        });
-
-
     }
 
     private void setUpElements() {
         textViewTodayFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                type = AppConstants.ToDay;
                 input_period_from.setText("");
                 input_period_to.setText("");
                 textViewTodayFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
@@ -167,6 +156,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         textViewWeekFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                type = AppConstants.CurrentWeek;
                 input_period_from.setText("");
                 input_period_to.setText("");
                 textViewWeekFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
@@ -194,6 +184,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         textViewMonthFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                type = AppConstants.CurrentMonth;
                 textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
                 textViewTodayFilter.setTextColor(getResources().getColor(R.color.filter_text_color));
                 textViewMonthFilter.setTextColor(getResources().getColor(R.color.white));
@@ -220,6 +211,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         textViewOthersFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                type = AppConstants.Others;
                 input_period_from.setText("");
                 input_period_to.setText("");
                 textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.buttoncolor));
@@ -261,53 +253,47 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         dialogStatusInitialization();
         dialogStatusSetUpElements();
         dialogStatus.show();
-        showData();
+
     }
 
 
     private void dialogStatusSetUpElements() {
-        teamSelectionAdapter = new TeamSelectionAdapter(numberArrayList, getActivity());
+        surveyReportModelArrayList = new ArrayList<>();
+        surveyStatusSelectionAdapter = new SurveyStatusSelectionAdapter(getActivity(), surveyReportModelArrayList);
         mLayoutManager = new LinearLayoutManager(getActivity());
         recylerViewStatus.setLayoutManager(mLayoutManager);
         recylerViewStatus.setItemAnimator(new DefaultItemAnimator());
-        recylerViewStatus.setAdapter(teamSelectionAdapter);
+        recylerViewStatus.setAdapter(surveyStatusSelectionAdapter);
+        prepareMovieData();
 
-
-        relativeLayoutSubmit.setOnClickListener(new View.OnClickListener() {
+        imageViewCloseStatus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                StringBuilder stringBuilder = new StringBuilder();
-                for (Number number : numberArrayList) {
-                    if (number.isSelected()) {
-                        if (stringBuilder.length() > 0)
-                            stringBuilder.append(", ");
-                        stringBuilder.append(number.getTextONEs());
-                    }
-                }
-                input_period_status.setText(stringBuilder.toString());
                 dialogStatus.dismiss();
             }
         });
-    }
-
-    private void showData() {
-
-        String ONEs[] = {"Target", "Submitted", "InProgress"};
-        for (int i = 0; i <= 2; i++) {
-            Number number = new Number();
-            number.setONEs(i + "");
-            number.setTextONEs(ONEs[i]);
-
-            this.numberArrayList.add(number);
-        }
 
     }
+
+//    private void showData() {
+//
+//        String ONEs[] = {"Target", "Submitted", "InProgress"};
+//        for (int i = 0; i <= 2; i++) {
+//            Number number = new Number();
+//            number.setONEs(i + "");
+//            number.setTextONEs(ONEs[i]);
+//
+//            this.numberArrayList.add(number);
+//        }
+//
+//    }
 
     private void dialogStatusInitialization() {
         textViewChooseStatus = dialogStatus.findViewById(R.id.textViewChooseStatus);
         imageViewCloseStatus = dialogStatus.findViewById(R.id.imageViewCloseStatus);
         recylerViewStatus = dialogStatus.findViewById(R.id.recylerViewStatus);
         relativeLayoutSubmit = dialogStatus.findViewById(R.id.relativeLayoutSubmit);
+        relativeLayoutSubmit.setVisibility(View.GONE);
 
     }
 
