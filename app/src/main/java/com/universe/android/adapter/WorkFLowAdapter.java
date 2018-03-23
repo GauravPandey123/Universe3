@@ -57,7 +57,7 @@ public class WorkFLowAdapter extends RecyclerView.Adapter<WorkFLowAdapter.Survey
 
             holder.textViewMobileNo.setText(stringArrayList.get(position).getDate()+
                   "  \n"+
-                   stringArrayList.get(position).getStatus());
+                   stringArrayList.get(position).getStatus()+    "  \n"+stringArrayList.get(position).getStatus());
             holder.imgCustomer.setVisibility(View.GONE);
 
     }

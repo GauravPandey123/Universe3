@@ -332,6 +332,12 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                         modal.setTitle(jsonObject.optString(AppConstants.USERNAME));
                     }
 
+                    if (jsonObject.has(AppConstants.REASON)){
+                        modal.setReason(jsonObject.optString(AppConstants.REASON));
+                    }else {
+                        modal.setReason("");
+                    }
+
                     if (visible.equalsIgnoreCase("0")){
                         textViewStatus.setVisibility(View.GONE);
                     }else{
@@ -485,21 +491,33 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                    modal.setUserName(jsonObject.optString(AppConstants.NAME));
 
                    modal.setId(jsonObject.optString(AppConstants.ID));
+                   JSONArray array=new JSONArray(realmAnswers.getWorkflow());
+                   for (int j=0;j<array.length();j++) {
 
-                   if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.requester.toString())){
-                       modal.setUserStatus(realmAnswers.getRequester_status());
-                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval1.toString())){
-                       modal.setUserStatus(realmAnswers.getApproval1_status());
-                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval2.toString())){
-                       modal.setUserStatus(realmAnswers.getApproval2_status());
-                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval3.toString())){
-                       modal.setUserStatus(realmAnswers.getApproval3_status());
-                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval4.toString())){
-                       modal.setUserStatus(realmAnswers.getApproval4_status());
-                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval5.toString())){
-                       modal.setUserStatus(realmAnswers.getApproval5_status());
-                   }else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval6.toString())){
-                       modal.setUserStatus(realmAnswers.getApproval6_status());
+                        JSONObject jsonObject1=array.getJSONObject(j);
+                        String id=jsonObject1.optString(AppConstants.UserId);
+
+                       String status=jsonObject1.optString(AppConstants.STATUS);
+                       if (id.equalsIgnoreCase(modal.getId())) {
+                           modal.setUserStatus(status);
+                       } else {
+                         //  modal.setUserStatus("");
+                       }
+
+                      /* if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval1.toString())) {
+                           modal.setUserStatus(realmAnswers.getApproval1_status());
+                       } else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+                           modal.setUserStatus(realmAnswers.getApproval2_status());
+                       } else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                           modal.setUserStatus(realmAnswers.getApproval3_status());
+                       } else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                           modal.setUserStatus(realmAnswers.getApproval4_status());
+                       } else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+                           modal.setUserStatus(realmAnswers.getApproval5_status());
+                       } else if (realmSurveys.get(i).getLevel().equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                           modal.setUserStatus(realmAnswers.getApproval6_status());
+                       }*/
+
                    }
 
                    modal.setUserDateStatus(realmSurveys.get(i).getType());
