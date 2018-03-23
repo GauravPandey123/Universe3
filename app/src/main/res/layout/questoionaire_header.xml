@@ -39,6 +39,7 @@
 
 
             <RelativeLayout
+                android:id="@+id/relativeLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/rlImage">
@@ -72,8 +73,9 @@
                     android:layout_alignParentTop="true">
 
                     <RelativeLayout
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
+                        android:id="@+id/realtiveALyout"
+                        android:layout_width="80dp"
+                        android:layout_height="60dp"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginEnd="8dp"
@@ -136,6 +138,18 @@
 
                     </RelativeLayout>
 
+                    <TextView
+                        android:id="@+id/textViewInProcess"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="24dp"
+                        android:visibility="gone"
+                        android:layout_below="@+id/realtiveALyout"
+                        android:textSize="@dimen/text_size_small"
+                        android:text="@string/inprocess"/>
                 </RelativeLayout>
 
                 <TextView

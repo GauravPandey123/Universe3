@@ -211,7 +211,7 @@ public class AppConstants {
     public static String pincode="pincode";
     public static String cropId="cropId";
     public static String village_code="village_code";
-    public static String Address="Address";
+    public static String Address="address";
     public static String totalSales="totalSales";
 
 

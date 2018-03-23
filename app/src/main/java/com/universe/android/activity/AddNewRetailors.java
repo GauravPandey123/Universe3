@@ -138,7 +138,7 @@ public class AddNewRetailors extends BaseActivity {
         textViewReatilers.setTypeface(FontClass.openSansRegular(mContext));
         textViewReatilersDate.setTypeface(FontClass.openSansLight(mContext));
         retailerPending.setTypeface(FontClass.openSansLight(mContext));
-        textViewNewRetailers.setTypeface(FontClass.openSansLight(mContext));
+        textViewNewRetailers.setTypeface(FontClass.openSansRegular(mContext));
         textViewNewCustomers.setTypeface(FontClass.openSansRegular(mContext));
         textViewHeader.setTypeface(FontClass.openSansRegular(mContext));
 

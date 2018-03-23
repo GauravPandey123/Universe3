@@ -61,7 +61,7 @@ public class WorkFLowUserAdapter extends RecyclerView.Adapter<WorkFLowUserAdapte
         }else if ("3".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
             holder.imgCD.setBackgroundResource(R.drawable.red_circle);
         }else if ("0".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
-           // holder.imgCD.setBackgroundResource(R.drawable.red_circle);
+            holder.imgCD.setBackgroundResource(R.drawable.yellow_circle);
         }else {
 
         }

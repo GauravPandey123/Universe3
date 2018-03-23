@@ -75,6 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_medium"
                     android:layout_toRightOf="@+id/imgCustomer"
+                    android:maxLines="1"
                     android:text="@string/retailersname"
                     android:textColor="@color/textColorPrimaryDark"
                     android:textSize="@dimen/text_size_small" />

@@ -231,16 +231,18 @@
                     android:textColor="@color/textColorPrimaryDark"
                     android:textStyle="bold" />
 
+
+
                 <TextView
                     android:id="@+id/textViewNewRetailers"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_min"
                     android:layout_marginRight="@dimen/margin_xxlarge"
-                    android:textSize="@dimen/text_size_small"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:text="@string/new_retailer_text"
+                    android:text="@string/cystal_text"
                     android:textColor="@color/textColorPrimary"
+                    android:textSize="@dimen/text_size_small"
                     android:visibility="visible" />
 
             </LinearLayout>
