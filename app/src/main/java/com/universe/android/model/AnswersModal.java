@@ -42,6 +42,7 @@ public class AnswersModal {
     private String workflow;
     private String contactNo;
     private String customer;
+    private String reason;
 
 
     public String get_id() {
@@ -314,5 +315,13 @@ public class AnswersModal {
 
     public void setCustomer(String customer) {
         this.customer = customer;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
     }
 }

@@ -322,6 +322,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                             jsonSubmitReq.put(AppConstants.REASON, reason);
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.REASON,reason);
                             jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
                             jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
                             jsonObject.put(AppConstants.STATUS, "Rejected");
@@ -361,6 +362,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                             jsonSubmitReq.put(AppConstants.REASON, reason);
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.REASON,reason);
                             jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
                             jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
                             jsonObject.put(AppConstants.STATUS, "Rejected");
@@ -400,6 +402,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                             jsonSubmitReq.put(AppConstants.REASON, reason);
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.REASON,reason);
                             jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
                             jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
                             jsonObject.put(AppConstants.STATUS, "Rejected");
@@ -438,6 +441,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                             jsonSubmitReq.put(AppConstants.REASON, reason);
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.REASON,reason);
                             jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
                             jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
                             jsonObject.put(AppConstants.STATUS, "Rejected");
@@ -476,6 +480,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                             jsonSubmitReq.put(AppConstants.REASON, reason);
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.REASON,reason);
                             jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
                             jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
                             jsonObject.put(AppConstants.STATUS, "Rejected");
@@ -512,6 +517,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                             jsonSubmitReq.put(AppConstants.REASON, reason);
                             JSONObject jsonObject = new JSONObject();
                             jsonObject.put(AppConstants.DATE, Utility.getTodaysDate());
+                            jsonObject.put(AppConstants.REASON,reason);
                             jsonObject.put(AppConstants.UserId, Prefs.getStringPrefs(AppConstants.UserId));
                             jsonObject.put(AppConstants.USERNAME, Prefs.getStringPrefs(AppConstants.employee_name));
                             jsonObject.put(AppConstants.STATUS, "Rejected");

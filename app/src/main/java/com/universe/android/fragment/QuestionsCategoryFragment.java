@@ -2012,7 +2012,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                     } else if (AppConstants.TEXTAREA.equals(question.getInputType())) {
                         child = getLayoutInflater().inflate(R.layout.field_row_textarea, null);
                         EditText edtChild = (EditText) child.findViewById(R.id.edtChild);
-                        edtChild.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                     //   edtChild.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                         String designation=Prefs.getStringPrefs(AppConstants.TYPE);
                         if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
                             if (strRequesterStatus.equalsIgnoreCase("1")) {

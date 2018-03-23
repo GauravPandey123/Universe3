@@ -27,6 +27,7 @@ public class WorkFLowUserAdapter extends RecyclerView.Adapter<WorkFLowUserAdapte
     private Context mContext;
     private ArrayList<UserModel> stringArrayList;
     private OnItemSelecteListener mListener;
+    private int lastCheckedPosition = -1;
     SparseBooleanArray mSelectedItems = new SparseBooleanArray();
     private PageChangeInterface pageChangeInterface;
 
@@ -52,23 +53,23 @@ public class WorkFLowUserAdapter extends RecyclerView.Adapter<WorkFLowUserAdapte
         if (Utility.validateString(stringArrayList.get(position).getUserDateStatus()))
         holder.textViewCD.setText(stringArrayList.get(position).getUserDateStatus());
 
-        if ("1".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())) {
+        if ("Submitted".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())) {
             holder.imgCD.setBackgroundResource(R.drawable.green_circle);
-        }else if ("5".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
+        }else if ("Initiated".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
             holder.imgCD.setBackgroundResource(R.drawable.yellow_circle);
-        }else  if ("2".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
+        }else  if ("Approved".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
             holder.imgCD.setBackgroundResource(R.drawable.green_circle);
-        }else if ("3".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
+        }else if ("Rejected".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
             holder.imgCD.setBackgroundResource(R.drawable.red_circle);
-        }else if ("0".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
-            holder.imgCD.setBackgroundResource(R.drawable.yellow_circle);
+        }else if ("".equalsIgnoreCase(stringArrayList.get(position).getUserStatus())){
+           // holder.imgCD.setBackgroundResource(R.drawable.red_circle);
         }else {
 
         }
 
         holder.textViewStatus.setText(stringArrayList.get(position).getUserDateStatus());
         holder.textViewStatus.setVisibility(View.GONE);
-        if(mSelectedItems.get(position)) {
+        if(position == lastCheckedPosition) {
             holder.imgArrow.setImageResource(R.drawable.arrow_down);
         } else {
             holder.imgArrow.setImageResource(R.drawable.icon_right_arrow);
@@ -80,7 +81,7 @@ public class WorkFLowUserAdapter extends RecyclerView.Adapter<WorkFLowUserAdapte
               //  holder.imgArrow.setImageResource(R.drawable.arrow_down);
 
 
-                if(mSelectedItems.get(position)) {
+                if(position == lastCheckedPosition) {
                     holder.imgArrow.setImageResource(R.drawable.icon_right_arrow);
                     mSelectedItems.put(position, false);
                     pageChangeInterface.onDataPass("",position,"0");
@@ -89,7 +90,9 @@ public class WorkFLowUserAdapter extends RecyclerView.Adapter<WorkFLowUserAdapte
                     mSelectedItems.put(position, true);
                     pageChangeInterface.onDataPass("",position,"1");
                 }
+                lastCheckedPosition = holder.getAdapterPosition();
 
+                notifyDataSetChanged();
 
 
 
