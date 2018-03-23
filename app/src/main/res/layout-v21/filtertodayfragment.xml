@@ -32,9 +32,8 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/margin_min"
             android:drawableRight="@drawable/ic_cal"
-            android:focusable="false"
             android:hint="@string/periodfrom"
-            android:inputType="textEmailAddress"
+            android:focusable="false"
             android:textSize="@dimen/text_size_medium" />
     </android.support.design.widget.TextInputLayout>
 
@@ -67,10 +66,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/margin_min"
-            android:focusable="false"
             android:drawableRight="@drawable/ic_cal"
             android:hint="@string/periodto"
-            android:inputType="textEmailAddress"
+            android:focusable="false"
             android:textSize="@dimen/text_size_medium" />
     </android.support.design.widget.TextInputLayout>
 
@@ -104,7 +102,6 @@
             android:drawablePadding="@dimen/margin_min"
             android:drawableRight="@drawable/ic_team"
             android:focusable="false"
-            android:inputType="textEmailAddress"
             android:textSize="@dimen/text_size_medium" />
     </android.support.design.widget.TextInputLayout>
 
@@ -126,7 +123,7 @@
             android:gravity="center"
             android:padding="@dimen/margin_medium"
             android:textColor="@android:color/white"
-            android:background="@color/buttoncolor1"
+            android:background="@drawable/red_background_corner"
             android:textAllCaps="true"
             android:layout_margin="@dimen/margin_medium"
             android:textSize="@dimen/text_size_normal"
@@ -142,7 +139,7 @@
             android:layout_margin="@dimen/margin_medium"
             android:textColor="@android:color/white"
             android:padding="@dimen/margin_medium"
-            android:background="@color/buttoncolor"
+            android:background="@drawable/rounded_corner_dialog"
             android:textSize="@dimen/text_size_normal"
             android:text="@string/apply_filter" />
 

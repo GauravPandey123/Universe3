@@ -212,7 +212,13 @@ public class BaseActivity extends AppCompatActivity {
         } else {
             shareIntent.setType(AppConstants.EXCEL_FILE_TYPE);
         }
-        List<ResolveInfo> resInfo = getApplicationContext().getPackageManager().queryIntentActivities(shareIntent, 0);
+
+        File root = new File(FILE + "/" + fileName);
+        Uri uri = Uri.fromFile(root);
+        shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+        List<ResolveInfo> resInfo = getPackageManager().queryIntentActivities(shareIntent, 0);
 
         if (!resInfo.isEmpty()) {
             for (ResolveInfo resolveInfo : resInfo) {
@@ -223,8 +229,8 @@ public class BaseActivity extends AppCompatActivity {
                 } else {
                     targetedShareIntent.setType(AppConstants.EXCEL_FILE_TYPE);
                 }
-                File root = new File(FILE + "/" + fileName);
-                Uri uri = Uri.fromFile(root);
+//                File root = new File(FILE + "/" + fileName);
+//                Uri uri = Uri.fromFile(root);
                 targetedShareIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
                 targetedShareIntent.putExtra(Intent.EXTRA_TEXT, text);
                 targetedShareIntent.putExtra(Intent.EXTRA_STREAM, uri);
@@ -237,6 +243,7 @@ public class BaseActivity extends AppCompatActivity {
             startActivity(chooserIntent);
         }
     }
+
 
 
     /**
@@ -310,8 +317,7 @@ public class BaseActivity extends AppCompatActivity {
                 } else if (answersModal.getStatus().equalsIgnoreCase("5")) {
                     cell.setCellValue("in Progress");
                 }
-            }else
-            {
+            } else {
 
             }
 
@@ -391,7 +397,7 @@ public class BaseActivity extends AppCompatActivity {
             String completedString = "" + answersModal.getSubmittedCount();
             int n = Integer.parseInt(totalString);
             int v = Integer.parseInt(completedString);
-            int percent=0;
+            int percent = 0;
             try {
                 percent = v * 100 / n;
             } catch (Exception e) {

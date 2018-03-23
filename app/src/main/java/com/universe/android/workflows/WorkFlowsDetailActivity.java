@@ -276,6 +276,7 @@ public class WorkFlowsDetailActivity extends BaseActivity {
                 intent.putExtra(AppConstants.STR_TITLE, strType);
                 intent.putExtra(AppConstants.SURVEYID, surveyId);
                 intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getCustomerId());
+                intent.putExtra(AppConstants.CUSTOMER, stringArrayList.get(position).getCustomer());
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
@@ -292,6 +293,7 @@ public class WorkFlowsDetailActivity extends BaseActivity {
                 intent.putExtra(AppConstants.STR_TITLE, strType);
                 intent.putExtra(AppConstants.SURVEYID, surveyId);
                 intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).getCustomerId());
+                intent.putExtra(AppConstants.CUSTOMER, stringArrayList.get(position).getCustomer());
                 startActivity(intent);
                 overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
             }

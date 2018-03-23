@@ -22,6 +22,7 @@ import com.universe.android.helper.FontClass;
 import com.universe.android.model.SurveysModal;
 import com.universe.android.realmbean.RealmAnswers;
 import com.universe.android.realmbean.RealmSurveys;
+import com.universe.android.realmbean.RealmWorkFlow;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Prefs;
 import com.universe.android.utility.Utility;
@@ -97,7 +98,10 @@ public class SurveySelectionFragment extends BaseFragment {
 
                    String type= Prefs.getStringPrefs(AppConstants.TYPE);
                    if (type.equalsIgnoreCase(DesignationEnum.requester.toString())){
-                       total=realmSurveys.get(i).getTarget();
+                       RealmWorkFlow realmWorkFlow=realm.where(RealmWorkFlow.class).equalTo(AppConstants.SURVEYID,realmSurveys.get(i).getId()).findFirst();
+
+                       if (realmWorkFlow!=null)
+                       total=realmWorkFlow.getTarget();
                        RealmResults<RealmAnswers> realmAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.SURVEYID,modal.getId()).findAll();
                        for (int k=0;k<realmAnswers.size();k++){
                            if (realmAnswers.get(k).getRequester_status()!=null) {

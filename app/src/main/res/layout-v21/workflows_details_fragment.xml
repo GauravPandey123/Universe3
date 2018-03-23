@@ -21,10 +21,10 @@
             android:id="@+id/tvHeaderName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:text="@string/work_flows"
-            android:textAllCaps="true"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_toRightOf="@+id/imageviewback"
             android:textColor="@android:color/white"
             android:textSize="16sp"
             android:textStyle="bold" />

@@ -274,6 +274,7 @@ public class TeamSurveyDeatilActivity extends BaseActivity implements TeamSurvey
             @Override
             public void onFailure(APIException e) {
                 super.onFailure(e);
+                Utility.showToast(e.getData());
             }
         });
 

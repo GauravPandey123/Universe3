@@ -70,6 +70,7 @@ import com.universe.android.realmbean.RealmController;
 import com.universe.android.realmbean.RealmCustomer;
 import com.universe.android.realmbean.RealmQuestion;
 import com.universe.android.realmbean.RealmSurveys;
+import com.universe.android.realmbean.RealmWorkFlow;
 import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.InputFilterMinMax;
 import com.universe.android.utility.Prefs;
@@ -140,7 +141,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
     String strRequester="",strApproval1="",strApproval2="",strApproval3="",strApproval4="",strApproval5="",strApproval6="";
     String strRequesterStatus="",strApproval1Status="",strApproval2Status="",strApproval3Status="",strApproval4Status="",strApproval5Status="",strApproval6Status="";
 
-    private String strData="";
+    private String strData="",strWorkFlowId="";
     String strSubmitByCD="",strSubmitByRM="",strSubmitByZM="";
 
     public static QuestionsCategoryFragment newInstance(String type, String categoryId, String customerId, int position, String updateId, String customer) {
@@ -238,8 +239,9 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
         });
 
+        Utility.hideSoftKeyboard(getActivity());
         final SearchView searchView=(SearchView)view.findViewById(R.id.searchView);
-
+            searchView.clearFocus();
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         assert searchManager != null;
         SearchableInfo searchableInfo = searchManager.getSearchableInfo(getActivity().getComponentName());
@@ -302,7 +304,10 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         try {
             RealmSurveys realmSurveys = realm.where(RealmSurveys.class).equalTo(AppConstants.ID, surveyId).findFirst();
             JSONArray jsonArray = null;
-
+            RealmWorkFlow realmWorkFlow=realm.where(RealmWorkFlow.class).equalTo(AppConstants.SURVEYID,surveyId).findFirst();
+            if (realmWorkFlow!=null){
+                strWorkFlowId=realmWorkFlow.getWorkflow();
+            }
             jsonArray = new JSONArray(realmSurveys.getCategoryId());
 
             for (int o = 0; o < jsonArray.length(); o++) {
@@ -1853,6 +1858,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 }
                 //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
+                jsonSubmitReq.put(AppConstants.WORKFLOWID, strWorkFlowId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
                 jsonSubmitReq.put(AppConstants.WORKFLOW, jsonArrayWorkFLow);
                 jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());

@@ -24,7 +24,6 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="@string/today"
-                android:textAllCaps="true"
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/text_size_small" />
         </LinearLayout>

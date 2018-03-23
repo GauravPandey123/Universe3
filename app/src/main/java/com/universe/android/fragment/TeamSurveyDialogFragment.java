@@ -61,9 +61,7 @@ public class TeamSurveyDialogFragment extends DialogFragment {
     private ImageView imageViewCancel;
 
     private LinearLayoutManager mLayoutManager;
-    private StatusAdapter statusAdapter;
-    private Calendar mcalendar;
-    private int day, month, year;
+
     private ArrayList<Number> numberArrayList = new ArrayList<>();
     private RecyclerView recylerViewStatus;
     private TeamMutiSelctAdapter teamSelectionAdapter;

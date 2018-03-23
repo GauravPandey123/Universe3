@@ -25,7 +25,6 @@
             android:layout_toRightOf="@+id/imageviewback"
             android:layout_centerVertical="true"
             android:text="@string/suverydetail"
-            android:textAllCaps="true"
             android:layout_marginLeft="@dimen/text_size_small"
             android:textColor="@android:color/white"
             android:textSize="14sp"
