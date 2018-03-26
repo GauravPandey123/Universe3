@@ -11,9 +11,9 @@
         android:background="@color/textColorPrimary"
         android:padding="@dimen/margin_medium"
         android:text="@string/periodfrom"
-        android:visibility="gone"
         android:textAllCaps="true"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayoutFrom"
@@ -32,8 +32,8 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/margin_min"
             android:drawableRight="@drawable/ic_cal"
-            android:hint="@string/periodfrom"
             android:focusable="false"
+            android:hint="@string/periodfrom"
             android:textSize="@dimen/text_size_medium" />
     </android.support.design.widget.TextInputLayout>
 
@@ -47,9 +47,9 @@
         android:background="@color/textColorPrimary"
         android:padding="@dimen/margin_medium"
         android:text="@string/periodto"
-        android:visibility="gone"
         android:textAllCaps="true"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayoutPriordTo"
@@ -57,8 +57,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewPeriodTo"
         android:layout_marginBottom="@dimen/margin_medium"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_small">
 
         <EditText
@@ -67,8 +68,8 @@
             android:layout_height="wrap_content"
             android:drawablePadding="@dimen/margin_min"
             android:drawableRight="@drawable/ic_cal"
-            android:hint="@string/periodto"
             android:focusable="false"
+            android:hint="@string/periodto"
             android:textSize="@dimen/text_size_medium" />
     </android.support.design.widget.TextInputLayout>
 
@@ -81,9 +82,9 @@
         android:layout_margin="@dimen/margin_medium"
         android:background="@color/textColorPrimary"
         android:padding="@dimen/margin_medium"
-        android:visibility="gone"
         android:textAllCaps="true"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/texTViewInputLayout"
@@ -91,8 +92,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewPeriodStatus"
         android:layout_marginBottom="@dimen/margin_medium"
-        android:layout_marginLeft="@dimen/margin_medium"
-        android:layout_marginRight="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_small"
+        android:layout_marginRight="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_small">
 
         <EditText
@@ -102,6 +104,7 @@
             android:drawablePadding="@dimen/margin_min"
             android:drawableRight="@drawable/ic_team"
             android:focusable="false"
+            android:hint="@string/status"
             android:textSize="@dimen/text_size_medium" />
     </android.support.design.widget.TextInputLayout>
 
@@ -119,29 +122,29 @@
             android:id="@+id/textViewReset"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
             android:layout_weight="1"
+            android:background="@drawable/red_background_corner"
             android:gravity="center"
             android:padding="@dimen/margin_medium"
-            android:textColor="@android:color/white"
-            android:background="@drawable/red_background_corner"
+            android:text="@string/reset"
             android:textAllCaps="true"
-            android:layout_margin="@dimen/margin_medium"
-            android:textSize="@dimen/text_size_normal"
-            android:text="@string/reset" />
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_normal" />
 
         <TextView
             android:id="@+id/textViewApplyFilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textAllCaps="true"
             android:layout_margin="@dimen/margin_medium"
-            android:textColor="@android:color/white"
-            android:padding="@dimen/margin_medium"
+            android:layout_weight="1"
             android:background="@drawable/rounded_corner_dialog"
-            android:textSize="@dimen/text_size_normal"
-            android:text="@string/apply_filter" />
+            android:gravity="center"
+            android:padding="@dimen/margin_medium"
+            android:text="@string/apply_filter"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_normal" />
 
 
     </LinearLayout>

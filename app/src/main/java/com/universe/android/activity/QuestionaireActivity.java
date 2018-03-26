@@ -110,7 +110,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
     List<CategoryModal> arraylistTitle = new ArrayList<>();
     HashMap<CategoryModal, List<Questions>> expandableListDetail = new HashMap<CategoryModal, List<Questions>>();
     private int groupPosition = 0;
-
+    private TextView textViewInProcess;
     boolean isSync = false;
     String searchText = "", strCustomer = "";
     ProgressBar mProgress;
@@ -322,6 +322,7 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
         llStatus = (LinearLayout) findViewById(R.id.llStatus);
         imageStatus = (ImageView) findViewById(R.id.imageStatus);
         textStatus = (TextView) findViewById(R.id.textStatus);
+        textViewInProcess=findViewById(R.id.textViewInProcess);
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular_progress);
         mProgress = (ProgressBar) findViewById(R.id.circularProgressbar);
@@ -1131,10 +1132,17 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                         imageStatus.setImageResource(R.drawable.rejected);
                     }
                 } else {
-
                     textViewProgress.setVisibility(View.VISIBLE);
                     mProgress.setVisibility(View.VISIBLE);
-                    llStatus.setVisibility(View.GONE);
+                    if (strStatus.equalsIgnoreCase("5") || isLocationSet.equalsIgnoreCase("yes")) {
+                        llStatus.setVisibility(View.VISIBLE);
+                        imageStatus.setVisibility(View.GONE);
+                        textViewInProcess.setVisibility(View.VISIBLE);
+                        textViewInProcess.setTypeface(FontClass.openSansRegular(mContext));
+                        textViewInProcess.setText("Inprocess");
+                    } else {
+                        llStatus.setVisibility(View.GONE);
+                    }
                 }
             }
 

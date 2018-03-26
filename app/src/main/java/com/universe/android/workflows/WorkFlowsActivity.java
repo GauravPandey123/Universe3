@@ -64,8 +64,6 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
     private TextView textViewCd,textViewRM,textViewZM,textViewStatus;
 
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

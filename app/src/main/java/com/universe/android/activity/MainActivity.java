@@ -261,10 +261,10 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (getFragmentManager().getBackStackEntryCount() == 0) {
-            this.finish();
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            getFragmentManager().popBackStack();
+            super.onBackPressed();
         }
 
     }

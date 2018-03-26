@@ -147,9 +147,6 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                 textViewMonthFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
                 textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
 
-                type = ":" + AppConstants.ToDay;
-                input_period_from.setText(Utility.getCurrentDate());
-                input_period_to.setText(Utility.getCurrentDate());
                 input_period_from.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -162,6 +159,10 @@ public class SurveyDetailDialogFragment extends DialogFragment {
                         dateDialogto();
                     }
                 });
+
+                type = ":" + AppConstants.ToDay;
+                input_period_from.setText(Utility.getCurrentDate());
+                input_period_to.setText(Utility.getCurrentDate());
 
             }
         });
@@ -354,7 +355,7 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         textViewMonthFilter = view.findViewById(R.id.textViewMonthFilter);
         textViewOthersFilter = view.findViewById(R.id.textViewOthersFilter);
 
-        input_period_status.setHint(R.string.status);
+
         textViewTodayFilter.setTypeface(FontClass.openSansRegular(getActivity()));
         textViewWeekFilter.setTypeface(FontClass.openSansRegular(getActivity()));
         textViewMonthFilter.setTypeface(FontClass.openSansRegular(getActivity()));
@@ -378,7 +379,18 @@ public class SurveyDetailDialogFragment extends DialogFragment {
         textViewOthersFilter.setBackgroundColor(getResources().getColor(R.color.filter_color));
         input_period_from.setText(Utility.getCurrentDate());
         input_period_to.setText(Utility.getCurrentDate());
-
+        input_period_from.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateDialogfrom();
+            }
+        });
+        input_period_to.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dateDialogto();
+            }
+        });
     }
 
     public void dateDialogfrom() {
