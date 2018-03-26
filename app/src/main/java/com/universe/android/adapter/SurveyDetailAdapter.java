@@ -1,6 +1,7 @@
 package com.universe.android.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,9 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.universe.android.R;
+import com.universe.android.activity.CategoryExpandableListActivity;
 import com.universe.android.helper.FontClass;
 import com.universe.android.model.AnswersModal;
 import com.universe.android.model.CustomerModal;
+import com.universe.android.utility.AppConstants;
 import com.universe.android.utility.Utility;
 
 import java.util.ArrayList;
@@ -45,13 +48,15 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
         holder.textViewDate.setTypeface(FontClass.openSansRegular(mContext));
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
             holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle().substring(0, 1).concat(stringArrayList.get(position).getTitle().substring(1).toLowerCase()));
-        holder.textViewMobileNo.setText(new StringBuilder().append(stringArrayList.get(position).getContactNo()).append(" | ").append(stringArrayList.get(position).getTerritory().substring(0, 1).toUpperCase().concat(stringArrayList.get(position).getTerritory().substring(1).toLowerCase())).append(" | ").append(stringArrayList.get(position).getState().substring(0, 1).concat(stringArrayList.get(position).getState().substring(1).toLowerCase())).toString());
-        holder.textViewDate.setVisibility(View.GONE);
+        if(stringArrayList.get(position).getContactNo()!=null || stringArrayList.get(position).getTerritory()!=null||stringArrayList.get(position).getState()!=null) {
+            holder.textViewMobileNo.setText(new StringBuilder().append(stringArrayList.get(position).getContactNo()).append("  ").append(stringArrayList.get(position).getTerritory()).append("  ").append(stringArrayList.get(position).getState()));
+            holder.textViewDate.setVisibility(View.GONE);
+        }
 
         if (Utility.validateString(stringArrayList.get(position).getStatus())) {
             if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
                 holder.llStatus.setVisibility(View.VISIBLE);
-                holder.textViewDate.setText("|" + stringArrayList.get(position).getDate());
+                holder.textViewDate.setText(" " + stringArrayList.get(position).getDate());
                 holder.imageViewStatus.setImageResource(R.drawable.ic_submitted);
                 holder.textViewDate.setVisibility(View.VISIBLE);
                 holder.tvStatus.setText(R.string.completed);

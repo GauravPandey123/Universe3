@@ -71,6 +71,7 @@ public class BaseActivity extends AppCompatActivity {
     public int CAMERA_REQUEST = 2121;
     public int GALLERY_REQUEST = 2221;
     protected Activity mActivity;
+    protected Fragment fragmentCurrent;
 
     private String mImageUrl;
     private boolean isUpdateImage = false;
@@ -90,6 +91,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void addFragment(Fragment fragment, int containerId) {
+        fragmentCurrent = fragment;
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(containerId, fragment)
@@ -98,9 +100,11 @@ public class BaseActivity extends AppCompatActivity {
 
     public void replaceFragment(Fragment fragment, int containerId) {
         isReplaced = true;
+        fragmentCurrent = fragment;
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(containerId, fragment)
+                .addToBackStack(null)
                 .commitAllowingStateLoss();
     }
 
@@ -243,7 +247,6 @@ public class BaseActivity extends AppCompatActivity {
             startActivity(chooserIntent);
         }
     }
-
 
 
     /**

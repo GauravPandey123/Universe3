@@ -295,16 +295,17 @@ public class SearchCustomersActivity extends BaseActivity {
                         modal.setContactNo(realmCustomers.get(i).getContactNo());
                         modal.setTerritory(realmCustomers.get(i).getTerritory());
                         modal.setImage(realmCustomers.get(i).getImage());
-                        modal.setLocation(false);
+
+
                     } else {
                         modal.setTitle(realmCustomers.get(i).getRetailerName());
                         modal.setState(realmCustomers.get(i).getState_code() + "");
                         modal.setContactNo(realmCustomers.get(i).getMobile());
                         modal.setTerritory(realmCustomers.get(i).getTerritory_code() + "");
                         modal.setImage(realmCustomers.get(i).getImage());
-                        modal.setLocation(false);
-                    }
 
+                    }
+                    modal.setLocation(realmCustomers.get(i).isLocation());
 
                     modal.setPincode(realmCustomers.get(i).getPincode());
 

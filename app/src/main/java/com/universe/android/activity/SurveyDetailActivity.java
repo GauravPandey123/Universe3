@@ -100,6 +100,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
     private CardView cardViewDownaload;
     private TextView textViewTitle;
     private String titleString;
+    private String fromdate, todate;
 
 
     @Override
@@ -108,7 +109,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         setContentView(R.layout.surveyreportfragment);
         initialization();
         prepareHeaderList();
-        prepareTargetsList();
+        prepareList(getString(R.string.completed));
         setUpElements();
         setUpListeners();
         setUpClickListeners();
@@ -126,7 +127,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
 
     }
 
-    private void setCountsFilter(Date fromDateTime, Date toDates) {
+    private void setCountsFilter(String type, Date fromDate, Date toDate) {
         Realm realm = Realm.getDefaultInstance();
         String designation = Prefs.getStringPrefs(AppConstants.TYPE);
         try {
@@ -135,10 +136,11 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
             if (realmSurveys != null) {
                 count = realmSurveys.getTarget();
             }
-            realmSubmitted = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status, "1").count();
-            realmInprogress = realm.where(RealmAnswers.class).equalTo(AppConstants.requester_status, "5").count();
-            realmNewRetailer = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.NEW).equalTo(AppConstants.requester_status, "1").count();
-            realmCystal = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMER, AppConstants.CrystalCustomer).equalTo(AppConstants.requester_status, "1").count();
+            realmSubmitted = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.requester_status, "1").count();
+            realmInprogress = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.requester_status, "5").count();
+            realmNewRetailer = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CUSTOMER, AppConstants.NEW).equalTo(AppConstants.requester_status, "1").count();
+            realmCystal = realm.where(RealmAnswers.class).between(AppConstants.CREATEDAT, fromDate, toDate).equalTo(AppConstants.CUSTOMER, AppConstants.CrystalCustomer).equalTo(AppConstants.requester_status, "1").count();
+
             int n = count;
             int v = (int) realmSubmitted;
             int percent = v * 100 / n;
@@ -178,6 +180,8 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
             textViewInProgressCount.setText(String.valueOf(realmInprogress));
             textViewNewRetailersCount.setText(String.valueOf(realmNewRetailer));
             textViewCrystalMembersCount.setText(String.valueOf(realmCystal));
+            textViewCompletedQuestionaire.setText("Submitted Questionnaire".concat("(").concat(String.valueOf(realmSubmitted).concat(")")));
+
         } catch (Exception e) {
             realm.close();
             e.printStackTrace();
@@ -242,7 +246,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         relativelayoutTarget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                prepareTargetsList();
+                //prepareTargetsList();
 
             }
         });
@@ -302,7 +306,35 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
                     prepareListFilter(getString(R.string.crystalmembers), fromDateTime, toDates);
             }
         });
+        recyclerViewSurveyDetail.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewSurveyDetail, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
+
+                    Intent intent = null;
+
+                    //  if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
+                    intent = new Intent(mContext, CategoryExpandableListActivity.class);
+                    //  }
+                    intent.putExtra(AppConstants.STR_TITLE, titleString);
+                    intent.putExtra(AppConstants.SURVEYID, surveyId);
+
+                    intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).get_id());
+
+                    intent.putExtra(AppConstants.CUSTOMER, stringArrayList.get(position).getCustomer());
+                    startActivity(intent);
+                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                }
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
+
 
     private void setUpElements() {
         surveyDetailAdapter = new SurveyDetailAdapter(mContext, stringArrayList);
@@ -412,7 +444,10 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         relativelayoutInprogress = findViewById(R.id.relativelayoutInprogress);
         realativeNewRetailers = findViewById(R.id.realativeNewRetailers);
         relativeLayoutCrystalCustomers = findViewById(R.id.relativeLayoutCrystalCustomers);
-        textViewToday.setText(getResources().getString(R.string.today).concat(":" + "(".concat(Utility.getCurrentDate()).concat(")")));
+        fromDate = Utility.getCurrentDate();
+        toDate = Utility.getCurrentDate();
+        textViewToday.setText(getResources().getString(R.string.today).concat(":" + "(".concat(fromDate + "-" + toDate).concat(")")));
+
         textViewToday.setTypeface(FontClass.openSemiBold(mContext));
         textViewtarget.setTypeface(FontClass.openSansRegular(mContext));
         textViewAchievement.setTypeface(FontClass.openSansRegular(mContext));
@@ -430,6 +465,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         surveyId = intent.getExtras().getString(AppConstants.SURVEYID);
         titleString = intent.getExtras().getString(AppConstants.TYPE);
         textViewTitle.setText(titleString);
+        cardViewDownaload.setVisibility(View.VISIBLE);
 //\        textViewFilter.setTypeface(FontClass.openSemiBold(mContext));
 
     }
@@ -528,6 +564,8 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
                         modal.setTerritory(realmCustomer.getTerritory_code() + "");
                         modal.setStatus(realmAnswers.get(i).getRequester_status());
                     }
+                    modal.setCreatedAt(realmCustomer.getCreatedAt());
+                    modal.setUpdatedAt(realmCustomer.getUpdatedAt());
                     modal.setPincode(realmCustomer.getPincode());
                     modal.setCustomerId(realmCustomer.getId());
                     modal.setCustomer(realmCustomer.getCustomer());
@@ -674,8 +712,8 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         cal.setTime(toDateTime);
         cal.add(Calendar.DATE, 1);
         toDates = cal.getTime();
-        prepareListFilter("", fromDateTime, toDates);
-        setCountsFilter(fromDateTime, toDates);
+        prepareListFilter(statusString, fromDateTime, toDates);
+        setCountsFilter(statusString, fromDateTime, toDates);
     }
 
 

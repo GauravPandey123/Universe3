@@ -33,6 +33,7 @@ import com.universe.android.R;
 import com.universe.android.adapter.CustomExpandableListAdapter;
 import com.universe.android.component.NonScrollExpandableListView;
 import com.universe.android.enums.DesignationEnum;
+import com.universe.android.helper.FontClass;
 import com.universe.android.model.CategoryModal;
 import com.universe.android.model.Questions;
 import com.universe.android.okkhttp.APIClient;
@@ -70,6 +71,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -105,6 +107,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
     CircleImageView circleImageView;
     private ImageView imageLoc;
     private String isLocationSet = "";
+    private TextView textViewInProcess;
     private int position;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -694,7 +697,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 } else {
                     circleImageView.setImageResource(R.drawable.ic_crystal_cutomer);
                 }
-            }else {
+            } else {
                 Glide.with(mActivity).load(realmCustomer.getImage()).into(circleImageView);
 
             }
@@ -739,6 +742,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
         llStatus = (LinearLayout) findViewById(R.id.llStatus);
         imageStatus = (ImageView) findViewById(R.id.imageStatus);
         textStatus = (TextView) findViewById(R.id.textStatus);
+        textViewInProcess=findViewById(R.id.textViewInProcess);
         imageLoc = findViewById(R.id.imageLoc);
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.rlImage);
         //  seekbar=(SeekBar)findViewById(R.id.seek_bar);
@@ -788,7 +792,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                     intent.putExtra(AppConstants.CUSTOMER, strCustomer);
                     startActivity(intent);
                     overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-                }
+             //   }
 
             }
         });
@@ -952,18 +956,18 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
                                         }
 
-                                        int required=0,requiredAnswers=0;
-                                        if (stringsRequired.contains("isLocationRequired")){
-                                            required=stringsRequired.size()-1;
-                                        }else {
-                                            required=stringsRequired.size();
+                                        int required = 0, requiredAnswers = 0;
+                                        if (stringsRequired.contains("isLocationRequired")) {
+                                            required = stringsRequired.size() - 1;
+                                        } else {
+                                            required = stringsRequired.size();
                                         }
-                                        if (stringsRequiredAnswers.contains("isLocationRequired")){
-                                            requiredAnswers=stringsRequiredAnswers.size()-1;
-                                        }else {
-                                            requiredAnswers=stringsRequiredAnswers.size();
+                                        if (stringsRequiredAnswers.contains("isLocationRequired")) {
+                                            requiredAnswers = stringsRequiredAnswers.size() - 1;
+                                        } else {
+                                            requiredAnswers = stringsRequiredAnswers.size();
                                         }
-                                        if (required ==requiredAnswers) {
+                                        if (required == requiredAnswers) {
                                             categoryModal.setCategoryAnswered("Yes");
                                         } else {
                                             categoryModal.setCategoryAnswered("No");
@@ -1109,7 +1113,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
                     }
-                } else   if (type.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+                } else if (type.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
                     if (arraylistTitle.size() != arrISViewByApproval2.size()) {
                         btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                         btnApprove.setEnabled(false);
@@ -1148,7 +1152,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
                     }
-                }else   if (type.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+                } else if (type.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
                     if (arraylistTitle.size() != arrISViewByApproval5.size()) {
                         btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                         btnApprove.setEnabled(false);
@@ -1161,7 +1165,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
                     }
-                }else   if (type.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                } else if (type.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
                     if (arraylistTitle.size() != arrISViewByApproval6.size()) {
                         btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                         btnApprove.setEnabled(false);
@@ -1219,11 +1223,21 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         imageStatus.setImageResource(R.drawable.rejected);
                     }
                 } else {
+
                     btnApprove.setVisibility(View.VISIBLE);
                     btnReject.setVisibility(View.VISIBLE);
                     textViewProgress.setVisibility(View.VISIBLE);
                     mProgress.setVisibility(View.VISIBLE);
-                    llStatus.setVisibility(View.GONE);
+                    if (strStatus.equalsIgnoreCase("5") || isLocationSet.equalsIgnoreCase("yes")) {
+                        llStatus.setVisibility(View.VISIBLE);
+                        imageStatus.setVisibility(View.GONE);
+                        textViewInProcess.setVisibility(View.VISIBLE);
+                        textViewInProcess.setTypeface(FontClass.openSansRegular(mContext));
+                        textViewInProcess.setText("Inprocess");
+                    } else {
+                        llStatus.setVisibility(View.GONE);
+                    }
+
                 }
             }
 
@@ -1366,7 +1380,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
     }
 
     private void updateCustomerImage(File path) {
-    
+
         showProgress();
 
         OkHttpClient okHttpClient = APIClient.getHttpClient();
@@ -1377,10 +1391,10 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 .addFormDataPart("type", strCustomer)
                 .addFormDataPart("isPicture", "1")
                 .addFormDataPart("customerId", customerId)
-                .addFormDataPart("photo",path.getName(), RequestBody.create(path.toString().endsWith("png") ?
+                .addFormDataPart("photo", path.getName(), RequestBody.create(path.toString().endsWith("png") ?
                         MediaType.parse("image/png") : MediaType.parse("image/jpeg"), path))
                 .build();
-    //    RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
+        //    RequestBody requestBody = RequestBody.create(UniverseAPI.JSON, jsonSubmitReq.toString());
         String url = UniverseAPI.WEB_SERVICE_CUSTOMER_PROFILE_METHOD;
 
 
@@ -1406,7 +1420,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         if (Utility.validateString(responseData)) {
                             JSONObject jsonResponse = new JSONObject(responseData);
                             jsonResponse = jsonResponse.getJSONObject(AppConstants.RESPONSE);
-                           // JSONObject location = jsonResponse.optJSONObject(AppConstants.LOCATION);
+                            // JSONObject location = jsonResponse.optJSONObject(AppConstants.LOCATION);
                             new RealmController().saveFormNewRetailerSubmit(jsonResponse.toString(), "");
 
 
@@ -1437,7 +1451,6 @@ public class CategoryExpandableListActivity extends BaseActivity {
         });
 
     }
-
 
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {

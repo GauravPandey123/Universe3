@@ -81,7 +81,11 @@
                         <com.universe.android.component.NonScrollExpandableListView
                             android:id="@+id/expandableListView"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"/>
+                        <View
+                            android:layout_height="match_parent"
+                            android:layout_width="1dp"
+                            android:background="@color/divider_color"/>
 
                     </LinearLayout>
 
