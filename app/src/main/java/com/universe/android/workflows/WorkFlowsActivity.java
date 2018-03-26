@@ -62,6 +62,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
     private TextView tvPending,tvInprogress,tvCompleted,tvRejected;
     private ImageView imgCD,imgRM,imgZM;
     private TextView textViewCd,textViewRM,textViewZM,textViewStatus;
+    private String strRequestId="";
 
 
 
@@ -74,8 +75,9 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
         initialization();
         setUpElements();
         setUpListeners();
-        prepareList("","","", "");
         prepareListUsers();
+        prepareList("","","", "");
+
     }
 
     @Override
@@ -325,6 +327,11 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject jsonObject=array.getJSONObject(i);
                     AnswersModal modal = new AnswersModal();
+                    if (Utility.validateString(strRequestId))
+                    modal.setRequestId(strRequestId);
+                    else {
+                        modal.setRequestId("");
+                    }
                     String userId=Prefs.getStringPrefs(AppConstants.UserId);
                     if (userId.equalsIgnoreCase(jsonObject.optString(AppConstants.ID))){
                         modal.setTitle(AppConstants.ME);
@@ -489,7 +496,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                    JSONObject jsonObject=new JSONObject(realmSurveys.get(i).getAssignTo());
                    UserModel modal = new UserModel();
                    modal.setUserName(jsonObject.optString(AppConstants.NAME));
-
+                   strRequestId=realmSurveys.get(i).getRequestId();
                    modal.setId(jsonObject.optString(AppConstants.ID));
                    JSONArray array=new JSONArray(realmAnswers.getWorkflow());
                    for (int j=0;j<array.length();j++) {

@@ -29,6 +29,8 @@ public class Questions extends RealmObject {
     private int minValue;
     private boolean alpha;
     private String status;
+    private String approverEdit;
+    private String specialCahracter;
 
 
     public boolean isAlpha() {
@@ -231,5 +233,21 @@ public class Questions extends RealmObject {
 
     public void setResponses(String responses) {
         this.responses = responses;
+    }
+
+    public String getApproverEdit() {
+        return approverEdit;
+    }
+
+    public void setApproverEdit(String approverEdit) {
+        this.approverEdit = approverEdit;
+    }
+
+    public String getSpecialCahracter() {
+        return specialCahracter;
+    }
+
+    public void setSpecialCahracter(String specialCahracter) {
+        this.specialCahracter = specialCahracter;
     }
 }

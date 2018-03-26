@@ -16,6 +16,7 @@ public class RealmWorkFlow extends RealmObject {
     private String assignTo;
     private int target;
     private String workflow;
+    private String requestId;
 
 
     public String get_id() {
@@ -74,5 +75,13 @@ public class RealmWorkFlow extends RealmObject {
 
     public void setWorkflow(String workflow) {
         this.workflow = workflow;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 }

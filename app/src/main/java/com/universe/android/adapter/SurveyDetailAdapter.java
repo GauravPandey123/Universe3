@@ -73,7 +73,9 @@ public class SurveyDetailAdapter extends RecyclerView.Adapter<SurveyDetailAdapte
     public int getItemCount() {
         return stringArrayList.size();
     }
-
+    public void setOnItemClickLister(OnItemSelecteListener mListener) {
+        this.mListener = mListener;
+    }
     public interface OnItemSelecteListener {
         public void onItemSelected(View v, int position);
     }

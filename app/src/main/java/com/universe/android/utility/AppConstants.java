@@ -154,6 +154,7 @@ public class AppConstants {
     public static final String ISVIEWBYAPPROVAL5 = "approval5View";
     public static final String ISVIEWBYAPPROVAL6 = "approval6View";
     public static final String WORKFLOWID ="workflowId" ;
+    public static final String REQUESTID ="requestId" ;
 
     public static String surveyDetails = "surveyDetails";
     public static String crystalDoctorName = "crystalDoctorName";
