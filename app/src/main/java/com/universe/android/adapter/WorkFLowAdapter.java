@@ -55,9 +55,18 @@ public class WorkFLowAdapter extends RecyclerView.Adapter<WorkFLowAdapter.Survey
         if (Utility.validateString(stringArrayList.get(position).getTitle()))
         holder.textViewRetailersName.setText(stringArrayList.get(position).getTitle());
 
+        if (Utility.validateString(stringArrayList.get(position).getReason())){
             holder.textViewMobileNo.setText(stringArrayList.get(position).getDate()+
-                  "  \n"+
-                   stringArrayList.get(position).getStatus()+    "  \n"+"Reason - "+stringArrayList.get(position).getReason()+    "  \n"+"RequestId - "+stringArrayList.get(position).getRequestId());
+                    "  \n"+
+                    stringArrayList.get(position).getStatus()+    "  \n"+"Reason - "+stringArrayList.get(position).getReason()+    "  \n"+"RequestId - "+stringArrayList.get(position).getRequestId());
+
+        }else {
+            holder.textViewMobileNo.setText(stringArrayList.get(position).getDate()+
+                    "  \n"+
+                    stringArrayList.get(position).getStatus()+    "  \n"+    "  \n"+"RequestId - "+stringArrayList.get(position).getRequestId());
+
+        }
+
             holder.imgCustomer.setVisibility(View.GONE);
 
     }

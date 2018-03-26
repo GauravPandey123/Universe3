@@ -613,7 +613,11 @@ public class QuestionaireActivity extends BaseActivity implements PageChangeInte
                 //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
-
+                RealmWorkFlow realmWorkFlow=realm.where(RealmWorkFlow.class).equalTo(AppConstants.SURVEYID,surveyId).findFirst();
+                if (realmWorkFlow!=null){
+                    jsonSubmitReq.put(AppConstants.WORKFLOWID, realmWorkFlow.getWorkflow());
+                    jsonSubmitReq.put(AppConstants.REQUESTID, realmWorkFlow.getRequestId());
+                }
                 jsonSubmitReq.put(AppConstants.CUSTOMER, strCustomer);
 
                 jsonSubmitReq.put(AppConstants.WORKFLOW, array);
