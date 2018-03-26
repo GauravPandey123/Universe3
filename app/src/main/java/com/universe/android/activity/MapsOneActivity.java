@@ -15,6 +15,7 @@ import android.support.v4.app.FragmentActivity;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -93,7 +94,10 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
     ProgressBar mProgress;
     private CircleImageView circleImageView;
     private String isLocationSet = "";
-
+    private String strStatus = "";
+    private LinearLayout llStatus;
+    private TextView textStatus, textViewInProcess;
+    private ImageView imageStatus;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -137,6 +141,9 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
         textViewSetLocation = findViewById(R.id.textViewSetLocation);
         imageViewLocation = findViewById(R.id.imageViewLocation);
         circleImageView = findViewById(R.id.circularImageViewMap);
+        textViewInProcess = findViewById(R.id.textViewInProcess);
+        imageStatus = findViewById(R.id.imageStatus);
+        llStatus = findViewById(R.id.llStatus);
         lat = Double.parseDouble(Prefs.getStringPrefs(AppConstants.lat));
         lng = Double.parseDouble(Prefs.getStringPrefs(AppConstants.lng));
         Resources res = getResources();
@@ -511,6 +518,8 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
                 if (realmAnswers != null) {
                     // updateId=realmAnswers.get_id();
                     JSONArray array = new JSONArray(realmAnswers.getAnswers());
+                    if (Utility.validateString(realmAnswers.getRequester_status()))
+                        strStatus = realmAnswers.getRequester_status();
                     // JSONArray array1=new JSONArray(array.toString());
                     //   String json=array.get(0).toString();
                     //  JSONArray array1=new JSONArray(json);
@@ -694,6 +703,35 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
             mProgress.setMax(progressTotal);
             int percent = (progressRequired * 100) / progressTotal;
             textViewProgress.setText(percent + "%");
+            if (strStatus.equalsIgnoreCase("1") || strStatus.equalsIgnoreCase("2")) {
+                textViewProgress.setVisibility(View.GONE);
+                mProgress.setVisibility(View.GONE);
+                llStatus.setVisibility(View.VISIBLE);
+
+                if (strStatus.equalsIgnoreCase("1")) {
+                    textStatus.setText("Submitted");
+                    imageStatus.setImageResource(R.drawable.ic_submitted);
+                } else if (strStatus.equalsIgnoreCase("2")) {
+                    textStatus.setText("Approved");
+                    imageStatus.setImageResource(R.drawable.ic_submitted);
+                } else if (strStatus.equalsIgnoreCase("3")) {
+                    textStatus.setText("Rejected");
+                    imageStatus.setImageResource(R.drawable.rejected);
+                }
+            } else {
+                textViewProgress.setVisibility(View.VISIBLE);
+                mProgress.setVisibility(View.VISIBLE);
+                if (strStatus.equalsIgnoreCase("5")) {
+                    llStatus.setVisibility(View.VISIBLE);
+                    imageStatus.setVisibility(View.GONE);
+                    textViewInProcess.setVisibility(View.VISIBLE);
+                    textViewInProcess.setTypeface(FontClass.openSansRegular(mContext));
+                    textViewInProcess.setText("Inprocess");
+                } else {
+                    llStatus.setVisibility(View.GONE);
+                }
+
+            }
 
 
         } catch (Exception e0) {
@@ -707,9 +745,7 @@ public class MapsOneActivity extends BaseActivity implements OnMapReadyCallback,
 
         }
 
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent result) {

@@ -309,7 +309,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         recyclerViewSurveyDetail.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewSurveyDetail, new RecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                if (stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
+                if(stringArrayList.get(position).getStatus().equalsIgnoreCase("1")) {
 
                     Intent intent = null;
 
