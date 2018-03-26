@@ -52,6 +52,11 @@ import com.universe.android.workflows.WorkFlowsActivity;
 
 import android.widget.Toast;
 
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureRequest;
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureResponse;
+import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureService;
+import com.universe.android.web.BaseApiCallback;
+import com.universe.android.web.BaseRequest;
 import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
@@ -60,6 +65,7 @@ import java.io.File;
 import com.soundcloud.android.crop.Crop;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import in.editsoft.api.exception.APIException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -747,7 +753,23 @@ public class CategoryExpandableListActivity extends BaseActivity {
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.rlImage);
         //  seekbar=(SeekBar)findViewById(R.id.seek_bar);
 
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+                                              @Override
+                                              public void onClick(View v) {
 
+
+                                                      Intent intent = new Intent(CategoryExpandableListActivity.this, MapsOneActivity.class);
+                                                      intent.putExtra(AppConstants.STR_TITLE, title);
+                                                      intent.putExtra(AppConstants.SURVEYID, surveyId);
+                                                      intent.putExtra(AppConstants.CUSTOMERID, customerId);
+                                                      intent.putExtra(AppConstants.CUSTOMER, strCustomer);
+                                                      startActivity(intent);
+                                                      overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+                                                      //   }
+
+
+                                              }
+                                          });
         Resources res = getResources();
         Drawable drawable = res.getDrawable(R.drawable.circular_progress);
         mProgress = (ProgressBar) findViewById(R.id.circularProgressbar);
@@ -778,24 +800,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
             }
         });
 
-        relativeLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if (strStatus.equalsIgnoreCase("1") || strStatus.equalsIgnoreCase("2") || strStatus.equalsIgnoreCase("3")) {
-
-                } else {
-                    Intent intent = new Intent(CategoryExpandableListActivity.this, MapsOneActivity.class);
-                    intent.putExtra(AppConstants.STR_TITLE, title);
-                    intent.putExtra(AppConstants.SURVEYID, surveyId);
-                    intent.putExtra(AppConstants.CUSTOMERID, customerId);
-                    intent.putExtra(AppConstants.CUSTOMER, strCustomer);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-             //   }
-
-            }
-        });
         expandableListView.setGroupIndicator(null);
 
 

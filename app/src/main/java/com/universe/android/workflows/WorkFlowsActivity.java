@@ -63,6 +63,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
     private ImageView imgCD,imgRM,imgZM;
     private TextView textViewCd,textViewRM,textViewZM,textViewStatus;
     private String strRequestId="";
+    private String strSubmittedDate="";
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -348,6 +349,19 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                     }else{
                         textViewStatus.setVisibility(View.VISIBLE);
                     }
+
+                    if (jsonObject.has(AppConstants.STATUS)){
+                        if (jsonObject.optString(AppConstants.STATUS).equalsIgnoreCase("Submitted")){
+                            SimpleDateFormat format1 = new SimpleDateFormat(AppConstants.utc_format1);
+                            Date date = format1.parse(jsonObject.optString(AppConstants.DATE));
+                            strSubmittedDate=AppConstants.format10.format(date);
+                        }else if (jsonObject.optString(AppConstants.STATUS).equalsIgnoreCase("Initiated")){
+                            SimpleDateFormat format1 = new SimpleDateFormat(AppConstants.utc_format1);
+                            Date date = format1.parse(jsonObject.optString(AppConstants.DATE));
+                            strSubmittedDate=AppConstants.format10.format(date);
+                        }
+
+                    }
                     if (Utility.validateString(id)) {
                         if (id.equalsIgnoreCase(jsonObject.optString(AppConstants.UserId))) {
 
@@ -364,7 +378,7 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                                     textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.requester.toString()));
 
                                 }else {
-                                    textViewStatus.setText("Pending" + " with " + name);
+                                    textViewStatus.setText("Pending" + " with " + name+" since "+strSubmittedDate);
 
                                 }
                             }
@@ -373,9 +387,9 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                                     textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.requester.toString()));
 
                                 } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval1.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval1.toString())+" since "+strSubmittedDate);
                                 } else {
-                                    textViewStatus.setText("Pending" + " with " + name);
+                                    textViewStatus.setText("Pending" + " with " + name+" since "+strSubmittedDate);
                                 }
                             }
 
@@ -384,11 +398,11 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                                     textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.requester.toString()));
 
                                 } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval1.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval1.toString())+" since "+strSubmittedDate);
                                 } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " +getPendingUserName(DesignationEnum.approval2.toString()));
+                                    textViewStatus.setText("Pending" + " with " +getPendingUserName(DesignationEnum.approval2.toString())+" since "+strSubmittedDate);
                                 } else {
-                                    textViewStatus.setText("Pending" + " with " + name);                                }
+                                    textViewStatus.setText("Pending" + " with " + name+" since "+strSubmittedDate);                                }
                             }
 
                             if (type.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
@@ -396,13 +410,13 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                                     textViewStatus.setText("Pending" + " with " +getPendingUserName(DesignationEnum.requester.toString()));
 
                                 } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval1.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval1.toString())+" since "+strSubmittedDate);
                                 } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval2.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval2.toString())+" since "+strSubmittedDate);
                                 } else if (realmAnswers.getApproval3_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval3.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval3.toString())+" since "+strSubmittedDate);
                                 } else {
-                                    textViewStatus.setText("Pending" + " with " + name);                                }
+                                    textViewStatus.setText("Pending" + " with " + name+" since "+strSubmittedDate);                                }
                             }
 
                             if (type.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
@@ -410,15 +424,15 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                                     textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.requester.toString()));
 
                                 } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval1.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval1.toString())+" since "+strSubmittedDate);
                                 } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval2.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval2.toString())+" since "+strSubmittedDate);
                                 } else if (realmAnswers.getApproval3_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval3.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval3.toString())+" since "+strSubmittedDate);
                                 } else if (realmAnswers.getApproval4_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval4.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval4.toString())+" since "+strSubmittedDate);
                                 } else {
-                                    textViewStatus.setText("Pending" + " with " + name);                                }
+                                    textViewStatus.setText("Pending" + " with " + name+" since "+strSubmittedDate);                                }
                             }
 
                             if (type.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
@@ -426,17 +440,17 @@ public class WorkFlowsActivity extends BaseActivity implements PageChangeInterfa
                                     textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.requester.toString()));
 
                                 } else if (realmAnswers.getApproval1_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval1.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval1.toString())+" since "+strSubmittedDate);
                                 } else if (realmAnswers.getApproval2_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval2.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval2.toString())+" since "+strSubmittedDate);
                                 } else if (realmAnswers.getApproval3_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " +getPendingUserName(DesignationEnum.approval3.toString()));
+                                    textViewStatus.setText("Pending" + " with " +getPendingUserName(DesignationEnum.approval3.toString())+" since "+strSubmittedDate);
                                 } else if (realmAnswers.getApproval4_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval4.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval4.toString())+" since "+strSubmittedDate);
                                 } else if (realmAnswers.getApproval5_status().equalsIgnoreCase("0")) {
-                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval5.toString()));
+                                    textViewStatus.setText("Pending" + " with " + getPendingUserName(DesignationEnum.approval5.toString())+" since "+strSubmittedDate);
                                 } else {
-                                    textViewStatus.setText("Pending" + " with " + name);                                }
+                                    textViewStatus.setText("Pending" + " with " + name+" since "+strSubmittedDate);                                }
                             }
 
 
