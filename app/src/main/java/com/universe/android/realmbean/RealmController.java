@@ -38,6 +38,8 @@ public class RealmController {
             question.setMinimum(jsonObject.optInt("minimum"));
             question.setAlpha(jsonObject.optBoolean("alpha"));
             question.setHindiTitle(jsonObject.optString("hindiTitle"));
+            question.setApproverEdit(jsonObject.optString("approverEdit"));
+            question.setSpecialCahracter(jsonObject.optString("specialCharacter"));
 
         }
         return question;
@@ -72,6 +74,8 @@ public class RealmController {
             question.setSurveyId(realmQuestion.getSurveyId());
             question.setQuestionId(realmQuestion.getId());
             question.setLongTitle(realmQuestion.getLongTitle());
+            question.setSpecialCahracter(realmQuestion.getSpecialCharacter());
+            question.setApproverEdit(realmQuestion.getApproverEdit());
 
         }
         return question;

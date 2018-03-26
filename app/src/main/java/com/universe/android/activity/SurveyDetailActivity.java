@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.renderscript.ScriptIntrinsicYuvToRGB;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
@@ -28,6 +29,7 @@ import android.widget.Toast;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 import com.universe.android.R;
+import com.universe.android.adapter.CustomerListAdapter;
 import com.universe.android.adapter.StatusAdapter;
 import com.universe.android.adapter.SurveyDetailAdapter;
 import com.universe.android.adapter.WorkFLowDetailAdapter;
@@ -110,6 +112,7 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         prepareList(getString(R.string.completed));
         setUpElements();
         setUpListeners();
+        setUpClickListeners();
         setCounts();
     }
 
@@ -340,6 +343,54 @@ public class SurveyDetailActivity extends BaseActivity implements SurveyDetailDi
         recyclerViewSurveyDetail.setItemAnimator(new DefaultItemAnimator());
         recyclerViewSurveyDetail.setAdapter(surveyDetailAdapter);
 
+    }
+
+    private void setUpClickListeners() {
+        surveyDetailAdapter.setOnItemClickLister(new SurveyDetailAdapter.OnItemSelecteListener() {
+            @RequiresApi(api = Build.VERSION_CODES.ECLAIR)
+            @Override
+            public void onItemSelected(View v, int position) {
+                Intent intent = null;
+
+
+                intent = new Intent(mContext, CategoryExpandableListActivity.class);
+
+
+                intent.putExtra(AppConstants.STR_TITLE, titleString);
+                intent.putExtra(AppConstants.SURVEYID, surveyId);
+
+                    intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).get_id());
+
+                intent.putExtra(AppConstants.CUSTOMER, stringArrayList.get(position).getCustomer());
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+            }
+        });
+        recyclerViewSurveyDetail.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerViewSurveyDetail, new RecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+                Intent intent = null;
+
+                //  if (!Utility.validateString(stringArrayList.get(position).getStatus()) || stringArrayList.get(position).getStatus().equalsIgnoreCase("5")) {
+                intent = new Intent(mContext, CategoryExpandableListActivity.class);
+                //  }
+                intent.putExtra(AppConstants.STR_TITLE, titleString);
+                intent.putExtra(AppConstants.SURVEYID, surveyId);
+
+                intent.putExtra(AppConstants.CUSTOMERID, stringArrayList.get(position).get_id());
+
+                intent.putExtra(AppConstants.CUSTOMER, stringArrayList.get(position).getCustomer());
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
     @Override

@@ -19,6 +19,8 @@ public class RealmQuestion extends RealmObject {
     private String longTitle;
     private String responses;
     private String inputType;
+    private String specialCharacter;
+    private String approverEdit;
 
     private String type;
 
@@ -282,5 +284,21 @@ public class RealmQuestion extends RealmObject {
 
     public void setMaxLength(int maxLength) {
         this.maxLength = maxLength;
+    }
+
+    public String getSpecialCharacter() {
+        return specialCharacter;
+    }
+
+    public void setSpecialCharacter(String specialCharacter) {
+        this.specialCharacter = specialCharacter;
+    }
+
+    public String getApproverEdit() {
+        return approverEdit;
+    }
+
+    public void setApproverEdit(String approverEdit) {
+        this.approverEdit = approverEdit;
     }
 }

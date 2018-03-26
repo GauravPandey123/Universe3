@@ -143,6 +143,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
     private String strData="",strWorkFlowId="";
     String strSubmitByCD="",strSubmitByRM="",strSubmitByZM="";
+    private String strRequestId="";
 
     public static QuestionsCategoryFragment newInstance(String type, String categoryId, String customerId, int position, String updateId, String customer) {
         QuestionsCategoryFragment myFragment = new QuestionsCategoryFragment();
@@ -280,7 +281,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
         if (type.equalsIgnoreCase(DesignationEnum.requester.toString())){
             view1.setVisibility(View.GONE);
         }else {
-            view1.setVisibility(View.VISIBLE);
+            view1.setVisibility(View.GONE);
         }
 
         view1.setOnClickListener(new View.OnClickListener() {
@@ -307,6 +308,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
             RealmWorkFlow realmWorkFlow=realm.where(RealmWorkFlow.class).equalTo(AppConstants.SURVEYID,surveyId).findFirst();
             if (realmWorkFlow!=null){
                 strWorkFlowId=realmWorkFlow.getWorkflow();
+                strRequestId=realmWorkFlow.getRequestId();
             }
             jsonArray = new JSONArray(realmSurveys.getCategoryId());
 
@@ -358,16 +360,16 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
                             JSONObject jsonObject=array.getJSONObject(i);
                             String categoryId=jsonObject.optString(AppConstants.CATEGORYID);
-                            String isView=jsonObject.optString(AppConstants.ISVIEW);
-                            JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
+                        //    String isView=jsonObject.optString(AppConstants.ISVIEW);
+                           JSONArray questions=jsonObject.getJSONArray(AppConstants.QUESTIONS);
                             if (categoryId.equalsIgnoreCase(jsonArray.get(o).toString())){
                                 RealmCategory realmCategoryDetails = realm.where(RealmCategory.class).equalTo(AppConstants.ID,jsonArray.get(o).toString())/*.equalTo(AppConstants.SURVEYID,surveyId)*/.findFirst();
                                 if (realmCategoryDetails != null) {
                                     CategoryModal categoryModal = new CategoryModal();
                                     categoryModal.setId(realmCategoryDetails.getId());
                                     categoryModal.setCategoryName(realmCategoryDetails.getCategoryName());
-                                    categoryModal.setStatus(isView);
-                                    if (isView.equalsIgnoreCase("1"))
+                                    categoryModal.setStatus("0");
+                                   // if (isView.equalsIgnoreCase("1"))
                                         // arrISView.add(isView);
                                         try {
                                             //  RealmResults<RealmQuestion> realmQuestions=realm.where(RealmQuestion.class).equalTo(AppConstants.CATEGORYID,realmCategoryDetails.getId()).equalTo(AppConstants.SURVEYID,surveyId).findAll();
@@ -463,8 +465,13 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         //         String categoryId = realmCategoryDetails.get(k).getId();
                         ArrayList<Questions> questionsArrayList = new ArrayList<>();
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put(AppConstants.ISVIEW, "0");
-                        jsonObject.put(AppConstants.ISVIEWBYZM, "0");
+                        jsonObject.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                        jsonObject.put(AppConstants.ISVIEWBYAPPROVAL1, "0");
+                        jsonObject.put(AppConstants.ISVIEWBYAPPROVAL2, "0");
+                        jsonObject.put(AppConstants.ISVIEWBYAPPROVAL3, "0");
+                        jsonObject.put(AppConstants.ISVIEWBYAPPROVAL4, "0");
+                        jsonObject.put(AppConstants.ISVIEWBYAPPROVAL5, "0");
+                        jsonObject.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
 
                         jsonObject.put(AppConstants.CATEGORYID, realmCategoryDetails.getId());
                         jsonArrayQuestions=new JSONArray();
@@ -1048,6 +1055,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
 
     private void saveNCDResponseLocal(String isUpdate, boolean isBack) {
         saveResponseLocal(formId, jsonSubmitReq, isUpdate);
+        updateId=jsonSubmitReq.optString(AppConstants.ID);
         try {
             if (jsonSubmitReq.has(AppConstants.ID)) {
                 jsonSubmitReq.remove(AppConstants.ID);
@@ -1858,6 +1866,7 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                 }
                 //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
+                jsonSubmitReq.put(AppConstants.REQUESTID, strRequestId);
                 jsonSubmitReq.put(AppConstants.WORKFLOWID, strWorkFlowId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
                 jsonSubmitReq.put(AppConstants.WORKFLOW, jsonArrayWorkFLow);
@@ -1915,6 +1924,28 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                             } else {
                                 edtChild.setFocusable(true);
                             }
+                        }else {
+
+                            if ("2".equalsIgnoreCase(strApproval1Status) || "3".equalsIgnoreCase(strApproval1Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval2Status) || "3".equalsIgnoreCase(strApproval2Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval3Status) || "3".equalsIgnoreCase(strApproval3Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval4Status) || "3".equalsIgnoreCase(strApproval4Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval5Status) || "3".equalsIgnoreCase(strApproval5Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval6Status) || "3".equalsIgnoreCase(strApproval6Status)) {
+                                edtChild.setFocusable(false);
+                            }else {
+                                if ("Yes".equalsIgnoreCase(question.getApproverEdit())){
+                                    edtChild.setFocusable(true);
+                                }else {
+                                    edtChild.setFocusable(false);
+                                }
+                            }
+
                         }
                         final Map<String, Questions> finalQuestionsMap = questionsMap;
                         final Map<String, Questions> finalQuestionsMap1 = questionsMap;
@@ -1949,7 +1980,9 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         edtChild.setText(question.getAnswer());
                         if (AppConstants.STRING.equals(question.getType())) {
                             edtChild.setInputType(InputType.TYPE_CLASS_TEXT);
-                             Utility.setEditFilter(edtChild, question.getMaxLength(), AppConstants.STRING, false, question.isAlpha());
+                            if ("yes".equalsIgnoreCase(question.getSpecialCahracter())) {
+                                Utility.setEditFilter(edtChild, question.getMaxLength(), AppConstants.STRING, false, question.isAlpha());
+                            }
                         } else if (AppConstants.LONG.equals(question.getType())) {
                             edtChild.setInputType(InputType.TYPE_CLASS_NUMBER);
 
@@ -1992,6 +2025,28 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                             } else {
                                 edtChild.setFocusable(true);
                             }
+                        }else {
+
+                            if ("2".equalsIgnoreCase(strApproval1Status) || "3".equalsIgnoreCase(strApproval1Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval2Status) || "3".equalsIgnoreCase(strApproval2Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval3Status) || "3".equalsIgnoreCase(strApproval3Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval4Status) || "3".equalsIgnoreCase(strApproval4Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval5Status) || "3".equalsIgnoreCase(strApproval5Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval6Status) || "3".equalsIgnoreCase(strApproval6Status)) {
+                                edtChild.setFocusable(false);
+                            }else {
+                                if ("Yes".equalsIgnoreCase(question.getApproverEdit())){
+                                    edtChild.setFocusable(true);
+                                }else {
+                                    edtChild.setFocusable(false);
+                                }
+                            }
+
                         }
                         final Map<String, Questions> finalQuestionsMap2 = questionsMap;
 
@@ -2020,6 +2075,28 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                             } else {
                                 edtChild.setFocusable(true);
                             }
+                        }else {
+
+                            if ("2".equalsIgnoreCase(strApproval1Status) || "3".equalsIgnoreCase(strApproval1Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval2Status) || "3".equalsIgnoreCase(strApproval2Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval3Status) || "3".equalsIgnoreCase(strApproval3Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval4Status) || "3".equalsIgnoreCase(strApproval4Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval5Status) || "3".equalsIgnoreCase(strApproval5Status)) {
+                                edtChild.setFocusable(false);
+                            }else  if ("2".equalsIgnoreCase(strApproval6Status) || "3".equalsIgnoreCase(strApproval6Status)) {
+                                edtChild.setFocusable(false);
+                            }else {
+                                if ("Yes".equalsIgnoreCase(question.getApproverEdit())){
+                                    edtChild.setFocusable(true);
+                                }else {
+                                    edtChild.setFocusable(false);
+                                }
+                            }
+
                         }
                         final Map<String, Questions> finalQuestionsMap2 = questionsMap;
                         edtChild.addTextChangedListener(new TextWatcher() {
@@ -2118,6 +2195,29 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                                     } else {
                                         showDatePicker(tvFormDate.getText().toString(), tvFormDate);
                                     }
+                                }else {
+
+                                    if ("2".equalsIgnoreCase(strApproval1Status) || "3".equalsIgnoreCase(strApproval1Status)) {
+
+                                    }else  if ("2".equalsIgnoreCase(strApproval2Status) || "3".equalsIgnoreCase(strApproval2Status)) {
+
+                                    }else  if ("2".equalsIgnoreCase(strApproval3Status) || "3".equalsIgnoreCase(strApproval3Status)) {
+
+                                    }else  if ("2".equalsIgnoreCase(strApproval4Status) || "3".equalsIgnoreCase(strApproval4Status)) {
+
+                                    }else  if ("2".equalsIgnoreCase(strApproval5Status) || "3".equalsIgnoreCase(strApproval5Status)) {
+
+                                    }else  if ("2".equalsIgnoreCase(strApproval6Status) || "3".equalsIgnoreCase(strApproval6Status)) {
+
+                                    }else {
+                                        if ("Yes".equalsIgnoreCase(question.getApproverEdit())){
+                                            showDatePicker(tvFormDate.getText().toString(), tvFormDate);
+                                        }else {
+
+                                        }
+                                        //showDatePicker(tvFormDate.getText().toString(), tvFormDate);
+                                    }
+
                                 }
 
                             }
@@ -2245,15 +2345,36 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         }
                     }
                 }else {
-                    if (view.getTag() != null) {
-                        if (isPopupVisible) return;
-                        isPopupVisible = true;
-                        List<SpinnerList> spnList = (List<SpinnerList>) view.getTag();
-                        if (spnList != null)
-                            showSelectionList(getActivity(), tvSelect, spnList, question.getPlaceholder());
-                    } else {
-                        isPopupVisible = false;
+
+                    if ("2".equalsIgnoreCase(strApproval1Status) || "3".equalsIgnoreCase(strApproval1Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval2Status) || "3".equalsIgnoreCase(strApproval2Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval3Status) || "3".equalsIgnoreCase(strApproval3Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval4Status) || "3".equalsIgnoreCase(strApproval4Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval5Status) || "3".equalsIgnoreCase(strApproval5Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval6Status) || "3".equalsIgnoreCase(strApproval6Status)) {
+
+                    }else {
+                        if ("Yes".equalsIgnoreCase(question.getApproverEdit())){
+                            if (view.getTag() != null) {
+                                if (isPopupVisible) return;
+                                isPopupVisible = true;
+                                List<SpinnerList> spnList = (List<SpinnerList>) view.getTag();
+                                if (spnList != null)
+                                    showSelectionList(getActivity(), tvSelect, spnList, question.getPlaceholder());
+                            } else {
+                                isPopupVisible = false;
+                            }
+                        }else {
+
+                        }
+                        //showDatePicker(tvFormDate.getText().toString(), tvFormDate);
                     }
+
                 }
 
             }
@@ -2435,20 +2556,41 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         }
                     }
                 }else {
-                    if (view.getTag() != null) {
-                        if (isPopupVisible) return;
-                        isPopupVisible = true;
-                        List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
-                        if (spnList == null || spnList.size() == 0) {
-                            showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
-                        } else {
-                            showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+
+                    if ("2".equalsIgnoreCase(strApproval1Status) || "3".equalsIgnoreCase(strApproval1Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval2Status) || "3".equalsIgnoreCase(strApproval2Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval3Status) || "3".equalsIgnoreCase(strApproval3Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval4Status) || "3".equalsIgnoreCase(strApproval4Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval5Status) || "3".equalsIgnoreCase(strApproval5Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval6Status) || "3".equalsIgnoreCase(strApproval6Status)) {
+
+                    }else {
+                        if ("Yes".equalsIgnoreCase(question.getApproverEdit())){
+                            if (view.getTag() != null) {
+                                if (isPopupVisible) return;
+                                isPopupVisible = true;
+                                List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
+                                if (spnList == null || spnList.size() == 0) {
+                                    showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                                } else {
+                                    showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+                                }
+                                //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
+                            } else {
+                                showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                                isPopupVisible = false;
+                            }
+                        }else {
+
                         }
-                        //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
-                    } else {
-                        showMultiSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
-                        isPopupVisible = false;
+                        //showDatePicker(tvFormDate.getText().toString(), tvFormDate);
                     }
+
                 }
 
             }
@@ -2539,20 +2681,41 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         }
                     }
                 }else {
-                    if (view.getTag() != null) {
-                        if (isPopupVisible) return;
-                        isPopupVisible = true;
-                        List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
-                        if (spnList == null || spnList.size() == 0) {
-                            showRankingSingleSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
-                        } else {
-                            showRankingSingleSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+
+                    if ("2".equalsIgnoreCase(strApproval1Status) || "3".equalsIgnoreCase(strApproval1Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval2Status) || "3".equalsIgnoreCase(strApproval2Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval3Status) || "3".equalsIgnoreCase(strApproval3Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval4Status) || "3".equalsIgnoreCase(strApproval4Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval5Status) || "3".equalsIgnoreCase(strApproval5Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval6Status) || "3".equalsIgnoreCase(strApproval6Status)) {
+
+                    }else {
+                        if ("Yes".equalsIgnoreCase(question.getApproverEdit())){
+                            if (view.getTag() != null) {
+                                if (isPopupVisible) return;
+                                isPopupVisible = true;
+                                List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
+                                if (spnList == null || spnList.size() == 0) {
+                                    showRankingSingleSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                                } else {
+                                    showRankingSingleSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+                                }
+                                //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
+                            } else {
+                                showRankingSingleSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                                isPopupVisible = false;
+                            }
+                        }else {
+
                         }
-                        //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
-                    } else {
-                        showRankingSingleSelectionList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
-                        isPopupVisible = false;
+                        //showDatePicker(tvFormDate.getText().toString(), tvFormDate);
                     }
+
                 }
 
             }
@@ -2642,20 +2805,41 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         }
                     }
                 }else {
-                    if (view.getTag() != null) {
-                        if (isPopupVisible) return;
-                        isPopupVisible = true;
-                        List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
-                        if (spnList == null || spnList.size() == 0) {
-                            showPercentMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null,"1000");
-                        } else {
-                            showPercentMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList,"1000");
+
+                    if ("2".equalsIgnoreCase(strApproval1Status) || "3".equalsIgnoreCase(strApproval1Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval2Status) || "3".equalsIgnoreCase(strApproval2Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval3Status) || "3".equalsIgnoreCase(strApproval3Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval4Status) || "3".equalsIgnoreCase(strApproval4Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval5Status) || "3".equalsIgnoreCase(strApproval5Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval6Status) || "3".equalsIgnoreCase(strApproval6Status)) {
+
+                    }else {
+                        if ("Yes".equalsIgnoreCase(question.getApproverEdit())){
+                            if (view.getTag() != null) {
+                                if (isPopupVisible) return;
+                                isPopupVisible = true;
+                                List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
+                                if (spnList == null || spnList.size() == 0) {
+                                    showPercentMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null,"1000");
+                                } else {
+                                    showPercentMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList,"1000");
+                                }
+                                //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
+                            } else {
+                                showPercentMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null,"1000");
+                                isPopupVisible = false;
+                            }
+                        }else {
+
                         }
-                        //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
-                    } else {
-                        showPercentMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null,"1000");
-                        isPopupVisible = false;
+                        //showDatePicker(tvFormDate.getText().toString(), tvFormDate);
                     }
+
                 }
 
             }
@@ -2746,20 +2930,41 @@ public class QuestionsCategoryFragment extends BaseFragment implements PageChang
                         }
                     }
                 }else {
-                    if (view.getTag() != null) {
-                        if (isPopupVisible) return;
-                        isPopupVisible = true;
-                        List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
-                        if (spnList == null || spnList.size() == 0) {
-                            showMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
-                        } else {
-                            showMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+
+                    if ("2".equalsIgnoreCase(strApproval1Status) || "3".equalsIgnoreCase(strApproval1Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval2Status) || "3".equalsIgnoreCase(strApproval2Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval3Status) || "3".equalsIgnoreCase(strApproval3Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval4Status) || "3".equalsIgnoreCase(strApproval4Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval5Status) || "3".equalsIgnoreCase(strApproval5Status)) {
+
+                    }else  if ("2".equalsIgnoreCase(strApproval6Status) || "3".equalsIgnoreCase(strApproval6Status)) {
+
+                    }else {
+                        if ("Yes".equalsIgnoreCase(question.getApproverEdit())){
+                            if (view.getTag() != null) {
+                                if (isPopupVisible) return;
+                                isPopupVisible = true;
+                                List<MultiSpinnerList> spnList = (List<MultiSpinnerList>) view.getTag();
+                                if (spnList == null || spnList.size() == 0) {
+                                    showMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                                } else {
+                                    showMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), spnList);
+                                }
+                                //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
+                            } else {
+                                showMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
+                                isPopupVisible = false;
+                            }
+                        }else {
+
                         }
-                        //showSelectionList(FollowUpQuestionActivity.this, tvSelect, spnList, question.getPlaceholder());
-                    } else {
-                        showMultiEdittextList(getActivity(), tvSelect, spinnerList, question.getPlaceholder(), null);
-                        isPopupVisible = false;
+                        //showDatePicker(tvFormDate.getText().toString(), tvFormDate);
                     }
+
                 }
 
             }

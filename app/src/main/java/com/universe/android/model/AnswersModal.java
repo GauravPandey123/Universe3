@@ -43,6 +43,7 @@ public class AnswersModal {
     private String contactNo;
     private String customer;
     private String reason;
+    private String requestId;
 
 
     public String get_id() {
@@ -323,5 +324,13 @@ public class AnswersModal {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
     }
 }

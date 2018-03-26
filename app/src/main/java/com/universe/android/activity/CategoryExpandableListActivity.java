@@ -14,9 +14,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
@@ -28,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 
@@ -55,11 +52,6 @@ import com.universe.android.workflows.WorkFlowsActivity;
 
 import android.widget.Toast;
 
-import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureRequest;
-import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureResponse;
-import com.universe.android.resource.Login.CutomerPictureChange.CustomerPictureService;
-import com.universe.android.web.BaseApiCallback;
-import com.universe.android.web.BaseRequest;
 import com.bumptech.glide.Glide;
 
 import java.io.ByteArrayOutputStream;
@@ -68,7 +60,6 @@ import java.io.File;
 import com.soundcloud.android.crop.Crop;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import in.editsoft.api.exception.APIException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -117,6 +108,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
     private ImageView imageLoc;
     private String isLocationSet = "";
     private TextView textViewInProcess;
+    private int position;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -154,7 +146,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                     if (Utility.isConnected()) {
                         submitAnswers(updateId, true);
                     } else {
-                        saveNCDResponseLocal(updateId, true);
+                        saveNCDResponseLocal(updateId, true, false);
                     }
                 }
 
@@ -177,7 +169,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 if (Utility.isConnected()) {
                     submitAnswers(updateId, true);
                 } else {
-                    saveNCDResponseLocal(updateId, true);
+                    saveNCDResponseLocal(updateId, true, false);
                 }
 
 
@@ -549,10 +541,11 @@ public class CategoryExpandableListActivity extends BaseActivity {
                 jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
                 jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
 
-                RealmWorkFlow realmWorkFlow = realm.where(RealmWorkFlow.class).equalTo(AppConstants.SURVEYID, surveyId).findFirst();
-                if (realmWorkFlow != null) {
-                    jsonSubmitReq.put(AppConstants.WORKFLOWID, realmWorkFlow.getWorkflow());
-                }
+                RealmWorkFlow realmWorkFlow=realm.where(RealmWorkFlow.class).equalTo(AppConstants.SURVEYID,surveyId).findFirst();
+                    if (realmWorkFlow!=null){
+                        jsonSubmitReq.put(AppConstants.WORKFLOWID, realmWorkFlow.getWorkflow());
+                        jsonSubmitReq.put(AppConstants.REQUESTID, realmWorkFlow.getRequestId());
+                    }
                 jsonSubmitReq.put(AppConstants.CUSTOMER, strCustomer);
 
 
@@ -650,7 +643,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
         dialog.show();
     }
 
-    private void saveNCDResponseLocal(String isUpdate, boolean isBack) {
+    private void saveNCDResponseLocal(String isUpdate, boolean isBack, boolean b) {
         saveResponseLocal("", jsonSubmitReq, isUpdate);
         try {
             if (jsonSubmitReq.has(AppConstants.ID)) {
@@ -659,6 +652,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
         } catch (Exception e1) {
             e1.printStackTrace();
         }
+        if (!b)
         showMessageDialog(this, isBack, isUpdate);
     }
 
@@ -788,7 +782,9 @@ public class CategoryExpandableListActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
+                if (strStatus.equalsIgnoreCase("1") || strStatus.equalsIgnoreCase("2") || strStatus.equalsIgnoreCase("3")) {
 
+                } else {
                     Intent intent = new Intent(CategoryExpandableListActivity.this, MapsOneActivity.class);
                     intent.putExtra(AppConstants.STR_TITLE, title);
                     intent.putExtra(AppConstants.SURVEYID, surveyId);
@@ -812,6 +808,12 @@ public class CategoryExpandableListActivity extends BaseActivity {
                             int groupPosition, int childPosition,
                             long id) {
                         Utility.animateView(v);
+
+                        String type=Prefs.getStringPrefs(AppConstants.TYPE);
+                        if (!type.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+                            jsonSubmitReq = prepareJsonViewRequest(groupPosition);
+                            saveNCDResponseLocal(updateId, false, true);
+                        }
                         Intent i = new Intent(CategoryExpandableListActivity.this, QuestionaireActivity.class);
                         i.putExtra(AppConstants.STR_TITLE, title);
                         i.putExtra(AppConstants.SURVEYID, surveyId);
@@ -835,7 +837,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
         ArrayList<String> stringsRequired = new ArrayList<>();
         ArrayList<String> stringsRequiredAnswers = new ArrayList<>();
         stringsRequired.add("isLocationRequired");
-        if (isLocationSet.equalsIgnoreCase("yes")) {
+        if (isLocationSet.equalsIgnoreCase("yes")){
             stringsRequiredAnswers.add("isLocationRequired");
         }
         arraylistTitle = new ArrayList<>();
@@ -900,6 +902,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
                                     if (isViewRequester.equalsIgnoreCase("1"))
                                         arrISViewByRequester.add(isViewRequester);
+
 
 
                                     if (isViewApproval1.equalsIgnoreCase("1"))
@@ -1123,7 +1126,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
                     }
-                } else if (type.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                }else   if (type.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
                     if (arraylistTitle.size() != arrISViewByApproval3.size()) {
                         btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                         btnApprove.setEnabled(false);
@@ -1136,7 +1139,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         btnReject.setBackgroundResource(R.drawable.red_background_corner);
                         btnReject.setEnabled(true);
                     }
-                } else if (type.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                }else   if (type.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
                     if (arraylistTitle.size() != arrISViewByApproval4.size()) {
                         btnApprove.setBackgroundResource(R.drawable.grey_background_corner);
                         btnApprove.setEnabled(false);
@@ -1252,6 +1255,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
 
 
     }
+
 
 
     protected void showToastMessage(String strMsg) {
@@ -1493,7 +1497,7 @@ public class CategoryExpandableListActivity extends BaseActivity {
                         if (Utility.isConnected()) {
                             submitAnswers(updateId, true);
                         } else {
-                            saveNCDResponseLocal(updateId, false);
+                            saveNCDResponseLocal(updateId, false, false);
                         }
                     }
                 })
@@ -1502,6 +1506,209 @@ public class CategoryExpandableListActivity extends BaseActivity {
         dialog.show();
 
 
+    }
+
+
+    private JSONObject prepareJsonViewRequest(int position) {
+        jsonSubmitReq = new JSONObject();
+        JSONArray array = new JSONArray();
+        Realm realm = Realm.getDefaultInstance();
+        try {
+            RealmResults<RealmAnswers> realmCategoryAnswers = realm.where(RealmAnswers.class).equalTo(AppConstants.CUSTOMERID, customerId).equalTo(AppConstants.SURVEYID, surveyId).findAll();
+
+            if (realmCategoryAnswers != null && realmCategoryAnswers.size() > 0) {
+                if (realmCategoryAnswers.get(0).isSync()) {
+                    updateId = realmCategoryAnswers.get(0).get_id();
+                }
+                if (Utility.validateString(realmCategoryAnswers.get(0).getCustomer())) {
+                    strCustomer = realmCategoryAnswers.get(0).getCustomer();
+                }
+                array = new JSONArray(realmCategoryAnswers.get(0).getWorkflow());
+
+                JSONArray jsonArrayAnswers=new JSONArray(realmCategoryAnswers.get(0).getAnswers());
+                String designation=Prefs.getStringPrefs(AppConstants.TYPE);
+                JSONObject updatePosition = new JSONObject();
+                if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
+                    updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
+                } else if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+                    updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
+                }else if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                    updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
+                }else if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                    updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
+                }else if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+
+                    updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
+                }else if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                    updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "1");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "1");
+                } else {
+                    updatePosition.put(AppConstants.ISVIEWBYREQUESTER, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL1, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL2, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL3, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL4, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL5, "0");
+                    updatePosition.put(AppConstants.ISVIEWBYAPPROVAL6, "0");
+
+                }
+                updatePosition.put(AppConstants.CATEGORYID, jsonArrayAnswers.optJSONObject(position).optString(AppConstants.CATEGORYID));
+                updatePosition.put(AppConstants.QUESTIONS, new JSONArray(jsonArrayAnswers.optJSONObject(position).optString(AppConstants.QUESTIONS)));
+                jsonArrayAnswers.put(position, updatePosition);
+
+                jsonSubmitReq.put(AppConstants.ANSWERS, new JSONArray(jsonArrayAnswers.toString()));
+                if (Utility.validateString(updateId))
+                    jsonSubmitReq.put(AppConstants.ID, realmCategoryAnswers.get(0).get_id());
+
+
+
+                if (designation.equalsIgnoreCase(DesignationEnum.requester.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval1.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval2.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval3.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval4.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval5.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), Prefs.getStringPrefs(AppConstants.UserId));
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), realmCategoryAnswers.get(0).getApproval6());
+
+                }
+                if (designation.equalsIgnoreCase(DesignationEnum.approval6.toString())) {
+                    jsonSubmitReq.put(DesignationEnum.requester.toString(), realmCategoryAnswers.get(0).getRequester());
+                    jsonSubmitReq.put(DesignationEnum.approval1.toString(), realmCategoryAnswers.get(0).getApproval1());
+                    jsonSubmitReq.put(DesignationEnum.approval2.toString(), realmCategoryAnswers.get(0).getApproval2());
+                    jsonSubmitReq.put(DesignationEnum.approval3.toString(), realmCategoryAnswers.get(0).getApproval3());
+                    jsonSubmitReq.put(DesignationEnum.approval4.toString(), realmCategoryAnswers.get(0).getApproval4());
+                    jsonSubmitReq.put(DesignationEnum.approval5.toString(), realmCategoryAnswers.get(0).getApproval5());
+                    jsonSubmitReq.put(DesignationEnum.approval6.toString(), Prefs.getStringPrefs(AppConstants.UserId));
+
+                }
+
+
+                jsonSubmitReq.put(AppConstants.requester_status, realmCategoryAnswers.get(0).getRequester_status());
+                jsonSubmitReq.put(AppConstants.approval1_status,  realmCategoryAnswers.get(0).getApproval1_status());
+                jsonSubmitReq.put(AppConstants.approval2_status,  realmCategoryAnswers.get(0).getApproval2_status());
+                jsonSubmitReq.put(AppConstants.approval3_status,  realmCategoryAnswers.get(0).getApproval3_status());
+                jsonSubmitReq.put(AppConstants.approval4_status,  realmCategoryAnswers.get(0).getApproval4_status());
+                jsonSubmitReq.put(AppConstants.approval5_status,  realmCategoryAnswers.get(0).getApproval5_status());
+                jsonSubmitReq.put(AppConstants.approval6_status,  realmCategoryAnswers.get(0).getApproval6_status());
+
+                //  jsonSubmitReq.put(AppConstants.CATEGORYID, categoryId);
+                jsonSubmitReq.put(AppConstants.SURVEYID, surveyId);
+                jsonSubmitReq.put(AppConstants.CUSTOMERID, customerId);
+
+                RealmWorkFlow realmWorkFlow=realm.where(RealmWorkFlow.class).equalTo(AppConstants.SURVEYID,surveyId).findFirst();
+                if (realmWorkFlow!=null){
+                    jsonSubmitReq.put(AppConstants.WORKFLOWID, realmWorkFlow.getWorkflow());
+                    jsonSubmitReq.put(AppConstants.REQUESTID, realmWorkFlow.getRequestId());
+                }
+                jsonSubmitReq.put(AppConstants.CUSTOMER, strCustomer);
+
+
+                jsonSubmitReq.put(AppConstants.WORKFLOW, array);
+                jsonSubmitReq.put(AppConstants.DATE, Utility.getTodaysDate());
+            }
+
+
+        } catch (Exception e0) {
+            e0.printStackTrace();
+            realm.close();
+        } finally {
+            if (!realm.isClosed()) {
+                realm.close();
+            }
+
+        }
+
+        return jsonSubmitReq;
     }
 }
 
